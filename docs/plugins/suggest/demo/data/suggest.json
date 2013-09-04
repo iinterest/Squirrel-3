@@ -1,0 +1,14 @@
+{
+    "code":200,
+    "context":{},
+    "data":[
+        {"appName": "UC浏览器", "icon": "http://s1.app.uc.cn/asset/2013/06/07/UCweb72.png", "version":"9.1.457", "size":"9.5MB", "detailURL":"#detail", "packageURL": "#package"},
+        {"appName": "来电通", "icon": "http://s1.app.uc.cn/asset/2013/05/30/CallMaster72.png", "version":"5.2.1", "size":"6.5MB", "detailURL":"#detail", "packageURL": "#package"},
+        {"keyword": "QQ浏览器"},
+        {"keyword": "Firefox"},
+        {"keyword": "Safari"},
+        {"keyword": "Chrome"},
+        {"keyword": "猎豹浏览器"},
+        {"keyword": "360浏览器"}
+    ]
+}

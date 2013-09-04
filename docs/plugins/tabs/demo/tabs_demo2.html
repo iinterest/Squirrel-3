@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>Squirrel Tabs</title>
+    <link type= "text/css" rel="stylesheet" href="../../../../build/css/squirrel.css" />
+    <link type= "text/css" rel="stylesheet" href="../tabs.css" />
+    <style type="text/css">
+        .wrapper{ max-width:500px; padding:10px;}
+        .dpl-tabs{ margin:20px 0;}
+        .dpl-tabs p{ padding:10px;}
+        .tab-loading-tip{ padding:40px 10px; text-align:center; line-height:1.5;}
+        .J_scrollLoadWrap{ border-top:1px solid #d7d7d7;}
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="dpl-tabs J_tabs">
+            <ul class="tabs col3">
+                <li class="active">A tab 1</li>
+                <li>A tab 2</li>
+                <li>A tab 3</li>
+            </ul>
+            <div class="panels active">
+                <p>A1-Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum.</p>
+            </div>
+            <div class="panels">
+                <p>A2-Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat.</p>
+            </div>
+            <div class="panels">
+                <p>A3-Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum.</p>
+            </div>
+        </div>
+
+        <div class="dpl-tabs J_tabs">
+            <ul class="tabs col3">
+                <li class="active">B tab 1</li>
+                <li>B tab 2</li>
+                <li>B tab 3</li>
+            </ul>
+            <div class="panels active">
+                <p>B1-Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum.</p>
+            </div>
+            <div class="panels">
+                <p>B2-Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat.</p>
+            </div>
+            <div class="panels">
+                <p>B3-Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum.</p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../../../../libs/zepto/zepto-1.0.min.js"></script>
+    <script type="text/javascript" src="../../../../build/js/squirrel.js"></script>
+    <script type="text/javascript">
+        var tabs = new SQ.Tabs({
+            EVE_EVENT_TYPE : "mouseover",
+            DOM_TRIGGER_TARGET : ".J_tabs",
+            DOM_TABS : ".tabs>li",
+            DOM_PANELS : ".panels",
+            NUM_ACTIVE : 0
+        });
+    </script>
+</body>
+</html>

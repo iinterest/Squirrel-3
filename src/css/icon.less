@@ -1,0 +1,35 @@
+@import "base";
+
+//@name .sq-icon
+//@version 1.0.2
+.sq-icon{
+    @step: -25px;
+    @img-size: 125px;
+    display:inline-block; width:25px; height:25px; background:url("../images/sq-icon@2x.png") no-repeat; background-size:@img-size; vertical-align:top;
+    // grey
+    // row 1
+    &.home{ background-position:                 0  0;}
+    &.msg{ background-position:         (@step * 1) 0;}
+    &.up{ background-position:          (@step * 2) 0;}
+    &.search{ background-position:      (@step * 3) 0;}
+    &.update{ background-position:      (@step * 4) 0;}
+    // row 2
+    &.download{ background-position:    0           (@step * 1);}
+    &.refresh{ background-position:     (@step * 1) (@step * 1);}
+    &.good{ background-position:        (@step * 2) (@step * 1);}
+    &.arrow{ background-position:       (@step * 3) (@step * 1);}
+    // orange
+    // row 3
+    &.magic{ background-position:       0           (@step * 2);}
+    &.star{ background-position:        (@step * 1) (@step * 2);}
+    &.speaker{ background-position:     (@step * 2) (@step * 2);}
+    &.heart{ background-position:       (@step * 3) (@step * 2);}
+    // white
+    // row 4
+    &.magic-w{ background-position:     0           (@step * 3);}
+    &.download-w{ background-position:  (@step * 1) (@step * 3);}
+    &.search-w{ background-position:    (@step * 2) (@step * 3);}
+}
+.sq-btn{
+    .sq-icon { margin:0 3px 0 -4px;}
+}

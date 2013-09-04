@@ -1,0 +1,334 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link type="text/css" rel="stylesheet" href="../../../build/css/squirrel.css" />
+    <link type="text/css" rel="stylesheet" href="../../static/dpl-famework.css" />
+    <link type="text/css" rel="stylesheet" href="../../static/prettify.css" />
+    <script type="text/javascript" src="../../../libs/jquery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../../static/prettify.js"></script>
+    <script type="text/javascript" src="../../static/dpl-famework.js"></script>
+    <title>Squirrel LoadMore</title>
+</head>
+<body onload="prettyPrint();">
+    <div class="dpl-container">
+
+        <aside class="sidebar">
+            <ul class="anchor">
+                <li class="level-1"><a href="#">SQ.LoadMore</a></li>
+                <li class="level-2"><a href="#how">如何使用</a></li>
+                <li class="level-2"><a href="#params">参数</a></li>
+                <li class="level-2"><a href="#inner-doc">内部文档对象</a></li>
+                <li class="level-2"><a href="#callback">回调函数</a></li>
+                <li class="level-2"><a href="#demo">完整例子</a></li>
+            </ul>
+        </aside>
+
+        <section class="dpl-module">
+            <h3>SQ.LoadMore</h3>
+            <p>SQ.LoadMore 是一个自动加载下页数据的插件，常用于加载列表数据，支持点击加载和滑动加载交互方式。</p>
+            <h4>示例：</h4>
+            <p><a class="demo-btn" href="demo/loadmore_demo.html">Loadmore Demo</a></p>
+            <h4 id="how">如何使用：</h4>
+            <h5>加载：</h5>
+            <p>初次使用时，可以在定制页面勾选 LoadMore 组件，然后下载 Squirrel 代码。</p>
+            <p>如果是在已有工程中新增，可以将 <code>loadmore.js</code>、<code>loadmore.less</code> 文件分别加入到工程目录的<code>src/js</code>、<code>src/less</code> 文件夹下，Squirrel 框架构建工具会自动进行合并处理。然后加入相应的 HTML 和 JS 代码：</p>
+            <h5>HTML 代码：</h5>
+            <pre class="prettyprint">&lt;div class="sq-list vertical rock-app-list"&gt;
+&lt;ul class="J_ajaxWrap"&gt;
+    ......
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="J_scrollLoadMore" data-api="data/list.json"&gt;&lt;/div&gt;</pre>
+            <p><code>data-api</code>是请求接口设置，也可以通过 config.API 来设置。<code>data-api</code>的优先级大于 config.API。</p>
+            <h5>JS 代码：</h5>
+            <pre class="prettyprint">&lt;script type="text/javascript"&gt;
+    var appList = new SQ.LoadMore({
+        EVE_EVENT_TYPE : "scroll",
+        DOM_TRIGGER_TARGET : window,
+        DOM_AJAX_BOX : ".J_ajaxWrap",
+        DOM_STATE_BOX : ".J_scrollLoadMore",
+        CSS_INIT_STYLE : "loadMore-btn",
+        DATA_TYPE : "html",
+        scrollEnd : function () {
+            var me = this;
+            me.$stateBox.addClass("loadMore-clickState");
+        }
+    });
+&lt;/script&gt;</pre>
+            
+            <h4 id="params">参数：</h4>
+            <table class="params">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th class="last">Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="name"><code>config</code></td>
+                    <td class="type">
+                        object
+                    </td>
+                    <td class="description last">组件配置（下面的参数为配置项，配置会写入属性）<h6>Properties</h6>
+                        <table class="params">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th class="last">Description</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="name"><code>EVE_EVENT_TYPE</code></td>
+                                <td class="type">
+                                    string
+                                </td>
+                                <td class="description last">绑定事件设置</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>API</code></td>
+                                <td class="type">
+                                    string
+                                </td>
+                                <td class="description last">API 接口</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>DOM_TRIGGER_TARGET</code></td>
+                                <td class="type">
+                                    string
+                                </td>
+                                <td class="description last">被绑定事件的 Dom 元素</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>DOM_AJAX_BOX</code></td>
+                                <td class="type">
+                                    string
+                                </td>
+                                <td class="description last">数据展示 Dom 元素</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>DOM_STATE_BOX</code></td>
+                                <td class="type">
+                                    string
+                                </td>
+                                <td class="description last">状态展示 Dom 元素</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>CSS_INIT_STYLE</code></td>
+                                <td class="type">
+                                    string
+                                </td>
+                                <td class="description last">初始状态展示样式</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>NUM_LOAD_POSITION</code></td>
+                                <td class="type">
+                                    string
+                                </td>
+                                <td class="description last">滑动加载位置，默认值：0.5</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>NUM_START_PAGE_INDEX</code></td>
+                                <td class="type">
+                                    number
+                                </td>
+                                <td class="description last">起始页面序号，默认值：0</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>NUM_SCROLL_MAX_PAGE</code></td>
+                                <td class="type">
+                                    number
+                                </td>
+                                <td class="description last">最大滑动加载页数，默认值：3</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>NUM_SUCCESS_CODE</code></td>
+                                <td class="type">
+                                    number
+                                </td>
+                                <td class="description last">AJAX 成功返回码，默认值：200</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>NUM_NO_MORE_CODE</code></td>
+                                <td class="type">
+                                    number
+                                </td>
+                                <td class="description last">无下页数据返回码，默认值：900</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>TXT_LOADING_TIP</code></td>
+                                <td class="type">
+                                    string
+                                </td>
+                                <td class="description last">正在加载提示，默认值："正在加载请稍后..."</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>TXT_INIT_TIP</code></td>
+                                <td class="type">
+                                    string
+                                </td>
+                                <td class="description last">初始提示文字，默认值："滑动加载更多内容"</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>TXT_CLICK_TIP</code></td>
+                                <td class="type">
+                                    string
+                                </td>
+                                <td class="description last">触发点击交互提示文字，默认值："点击加载更多"</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>TXT_LOADED_ERROR</code></td>
+                                <td class="type">
+                                    string
+                                </td>
+                                <td class="description last">Ajax 加载错误或超时提示，默认值："加载错误，请重试"</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>TXT_UNKNOWN_ERROR</code></td>
+                                <td class="type">
+                                    string
+                                </td>
+                                <td class="description last">通过 Ajax 接收到的数据无法识别，默认值："未知错误，请重试"</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>DATA_TYPE</code></td>
+                                <td class="type">
+                                    string
+                                </td>
+                                <td class="description last">设置 data 字段中的数据类型，值为 html 或 json
+                                    当 DATA_TYPE 设为 html 时，会进行简单处理，具体见 _render 方法
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>loading</code></td>
+                                <td class="type">
+                                    function
+                                </td>
+                                <td class="description last">加载阶段回调函数</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>loaded</code></td>
+                                <td class="type">
+                                    function
+                                </td>
+                                <td class="description last">加载完成回调函数</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>loadError</code></td>
+                                <td class="type">
+                                    function
+                                </td>
+                                <td class="description last">加载失败回调函数</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>scrollEnd</code></td>
+                                <td class="type">
+                                    function
+                                </td>
+                                <td class="description last">滑动加载事件完成回调函数</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>render</code></td>
+                                <td class="type">
+                                    function
+                                </td>
+                                <td class="description last">渲染阶段回调函数</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            
+            <h4 id="inner-dom">内部文档对象：</h4>
+            <p>SQ.LoadMore 内封装了以下 jQuery 对象，可以在回调函数中直接使用：</p>
+            <p><pre class="prettyprint">var me = this;
+me.$triggerTarget;  //事件触发元素
+me.$ajaxBox;        //数据展示元素
+me.$stateBox;       //状态展示元素</pre>
+            </p>
+            
+            <h4 id="callback">回调函数：</h4>
+            <p>SQ.LoadMore 内置了以下回调函数，可以在触发相应事件时调用：</p>
+            <pre class="prettyprint">var appList = new SQ.LoadMore({
+    EVE_EVENT_TYPE : "scroll",
+    DOM_TRIGGER_TARGET : window,
+    DOM_AJAX_BOX : ".J_ajaxWrap",
+    DOM_STATE_BOX : ".J_scrollLoadMore",
+    CSS_INIT_STYLE : "loadMore-btn",
+    loading : function () {
+        // 加载阶段执行
+    },
+    loaded : function () {
+        // 加载完成执行
+    },
+    render : function (data) {
+        // 渲染阶段执行
+        // data 是 Ajax 返回数据
+    },
+    scrollEnd : function () {
+        // 滑动加载事件完成执行
+        // 例如：添加点击模式样式
+        var me = this;
+        me.$stateBox.addClass("loadMore-clickState");
+    }
+});</pre>
+            
+            <h4 id="demo">完整例子：</h4>
+            <pre class="prettyprint">&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" /&gt;
+    &lt;title&gt;Squirrel DPL&lt;/title&gt;
+    &lt;link type= "text/css" rel="stylesheet" href="../../build/css/squirrel.css" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class="wrapper"&gt;
+    &lt;div class="sq-list vertical rock-app-list"&gt;
+        &lt;ul class="J_ajaxWrap"&gt;
+            &lt;li&gt;
+                &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq-icon.png"/&gt;&lt;/i&gt;&lt;/div&gt;
+                &lt;dl class="description"&gt;
+                    &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
+                    &lt;dd class="row"&gt;32372 人推荐下载&lt;/dd&gt;
+                    &lt;dd class="row"&gt;工具软件 | 8.2MB&lt;/dd&gt;
+                &lt;/dl&gt;
+                &lt;div class="extend v-middle"&gt;&lt;div class="sq-btn m-light-grey"&gt;&lt;a href="#"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+                &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
+            &lt;/li&gt;
+            ......
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div class="loadMore J_scrollLoadMore" data-api="data/list.json"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript" src="../../libs/zepto/zepto-1.0.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="../../build/js/squirrel.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+    var appList = new SQ.LoadMore({
+        EVE_EVENT_TYPE : "scroll",
+        DOM_TRIGGER_TARGET : window,
+        DOM_AJAX_BOX : ".J_ajaxWrap",
+        DOM_STATE_BOX : ".J_scrollLoadMore",
+        CSS_INIT_STYLE : "sq-loadMore-btn",
+        DATA_TYPE : "html",
+        render : function (data) {
+            renderList.call(this, data);    // 模板渲染
+        },
+        scrollEnd : function () {
+            var me = this;
+            me.$stateBox.addClass("loadMore-clickState");
+        }
+    });
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+        </section>
+    </div>
+</body>
+</html>

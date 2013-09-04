@@ -1,0 +1,60 @@
+@import "base";
+@import "reset";
+//==========================================================================================
+// Common Style
+// 全局通用样式
+// @version 1.0.0
+//==========================================================================================
+
+// 全局通用样式
+.fl{ float:left;}
+.fr{ float:right;}
+
+.m10{ margin:10px;}
+.p10{ padding:10px;}
+
+.h-col{ .display-box; .box-orient(horizontal); .box-pack(center); .box-align(center);}
+.h-col>*{ display:block; .box-flex(1);}
+
+// 栏
+.col2 ul::after, 
+.col3 ul::after,
+.col4 ul::after,
+.col5 ul::after,
+.col6 ul::after{
+    content:' '; display:block; height:0; clear:both;
+}
+
+.col2 li,
+.col3 li,
+.col4 li,
+.col5 li,
+.col6 li{ .border-box; float:left;}
+
+.col2 li{ width:50%;}
+.col3 li{ width:33.3333%;}
+.col4 li{ width:25%;}
+.col5 li{ width:20%;}
+.col6 li{ width:16.6666%;}
+
+// 解决 Android 版 UC 浏览器链接点击变色问题
+.ucweb-anchor{
+    position:relative;
+    li{ position:relative;}
+    a{ position:absolute!important; top:0; right:0; bottom:0; left:0;}
+}
+
+.sq-box{
+    .hd{ height:40px; padding:0 10px; line-height:40px;}
+}
+
+.hide{ display:none;}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>Squirrel Tabs</title>
+    <link type= "text/css" rel="stylesheet" href="../../../../build/css/squirrel.css" />
+    <link type= "text/css" rel="stylesheet" href="../tabs.css" />
+    <style type="text/css">
+        .wrapper{ max-width:500px; padding:10px;}
+        
+        .tab-loading-tip{ padding:40px 10px; text-align:center; line-height:1.5;}
+        .J_scrollLoadWrap{ border-top:1px solid #d7d7d7;}
+    </style>
+    <style type="text/css">
+        .loadMore-btn{ position:relative; height:40px; line-height:40px; text-align:center; background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0,#eee),color-stop(1,#f9f9f9)); text-shadow:0 1px 1px #fff; border-top:1px solid #d7d7d7; border-bottom:1px solid #fff; color:#333; font-size:14px;}
+
+        .loadMore-clickState::before{ content:""; display:inline-block; width:10px; height:10px; margin-right:5px; background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAaCAMAAABvn+dxAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRFd3d3AAAADlogTAAAAAJ0Uk5T/wDltzBKAAAAU0lEQVR42tySAQrAIAwDL///9KRstSe+YEWxXkMwILkVtQ6yNgjXlSpBeCmCBKm/XibdMRV7vDXDihhn0Bh2sOOB0+SSuI8/JY4Ti0YJr7/kEWAAa1MBS66ah5oAAAAASUVORK5CYII=") no-repeat; background-size:contain;}
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="dpl-tabs J_tabs">
+            <ul class="tabs col3">
+                <li>tab 1</li>
+                <li>tab 2</li>
+                <li>tab 3</li>
+            </ul>
+            <div class="panels">
+                <div class="sq-list vertical">
+                    <ul class="J_tabLoadWrap">
+                        <li>
+                            <div class="icon"><i><img src="../../../static/images/sq-icon.png"/></i></div>
+                            <dl class="description">
+                                <dt class="row">UC浏览器9.0不止所见</dt>
+                                <dd class="row">32372 人推荐下载</dd>
+                                <dd class="row">工具软件 | 8.2MB</dd>
+                            </dl>
+                            <div class="extend v-middle"><div class="sq-btn m-grey"><a href="#">免费下载</a></div></div>
+                            <a href="#trigger-area" class="trigger-area"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panels">
+                <div class="sq-list vertical">
+                    <ul class="J_tabLoadWrap"></ul>
+                </div>
+            </div>
+            <div class="panels">
+                <div class="sq-list vertical">
+                    <ul class="J_tabLoadWrap"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../../../../libs/zepto/zepto-1.0.min.js"></script>
+    <script type="text/javascript" src="../../../../build/js/squirrel.js"></script>
+    <script type="text/javascript">
+        var config = {
+            search_URI : "search_uri"
+        }
+        
+        function renderPanelContent(ds, $panel) {
+            var hasLoadTab = $panel.find(".J_hasLoadTab").length > 0 ? true : false;
+            // 选项卡异步加载
+            if (!hasLoadTab && !SQ.core.isNull(ds)) {
+                var $tabLoadWrap = $panel.find(".J_tabLoadWrap");
+                $tabLoadWrap.addClass("J_hasLoadTab").append(ds.data);
+            }
+        }
+        
+        function creatLoadMore($panel, tabIndex) {
+            // 清除原有滑动加载内容
+            $(".J_scrollLoadWrap").remove();
+            $(window).off("scroll");
+
+            var index = parseInt(tabIndex, 10) + 1;
+            var $appListWrap = $('<div class="sq-list vertical J_scrollLoadWrap"></div>');
+            var $ul = $('<ul class="J_ajaxWrap"></div>');
+            var $loadMore = $('<div class="J_scrollLoadMore' + index +' J_tabBtn" data-api="data/content'+ index +'.json"></div>');
+            $appListWrap.append($ul).append($loadMore);
+            $panel.append($appListWrap);
+
+            var appList = new SQ.LoadMore({
+                EVE_EVENT_TYPE : "scroll",
+                DOM_TRIGGER_TARGET : window,
+                DOM_AJAX_BOX : ".J_ajaxWrap",
+                DOM_STATE_BOX : ".J_scrollLoadMore" + index,
+                CSS_INIT_STYLE : "loadMore-btn",
+                DATA_TYPE : "html",
+                NUM_SCROLL_MAX_PAGE : 2
+            });
+        }
+
+        var tabs = new SQ.Tabs({
+            EVE_EVENT_TYPE : "mouseover",
+            DOM_TRIGGER_TARGET : ".J_tabs",
+            DOM_TABS : ".tabs>li",
+            DOM_PANELS : ".panels",
+            //API_URL : "data/content.json",
+            API_URL : ["data/content1.json", "data/content2.json", "data/content3.json"],
+            CSS_LOADING_TIP : "tab-loading-tip",
+            NUM_ACTIVE : 1,
+            show : function () {
+
+            },
+            //beforeLoad : function () {
+                /*var me = this;
+                if (me.$activePanel.find(".J_hasLoadTab").length > 0) {
+                    creatLoadMore(me.$activePanel, me.activeIndex);
+                    return false;
+                }
+                return true;*/
+            //},
+            loaded : function (data, $activePanels) {
+                renderPanelContent(data, $activePanels);
+                //console.log(data)
+                /*var me = this;
+                renderPanelContent($activePanels, me.activeIndex, data);
+                creatLoadMore(me.$activePanel, me.activeIndex);*/
+            }
+        });
+    </script>
+</body>
+</html>

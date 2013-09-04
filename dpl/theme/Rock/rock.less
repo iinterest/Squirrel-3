@@ -1,0 +1,190 @@
+@import "../../../src/css/base";
+@border-color-grey:#d9d9d9;
+@border-color-lightgrey:#dfdfdf;
+@border-color-darkgrey:#adadad;
+@base-orange:#ffae00;
+@base-grey:#777;
+@light-orange:#ff9100;
+@gradient-black:-webkit-gradient(linear,left top,left bottom,color-stop(0,#55595c),color-stop(1,#3f4449));
+//@name .rock-nav
+//@version 1.0.0
+.rock-nav{
+    //常规设置
+    //-------------------------------------------------------------------
+    //文字尺寸设置（通常不用修改）
+    @title-font-size: 16px;
+    @content-font-size: 14px;
+    @badge-font-size: 10px;
+    //标题文字区域设置（默认是平铺满）
+    .title-area-set(){
+        .overspread(); //default: .overspread()
+    };
+
+    //独特设置（无设置项请注释掉）
+    //-------------------------------------------------------------------
+    background-image:@gradient-black;
+
+    li{ padding:0 5px; color:#fff;}
+
+    &.nav{
+        font-size:@title-font-size;
+        .active{ background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0,#2d3132),color-stop(1,#3f4449)); border-left:1px solid #313437; border-right:1px solid #313437; color:@base-orange;}
+        .badge{ top:-2px; right:-2px; padding:0 4px; max-width:21px; height:15px; background:@base-orange; .rounded-corners; font-size:@badge-font-size; line-height:15px; color:#fff;}
+    }
+}
+
+//@name .rock-subnav
+//@version 1.0.0
+.rock-subnav{
+    //常规设置
+    //-------------------------------------------------------------------
+    //文字尺寸设置（通常不用修改）
+    @title-font-size: 14px;
+    @content-font-size: 14px;
+    @badge-font-size: 10px;
+    //标题文字区域设置（默认是平铺满）
+    .title-area-set(){
+        .overspread(); //default: .overspread()
+    };
+    //独特设置（无设置项请注释掉）
+    //-------------------------------------------------------------------
+    height:41px; border-bottom:3px solid @border-color-darkgrey; font-size:@content-font-size;
+    li{
+        position:relative; padding:0 5px;
+        &::after{ content:""; position:absolute; top:50%; right:0; width:1px; height:15px; margin-top:-7px; border-right:1px solid @border-color-lightgrey;}
+        &:last-of-type::after{ border-right:none;}
+        a{ bottom:3px;}
+    }
+    &.nav{
+        font-size:@title-font-size;
+        .active{ border-bottom:3px solid @base-orange;}
+    }
+}
+
+//@name .rock-header
+//@version 1.0.0
+.rock-header{
+    .title-area-set(){
+        .overspread(0,80px,0,80px);
+    };
+    //独特设置（无设置项请注释掉）
+    //-------------------------------------------------------------------
+    background:@gradient-black; color:#fff;
+    .title{ .title-area-set;}
+    .sq-btn{ width:40px; max-width:55px; z-index:1;}
+}
+
+.rock-foot{
+    margin-top:-1px; background:#e4e4e4; border-top:1px solid @border-color-grey;
+    .sq-btn{ display:block;	/*以适应弹性布局*/ z-index:1;}
+}
+
+.rock-banner{
+    ul{ margin:8px; overflow:hidden;}
+    li{ .display-box; float:left; width:50%; min-height:70px; max-height:126px;}
+    a{ display:block; .box-flex(1); margin-right:4px; background:#ccc; border-radius:3px; overflow:hidden;}
+    li:nth-child(2) a{ margin-right:0; margin-left:4px;}
+    img{ display:block; width:100%; height:100%;}
+}
+@media (min-width:480px) {
+    .rock-banner{ max-width:480px; margin:0 auto;}
+}
+
+.rock-box{
+    @title-font-size: 16px;
+    @content-font-size: 14px;
+    .hd{ 
+        height:41px; background:#fff; border-bottom:3px solid @border-color-grey; font-size:@title-font-size;
+        em{ display:inline-block; padding:0 2px; border-bottom:3px solid @base-orange; line-height:41px;}
+    }
+    .more{ float:right; color:@base-grey; font-size:@content-font-size; line-height:42px;}
+    .app{ padding-left:25px; background:url("../images/app.png") 0 10px no-repeat; background-size:20px;}
+}
+
+.rock-search{
+    .text{ color:#ccc; line-height:28px; text-indent:10px;}
+    .sq-btn{ 
+        width:18px;
+        &::after{ content:""; position:absolute; top:5px; left:0; width:1px; height:18px; border-left:1px solid #ddd;}
+    }
+}
+
+//@name .rock-window
+//@version 1.0.0
+.sq-list.rock-window{
+    a{ color:#333;}
+    .description{
+       margin-left:10px; line-height:1.2em;
+       dt{ height:16px; margin-bottom:4px;}
+       dd{ position:relative; max-height:20px; margin-top:4px;}
+    }
+    .sq-icon{ 
+        -webkit-transform:scale(0.6); margin:-5px 0 -4px -4px;
+        &.refresh{ -webkit-transform:scale(0.7); margin-top:-4px; opacity:0.6;}
+    }
+    .sq-btn{ width:40px;}
+}
+
+//@name .rock-category
+//@version 1.0.0
+.sq-list.rock-category{
+    @icon-w: 40px;
+    @icon-h: 40px;
+
+    li{ height:70px; border-right:1px solid #d7d7d7; border-bottom:1px solid #d7d7d7; overflow:hidden;}
+    li:nth-child(even){ border-right:none;}
+    a{ color:#333;}
+    .icon{
+        i{
+            width:@icon-w; height:@icon-h;
+        }
+        img{ max-width:@icon-w; max-height:@icon-h;}
+    }
+    .description{
+        margin-top:6px; 
+        dt{ height:16px; margin-bottom:4px; font-size:14px;}
+        dd{ height:20px; margin-top:4px; color:@base-grey;}
+    }
+    .trigger-area{ .overspread();}
+    .sq-btn{ width:40px;}
+}
+
+//@name .dpl-list-vertical
+//@version 1.0.1
+.rock-app-list{
+    .description{
+        dd{ color:@base-grey;}
+        em{ margin:0 6px; padding:0 6px; border-left:1px solid @border-color-grey; border-right:1px solid @border-color-grey;}
+    }
+    .extend{
+        .sq-btn{ z-index:12;} /*设定按钮层级高于 trigger-area 的 11*/
+        .sq-btn + .sq-btn{ margin-left:0; margin-top:5px;}
+    }
+    .trigger-area{ .overspread (0, 90px, 0, 0);}
+    .v-middle{
+        .sq-btn + .sq-btn{ margin-left:5px; margin-top:0;}
+    }
+    .sq-btn{ min-width:40px;}
+    .sq-icon{ -webkit-transform:scale(0.6); margin:-5px 0 -4px -4px;}
+}
+
+//@name .dpl-list-vertical
+//@version 1.0.1
+.sq-list.rock-specials-list{
+    @icon-w: 105px;
+    @icon-h: 70px;
+    .icon{
+        width:@icon-w; height:@icon-h; border:2px solid #fff;
+        i{
+            width:@icon-w; height:@icon-h;
+        }
+        img{ max-width:@icon-w; max-height:@icon-h; }
+    }
+    .description{
+        dd{ height:1.3em * 3; color:@base-grey; overflow:hidden;}
+    }
+    .sq-icon{
+        width:20px; height:16px; margin-top:-1px; background-size:80px;
+        &.good{ background-position:-41px -22px;}
+    }
+}

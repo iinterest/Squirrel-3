@@ -1,0 +1,184 @@
+@import "base";
+/**
+ * Sq-button
+ * 通用按钮，包括单体按钮、组合按钮 
+ * @section sq-btn
+ * @version 1.0.4
+ * @tested Android(2.3, 4.1), iOS(6.1.2)
+ */
+// @changelog
+// 1.0.4 新增了多种按钮颜色
+// 1.0.3 调整 sq-btn 的 min-height 为 26 像素，给各尺寸添加 min-height 值。
+// 1.0.2 .block 调整专为表单控件添加 width:100% 属性，以解决撑出页面问题。
+// 1.0.1 .block 类添加 width:100% 属性，修复 submit 表单控件无法充满父层空间问题。
+.sq-btn{
+	display:inline-block; position:relative; min-width:10px; min-height:26px; padding:1px 8px; .rounded-corners; line-height:26px; text-align:center; vertical-align:middle; cursor:pointer;
+
+	a{ position:relative;}
+	
+	//extend：按钮形状
+	&.arr-l{ margin-left:10px; border-top-left-radius:2px; border-bottom-left-radius:2px; }
+	&.arr-l::after{ content:""; position:absolute; top:-1px; left:-24px; width:0; height:0; border:15px solid transparent; border-right:10px solid transparent; }
+	&.arr-l::before{ content:""; position:absolute; top:-1px; left:-25px; width:0; height:0; border:15px solid transparent; border-right:10px solid transparent;}
+	&.arr-r{ margin-right:10px; border-top-left-radius:2px; border-bottom-left-radius:2px;}
+	&.arr-r::after{ content:""; position:absolute; top:-1px; right:-24px; width:0; height:0; border:15px solid transparent; border-left:10px solid; }
+	&.arr-r::before{ content:""; position:absolute; top:-1px; right:-25px; width:0; height:0; border:15px solid transparent; border-left:10px solid;}
+	
+	//extend：按钮尺寸
+	&.block{ 
+	    display:block; line-height:30px;
+	    input[type="button"]&,
+        input[type="submit"]&{ width:100%;}
+	}
+	&.large{ font-size:18px; line-height:30px;}
+	&.small{ font-size:12px; min-height:20px; line-height:20px;}
+	&.mini{ font-size:11px; min-height:12px; line-height:12px;}
+	
+	.menu{ display:none; position:absolute; left:0; width:99%; min-width:60px; margin-top:5px; background:#fff; border:1px solid #d7d7d7; line-height:30px;
+	    a{ display:block;} 
+	}
+}
+
+.sq-btn + .sq-btn{ margin-left:5px;}
+
+//extend：颜色
+.sq-btn{
+	// metro 风格
+    &.m-grey{
+        background:#e1e1e1;  color:#333;
+        a{ color:#333;}
+        &.arr-l::after{border-right-color:#e1e1e1;}
+        &.arr-r::after{border-left-color:#e1e1e1;}
+    }
+    &.m-grey-dark{
+        background:#a9a7a7; color:#fff;
+        a{ color:#fff;}
+        &.arr-l::after{border-right-color:#a9a7a7;}
+        &.arr-r::after{border-left-color:#a9a7a7;}
+    }
+    &.m-black{
+        background:#444; color:#fff;
+        a{ color:#fff;}
+        &.arr-l::after{border-right-color:#444;}
+        &.arr-r::after{border-left-color:#a9a7a7;}
+    }
+	&.m-blue{
+		background:#009bd8; color:#fff;
+		a{ color:#fff;}
+		&.arr-l::after{border-right-color:#009bd8;}
+		&.arr-r::after{border-left-color:#009bd8;}
+	}
+	&.m-green{ background:#6eb82c;  color:#fff;
+		a{ color:#fff;}
+		&.arr-l::after{border-right-color:#6eb82c;}
+		&.arr-r::after{border-left-color:#6eb82c;}
+	}
+    &.m-orange{ background:#faa800;  color:#fff;
+        a{ color:#fff;}
+        &.arr-l::after{border-right-color:#faa800;}
+        &.arr-r::after{border-left-color:#faa800;}
+    }
+    &.m-red{ background:#e34541;  color:#fff;
+        a{ color:#fff;}
+        &.arr-l::after{border-right-color:#e34541;}
+        &.arr-r::after{border-left-color:#e34541;}
+    }
+
+	// fresh 风格
+	&.f-grey{
+		background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(1, #e6e6e6));
+		-webkit-box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.1); border:1px solid #ccc; border-bottom-color:#b3b3b3; text-shadow:0 1px 1px #fff; color:#333; 
+
+		a{ color:#333;}
+		&.arr-l::after{ border-right-color:#efefef;}
+		&.arr-l::before{ border-right-color:#b3b3b3;}
+
+		&.arr-r::after{ border-left-color:#efefef;}
+		&.arr-r::before{ border-left-color:#b3b3b3;}
+	}
+    &.f-grey-dark{
+        background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #b2b2b2), color-stop(1, #666)); border:1px solid #777; color:#fff;
+        a{ color:#fff;}
+    }
+	&.f-blue{
+		background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #00a0ef), color-stop(1, #008acf)); border:1px solid #007dbb; color:#fff;
+		a{ color:#fff;}
+	}
+	&.f-green{
+        background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0,#6eb82c),color-stop(1,#39821a)); border:1px solid #4aa00b; border-bottom-color:#217001; color:#fff;
+        a{ color:#fff;}
+    }
+    &.f-black{ 
+        background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#4b4f51),color-stop(1,#383c41)); border:1px solid #383b3d; color:#fff;
+        a{ color:#fff;}
+    }
+    &.f-orange{ 
+        background:-webkit-gradient(linear, left top, left bottom, color-stop(0, #faa800), color-stop(1, #f99100)); border:1px solid #cf7d2d; color:#fff;
+        a{ color:#fff;}
+    }
+    &.f-red{
+        background:-webkit-gradient(linear, left top, left bottom, color-stop(0, #ee5f5b), color-stop(1, #bd362f)); border:1px solid #ab3a35; color:#fff;
+        a{ color:#fff;}
+    }
+    
+	// flat 风格
+    &.fl-grey{
+        background:#e6e6e6; border-bottom:3px solid #b3b3b3; color:#333;
+        a{ color:#333;}
+    }
+    &.fl-grey-dark{
+        background:#b2b2b2; border-bottom:3px solid #777; color:#fff;
+        a{ color:#fff;}
+    }
+    &.fl-black{
+        background:#4b4f51; border-bottom:3px solid #333; color:#fff;
+        a{ color:#fff;}
+    }
+    &.fl-blue{
+        background:#00a0ef; border-bottom:3px solid #007dbb; color:#fff;
+        a{ color:#fff;}
+    }
+    &.fl-green{
+        background:#6eb82c; border-bottom:3px solid #217001; color:#fff;
+        a{ color:#fff;}
+    }
+    &.fl-orange{
+        background:#faa800; border-bottom:3px solid #cf7d2d; color:#fff;
+        a{ color:#fff;}
+    }
+    &.fl-red{
+        background:#e34541; border-bottom:3px solid #ab3a35; color:#fff;
+        a{ color:#fff;}
+    }
+}
+
+/**
+ * Sq-button-group
+ * 通用组合按钮 
+ * @subsection sq-btn-group
+ * @version 1.0.0
+ * @tested Android(2.3, 4.1), iOS(6.1.2)
+ */
+.sq-btn-group{
+    .display-box; .box-orient(horizontal);
+	
+	.sq-btn{ 
+	    display:block; .box-flex(1); margin-left:-1px; border-radius:0;
+        &:first-child{ margin-left:0; border-radius:3px 0 0 3px;}
+        &:last-child{ border-radius:0 3px 3px 0;}
+	}
+	
+	.active{ 
+	    z-index:1;
+        &::after{ width:0;}
+	}
+	
+	&.vertical{ 
+	    .box-orient(vertical);
+        .sq-btn{ 
+            margin:-1px 0 0 0;
+            &:first-child{ margin-top:0; border-radius:3px 3px 0 0;}
+            &:last-child{ border-radius:0 0 3px 3px;}
+        }
+	}
+}

@@ -1,0 +1,28 @@
+.thumbnails{
+    &.custom-style-thumbnail{
+        @thumbnail-w: 121px;         // 缩略图容器最大宽度
+        @thumbnail-h: auto;         // 缩略图容器最大高度
+        @img-w: 106px;           // 图片最大宽度
+        @img-h: 196px;           // 图片最大高度
+        li{ text-align:center;}
+        .thumbnail{
+            display:inline-block; width:@img-w; padding:1px; background:#fff; border:1px solid #e1e1e1; overflow:hidden;
+            img{ display:block; width:@img-w; height:@img-h;}
+        }
+        .caption{ position:relative; height:24px; margin-top:-24px; z-index:1;}
+        .title{ height:24px; margin:0; padding:0 5px; background:rgba(0,0,0,.3); font-size:12px; color:#fff; text-align:center; line-height:24px; overflow:hidden;}
+        .extend{ padding:4px 3px 3px 3px; overflow:hidden;}
+        .rank{ position:relative; float:left; padding:4px 0 0 19px; color:#f89104;}
+        .sq-btn{ float:right;}
+        .heart,.star{ position:absolute; -webkit-transform:scale(0.8); top:-1px; left:-2px;}
+
+        @media screen and (max-width:320px){
+            .thumbnail{
+                width:97px;
+                img{ display:block; width:97px; height:179px;}
+            }
+            .rank{ padding-top:3px; padding-left:10px;}
+            .star{ -webkit-transform:scale(0.5); top:-2px; left:-8px;}
+        }
+    }
+}

@@ -1,0 +1,325 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link type="text/css" rel="stylesheet" href="../../build/css/squirrel.css" />
+    <link type="text/css" rel="stylesheet" href="../static/dpl-famework.css" />
+    <link type="text/css" rel="stylesheet" href="../static/prettify.css" />
+    <script type="text/javascript" src="../static/prettify.js"></script>
+    <script type="text/javascript" src="../../libs/jquery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../static/dpl-famework.js"></script>
+    <title>Squirrel DPL Form</title>
+</head>
+<body onload="prettyPrint();">
+<div class="dpl-container">
+
+
+    <aside class="sidebar">
+        <ul class="anchor">
+            <li class="level-1"><a href="#">表单</a></li>
+            <li class="level-1"><a href="#vertical-form">垂直表单</a></li>
+            <li class="level-1"><a href="#horizontal-form">水平表单</a></li>
+            <li class="level-1"><a href="#search-bar">搜索框</a></li>
+        </ul>
+    </aside>
+
+
+
+    <section class="dpl-module">
+        <h3>表单</h3>
+        <p>表单<code>.sq-form</code>是常用的符合触摸操作习惯的表单元素样式。</p>
+
+        <h4>示例：</h4>
+        <div class="demo fl">
+            <div class="sq-form">
+                <select>
+                    <option value="1">Select 1</option>
+                    <option value="2">Select 2</option>
+                </select>
+            </div>
+            <div class="sq-form">
+                <input type="text" placeholder="Text" />
+            </div>
+            <div class="sq-form">
+                <textarea placeholder="Textarea"></textarea>
+            </div>
+        </div>
+        <div class="demo fl">
+            <div class="sq-form">
+                <label class="checkbox">
+                    <input type="checkbox" />
+                    多选
+                </label>
+                <label class="checkbox">
+                    <input type="checkbox" />
+                    多选
+                </label>
+            </div>
+            <div class="sq-form">
+                <label class="radio">
+                    <input type="radio" name="optionsRadios" checked="checked" />
+                    单选
+                </label>
+                <label class="radio">
+                    <input type="radio" name="optionsRadios" />
+                    单选
+                </label>
+            </div>
+            <div class="sq-form">
+                <label class="checkbox inline">
+                    <input type="checkbox" value="option1">多选
+                </label>
+                <label class="checkbox inline">
+                    <input type="checkbox" value="option2">多选
+                </label>
+                <label class="checkbox inline">
+                    <input type="checkbox" value="option3">多选
+                </label>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <h4>HTML 代码：</h4>
+        <div class="fold-code J_foldCode">
+            <div class="toggle">View Source</div>
+            <pre class="prettyprint">&lt;div class="sq-form"&gt;
+    &lt;input type="text" placeholder="Text" /&gt;
+&lt;/div&gt;
+&lt;div class="sq-form"&gt;
+    &lt;textarea placeholder="Textarea"&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;div class="sq-form"&gt;
+    &lt;select&gt;
+        &lt;option value="1"&gt;Select 1&lt;/option&gt;
+        &lt;option value="2"&gt;Select 2&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/div&gt;
+&lt;div class="sq-form"&gt;
+    &lt;label class="checkbox"&gt;
+        &lt;input type="checkbox" /&gt;
+        多选
+    &lt;/label&gt;
+    &lt;label class="checkbox"&gt;
+        &lt;input type="checkbox" /&gt;
+        多选
+    &lt;/label&gt;
+&lt;/div&gt;
+&lt;div class="sq-form"&gt;
+    &lt;label class="radio"&gt;
+        &lt;input type="radio" name="optionsRadios" checked="checked" /&gt;
+        单选
+    &lt;/label&gt;
+    &lt;label class="radio"&gt;
+        &lt;input type="radio" name="optionsRadios" /&gt;
+        单选
+    &lt;/label&gt;
+&lt;/div&gt;
+&lt;div class="sq-form"&gt;
+    &lt;label class="checkbox inline"&gt;
+        &lt;input type="checkbox" value="option1"&gt;多选
+    &lt;/label&gt;
+    &lt;label class="checkbox inline"&gt;
+        &lt;input type="checkbox" value="option2"&gt;多选
+    &lt;/label&gt;
+    &lt;label class="checkbox inline"&gt;
+        &lt;input type="checkbox" value="option3"&gt;多选
+    &lt;/label&gt;
+&lt;/div&gt;</pre>
+        </div>
+    </section>
+    <section class="dpl-module">
+        <h3 id="vertical-form">垂直表单:</h3>
+        <h4>示例：</h4>
+        <div class="demo w320">
+            <div class="sq-form vertical">
+                <form action="#sq-form-submit">
+                    <dl>
+                        <dt>Textarea:</dt>
+                        <dd><textarea placeholder="Text"></textarea></dd>
+                    </dl>
+                    <dl>
+                        <dt>Text:</dt>
+                        <dd><input type="text" placeholder="Text" /></dd>
+                    </dl>
+                    <dl>
+                        <dt></dt>
+                        <dd><input type="submit" class="sq-btn block f-grey" value="提交"/></dd>
+                    </dl>
+                </form>
+            </div>
+        </div>
+        <h4>HTML 代码：</h4>
+        <div class="fold-code J_foldCode">
+            <div class="toggle">View Source</div>
+            <pre class="prettyprint">&lt;div class="sq-form vertical"&gt;
+    &lt;form action="#sq-form-submit"&gt;
+        &lt;dl&gt;
+            &lt;dt&gt;Textarea:&lt;/dt&gt;
+            &lt;dd&gt;&lt;textarea placeholder="Text"&gt;&lt;/textarea&gt;&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl&gt;
+            &lt;dt&gt;Text:&lt;/dt&gt;
+            &lt;dd&gt;&lt;input type="text" placeholder="Text" /&gt;&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl&gt;
+            &lt;dt&gt;&lt;/dt&gt;
+            &lt;dd&gt;&lt;input type="submit" class="sq-btn f-grey" value="提交"/&gt;&lt;/dd&gt;
+        &lt;/dl&gt;
+    &lt;/form&gt;
+&lt;/div&gt;</pre>
+        </div>
+    </section>
+    
+    
+    
+    
+    <section class="dpl-module">
+        <h3 id="horizontal-form">水平表单:</h3>
+        <h4>示例：</h4>
+        <div class="demo">
+            <div class="sq-form horizontal">
+                <form action="#sq-form-submit">
+                    <dl>
+                        <dt>Radio:</dt>
+                        <dd>
+                            <label class="checkbox inline">
+                                <input type="radio" name="sq" checked="checked" value="option1">单选 1
+                            </label>
+                            <label class="checkbox inline">
+                                <input type="radio" name="sq" value="option2">单选 2
+                            </label>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>Select</dt>
+                        <dd>
+                            <select name="sq">
+                                <option value="1">Select 1</option>
+                                <option value="2">Select 2</option>
+                            </select>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>Textarea:</dt>
+                        <dd><textarea placeholder="Text"></textarea></dd>
+                    </dl>
+                    <dl>
+                        <dt>Text:</dt>
+                        <dd><input type="text" placeholder="Text" /></dd>
+                    </dl>
+                    <dl>
+                        <dt></dt>
+                        <dd><input type="submit" class="sq-btn f-grey" value="提交"/></dd>
+                    </dl>
+                </form>
+            </div>
+        </div>
+        <h4>HTML 代码：</h4>
+        <div class="fold-code J_foldCode">
+            <div class="toggle">View Source</div>
+            <pre class="prettyprint">&lt;div class="sq-form horizontal"&gt;
+    &lt;form action="#sq-form-submit"&gt;
+        &lt;dl&gt;
+            &lt;dt&gt;Radio:&lt;/dt&gt;
+            &lt;dd&gt;
+                &lt;label class="checkbox inline"&gt;
+                    &lt;input type="radio" name="sq" checked="checked" value="option1"&gt;单选 1
+                &lt;/label&gt;
+                &lt;label class="checkbox inline"&gt;
+                    &lt;input type="radio" name="sq" value="option2"&gt;单选 2
+                &lt;/label&gt;
+            &lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl&gt;
+            &lt;dt&gt;Select&lt;/dt&gt;
+            &lt;dd&gt;
+                &lt;select name="sq"&gt;
+                    &lt;option value="1"&gt;Select 1&lt;/option&gt;
+                    &lt;option value="2"&gt;Select 2&lt;/option&gt;
+                &lt;/select&gt;
+            &lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl&gt;
+            &lt;dt&gt;Textarea:&lt;/dt&gt;
+            &lt;dd&gt;&lt;textarea placeholder="Text"&gt;&lt;/textarea&gt;&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl&gt;
+            &lt;dt&gt;Text:&lt;/dt&gt;
+            &lt;dd&gt;&lt;input type="text" placeholder="Text" /&gt;&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl&gt;
+            &lt;dt&gt;&lt;/dt&gt;
+            &lt;dd&gt;&lt;input type="submit" class="sq-btn f-grey" value="提交"/&gt;&lt;/dd&gt;
+        &lt;/dl&gt;
+    &lt;/form&gt;
+&lt;/div&gt;</pre>
+        </div>
+    </section>
+    
+    
+    
+
+
+    <section class="dpl-module">
+        <h3 id="search-bar">搜索框：</h3>
+        <h4>示例：</h4>
+        <p>简单模式：<code>.simple</code></p>
+        <div class="demo">
+            <div class="sq-search-bar simple">
+                <form>
+                    <div class="search-input">
+                        <input type="text" class="J_search" placeholder="请输入搜索内容" />
+                        <div class="clear J_clearInput"></div>
+                    </div>
+                    <div class="search-btn">
+                        <input type="submit" class="sq-btn f-grey" value="搜索" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="fold-code J_foldCode">
+            <div class="toggle">View Source</div>
+            <pre class="prettyprint">&lt;div class="sq-search-bar simple"&gt;
+    &lt;form&gt;
+        &lt;div class="search-input"&gt;
+            &lt;input type="text" class="J_search" placeholder="请输入搜索内容" /&gt;
+            &lt;div class="clear J_clearInput"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="search-btn"&gt;
+            &lt;input type="submit" class="sq-btn f-grey" value="搜索" /&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/div&gt;</pre>
+        </div>
+        <p>紧凑模式：<code>.tight</code></p>
+        <div class="demo">
+            <div class="sq-search-bar tight">
+                <form>
+                    <div class="search-input">
+                        <input type="text" class="J_search" placeholder="请输入搜索内容" />
+                        <div class="clear J_clearInput"></div>
+                    </div>
+                    <div class="search-btn">
+                        <input type="submit" class="sq-btn f-grey" value="搜索" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="fold-code J_foldCode">
+            <div class="toggle">View Source</div>
+            <pre class="prettyprint">&lt;div class="sq-search-bar tight"&gt;
+    &lt;form&gt;
+        &lt;div class="search-input"&gt;
+            &lt;input type="text" class="J_search" placeholder="请输入搜索内容" /&gt;
+            &lt;div class="clear J_clearInput"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="search-btn"&gt;
+            &lt;input type="submit" class="sq-btn f-grey" value="搜索" /&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/div&gt;</pre>
+        </div>
+    </section>
+
+</div>
+</body>
+</html>

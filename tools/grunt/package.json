@@ -1,0 +1,43 @@
+{
+    "name": "squirrel",
+    "version": "0.8.12",
+    "description": "",
+    "dirs": {
+        "base": "../..",
+        "js_src": "src/js",
+        "js_build": "build/js",
+        "js_release": "release/js",
+        "css_src": "src/css",
+        "css_build": "build/css",
+        "css_release": "release/css"
+    },
+    "project": {
+        "apkx": {
+            "css": [
+                "../../src/css/core.less",
+                "../../src/css/button.less",
+                "../../src/css/form.less",
+                "../../src/css/icon.less",
+                "../../src/css/list.less",
+                "../../src/css/toolbar.less"
+            ],
+            "js": [
+                "../../src/js/core/core.js",
+                "../../src/js/core/*.js",
+                "../../src/js/dialog.js",
+                "../../src/js/loadmore.js",
+                "../../src/js/touchslip.js"
+            ]
+        }
+    },
+    "devDependencies": {
+        "grunt": "~0.4.1",
+        "grunt-contrib-concat": "~0.3.0",
+        "grunt-contrib-uglify": "~0.2.2",
+        "grunt-contrib-clean": "~0.4.0",
+        "grunt-jsdoc": "~0.4.0"
+    },
+    "dependencies": {
+        "grunt-open": "~0.2.0"
+    }
+}

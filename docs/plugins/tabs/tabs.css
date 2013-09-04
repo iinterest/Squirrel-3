@@ -1,0 +1,26 @@
+.dpl-tabs .tabs {
+  border-top: 1px solid #d7d7d7;
+  border-right: 1px solid #d7d7d7;
+  overflow: hidden;
+}
+.dpl-tabs .tabs li {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 10px;
+  border-left: 1px solid #d7d7d7;
+  line-height: 40px;
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+.dpl-tabs .tabs li.active {
+  background: #d7d7d7;
+}
+.dpl-tabs .panels {
+  display: none;
+  border: 1px solid #d7d7d7;
+  min-height: 100px;
+}
+.dpl-tabs .panels.active {
+  display: block;
+}

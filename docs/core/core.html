@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link type="text/css" rel="stylesheet" href="../../build/css/squirrel.css" />
+    <link type="text/css" rel="stylesheet" href="../static/dpl-famework.css" />
+    <link type="text/css" rel="stylesheet" href="../static/prettify.css" />
+    <script type="text/javascript" src="../static/prettify.js"></script>
+    <script type="text/javascript" src="../../libs/jquery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../../build/js/squirrel.js"></script>
+    <script type="text/javascript" src="../static/dpl-famework.js"></script>
+    <title>Squirrel DPL Core</title>
+</head>
+<body onload="prettyPrint();">
+<div class="dpl-container">
+
+
+    <aside class="sidebar">
+        <ul class="anchor">
+            <li class="level-1"><a href="#core">SQ.core</a></li>
+            <li class="level-1"><a href="#dom">SQ.dom</a></li>
+            <li class="level-1"><a href="#store">SQ.store</a></li>
+            <li class="level-1"><a href="#ua">SQ.ua</a></li>
+            <li class="level-1"><a href="#util">SQ.util</a></li>
+        </ul>
+    </aside>
+
+    <section class="dpl-module" id="core">
+        <h3>SQ.core</h3>
+        <p>对 Javascript 进行基本的功能扩展，增加类型判断支持、面向对象支持等。</p>
+        <h4>命名空间</h4>
+        <p>命名空间方法</p>
+        <pre class="prettyprint">SQ.core.namespace("SQ.modules.module2");</pre>
+        <h4>面向对象</h4>
+        <p>面向对象的常用方法，如继承、</p>
+        <pre class="prettyprint">SQ.core.namespace("SQ.modules.module2");</pre>
+        <h4>类型判断</h4>
+        <div class="module-level2">
+            <h5>.isString</h5>
+            <p>判断是否为字符串</p>
+            <pre class="prettyprint">SQ.core.isString("squirrel");  // return true</pre>
+            <h5>.isArray</h5>
+            <p>判断是否为数组</p>
+            <pre class="prettyprint">SQ.core.isArray([1,2,3]);  // return true</pre>
+            <h5>.isNumber</h5>
+            <p>判断是否为数字</p>
+            <pre class="prettyprint">SQ.core.isNumber(23);  // return true</pre>
+            <h5>.isBoolean</h5>
+            <p>判断是否为布尔值</p>
+            <pre class="prettyprint">SQ.core.isBoolean(true);  // return true</pre>
+            <h5>.isNull</h5>
+            <p>判断是否为 Null</p>
+            <pre class="prettyprint">SQ.core.isNull(null);  // return true</pre>
+            <h5>.isUndefined</h5>
+            <p>判断是否为 undefined</p>
+            <pre class="prettyprint">SQ.core.isUndefined(undefined);  // return true</pre>
+            <h5>.isFunction</h5>
+            <p>判断是否为函数</p>
+            <pre class="prettyprint">function fn() {
+    alert("this is a function");
+}
+SQ.core.isFunction(fn);  // return true</pre>
+            <h5>.isObject</h5>
+            <p>判断是否为对象</p>
+            <pre class="prettyprint">SQ.core.isObject({name: "squirrel"});  // return true</pre>
+        </div>
+    </section>
+
+    <section class="dpl-module" id="dom">
+        <h3>SQ.dom</h3>
+        <p>对 Dom 操作。</p>
+        <h4>Dom 节点的封装</h4>
+        <p>用于存储常用的 jQuery Dom 元素，在具体的业务中也可以将页面 jQuery Dom 存入 $el 对象。</p>
+        <pre class="prettyprint">SQ.dom.$el.demo = $(".demo");</pre>
+    </section>
+
+    <section class="dpl-module" id="store">
+        <h3>SQ.store</h3>
+        <p>前端数据持久化，支持对 cookie、localStorage、sessionStorage 进行增删改操作，支持 applicationCache 操作。</p>
+        <h4>Cookie 操作</h4>
+        <p>实现对 Cookie 的增删改操作。</p>
+        <div class="module-level2">
+            <h5>.cookie.get()</h5>
+            <pre class="prettyprint">SQ.store.cookie.get("name");           // 读取</pre>
+            <h5>.cookie.set()</h5>
+            <pre class="prettyprint">SQ.store.cookie.set("name", "value");  // 设置</pre>
+            <p>"name", "value" 是必要实参，更多可选实参包括：有效期(秒)、路径、域、加密安全设置；<br/>其中有效期除可设置为<code>day</code>(一天有效期，第二天 0 点 0 分过期)、<code>week</code>(一周有效期)。</p>
+            <pre class="prettyprint">SQ.store.cookie.set("name", "value", "day", "/");</pre>
+            <h5>.cookie.del()</h5>
+            <pre class="prettyprint">SQ.store.cookie.del("name");           // 删除</pre>
+        </div>
+    </section>
+
+    <section class="dpl-module" id="ua">
+        <h3>SQ.ua</h3>
+        <p>返回一个包含设备系统版本、浏览器名称及版本等信息的对象，具体包括：</p>
+        <pre class="prettyprint">SQ.ua.os                 // 操作系统信息
+SQ.ua.os.name            // 操作系统名称，android || ios
+SQ.ua.os.version         // 操作系统版本，例如：4.2、5.1
+SQ.ua.os.device          // 设备信息，ipod || iphone || ipad
+//----------------------------------------------------------------------
+SQ.ua.browser.core       // 浏览器内核，webkit
+SQ.ua.browser.version    // 浏览器版本，例如：159.2、7.9、8.x(UC 浏览器 8.6、8.7 等)
+SQ.ua.browser.shell      // 浏览器壳信息，chrome || safari || opera || ucweb
+SQ.ua.browser.module     // 浏览器模式，swift(UC 浏览器急速模式，目前只有国内 Android UCWeb 9.0+ 可判断急速模式)
+</pre>
+    </section>
+
+    <section class="dpl-module" id="util">
+        <h3>SQ.util</h3>
+        <h4>生成函数</h4>
+        <p>可以生成随机数、随机数组、唯一标识符等。</p>
+        <div class="module-level2">
+            <h5>.generate.randomInt(min, max)</h5>
+            <p>从最小与最大至之间返回一个随机数。</p>
+            <pre class="prettyprint">var randomNum = SQ.util.generate.randomInt(1, 10);      // return 3</pre>
+            <h5>.generate.randomArr(arr)</h5>
+            <p>将一个数组随机排列后返回。</p>
+            <pre class="prettyprint">var arr = [1,2,3,4,5]
+var randomNum = SQ.util.generate.randomArr(arr);      // [2,3,5,1,3]
+</pre>
+        </div>
+        <h4>.goTop()</h4>
+        <p>回到页面顶部。</p>
+        <h4>.goBack()</h4>
+        <p>返回上一页。</p>
+    </section>
+</div>
+</body>
+</html>

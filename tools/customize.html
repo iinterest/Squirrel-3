@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="../release/css/squirrel-min.css" />
+    <link type="text/css" rel="stylesheet" href="../docs/static/dpl-famework.css" />
+    <script type="text/javascript" src="../libs/jquery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../docs/dpl-famework.js"></script>
+    <title>Squirrel Customize</title>
+    <style>
+        html, body{ width:100%; height:100%; overflow:hidden;}
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <header id="fw-header">
+        <nav class="top-nav">
+            <h1 class="logo">Squirrel</h1>
+            <ul>
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="../docs/documentation.html">文档</a></li>
+                <li><a href="../dpl/dpl.html">模式库</a></li>
+                <li class="active"><a href="customize.html">定制</a></li>
+            </ul>
+        </nav>
+    </header>
+    <nav class="side-nav">
+        项目名称：<input type="text" />
+        <ul>
+            <!--<li class="active"><a href="#">Framework</a></li>-->
+            <!--<li><a href="#">Design Pattern Library</a></li>-->
+            <!--<li><a href="#">Theme</a></li>-->
+        </ul>
+    </nav>
+    <section class="cm-content iScroll">
+        <aside class="sidebar">
+            <ul class="anchor">
+                <li><a href="#Framework">Framework</a></li>
+                <li><a href="#DPL">Design Pattern Library</a></li>
+                <li><a href="#Themes">Themes</a></li>
+            </ul>
+        </aside>
+        <div class="cm-module" id="Framework">
+            <h3>Framework</h3>
+            <div class="select-list">
+                <h4>Libs</h4>
+                <ul>
+                    <li><label class="checkbox"><input type="checkbox" />Backbone</label></li>
+                    <li><label class="checkbox"><input type="checkbox" />jQuery</label></li>
+                    <li><label class="checkbox"><input type="checkbox" />Mustache</label></li>
+                    <li><label class="checkbox"><input type="checkbox" />Underscore</label></li>
+                    <li><label class="checkbox"><input type="checkbox" checked="checked" />Zepto</label></li>
+                </ul>
+            </div>
+            <div class="select-list">
+                <h4>Tools</h4>
+                <ul>
+                    <li><label class="checkbox"><input type="checkbox" checked="checked" />Ant</label></li>
+                    <li><label class="checkbox"><input type="checkbox" checked="checked" />DPL</label></li>
+                    <li><label class="checkbox"><input type="checkbox" />Themes</label></li>
+                </ul>
+            </div>
+            <div class="select-list">
+                <h4>Src</h4>
+                <ul>
+                    <li><label class="checkbox"><input type="checkbox" checked="checked" />CSS</label></li>
+                    <li><label class="checkbox"><input type="checkbox" checked="checked" />Images</label></li>
+                    <li><label class="checkbox"><input type="checkbox" checked="checked" />JS</label></li>
+                    
+                    <li><label class="checkbox"><input type="checkbox" />Bulid</label></li>
+                    <li><label class="checkbox"><input type="checkbox" />Docs</label></li>
+                    <li><label class="checkbox"><input type="checkbox" />JSLint</label></li>
+                    <li><label class="checkbox"><input type="checkbox" />JSON</label></li>
+                    <li><label class="checkbox"><input type="checkbox" />Tests</label></li>
+                </ul>
+            </div>
+        </div>
+        <div class="cm-module" id="DPL">
+            <h3>Design Pattern Library</h3>
+            <div class="select-list">
+                <h4>Components</h4>
+                <ul>
+                    <li><label class="checkbox"><input type="checkbox" checked="checked" />Core</label></li>
+                    <li><label class="checkbox"><input type="checkbox" checked="checked" />Toolbar</label></li>
+                    <li><label class="checkbox"><input type="checkbox" checked="checked" />List</label></li>
+                    <li><label class="checkbox"><input type="checkbox" checked="checked" />Button</label></li>
+                    <li><label class="checkbox"><input type="checkbox" checked="checked" />Form</label></li>
+                </ul>
+            </div>
+            <div class="select-list">
+                <h4>&nbsp;</h4>
+                <ul>
+                    <li><label class="checkbox"><input type="checkbox" checked="checked" />Tab</label></li>
+                </ul>
+            </div>
+            <div class="select-list">
+                <h4>Responsive</h4>
+                <ul>
+                    <!--<li><label class="checkbox"><input type="checkbox" checked="checked" /></label></li>-->
+                </ul>
+            </div>
+        </div>
+        <div class="cm-module" id="Themes">
+            <h3>Themes</h3>
+            <div class="select-list">
+                <ul>
+                    <li><label class="checkbox"><input type="checkbox" />Default</label></li>
+                    <li><label class="checkbox"><input type="checkbox" />jQuery</label></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <footer id="footer"></footer>
+</div>
+</body>
+</html>
