@@ -71,18 +71,11 @@ Squirrel 集成了许多常用的组件及插件，只需要简单的几步就�
 
 ## 三、贡献力量
 
-Squirrel 3 是遵循 MIT 协议的开源项目，代码寄托于 GitHub，如果感兴趣请加入我们贡献您的力量，您可以：
+Squirrel 3 是遵循 MIT 协议的开源项目，代码寄托于 [GitHub](https://github.com/iinterest/Squirrel-3)，如果感兴趣请加入我们贡献您的力量，您可以：
 
-1. 希望您能反馈任何有关体验方面的意见和建议至 github issues「体验」，您可以提出问题或改进建议，甚至提出新的功能需求。
-2. 如果使用中发现 BUG，请提交至 github issues「BUG」，同时也请报告您的使用版本、环境，我们会尽快确认、修复。
+1. 希望您能反馈任何有关体验方面的意见和建议至 [Github issues](https://github.com/iinterest/Squirrel-3/issues)「体验」，您可以提出问题或改进建议，甚至提出新的功能需求。
+2. 如果使用中发现 BUG，请提交至 [Github issues](https://github.com/iinterest/Squirrel-3/issues)「BUG」，同时也请报告您的使用版本、环境，我们会尽快确认、修复。
 3. 欢迎您为 Squirrel 贡献高实用性的功能插件，以方便其他使用者。开始之前请先阅读插件开发流程。
 4. 如果您制作了一款基于 Squirrel 的主题并且符合主题的开发规范，我们非常欢迎您将它提交至主题库。
 5. DPL 组件与业务结合紧密，具备高质量且完整的交互体验，如果您为您的项目开发了类似的组件，欢迎提交至设计模式库。
-
-
-## 四、基于 Squirrle 3 构建的网站
-
-* 国内 Android 应用商店抢先版
-* 主题站
-* 国际应用商店
 
