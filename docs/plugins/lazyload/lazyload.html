@@ -53,7 +53,10 @@
             <pre class="prettyprint">&lt;script type="text/javascript"&gt;
     var imglazyload = new SQ.LazyLoad({
         DOM_LAZY_ITEMS : ".J_lazyload",
-        NUM_THRESHOLD : 50
+        DOM_LAZY_PARENT : ".sq-list .icon",
+        CSS_PLACEHOLDER : ".default-icon",
+        IMG_PLACEHOLDER : "../../../static/images/sq-icon.png",
+        NUM_THRESHOLD : 250
     });
 &lt;/script&gt;</pre>
             
@@ -88,28 +91,44 @@
                                 <td class="type">
                                     <span class="param-type">string</span>
                                 </td>
-                                <td class="description last">需要添加延迟加载的元素</td>
+                                <td class="description last">需要添加延迟加载的元素。</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>DOM_LAZY_PARENT</code></td>
+                                <td class="type">
+                                    <span class="param-type">string</span>
+                                </td>
+                                <td class="description last">图片模式下，设置延迟加载元素的父元素的背景样式，
+                                    必须与 DOM_LAZY_PARENT 同时配置。
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>CSS_PLACEHOLDER</code></td>
+                                <td class="type">
+                                    <span class="param-type">string</span>
+                                </td>
+                                <td class="description last">图片模式下，设置占位样式，必须与 DOM_LAZY_PARENT 同时配置。</td>
                             </tr>
                             <tr>
                                 <td class="name"><code>MODE</code></td>
                                 <td class="type">
                                     <span class="param-type">string</span>
                                 </td>
-                                <td class="description last">延迟加载模式：image（图片模式）</td>
+                                <td class="description last">延迟加载模式：image（图片模式）。</td>
                             </tr>
                             <tr>
                                 <td class="name"><code>NUM_THRESHOLD</code></td>
                                 <td class="type">
                                     <span class="param-type">string</span>
                                 </td>
-                                <td class="description last">灵敏度，数值越大越灵敏，延迟性越小。</td>
+                                <td class="description last">灵敏度，数值越大越灵敏，延迟性越小，默认为 200。</td>
                             </tr>
                             <tr>
                                 <td class="name"><code>refresh</code></td>
                                 <td class="type">
                                     <span class="param-type">function</span>
                                 </td>
-                                <td class="description last">刷新延迟加载元素列表</td>
+                                <td class="description last">刷新延迟加载元素列表。</td>
                             </tr>
                             </tbody>
                         </table>
@@ -122,7 +141,10 @@
             <p>SQ.LazyLoad.refresh();</p>
             <p><pre class="prettyprint">var imglazyload = new SQ.LazyLoad({
     DOM_LAZY_ITEMS : ".J_lazyload",
-    NUM_THRESHOLD : 200
+    DOM_LAZY_PARENT : ".sq-list .icon",
+    CSS_PLACEHOLDER : ".default-icon",
+    IMG_PLACEHOLDER : "../../../static/images/sq-icon.png",
+    NUM_THRESHOLD : 250
 });
 imglazyload.refresh();  // 刷新延迟加载元素列表
 </pre></p>
@@ -160,8 +182,12 @@ imglazyload.refresh();  // 刷新延迟加载元素列表
 &lt;script type="text/javascript"&gt;
     var imglazyload = new SQ.LazyLoad({
         DOM_LAZY_ITEMS : ".J_lazyload",
-        NUM_THRESHOLD : 200
+        DOM_LAZY_PARENT : ".sq-list .icon",
+        CSS_PLACEHOLDER : ".default-icon",
+        IMG_PLACEHOLDER : "../../../static/images/sq-icon.png",
+        NUM_THRESHOLD : 250
     });
+
     // 可以与 loadmore 插件组合使用
     var appList = new SQ.LoadMore({
         EVE_EVENT_TYPE : "scroll",

@@ -1,6 +1,6 @@
 /**
  * @file Squirrel LazyLoad
- * @version 0.5.1
+ * @version 0.6.3
  */
 
 /*global
@@ -10,6 +10,9 @@
 
 /**
  * @changelog
+ * 0.6.3  + 新增首屏图片自动加载功能
+ *        + 新增占位图、占位背景设置
+ * 0.6.0  + 首屏图片自动加载
  * 0.5.1  * 完成图片模式的延迟加载功能
  * 0.0.1  + 新建
  */
@@ -20,13 +23,19 @@
      * @classdesc 内容延迟加载
      * @constructor
      * @param {object} config 组件配置（下面的参数为配置项，配置会写入属性）
-     * @param {string} config.DOM_LAZY_ITEMS        需要添加延迟加载的元素
-     * @param {string} config.MODE                  延迟加载模式：image（图片模式）
-     * @param {string} config.NUM_THRESHOLD         灵敏度，数值越大越灵敏，延迟性越小。
-     * @param {function} config.refresh             刷新延迟加载元素列表
+     * @param {string} config.DOM_LAZY_ITEMS        需要添加延迟加载的元素。
+     * @param {string} config.DOM_LAZY_PARENT       图片模式下，设置延迟加载元素的父元素的背景样式，
+     *                                              必须与 DOM_LAZY_PARENT 同时配置。
+     * @param {string} config.CSS_PLACEHOLDER       图片模式下，设置占位样式，必须与 DOM_LAZY_PARENT 同时配置。
+     * @param {string} config.MODE                  延迟加载模式：image（图片模式）。
+     * @param {string} config.NUM_THRESHOLD         灵敏度，数值越大越灵敏，延迟性越小，默认为 200。
+     * @param {function} config.refresh             刷新延迟加载元素列表。
      * @example var imglazyload = new SQ.LazyLoad({
                 DOM_LAZY_ITEMS : ".J_lazyload",
-                NUM_THRESHOLD : 200
+                DOM_LAZY_PARENT : ".sq-list .icon",
+                CSS_PLACEHOLDER : ".default-icon",
+                IMG_PLACEHOLDER : "../../../static/images/sq-icon.png",
+                NUM_THRESHOLD : 270
             });
      */
     function LazyLoad(config) {
@@ -43,16 +52,17 @@
                 me.config[i] = config[i];
             }
         }
+        me.refresh = function () {
+            me.$lazyItems = $(me.config.DOM_LAZY_ITEMS);
+            me._loadImg();
+        };
         if (me._verify()) {
             me.init();
         }
-        me.refresh = function () {
-            me.$lazyItems = $(me.config.DOM_LAZY_ITEMS);
-        };
     }
     LazyLoad.prototype =  {
         construtor: LazyLoad,
-        version: "0.5.1",
+        version: "0.6.3",
         scrollTimer: 0,     // 滑动计时器
         scrollDelay: 200,   // 滑动阀值
 
@@ -64,6 +74,24 @@
             var me = this;
             me.$lazyItems = $(me.config.DOM_LAZY_ITEMS); // 触发元素
             me.lazyItemClassName = me.config.DOM_LAZY_ITEMS.slice(1);
+            // 加载首屏内容
+            if (me.config.MODE === "image") {
+                // 初始化占位图
+                if (me.config.IMG_PLACEHOLDER) {
+                    me.$lazyItems.each(function () {
+                        var $img = $(this);
+                        $img.attr("src", me.config.IMG_PLACEHOLDER);
+                        $img.on("error", function () {
+                            $(this).attr("src", me.config.IMG_PLACEHOLDER);
+                        });
+                    });
+                }
+                // 添加占位背景图
+                if (me.config.CSS_PLACEHOLDER && me.config.DOM_LAZY_PARENT) {
+                    $(me.config.DOM_LAZY_PARENT).addClass(me.config.CSS_PLACEHOLDER.slice(1));
+                }
+                me._loadImg();
+            }
             me._trigger();
         },
         _trigger : function () {
