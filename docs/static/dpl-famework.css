@@ -161,7 +161,7 @@ a[href*=".less"]{ color:#105cb6; padding-left:40px; padding-right:10px; backgrou
     .side-nav::-webkit-scrollbar{ display:none;}
     .side-nav li em{ float:right; padding-right:10px; font-size:10px; color:#ccc; text-align:right;}
     
-.more-nav{ display:block; position:fixed; left:175px; bottom:10px; width:15px; height:15px; border-radius:30px; background:#38c483; font-size:8px; color:#fff; text-align:center; line-height:18px; z-index:100; opacity:.8;}
+.more-nav{ display:block; position:fixed; left:175px; bottom:30px; width:15px; height:15px; border-radius:30px; background:#38c483; font-size:8px; color:#fff; text-align:center; line-height:18px; z-index:100; opacity:.8;}
 .more-nav::before{ content:""; position:absolute; left:-5px; top:-5px; width:21px; height:21px; border-radius:30px; border:2px solid #38c483;}
 #bottom{ background:#eee;}
 

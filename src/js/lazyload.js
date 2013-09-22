@@ -1,6 +1,6 @@
 /**
  * @file Squirrel LazyLoad
- * @version 0.6.3
+ * @version 0.6.4
  */
 
 /*global
@@ -10,6 +10,8 @@
 
 /**
  * @changelog
+ * 0.6.4  * 修复图片加载失败时会导致 error 时间一直被触发的 bug，
+ *          修复与 loadmore 插件配合使用时，无法替换加载错误的图片
  * 0.6.3  + 新增首屏图片自动加载功能
  *        + 新增占位图、占位背景设置
  * 0.6.0  + 首屏图片自动加载
@@ -60,9 +62,9 @@
             me.init();
         }
     }
-    LazyLoad.prototype =  {
+    LazyLoad.prototype = {
         construtor: LazyLoad,
-        version: "0.6.3",
+        version: "0.6.4",
         scrollTimer: 0,     // 滑动计时器
         scrollDelay: 200,   // 滑动阀值
 
@@ -82,7 +84,7 @@
                         var $img = $(this);
                         $img.attr("src", me.config.IMG_PLACEHOLDER);
                         $img.on("error", function () {
-                            $(this).attr("src", me.config.IMG_PLACEHOLDER);
+                            $(this).attr("src", me.config.IMG_PLACEHOLDER).off("error");
                         });
                     });
                 }
@@ -125,7 +127,10 @@
             var me = this;
             function replaceSrc($item, src) {
                 $item.attr("src", src).removeAttr("data-img").removeClass(me.lazyItemClassName);
-                me.refresh();
+                $item.on("error", function () {
+                    $(this).attr("src", me.config.IMG_PLACEHOLDER).off("error");
+                });
+                //me.refresh();
             }
             me.$lazyItems.each(function (index, item) {
                 var $item = $(item);

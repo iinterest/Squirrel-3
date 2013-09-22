@@ -1,6 +1,6 @@
 /**
  * @file SQ.LoadMore 加载更多组件
- * @version 1.1.6
+ * @version 1.1.7
  */
 
 /*global
@@ -11,6 +11,7 @@
 
 /**
  * @changelog
+ * 1.1.7  * 为 noMore 状态添加 loaded 回调函数。
  * 1.1.6  * 去除 unbind，解决与 lazyload 插件冲突。
  * 1.1.5  + 新增 _changeBind 函数，用来改变交绑定互事件；
  *        * 精简 _bind、_unbind 函数，对整体逻辑做小的优化。
@@ -124,7 +125,7 @@
     }
     LoadMore.prototype =  {
         construtor: LoadMore,
-        version: "1.1.6",
+        version: "1.1.7",
 
         /** 验证参数是否合法 */
         _verify : function () {
@@ -346,6 +347,7 @@
             case "noMore":          // 无下页数据
                 //me._unbind();     // 与 lazyload 插件冲突
                 me.$stateBox.addClass("J_noMore").hide();
+                me.loaded && me.loaded();
                 break;
             case "loadError":     // 加载错误提示
                 me.currentState = "loadError";
