@@ -19,10 +19,10 @@ module.exports = function (grunt) {
             build: {
                 files: {
                     "<%= pkg.dirs.base %>/<%= pkg.dirs.css_build %>/<%= pkg.name%>.css": [
-                        "<%= pkg.dirs.base %>/<%= pkg.dirs.css_src %>/core.less",
-                        "<%= pkg.dirs.base %>/<%= pkg.dirs.css_src %>/*.less",
-                        "!<%= pkg.dirs.base %>/<%= pkg.dirs.css_src %>/base.less",  // 排除重复样式
-                        "!<%= pkg.dirs.base %>/<%= pkg.dirs.css_src %>/reset.less"
+                        "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/core/core.less",
+                        "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/*.less",
+                        "!<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/base.less",  // 排除重复样式
+                        "!<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/core/reset.less"
                     ]
                 }
             },
@@ -37,9 +37,7 @@ module.exports = function (grunt) {
                 src: [
                     "<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>/core/core.js",     // 确保合并顺序
                     "<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>/core/*.js",
-                    "<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>*//*.js",
-                    "!<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>/core/_*.js",
-                    "!<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>/_*.js"
+                    "<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>/*.js"
                 ],
                 dest: "<%= pkg.dirs.base %>/<%= pkg.dirs.js_build %>/<%= pkg.name%>.js",
                 nonull: true
@@ -60,7 +58,7 @@ module.exports = function (grunt) {
             },
             build: {
                 src: "<%= pkg.dirs.base %>/<%= pkg.dirs.js_build %>/<%= pkg.name%>.js",
-                dest: "<%= pkg.dirs.base %>/<%= pkg.dirs.js_release %>/<%= pkg.name%>-min.js"
+                dest: "<%= pkg.dirs.base %>/<%= pkg.dirs.js_dist %>/<%= pkg.name%>-min.js"
             }
         },
         cssmin: {
@@ -73,7 +71,7 @@ module.exports = function (grunt) {
                         " */"
                 },
                 files: {
-                    "<%= pkg.dirs.base %>/<%= pkg.dirs.css_release %>/<%= pkg.name%>-min.css": "<%= pkg.dirs.base %>/<%= pkg.dirs.css_build %>/<%= pkg.name%>.css"
+                    "<%= pkg.dirs.base %>/<%= pkg.dirs.css_dist %>/<%= pkg.name%>-min.css": "<%= pkg.dirs.base %>/<%= pkg.dirs.css_build %>/<%= pkg.name%>.css"
                 }
             }
         },
@@ -83,9 +81,9 @@ module.exports = function (grunt) {
                 "<%= pkg.dirs.base %>/build/css/*.css",
                 "<%= pkg.dirs.base %>/build/js/*.js"
             ],
-            release: [
-                "<%= pkg.dirs.base %>/release/css/*.css",
-                "<%= pkg.dirs.base %>/release/js/*.js"
+            dist: [
+                "<%= pkg.dirs.base %>/dist/css/*.css",
+                "<%= pkg.dirs.base %>/dist/js/*.js"
             ]
         },
         open: {
@@ -95,7 +93,7 @@ module.exports = function (grunt) {
         },
         watch: {
             less: {
-                files: ["<%= pkg.dirs.base %>/<%= pkg.dirs.css_src %>/*.less"],
+                files: ["<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/*.less"],
                 tasks: ["less:build", "cssmin"]
             },
             script: {
@@ -127,7 +125,7 @@ module.exports = function (grunt) {
     //grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-jsdoc');
 
-    grunt.registerTask("openit", ["open"]);
+    //grunt.registerTask("openit", ["open"]);
     grunt.registerTask('webServer', ['connect:devServer']);
     grunt.registerTask("apkx", ["clean", "less:apkx", "concat:apkx", "uglify", "cssmin"]);
     grunt.registerTask("build", ["clean", "less:build", "concat:build", "uglify", "cssmin"]);

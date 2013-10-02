@@ -77,7 +77,7 @@
 
             var index = parseInt(tabIndex, 10) + 1;
             var $appListWrap = $('<div class="sq-list vertical J_scrollLoadWrap"></div>');
-            var $ul = $('<ul class="J_ajaxWrap"></div>');
+            var $ul = $('<ul class="J_ajaxWrap'+ index +'"></div>');
             var $loadMore = $('<div class="J_scrollLoadMore' + index +' J_tabBtn" data-api="data/content'+ index +'.json"></div>');
             $appListWrap.append($ul).append($loadMore);
             $panel.append($appListWrap);
@@ -85,7 +85,7 @@
             var appList = new SQ.LoadMore({
                 EVE_EVENT_TYPE : "scroll",
                 DOM_TRIGGER_TARGET : window,
-                DOM_AJAX_BOX : ".J_ajaxWrap",
+                DOM_AJAX_BOX : ".J_ajaxWrap" + index,
                 DOM_STATE_BOX : ".J_scrollLoadMore" + index,
                 CSS_INIT_STYLE : "loadMore-btn",
                 DATA_TYPE : "html",
@@ -94,31 +94,27 @@
         }
 
         var tabs = new SQ.Tabs({
-            EVE_EVENT_TYPE : "mouseover",
+            EVE_EVENT_TYPE : "click",
             DOM_TRIGGER_TARGET : ".J_tabs",
             DOM_TABS : ".tabs>li",
             DOM_PANELS : ".panels",
             //API_URL : "data/content.json",
             API_URL : ["data/content1.json", "data/content2.json", "data/content3.json"],
             CSS_LOADING_TIP : "tab-loading-tip",
-            NUM_ACTIVE : 1,
-            show : function () {
-
-            },
-            //beforeLoad : function () {
-                /*var me = this;
-                if (me.$activePanel.find(".J_hasLoadTab").length > 0) {
-                    creatLoadMore(me.$activePanel, me.activeIndex);
-                    return false;
+            NUM_ACTIVE : 0,
+            show : function ($tabs, $panels, tabIndex) {
+                var $activePanels = $panels.eq(tabIndex);
+                // 选项卡只会进行一次异步加载，所以要在 show 回调函数里执行 creatLoadMore
+                if ($activePanels.hasClass("hasLoad")) {
+                    creatLoadMore($activePanels, tabIndex);
                 }
-                return true;*/
-            //},
+            },
             loaded : function (data, $activePanels) {
+                var tabIndex = $activePanels.index() - 1;
                 renderPanelContent(data, $activePanels);
-                //console.log(data)
-                /*var me = this;
-                renderPanelContent($activePanels, me.activeIndex, data);
-                creatLoadMore(me.$activePanel, me.activeIndex);*/
+                // 首先在 loaded 回调函数里执行 creatLoadMore 确保显示顺序
+                creatLoadMore($activePanels, tabIndex);
+                $activePanels.addClass("hasLoad");
             }
         });
     </script>
