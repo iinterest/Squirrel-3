@@ -15,16 +15,16 @@ SQ.store = {
      * Sq.cookie.get("name");           // 读取
      * Sq.cookie.del("name");           // 删除
      */
-    cookie : {
+    cookie: {
         _getValue: function (offset) {
             var ck = document.cookie;
             var endstr = ck.indexOf(";", offset) === -1 ? ck.length : ck.indexOf(";", offset);
             return decodeURIComponent(ck.substring(offset, endstr));
         },
-        get: function (name) {
+        get: function (key) {
             var me = this;
             var ck = document.cookie;
-            var arg = name + "=";
+            var arg = key + "=";
             var argLen = arg.length;
             var cookieLen = ck.length;
             var i = 0;
@@ -40,7 +40,7 @@ SQ.store = {
             }
             return null;
         },
-        set: function (name, value) {
+        set: function (key, value) {
             var expdate = new Date();
             var year = expdate.getFullYear();
             var month = expdate.getMonth();
@@ -73,16 +73,71 @@ SQ.store = {
                 }
             }
 
-            document.cookie = name + "=" + encodeURIComponent(value) + ((expires === null) ? "" : ("; expires=" + expdate.toGMTString())) +
+            document.cookie = key + "=" + encodeURIComponent(value) + ((expires === null) ? "" : ("; expires=" + expdate.toGMTString())) +
              ((path === null) ? "" : ("; path=" + path)) + ((domain === null) ? "" : ("; domain=" + domain)) +
              ((secure === true) ? "; secure" : "");
         },
-        del: function (name) {
+        del: function (key) {
             var me = this;
             var exp = new Date();
             exp.setTime(exp.getTime() - 1);
-            var cval = me.get(name);
-            document.cookie = name + "=" + cval + "; expires=" + exp.toGMTString();
+            var cval = me.get(key);
+            document.cookie = key + "=" + cval + "; expires=" + exp.toGMTString();
+        }
+    },
+    localStorage: {
+        hasLoaclStorage: (function () {
+            if( ("localStorage" in window) && window.localStorage !== null ) {
+                return true;
+            }
+        }()),
+        // expires 过期时间，单位 min 
+        get: function (key, expires) {
+            var me = this;
+            var now = new Date().getTime();
+            if (!key || !me.hasLoaclStorage) {
+                return;
+            }
+            var localDatas = localStorage.getItem(key);
+            if (!localDatas) {
+                return;
+            }
+            localDatas = localDatas.split("@");
+            if (expires === undefined) {
+                return localDatas[1];
+            }
+            // 填写了 expires 过期时间
+            var inEffect = parseInt(expires, 10) * 1000 * 60 > (now - parseInt(localDatas[0], 10));
+            if (inEffect) {
+                //console.log("在有效期内，读取数据");
+                return localDatas[1];
+            } else {
+                //console.log("数据已过期，请重新读取");
+                return false;
+            }
+        },
+        set: function (key, value) {
+            var me = this;
+            var now = new Date().getTime();
+            if (!key || !value || !me.hasLoaclStorage) {
+                return;
+            }
+            var strValue = now + "@" + JSON.stringify(value);   // 为数据添加时间戳
+            localStorage.setItem(key, strValue);
+        },
+        del: function (key) {
+            var me = this;
+            if (!key || !me.hasLoaclStorage) {
+                return;
+            }
+            localStorage.removeItem(key);
+        },
+        clearAll: function () {
+            var me = this;
+            if (!me.hasLoaclStorage) {
+                return;
+            }
+            localStorage.clear();
         }
     }
 };

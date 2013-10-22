@@ -70,8 +70,12 @@ SQ.core.isFunction(fn);  // return true</pre>
         <h3>SQ.dom</h3>
         <p>对 Dom 操作。</p>
         <h4>Dom 节点的封装</h4>
-        <p>用于存储常用的 jQuery Dom 元素，在具体的业务中也可以将页面 jQuery Dom 存入 $el 对象。</p>
-        <pre class="prettyprint">SQ.dom.$el.demo = $(".demo");</pre>
+        <p>用于存储常用的 jQuery Dom 元素，在具体的业务中也可以将页面 jQuery Dom 存入 SQ.Dom 对象。</p>
+        <pre class="prettyprint">SQ.dom.$demo = $(".demo");</pre>
+        <p>已封装的节点包括：</p>
+        <pre class="prettyprint">SQ.dom.$win;    //$(window)
+SQ.dom.$doc;    //$(document)
+SQ.dom.$body;   //$("body")</pre>
     </section>
 
     <section class="dpl-module" id="store">

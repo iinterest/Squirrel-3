@@ -7,18 +7,16 @@
     <link type= "text/css" rel="stylesheet" href="../../../../build/css/squirrel.css" />
     <link type= "text/css" rel="stylesheet" href="../tabs.css" />
     <style type="text/css">
+        .demo-go-back{ display:inline-block; position:fixed; width:120px; height:30px; left:50%; margin-left:-60px; background:#38c483; border-bottom:3px solid #299c5d; color:#fff; line-height:30px; text-align:center; z-index:999;}
+    </style>
+    <style type="text/css">
         .wrapper{ max-width:500px; padding:10px;}
-        
         .tab-loading-tip{ padding:40px 10px; text-align:center; line-height:1.5;}
         .J_scrollLoadWrap{ border-top:1px solid #d7d7d7;}
     </style>
-    <style type="text/css">
-        .loadMore-btn{ position:relative; height:40px; line-height:40px; text-align:center; background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0,#eee),color-stop(1,#f9f9f9)); text-shadow:0 1px 1px #fff; border-top:1px solid #d7d7d7; border-bottom:1px solid #fff; color:#333; font-size:14px;}
-
-        .loadMore-clickState::before{ content:""; display:inline-block; width:10px; height:10px; margin-right:5px; background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAaCAMAAABvn+dxAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRFd3d3AAAADlogTAAAAAJ0Uk5T/wDltzBKAAAAU0lEQVR42tySAQrAIAwDL///9KRstSe+YEWxXkMwILkVtQ6yNgjXlSpBeCmCBKm/XibdMRV7vDXDihhn0Bh2sOOB0+SSuI8/JY4Ti0YJr7/kEWAAa1MBS66ah5oAAAAASUVORK5CYII=") no-repeat; background-size:contain;}
-    </style>
 </head>
 <body>
+    <a href="../tabs.html" class="demo-go-back">返回</a>
     <div class="wrapper">
         <div class="dpl-tabs J_tabs">
             <ul class="tabs col3">
@@ -87,7 +85,7 @@
                 DOM_TRIGGER_TARGET : window,
                 DOM_AJAX_BOX : ".J_ajaxWrap" + index,
                 DOM_STATE_BOX : ".J_scrollLoadMore" + index,
-                CSS_INIT_STYLE : "loadMore-btn",
+                CSS_INIT_STYLE : "sq-loadMore-btn",
                 DATA_TYPE : "html",
                 NUM_SCROLL_MAX_PAGE : 2
             });

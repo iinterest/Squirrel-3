@@ -93,34 +93,25 @@ SQ.core = {
 };
 /**
  * @file SQ.dom
- * @version 1.0.0
+ * @version 1.0.1
  */
 /*global
  $: false,
  SQ: true,
  Zepto: true
  */
+/**
+ * @changelog
+ * 1.0.1  * 简化 SQ.dom 层级
+ */
 SQ.dom = {
     /**
      * 存储常用的 jQuery Dom 元素
-     * 在具体的业务中也可以将页面 jQuery Dom 存入 $el 对象，例如：SQ.dom.$el.demo = $(".demo");。
+     * 在具体的业务中也可以将页面 jQuery Dom 存入 SQ.dom 对象，例如：SQ.dom.$demo = $(".demo");。
      */
-    $el : (function () {
-        var me = this;
-        var i;
-        me.$el = {};
-        var element = {
-            $win : window,
-            $doc : document,
-            $body : "body"
-        };
-        for (i in element) {
-            if (element.hasOwnProperty(i)) {
-                me.$el[i] = $(element[i]);
-            }
-        }
-        return me.$el;
-    }())
+    $win : $(window),
+    $doc : $(document),
+    $body : $("body")
 };
 /**
  * @file SQ.store
@@ -139,16 +130,16 @@ SQ.store = {
      * Sq.cookie.get("name");           // 读取
      * Sq.cookie.del("name");           // 删除
      */
-    cookie : {
+    cookie: {
         _getValue: function (offset) {
             var ck = document.cookie;
             var endstr = ck.indexOf(";", offset) === -1 ? ck.length : ck.indexOf(";", offset);
             return decodeURIComponent(ck.substring(offset, endstr));
         },
-        get: function (name) {
+        get: function (key) {
             var me = this;
             var ck = document.cookie;
-            var arg = name + "=";
+            var arg = key + "=";
             var argLen = arg.length;
             var cookieLen = ck.length;
             var i = 0;
@@ -164,7 +155,7 @@ SQ.store = {
             }
             return null;
         },
-        set: function (name, value) {
+        set: function (key, value) {
             var expdate = new Date();
             var year = expdate.getFullYear();
             var month = expdate.getMonth();
@@ -197,16 +188,71 @@ SQ.store = {
                 }
             }
 
-            document.cookie = name + "=" + encodeURIComponent(value) + ((expires === null) ? "" : ("; expires=" + expdate.toGMTString())) +
+            document.cookie = key + "=" + encodeURIComponent(value) + ((expires === null) ? "" : ("; expires=" + expdate.toGMTString())) +
              ((path === null) ? "" : ("; path=" + path)) + ((domain === null) ? "" : ("; domain=" + domain)) +
              ((secure === true) ? "; secure" : "");
         },
-        del: function (name) {
+        del: function (key) {
             var me = this;
             var exp = new Date();
             exp.setTime(exp.getTime() - 1);
-            var cval = me.get(name);
-            document.cookie = name + "=" + cval + "; expires=" + exp.toGMTString();
+            var cval = me.get(key);
+            document.cookie = key + "=" + cval + "; expires=" + exp.toGMTString();
+        }
+    },
+    localStorage: {
+        hasLoaclStorage: (function () {
+            if( ("localStorage" in window) && window.localStorage !== null ) {
+                return true;
+            }
+        }()),
+        // expires 过期时间，单位 min 
+        get: function (key, expires) {
+            var me = this;
+            var now = new Date().getTime();
+            if (!key || !me.hasLoaclStorage) {
+                return;
+            }
+            var localDatas = localStorage.getItem(key);
+            if (!localDatas) {
+                return;
+            }
+            localDatas = localDatas.split("@");
+            if (expires === undefined) {
+                return localDatas[1];
+            }
+            // 填写了 expires 过期时间
+            var inEffect = parseInt(expires, 10) * 1000 * 60 > (now - parseInt(localDatas[0], 10));
+            if (inEffect) {
+                //console.log("在有效期内，读取数据");
+                return localDatas[1];
+            } else {
+                //console.log("数据已过期，请重新读取");
+                return false;
+            }
+        },
+        set: function (key, value) {
+            var me = this;
+            var now = new Date().getTime();
+            if (!key || !value || !me.hasLoaclStorage) {
+                return;
+            }
+            var strValue = now + "@" + JSON.stringify(value);   // 为数据添加时间戳
+            localStorage.setItem(key, strValue);
+        },
+        del: function (key) {
+            var me = this;
+            if (!key || !me.hasLoaclStorage) {
+                return;
+            }
+            localStorage.removeItem(key);
+        },
+        clearAll: function () {
+            var me = this;
+            if (!me.hasLoaclStorage) {
+                return;
+            }
+            localStorage.clear();
         }
     }
 };
@@ -313,11 +359,11 @@ SQ.util = {
     /**
      * 随机数输出
      * @method
-     * @name SQ.generate
+     * @name SQ.util.generate
      * @example
-     * Sq.generate.uniqueId();
-     * Sq.generate.randomInt(0, 9);
-     * Sq.generate.randomArr([1,2,3]);
+     * Sq.util.generate.uniqueId();
+     * Sq.util.generate.randomInt(0, 9);
+     * Sq.util.generate.randomArr([1,2,3]);
      */
     generate : {
         // 生成唯一标识符
@@ -335,6 +381,39 @@ SQ.util = {
                 return Math.random() - 0.5;
             });
         }
+    },
+    /**
+     * 字符串操作
+     * @method
+     * @name SQ.util.string
+     * @example
+     * SQ.util.string.trim("   test string    ");
+     * //return test string
+     */
+    string : {
+        // 过滤字符串首尾的空格
+        trim : function(srt) {
+            return srt.replace(/^\s+|\s+$/g, "");
+        }
+    },
+    /**
+     * 格式化时间
+     * @method
+     * @name SQ.util.dateToString
+     * @example
+     * SQ.util.dateToString(new Date())
+     * //return 2013-10-17 17:31:58
+     */
+    dateToString: function(time) {
+        var year = time.getFullYear();
+        var month = time.getMonth() + 1;
+        var date = time.getDate();
+        var hours = time.getHours();
+        var min = time.getMinutes();
+        var sec = time.getSeconds();
+        10 > month && (month = "0" + month), 10 > date && (date = "0" + date), 10 > hours && (hours = "0" + hours), 10 > min && (min = "0" + min), 10 > sec && (sec = "0" + sec);
+        var dateString = year + "-" + month + "-" + date + " " + hours + ":" + min + ":" + sec;
+        return dateString;
     },
     goTop : function (e) {
         e.preventDefault();
@@ -477,7 +556,7 @@ SQ.util = {
 }($, window));
 /**
  * @file SQ.Dialog 对话框组件
- * @version 0.9.3
+ * @version 0.9.6
  */
 
 /*global
@@ -488,6 +567,10 @@ SQ.util = {
 
 /**
  * @changelog
+ * 0.9.6  * 改写 _bin、_unbind 方法，新增 DESTROY 参数，设置 DESTROY 后会清除目标 DOM 的绑定事件。
+ * 0.9.5  * 修复 IE 兼容性问题。
+ * 0.9.4  * 调整 SQ.dom 的调用。
+ *          修复当文档内容高度小于窗口高度时，遮罩不完全的问题。
  * 0.9.3  * 更改 _bind 中的绑定方式，修正异步加载的 DOM 无法绑定 dialog 事件问题。
  * 0.9.2  * 将 _bind 中的 .live 改为 .on 绑定，添加 TXT_CLOSE_VAL 默认值为 x
  * 0.9.1  * 核心删除了 SQ.dom.getHeight 方法，所以改用 .height() 方法。
@@ -587,7 +670,7 @@ SQ.util = {
     }
     Dialog.prototype =  {
         construtor: Dialog,
-        version: "0.9.3",
+        version: "0.9.6",
         timer : undefined,
         resizeTimer : false,    // resize 
         closed : true,
@@ -617,7 +700,7 @@ SQ.util = {
                 me.dialogHeight = undefined;
             }
 
-            me._bind(me.$triggerTarget, me.config.EVE_EVENT_TYPE);
+            me._bind(me.config.EVE_EVENT_TYPE);
         },
 
         /**
@@ -625,9 +708,10 @@ SQ.util = {
          * @param {object} $el jQuert 或 Zepto 元素包装集。
          * @param {string} EVE_EVENT_TYPE 事件类型，"scroll" 或 "click"。
          */
-        _bind : function ($el, EVE_EVENT_TYPE) {
+        _bind : function (EVE_EVENT_TYPE) {
             var me = this;
-            SQ.dom.$el.$doc.on(EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET, function (e) {
+            // 绑定在 document 上是为了解决 Ajax 内容绑定问题
+            SQ.dom.$doc.on(EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET, function (e) {
                 e.preventDefault();
                 me._trigger(e);
             });
@@ -637,8 +721,10 @@ SQ.util = {
          * @param {object} $el jQuert 或 Zepto 元素包装集。
          * @param {string} EVE_EVENT_TYPE 事件类型，"scroll" 或 "click"。
          */
-        _unBind : function ($el, EVE_EVENT_TYPE) {
-            $el.off(EVE_EVENT_TYPE);
+        _unbind : function (EVE_EVENT_TYPE) {
+            var me = this;
+            SQ.dom.$doc.off(EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET);
+            //$el.off(EVE_EVENT_TYPE);
         },
         /**
          * 触发事件方法，在满足绑定事件条件时或满足指定触发条件的情况下调用触发方法，
@@ -654,7 +740,7 @@ SQ.util = {
         _reset : function () {
             var me = this;
 
-            $(window).resize(function () {
+            SQ.dom.$win.resize(function () {
                 if (!me.closed && !me.resizeTimer) {
                     me.resizeTimer = true;
                     setTimeout(function () {
@@ -703,9 +789,9 @@ SQ.util = {
 
         _initDialogStyle : function () {
             var me = this;
-            var scroll = SQ.dom.$el.$body.scrollTop();
-            var winWidth = window.innerWidth;
-            var winHeight = window.innerHeight;
+            var scroll = SQ.dom.$body.scrollTop();
+            var winWidth = window.innerWidth || SQ.dom.$win.width();
+            var winHeight = window.innerHeight || SQ.dom.$win.height();
 
             // 设置 top
             if (me.dialogHeight) {
@@ -807,11 +893,14 @@ SQ.util = {
                 "width" : me.width,
                 "height" : me.height,
                 "z-index" : 102
-            }).appendTo(SQ.dom.$el.$body);
+            }).appendTo(SQ.dom.$body);
             // 绑定对话框事件
             me._initDialogEvent();
             // 执行回调函数
             me.showFun && me.showFun(e);
+            if (me.config.DESTROY) {
+                me._unbind(me.config.EVE_EVENT_TYPE);
+            }
         },
 
         /** 关闭对话框 */
@@ -843,7 +932,9 @@ SQ.util = {
         /** 显示遮罩 */
         mask : function () {
             var me = this;
-            var h = SQ.dom.$el.$body.height();
+            var bodyH = SQ.dom.$body.height();
+            var winH = SQ.dom.$win.height();
+            var h = bodyH > winH ? bodyH : winH;
 
             if (me.$mask) {
                 me.$mask.css({
@@ -864,7 +955,7 @@ SQ.util = {
                     "background" : me.config.CSS_MASK_BACKGROUND,
                     "opacity" : me.config.CSS_MASK_OPACITY,
                     "z-index" : 101
-                }).appendTo(SQ.dom.$el.$body);
+                }).appendTo(SQ.dom.$body);
 
                 if (me.config.LOCK) {
                     $mask.on("touchstart", function (e) {
@@ -1047,7 +1138,7 @@ SQ.util = {
 }($, window));
 /**
  * @file SQ.LoadMore 加载更多组件
- * @version 1.1.7
+ * @version 1.2.0
  */
 
 /*global
@@ -1058,6 +1149,10 @@ SQ.util = {
 
 /**
  * @changelog
+ * 1.2.0  + 添加对 localStorage 支持，通过将 LOCAL_DATA 设置为 true 开启，通过 NUM_EXPIRES 来设置过期时间（单位：分钟）
+ * 1.1.10 * 修复点击加载是，加载出错会导致无法展示状态栏
+ * 1.1.9  + 可自定义 XHR_METHOD 为 GET 或 POST 方法，默认为 POST
+ * 1.1.8  + 添加对 IE6 的支持
  * 1.1.7  * 为 noMore 状态添加 loaded 回调函数。
  * 1.1.6  * 去除 unbind，解决与 lazyload 插件冲突。
  * 1.1.5  + 新增 _changeBind 函数，用来改变交绑定互事件；
@@ -1076,7 +1171,7 @@ SQ.util = {
  * 1.0.3  + 添加 scroll 事件相应伐值，优化其性能。
  * 1.0.2  + 添加 _verify 方法，用于验证参数是否合法。
  * 1.0.1  + 配置内置的 config 设置。
-*/
+ */
 
 (function ($, window) {
     /**
@@ -1102,6 +1197,8 @@ SQ.util = {
      * @param {string} config.TXT_UNKNOWN_ERROR 通过 Ajax 接收到的数据无法识别，默认值："未知错误，请重试"
      * @param {string} config.DATA_TYPE 设置 data 字段中的数据类型，值为 html 或 json
      *                                  当 DATA_TYPE 设为 html 时，会进行简单处理，具体见 _render 方法
+     * @param {string} config.LOCAL_DATA Ajax 数据 loaclstorage 开关，默认为 false
+     * @param {number} config.NUM_EXPIRES Ajax 数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟
      * @param {function} config.loading 加载阶段回调函数
      * @param {function} config.loaded 加载完成回调函数
      * @param {function} config.loadError 加载失败回调函数
@@ -1142,7 +1239,10 @@ SQ.util = {
             TXT_UNKNOWN_ERROR : "未知错误，请重试",    // 通过 Ajax 接收到的数据无法识别
             NUM_SUCCESS_CODE : 200,
             NUM_NO_MORE_CODE : 900,
-            DATA_TYPE : "json"
+            DATA_TYPE : "json",
+            XHR_METHOD : "POST",
+            LOCAL_DATA : false,
+            NUM_EXPIRES : 15
         };
 
         for (i in config) {
@@ -1172,7 +1272,7 @@ SQ.util = {
     }
     LoadMore.prototype =  {
         construtor: LoadMore,
-        version: "1.1.7",
+        version: "1.2.0",
 
         /** 验证参数是否合法 */
         _verify : function () {
@@ -1258,14 +1358,14 @@ SQ.util = {
         /** 重新计算页面高度，触发高度。*/
         _reset : function () {
             var me = this;
-            var contentHeight = me._getHeight($("body"));
-            var winHeight = window.innerHeight;
+            var contentHeight = me._getHeight($("body")) || $("body").height();
+            var winHeight = window.innerHeight || $(window).height();
             me.triggerHeight = (contentHeight - winHeight) * (me.config.NUM_LOAD_POSITION);
             if (me.config.NUM_LOAD_POSITION < 0.8) {
                 me.config.NUM_LOAD_POSITION += 0.15555;
             }
         },
-        /** 
+        /**
          * 获取页面高度方法。
          * @param {object} $el jQuert 或 Zepto 元素包装集。
          */
@@ -1369,12 +1469,12 @@ SQ.util = {
                 break;
             case "loaded":          //加载完成
                 me.$stateBox.removeClass("J_loading");
-                
+
                 if (me.currentState === "loadError") {
-                    me._changeBind("scroll");
+                    //me._changeBind("scroll"); // 点击加载出错会导致无法展示状态栏
                     me.currentState = undefined;
                 }
-                
+
                 if (me.currentEventType === "scroll") {
                     me.$stateBox.hide().text("");
                 }
@@ -1414,13 +1514,24 @@ SQ.util = {
         _loadData : function (api) {
             var me = this;
             me._changeState("loading");
-
+            
+            if (me.config.LOCAL_DATA) {
+                var localData = SQ.store.localStorage.get(api, me.config.NUM_EXPIRES);
+                if (localData) {
+                    me._render(localData);
+                    return;
+                }
+            }
+            
             $.ajax({
-                type: "POST",
+                type: me.config.XHR_METHOD,
                 url: api,
                 timeout: 5000,
                 success: function (data) {
                     me._render(data);
+                    if (me.config.LOCAL_DATA) {
+                        SQ.store.localStorage.set(api, data);
+                    }
                 },
                 error: function () {
                     me._changeState("loadError");
@@ -1462,7 +1573,7 @@ SQ.util = {
 }($, window));
 /**
  * @file Squirrel Suggest
- * @version 0.5.7
+ * @version 0.5.9
  */
 
 /*global
@@ -1474,10 +1585,12 @@ SQ.util = {
 
 /**
  * @changelog
+ * 0.5.9  * 修复在输入搜索后删除搜索词，再次输入相同字符，首字符无请求问题。issues#11
+ * 0.5.8  * 修复 IE 下对 XHR 对象处理问题。
  * 0.5.7  * 修复多次发送请求时，老请求因为响应慢覆盖新请求问题。
- * 0.5.6  * 修改组件名称为 Suggest
- * 0.5.5  * 完成搜索联想词基本功能
- * 0.0.1  + 新建
+ * 0.5.6  * 修改组件名称为 Suggest。
+ * 0.5.5  * 完成搜索联想词基本功能。
+ * 0.0.1  + 新建。
  */
 
 (function ($, window) {
@@ -1545,7 +1658,7 @@ SQ.util = {
     }
     Suggest.prototype =  {
         construtor: Suggest,
-        version: "0.5.7",
+        version: "0.5.9",
         lastKeyword: "",        // 为 300ms（检测时长） 前的关键词
         lastSendKeyword : "",   // 上一次符合搜索条件的关键词
         canSendRequest : true,  // 是否可以进行下次联想请求
@@ -1581,7 +1694,7 @@ SQ.util = {
             var api = me.config.API_URL;
             var XHR;
             //console.log("request -> " + "keyword: " + keyword, "lastSendKeyword: " + me.lastSendKeyword);
-            if (SQ.core.isObject(XHR)) {
+            if (XHR && SQ.core.isObject(XHR)) {
                 XHR.abort();
             }
             XHR = $.ajax({
@@ -1609,7 +1722,7 @@ SQ.util = {
             //console.log("keyword: " + keyword, "lastSendKeyword: " + me.lastSendKeyword);
 
             if (me.lastKeyword === keyword) {
-                // console.log("same " + "me.lastKeyword = " + me.lastKeyword + " | " + "keyword = " + keyword + " | " + "me.lastSendKeyword =" + me.lastSendKeyword);
+                //console.log("same " + "me.lastKeyword = " + me.lastKeyword + " | " + "keyword = " + keyword + " | " + "me.lastSendKeyword =" + me.lastSendKeyword);
                 return false;
             }
 
@@ -1628,6 +1741,7 @@ SQ.util = {
                 // false 情况
                 // 1、请求服务器成功，但返回的 code 与 NUM_SUCCESS_CODE 不一致，canSendRequest 为 false
                 // 2、请求服务器失败，canSendRequest 为 false
+                //console.log("!canSendRequest");
                 return false;
             }
             if (me.lastSendKeyword === keyword) {
@@ -1653,6 +1767,7 @@ SQ.util = {
                     }
                     me.lastKeyword = keyword;
                 } else {
+                    me.lastKeyword = undefined;
                     me.clear();
                 }
             }, me.config.NUM_TIMER_DELAY);
@@ -1694,7 +1809,7 @@ SQ.util = {
 }($, window));
 /**
  * @file Squirrel Tabs
- * @version 0.6.0
+ * @version 0.7.0
  */
 
 /*global
@@ -1706,6 +1821,8 @@ SQ.util = {
 
 /**
  * @changelog
+ * 0.7.0  + 添加对 localStorage 支持，通过将 LOCAL_DATA 设置为 true 开启，通过 NUM_EXPIRES 来设置过期时间（单位：分钟）
+ * 0.6.1  * 屏蔽 click 默认动作，新增自定义 CSS_HIGHLIGHT 属性
  * 0.6.0  * 重写 Tabs 插件，使 Tabs 插件能够在同一页面多次实例化
  * 0.5.6  * 修改组件名称为 Tabs
  * 0.5.1  * 完成选项卡基本功能
@@ -1724,11 +1841,14 @@ SQ.util = {
      * @param {string} config.DOM_PANELS                            面板 Dom 元素
      * @param {string} config.API_URL                               API 接口① 字符串形式
      * @param {array}  config.API_URL                               API 接口② 数组形式，数组中各项对应各个选项卡
+     * @param {string} config.CSS_HIGHLIGHT                         自定义高亮样式名称，默认为 active
      * @param {string} config.CSS_LOADING_TIP                       loading 提示样式
      * @param {string} config.TXT_LOADING_TIP                       loading 提示文字
      * @param {number} config.NUM_ACTIVE                            初始高亮选项卡序号，0 - n
      * @param {number} config.NUM_XHR_TIMEER                        XHR 超时时间
      * @param {boolean} config.CLEAR_PANEL                          切换选项卡时是否自动清理面板数据
+     * @param {string} config.LOCAL_DATA Ajax 数据 loaclstorage 开关，默认为 false
+     * @param {number} config.NUM_EXPIRES Ajax 数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟
      * @param {function} config.trigger($tabs, $panels, tabIndex)   触发选项卡切换回调函数
      * @param {function} config.show($tabs, $panels, tabIndex)      显示选项卡时回调函数
      * @param {function} config.beforeLoad($activePanels)           异步加载前回调函数，当设定了该回调函数时，必须返回
@@ -1763,10 +1883,13 @@ SQ.util = {
         var i;
 
         me.config = {
+            CSS_HIGHLIGHT: "active",
             NUM_ACTIVE : 0,
             NUM_XHR_TIMEER : 5000,
             TXT_LOADING_TIP : "正在加载请稍后...",     // 正在加载提示
-            CLEAR_PANEL : false
+            CLEAR_PANEL : false,
+            LOCAL_DATA : false,
+            NUM_EXPIRES : 15
         };
 
         for (i in config) {
@@ -1776,7 +1899,8 @@ SQ.util = {
         }
 
         me.$triggerTarget = $(me.config.DOM_TRIGGER_TARGET);        // 目标元素
-        me.tabsLen = me.$triggerTarget.length;   
+        me.config.CSS_HIGHLIGHT = me.config.CSS_HIGHLIGHT.indexOf(".") > 0 ? me.config.CSS_HIGHLIGHT.slice(1) : me.config.CSS_HIGHLIGHT;
+        me.tabsLen = me.$triggerTarget.length;
         me.triggerFun = me.config.trigger;
         me.showFun = me.config.show;
         me.beforeLoadFun = me.config.beforeLoad;
@@ -1793,7 +1917,7 @@ SQ.util = {
     }
     Tabs.prototype =  {
         construtor: Tabs,
-        version: "0.6.0",
+        version: "0.7.0",
         needLoadContent : false,    // 选项卡内容是否需要异步加载
 
         // 验证参数是否合法
@@ -1828,8 +1952,9 @@ SQ.util = {
                 me.needLoadContent = true;
             }
             // 绑定事件
-            $tabs.on(me.config.EVE_EVENT_TYPE, function () {
+            $tabs.on(me.config.EVE_EVENT_TYPE, function (e) {
                 var $tab = $(this);
+                e.preventDefault();
                 me._trigger($tabMould, $tabs, $panels, $tab);
             });
         },
@@ -1840,7 +1965,7 @@ SQ.util = {
         _trigger : function ($tabMould, $tabs, $panels, $tab) {
             var me = this;
             var tabIndex = $tab.attr("data-tabIndex");
-            var isCurrentActive = $tab.hasClass("active");
+            var isCurrentActive = $tab.hasClass(me.config.CSS_HIGHLIGHT);
 
             if (isCurrentActive) {
                 return;
@@ -1857,11 +1982,11 @@ SQ.util = {
             var me = this;
             var $activeTab = $tabs.eq(tabIndex);
             var $activePanels = $panels.eq(tabIndex);
-            $tabs.removeClass("active");
-            $panels.removeClass("active");
-            $activeTab.addClass("active");
-            $activePanels.addClass("active");
-            
+            $tabs.removeClass(me.config.CSS_HIGHLIGHT);
+            $panels.removeClass(me.config.CSS_HIGHLIGHT);
+            $activeTab.addClass(me.config.CSS_HIGHLIGHT);
+            $activePanels.addClass(me.config.CSS_HIGHLIGHT);
+
             me.showFun && me.showFun($tabs, $panels, tabIndex);
 
             if (me.config.API_URL) {
@@ -1874,7 +1999,7 @@ SQ.util = {
             var $currentLoadTip = $activePanels.find(".dpl-tabs-loadingTip");
             var hasLoadingTip = $currentLoadTip.length > 0 ? true : false;
             var hasLoaded = $activePanels.hasClass("hasLoaded");
-            
+
             if (hasLoaded) {
                 return;
             }
@@ -1903,6 +2028,15 @@ SQ.util = {
                 $currentLoadTip.show();
             }
 
+            if (me.config.LOCAL_DATA) {
+                var localData = SQ.store.localStorage.get(api, me.config.NUM_EXPIRES);
+                if (localData) {
+                    $activePanels.addClass("hasLoaded");
+                    me.loadFun && me.loadFun(JSON.parse(localData), $activePanels);
+                    return;
+                }
+            }
+
             me.xhr = $.ajax({
                 type : "POST",
                 url : api,
@@ -1911,6 +2045,9 @@ SQ.util = {
                 success : function (data) {
                     $currentLoadTip.hide();
                     $activePanels.addClass("hasLoaded");    // 为已经加载过的面板添加 .hasLoaded 标记
+                    if (me.config.LOCAL_DATA) {
+                        SQ.store.localStorage.set(api, data);
+                    }
                     me.loadFun && me.loadFun(data, $activePanels);
                 },
                 error : function () {
@@ -1923,8 +2060,8 @@ SQ.util = {
             var $tip = $activePanels.find(".dpl-tabs-loadingTip");
             $tip.show().empty();
             var reloadHTML = '<div class="reload">' +
-                    '<p style="padding:5px 0;">抱歉，加载失败，请重试</p>' +
-                    '<div class="sq-btn f-grey J_reload">重新加载</div>' +
+                '<p style="padding:5px 0;">抱歉，加载失败，请重试</p>' +
+                '<div class="sq-btn f-grey J_reload">重新加载</div>' +
                 '</div>';
             $tip.append(reloadHTML);
             $activePanels.on("click", ".J_reload", function () {

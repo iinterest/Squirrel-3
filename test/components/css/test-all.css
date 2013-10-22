@@ -1,0 +1,70 @@
+/*Test All*/
+.test-all-components{ min-width:1800px; padding-right:12px; overflow:hidden;}
+.test-all-components section{ float:left; width:300px;}
+.test-all-components section h2{ padding:5px 10px; background:#eee; font-size:30px; border-left:1px solid #fff; border-right:1px solid #d7d7d7;}
+.test-all-components section .demo{ min-height:700px; padding:20px 10px; border-right:1px dotted #d7d7d7;}
+.test-all-components .test-key-point{ padding:0 10px 20px;}
+.test-all-components .space{ height:30px;}
+.test-key-point .sq-form{ margin-bottom:0;}
+.test-key-point .sq-form label{ padding-right:0;}
+
+/*Dialog*/
+/* 全屏窗口 */
+.dialog-demo1 .ok,
+.dialog-demo1 .cancel{ display:none;}
+.dialog-demo1 .demo-text,
+.dialog-demo2 .demo-text,
+.dialog-demo3 .demo-text{ position:absolute; top:50%; left:50%; width:150px; height:30px; margin:-15px 0 0 -75px; line-height:30px; text-align:center; font-size:20px;}
+
+/* 固定尺寸窗口 */
+.dialog-demo2{ border:8px solid rgba(0,0,0,.3);}
+.dialog-demo2 .close-btn{ display:none;}
+.dialog-demo2 .demo-text{ margin:-25px 0 0 -75px;}
+
+/* 自动关闭窗口 */
+.dialog-demo3.sq-dialog{ background:rgba(0,0,0,.4);}
+.dialog-demo3 .ok,
+.dialog-demo3 .cancel,
+.dialog-demo3 .close-btn{ display:none;}
+.dialog-demo3 .content{ bottom:10px; color:#fff;}
+
+/*TouchSlip*/
+.touch-gallery { -webkit-box-sizing:border-box; position:relative; width:100%; height:260px; padding:10px; -webkit-transform:translate3d(0px, 0px, 0px); overflow:hidden;}
+.touch-gallery ul { position:absolute; -webkit-user-select:none;}
+.touch-gallery img { max-width:160px; max-height:240px;}
+.touch-gallery .touch-item { float: left; width:160px; height:240px; margin-right:10px;}
+.touch-gallery .touch-item:last-of-type { margin-right:0;}
+.touch-img-slider { position:relative; width:280px; height:160px; -webkit-transform:translate3d(0px, 0px, 0px); overflow:hidden;}
+.touch-img-slider ul { position:absolute;}
+.touch-img-slider .touch-item { float:left; width:280px; height:160px;}
+.touch-img-slider .dot { position:absolute; right:10px; bottom:10px; overflow:hidden;}
+.touch-img-slider .dot i { display:block; float:left; width:20px; height:5px; margin-right:3px; background:#999;}
+.touch-img-slider .dot .active { background:#ff6600;}
+.touch-box-scroll { position:relative; height:300px; overflow:hidden;}
+.touch-box-scroll ul { -webkit-box-sizing:border-box; position:absolute; width:100%; padding-right:10px;}
+
+/*Suggest*/
+.dpl-searchbar{ position:relative;}
+.suggest-panel { display:none; -webkit-box-sizing:border-box; position:absolute; top:44px; left:0px; right:0px; background: #f9f9f9; border:1px solid #d7d7d7; z-index:1; box-shadow:0 6px 9px #999;}
+.suggest-panel li:last-of-type { border-bottom:none;}
+.suggest-panel .sq-list { border-bottom:1px solid #d7d7d7;}
+.suggest-panel .sq-list li { padding:5px 10px;}
+.suggest-panel .sq-list .icon { width:35px; height:35px;}
+.suggest-panel .sq-list img { width:35px; height:35px;}
+.suggest-panel .sq-list .description { margin-top:1px;}
+.suggest-panel .sq-list .description dt { margin-bottom:2px;}
+.suggest-panel .sq-list .description dd { color:#999;}
+.suggest-panel .sq-list .description em { margin-left:8px; padding-left:8px; border-left:1px solid #ddd;}
+.suggest-panel .sq-list .sq-btn { width:45px;}
+.suggest-panel .sq-list .trigger-area { right:80px;}
+.suggest-panel .keyword { height:30px; padding:0 10px; line-height:30px; border-bottom:1px solid #d7d7d7;}
+.suggest-panel .keyword a { display:block; height:30px; line-height:30px; color:#555; overflow:hidden; text-overflow: ellipsis;}
+
+/*Tabs*/
+.dpl-tabs .tabs {border-top:1px solid #d7d7d7; border-right:1px solid #d7d7d7; overflow:hidden;}
+.dpl-tabs .tabs li { min-width:40px; height:40px; padding:0 10px; border-left:1px solid #d7d7d7; line-height:40px; text-align:center; overflow:hidden; cursor:pointer;}
+.dpl-tabs .tabs li.active { background:#d7d7d7;}
+.dpl-tabs .panels { display:none; border:1px solid#d7d7d7; min-height:100px;}
+.dpl-tabs .panels.active { display:block;}
+.tab-loading-tip{ padding:40px 10px; text-align:center; line-height:1.5;}
+

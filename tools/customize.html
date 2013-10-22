@@ -36,37 +36,42 @@
     </nav>
     <section class="cm-content iScroll">
         <aside class="sidebar">
-            
+            <div class="customize-info">
+                <h3>定制信息：</h3>
+                <p>版本：v0.8.12</p>
+                <p>大小：10 KB</p>
+            </div>
+            <a class="fw-btn green customize-btn" href="#;">下载定制框架</a>
         </aside>
         <div class="cm-module" id="Framework">
             <h3>框架主体</h3>
             <div class="select-list">
                 <h4>核心<small>Core</small></h4>
                 <ul>
-                    <li><label class="checkbox"><input type="checkbox" checked="checked" />Core</label></li>
+                    <li><label class="checkbox"><input type="checkbox" checked="checked" />核心<small>Core</small></label></li>
                 </ul>
             </div>
             <div class="select-list">
                 <h4>组件<small>Components</small></h4>
                 <ul>
-                    <li><label class="checkbox"><input type="checkbox" name="components" class="all" />全选</label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="components" />Toolbar</label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="components" />List</label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="components" />Button</label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="components" />Form</label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="components" />Icon</label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="components" class="all" />全选<small>Toggle All</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="components" />工具栏<small>Toolbar</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="components" />列表<small>List</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="components" />按钮<small>Button</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="components" />表单<small>Form</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="components" />图标<small>Icon</small></label></li>
                 </ul>
             </div>
             <div class="select-list">
                 <h4>插件<small>Plugins</small></h4>
                 <ul>
-                    <li><label class="checkbox"><input type="checkbox" name="plugins" class="all" />全选</label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="plugins" />LoadMore</label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="plugins" />Dialog</label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="plugins" />TouchSlip</label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="plugins" />Suggest</label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="plugins" />Tabs</label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="plugins" />LazyLoad</label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="plugins" class="all" />全选<small>Toggle All</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="plugins" />加载更多<small>LoadMore</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="plugins" />对话框<small>Dialog</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="plugins" />触摸滑动<small>TouchSlip</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="plugins" />联想词<small>Suggest</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="plugins" />选项卡<small>Tabs</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="plugins" />延迟加载<small>LazyLoad</small></label></li>
                 </ul>
             </div>
         </div>
@@ -74,8 +79,8 @@
             <h3>设计模式库</h3>
             <div class="select-list">
                 <ul>
-                    <li><label class="checkbox"><input type="checkbox" />搜索栏</label></li>
-                    <li><label class="checkbox"><input type="checkbox" />缩略图</label></li>
+                    <li><label class="checkbox"><input type="checkbox" />搜索栏<small>Searchbar</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" />缩略图<small>Thumbnails</small></label></li>
                 </ul>
             </div>
         </div>
@@ -83,8 +88,17 @@
             <h3>主题</h3>
             <div class="select-list">
                 <ul>
-                    <li><label class="checkbox"><input type="checkbox" />Default</label></li>
-                    <li><label class="checkbox"><input type="checkbox" />Rock</label></li>
+                    <li><label class="checkbox"><input type="radio" name="themes" checked="checked" />None</label></li>
+                    <li><label class="checkbox"><input type="radio" name="themes" />Default</label></li>
+                    <li><label class="checkbox"><input type="radio" name="themes" />Rock</label></li>
+                </ul>
+            </div>
+        </div>
+        <div class="cm-module" id="Tools">
+            <h3>工具</h3>
+            <div class="select-list">
+                <ul>
+                    <li><label class="checkbox"><input type="checkbox" />Grunt 构建工具</label></li>
                 </ul>
             </div>
         </div>

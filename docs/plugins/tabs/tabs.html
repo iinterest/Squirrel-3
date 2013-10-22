@@ -52,6 +52,8 @@
                 </div>
             </div>
         </div>
+        <h4>更多示例：</h4>
+        <p><a class="demo-btn" href="demo/tabs_demo.html">Tabs Demo</a></p>
         <h4 id="how">如何使用：</h4>
         <h5>加载：</h5>
         <p>初次使用时，可以在定制页面勾选 Tabs 组件，然后下载 Squirrel 代码。</p>
@@ -153,6 +155,13 @@
                             <td class="description last">API 接口② 数组形式，数组中各项对应各个选项卡</td>
                         </tr>
                         <tr>
+                            <td class="name"><code>CSS_HIGHLIGHT</code></td>
+                            <td class="type">
+                                <span class="param-type">string</span>
+                            </td>
+                            <td class="description last">自定义高亮样式名称，默认为 active</td>
+                        </tr>
+                        <tr>
                             <td class="name"><code>CSS_LOADING_TIP</code></td>
                             <td class="type">
                                 <span class="param-type">string</span>
@@ -186,6 +195,20 @@
                                 <span class="param-type">boolean</span>
                             </td>
                             <td class="description last">切换选项卡时是否自动清理面板数据</td>
+                        </tr>
+                        <tr>
+                            <td class="name"><code>LOCAL_DATA</code></td>
+                            <td class="type">
+                                string
+                            </td>
+                            <td class="description last">Ajax 数据 loaclstorage 开关，默认为 false</td>
+                        </tr>
+                        <tr>
+                            <td class="name"><code>NUM_EXPIRES</code></td>
+                            <td class="type">
+                                number
+                            </td>
+                            <td class="description last">Ajax 数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟</td>
                         </tr>
                         <tr>
                             <td class="name"><code>trigger</code></td>

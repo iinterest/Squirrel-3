@@ -1,6 +1,6 @@
 /**
  * @file SQ.LoadMore 加载更多组件
- * @version 1.1.7
+ * @version 1.2.0
  */
 
 /*global
@@ -11,6 +11,10 @@
 
 /**
  * @changelog
+ * 1.2.0  + 添加对 localStorage 支持，通过将 LOCAL_DATA 设置为 true 开启，通过 NUM_EXPIRES 来设置过期时间（单位：分钟）
+ * 1.1.10 * 修复点击加载是，加载出错会导致无法展示状态栏
+ * 1.1.9  + 可自定义 XHR_METHOD 为 GET 或 POST 方法，默认为 POST
+ * 1.1.8  + 添加对 IE6 的支持
  * 1.1.7  * 为 noMore 状态添加 loaded 回调函数。
  * 1.1.6  * 去除 unbind，解决与 lazyload 插件冲突。
  * 1.1.5  + 新增 _changeBind 函数，用来改变交绑定互事件；
@@ -29,7 +33,7 @@
  * 1.0.3  + 添加 scroll 事件相应伐值，优化其性能。
  * 1.0.2  + 添加 _verify 方法，用于验证参数是否合法。
  * 1.0.1  + 配置内置的 config 设置。
-*/
+ */
 
 (function ($, window) {
     /**
@@ -55,6 +59,8 @@
      * @param {string} config.TXT_UNKNOWN_ERROR 通过 Ajax 接收到的数据无法识别，默认值："未知错误，请重试"
      * @param {string} config.DATA_TYPE 设置 data 字段中的数据类型，值为 html 或 json
      *                                  当 DATA_TYPE 设为 html 时，会进行简单处理，具体见 _render 方法
+     * @param {string} config.LOCAL_DATA Ajax 数据 loaclstorage 开关，默认为 false
+     * @param {number} config.NUM_EXPIRES Ajax 数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟
      * @param {function} config.loading 加载阶段回调函数
      * @param {function} config.loaded 加载完成回调函数
      * @param {function} config.loadError 加载失败回调函数
@@ -95,7 +101,10 @@
             TXT_UNKNOWN_ERROR : "未知错误，请重试",    // 通过 Ajax 接收到的数据无法识别
             NUM_SUCCESS_CODE : 200,
             NUM_NO_MORE_CODE : 900,
-            DATA_TYPE : "json"
+            DATA_TYPE : "json",
+            XHR_METHOD : "POST",
+            LOCAL_DATA : false,
+            NUM_EXPIRES : 15
         };
 
         for (i in config) {
@@ -125,7 +134,7 @@
     }
     LoadMore.prototype =  {
         construtor: LoadMore,
-        version: "1.1.7",
+        version: "1.2.0",
 
         /** 验证参数是否合法 */
         _verify : function () {
@@ -211,14 +220,14 @@
         /** 重新计算页面高度，触发高度。*/
         _reset : function () {
             var me = this;
-            var contentHeight = me._getHeight($("body"));
-            var winHeight = window.innerHeight;
+            var contentHeight = me._getHeight($("body")) || $("body").height();
+            var winHeight = window.innerHeight || $(window).height();
             me.triggerHeight = (contentHeight - winHeight) * (me.config.NUM_LOAD_POSITION);
             if (me.config.NUM_LOAD_POSITION < 0.8) {
                 me.config.NUM_LOAD_POSITION += 0.15555;
             }
         },
-        /** 
+        /**
          * 获取页面高度方法。
          * @param {object} $el jQuert 或 Zepto 元素包装集。
          */
@@ -322,12 +331,12 @@
                 break;
             case "loaded":          //加载完成
                 me.$stateBox.removeClass("J_loading");
-                
+
                 if (me.currentState === "loadError") {
-                    me._changeBind("scroll");
+                    //me._changeBind("scroll"); // 点击加载出错会导致无法展示状态栏
                     me.currentState = undefined;
                 }
-                
+
                 if (me.currentEventType === "scroll") {
                     me.$stateBox.hide().text("");
                 }
@@ -367,13 +376,24 @@
         _loadData : function (api) {
             var me = this;
             me._changeState("loading");
-
+            
+            if (me.config.LOCAL_DATA) {
+                var localData = SQ.store.localStorage.get(api, me.config.NUM_EXPIRES);
+                if (localData) {
+                    me._render(localData);
+                    return;
+                }
+            }
+            
             $.ajax({
-                type: "POST",
+                type: me.config.XHR_METHOD,
                 url: api,
                 timeout: 5000,
                 success: function (data) {
                     me._render(data);
+                    if (me.config.LOCAL_DATA) {
+                        SQ.store.localStorage.set(api, data);
+                    }
                 },
                 error: function () {
                     me._changeState("loadError");

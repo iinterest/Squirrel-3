@@ -1,6 +1,6 @@
 /**
  * @file Squirrel Tabs
- * @version 0.6.0
+ * @version 0.7.0
  */
 
 /*global
@@ -12,6 +12,8 @@
 
 /**
  * @changelog
+ * 0.7.0  + 添加对 localStorage 支持，通过将 LOCAL_DATA 设置为 true 开启，通过 NUM_EXPIRES 来设置过期时间（单位：分钟）
+ * 0.6.1  * 屏蔽 click 默认动作，新增自定义 CSS_HIGHLIGHT 属性
  * 0.6.0  * 重写 Tabs 插件，使 Tabs 插件能够在同一页面多次实例化
  * 0.5.6  * 修改组件名称为 Tabs
  * 0.5.1  * 完成选项卡基本功能
@@ -30,11 +32,14 @@
      * @param {string} config.DOM_PANELS                            面板 Dom 元素
      * @param {string} config.API_URL                               API 接口① 字符串形式
      * @param {array}  config.API_URL                               API 接口② 数组形式，数组中各项对应各个选项卡
+     * @param {string} config.CSS_HIGHLIGHT                         自定义高亮样式名称，默认为 active
      * @param {string} config.CSS_LOADING_TIP                       loading 提示样式
      * @param {string} config.TXT_LOADING_TIP                       loading 提示文字
      * @param {number} config.NUM_ACTIVE                            初始高亮选项卡序号，0 - n
      * @param {number} config.NUM_XHR_TIMEER                        XHR 超时时间
      * @param {boolean} config.CLEAR_PANEL                          切换选项卡时是否自动清理面板数据
+     * @param {string} config.LOCAL_DATA Ajax 数据 loaclstorage 开关，默认为 false
+     * @param {number} config.NUM_EXPIRES Ajax 数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟
      * @param {function} config.trigger($tabs, $panels, tabIndex)   触发选项卡切换回调函数
      * @param {function} config.show($tabs, $panels, tabIndex)      显示选项卡时回调函数
      * @param {function} config.beforeLoad($activePanels)           异步加载前回调函数，当设定了该回调函数时，必须返回
@@ -69,10 +74,13 @@
         var i;
 
         me.config = {
+            CSS_HIGHLIGHT: "active",
             NUM_ACTIVE : 0,
             NUM_XHR_TIMEER : 5000,
             TXT_LOADING_TIP : "正在加载请稍后...",     // 正在加载提示
-            CLEAR_PANEL : false
+            CLEAR_PANEL : false,
+            LOCAL_DATA : false,
+            NUM_EXPIRES : 15
         };
 
         for (i in config) {
@@ -82,7 +90,8 @@
         }
 
         me.$triggerTarget = $(me.config.DOM_TRIGGER_TARGET);        // 目标元素
-        me.tabsLen = me.$triggerTarget.length;   
+        me.config.CSS_HIGHLIGHT = me.config.CSS_HIGHLIGHT.indexOf(".") > 0 ? me.config.CSS_HIGHLIGHT.slice(1) : me.config.CSS_HIGHLIGHT;
+        me.tabsLen = me.$triggerTarget.length;
         me.triggerFun = me.config.trigger;
         me.showFun = me.config.show;
         me.beforeLoadFun = me.config.beforeLoad;
@@ -99,7 +108,7 @@
     }
     Tabs.prototype =  {
         construtor: Tabs,
-        version: "0.6.0",
+        version: "0.7.0",
         needLoadContent : false,    // 选项卡内容是否需要异步加载
 
         // 验证参数是否合法
@@ -134,8 +143,9 @@
                 me.needLoadContent = true;
             }
             // 绑定事件
-            $tabs.on(me.config.EVE_EVENT_TYPE, function () {
+            $tabs.on(me.config.EVE_EVENT_TYPE, function (e) {
                 var $tab = $(this);
+                e.preventDefault();
                 me._trigger($tabMould, $tabs, $panels, $tab);
             });
         },
@@ -146,7 +156,7 @@
         _trigger : function ($tabMould, $tabs, $panels, $tab) {
             var me = this;
             var tabIndex = $tab.attr("data-tabIndex");
-            var isCurrentActive = $tab.hasClass("active");
+            var isCurrentActive = $tab.hasClass(me.config.CSS_HIGHLIGHT);
 
             if (isCurrentActive) {
                 return;
@@ -163,11 +173,11 @@
             var me = this;
             var $activeTab = $tabs.eq(tabIndex);
             var $activePanels = $panels.eq(tabIndex);
-            $tabs.removeClass("active");
-            $panels.removeClass("active");
-            $activeTab.addClass("active");
-            $activePanels.addClass("active");
-            
+            $tabs.removeClass(me.config.CSS_HIGHLIGHT);
+            $panels.removeClass(me.config.CSS_HIGHLIGHT);
+            $activeTab.addClass(me.config.CSS_HIGHLIGHT);
+            $activePanels.addClass(me.config.CSS_HIGHLIGHT);
+
             me.showFun && me.showFun($tabs, $panels, tabIndex);
 
             if (me.config.API_URL) {
@@ -180,7 +190,7 @@
             var $currentLoadTip = $activePanels.find(".dpl-tabs-loadingTip");
             var hasLoadingTip = $currentLoadTip.length > 0 ? true : false;
             var hasLoaded = $activePanels.hasClass("hasLoaded");
-            
+
             if (hasLoaded) {
                 return;
             }
@@ -209,6 +219,15 @@
                 $currentLoadTip.show();
             }
 
+            if (me.config.LOCAL_DATA) {
+                var localData = SQ.store.localStorage.get(api, me.config.NUM_EXPIRES);
+                if (localData) {
+                    $activePanels.addClass("hasLoaded");
+                    me.loadFun && me.loadFun(JSON.parse(localData), $activePanels);
+                    return;
+                }
+            }
+
             me.xhr = $.ajax({
                 type : "POST",
                 url : api,
@@ -217,6 +236,9 @@
                 success : function (data) {
                     $currentLoadTip.hide();
                     $activePanels.addClass("hasLoaded");    // 为已经加载过的面板添加 .hasLoaded 标记
+                    if (me.config.LOCAL_DATA) {
+                        SQ.store.localStorage.set(api, data);
+                    }
                     me.loadFun && me.loadFun(data, $activePanels);
                 },
                 error : function () {
@@ -229,8 +251,8 @@
             var $tip = $activePanels.find(".dpl-tabs-loadingTip");
             $tip.show().empty();
             var reloadHTML = '<div class="reload">' +
-                    '<p style="padding:5px 0;">抱歉，加载失败，请重试</p>' +
-                    '<div class="sq-btn f-grey J_reload">重新加载</div>' +
+                '<p style="padding:5px 0;">抱歉，加载失败，请重试</p>' +
+                '<div class="sq-btn f-grey J_reload">重新加载</div>' +
                 '</div>';
             $tip.append(reloadHTML);
             $activePanels.on("click", ".J_reload", function () {

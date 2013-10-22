@@ -1,6 +1,6 @@
 /**
  * @file SQ.Dialog 对话框组件
- * @version 0.9.3
+ * @version 0.9.6
  */
 
 /*global
@@ -11,6 +11,10 @@
 
 /**
  * @changelog
+ * 0.9.6  * 改写 _bin、_unbind 方法，新增 DESTROY 参数，设置 DESTROY 后会清除目标 DOM 的绑定事件。
+ * 0.9.5  * 修复 IE 兼容性问题。
+ * 0.9.4  * 调整 SQ.dom 的调用。
+ *          修复当文档内容高度小于窗口高度时，遮罩不完全的问题。
  * 0.9.3  * 更改 _bind 中的绑定方式，修正异步加载的 DOM 无法绑定 dialog 事件问题。
  * 0.9.2  * 将 _bind 中的 .live 改为 .on 绑定，添加 TXT_CLOSE_VAL 默认值为 x
  * 0.9.1  * 核心删除了 SQ.dom.getHeight 方法，所以改用 .height() 方法。
@@ -110,7 +114,7 @@
     }
     Dialog.prototype =  {
         construtor: Dialog,
-        version: "0.9.3",
+        version: "0.9.6",
         timer : undefined,
         resizeTimer : false,    // resize 
         closed : true,
@@ -140,7 +144,7 @@
                 me.dialogHeight = undefined;
             }
 
-            me._bind(me.$triggerTarget, me.config.EVE_EVENT_TYPE);
+            me._bind(me.config.EVE_EVENT_TYPE);
         },
 
         /**
@@ -148,9 +152,10 @@
          * @param {object} $el jQuert 或 Zepto 元素包装集。
          * @param {string} EVE_EVENT_TYPE 事件类型，"scroll" 或 "click"。
          */
-        _bind : function ($el, EVE_EVENT_TYPE) {
+        _bind : function (EVE_EVENT_TYPE) {
             var me = this;
-            SQ.dom.$el.$doc.on(EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET, function (e) {
+            // 绑定在 document 上是为了解决 Ajax 内容绑定问题
+            SQ.dom.$doc.on(EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET, function (e) {
                 e.preventDefault();
                 me._trigger(e);
             });
@@ -160,8 +165,10 @@
          * @param {object} $el jQuert 或 Zepto 元素包装集。
          * @param {string} EVE_EVENT_TYPE 事件类型，"scroll" 或 "click"。
          */
-        _unBind : function ($el, EVE_EVENT_TYPE) {
-            $el.off(EVE_EVENT_TYPE);
+        _unbind : function (EVE_EVENT_TYPE) {
+            var me = this;
+            SQ.dom.$doc.off(EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET);
+            //$el.off(EVE_EVENT_TYPE);
         },
         /**
          * 触发事件方法，在满足绑定事件条件时或满足指定触发条件的情况下调用触发方法，
@@ -177,7 +184,7 @@
         _reset : function () {
             var me = this;
 
-            $(window).resize(function () {
+            SQ.dom.$win.resize(function () {
                 if (!me.closed && !me.resizeTimer) {
                     me.resizeTimer = true;
                     setTimeout(function () {
@@ -226,9 +233,9 @@
 
         _initDialogStyle : function () {
             var me = this;
-            var scroll = SQ.dom.$el.$body.scrollTop();
-            var winWidth = window.innerWidth;
-            var winHeight = window.innerHeight;
+            var scroll = SQ.dom.$body.scrollTop();
+            var winWidth = window.innerWidth || SQ.dom.$win.width();
+            var winHeight = window.innerHeight || SQ.dom.$win.height();
 
             // 设置 top
             if (me.dialogHeight) {
@@ -330,11 +337,14 @@
                 "width" : me.width,
                 "height" : me.height,
                 "z-index" : 102
-            }).appendTo(SQ.dom.$el.$body);
+            }).appendTo(SQ.dom.$body);
             // 绑定对话框事件
             me._initDialogEvent();
             // 执行回调函数
             me.showFun && me.showFun(e);
+            if (me.config.DESTROY) {
+                me._unbind(me.config.EVE_EVENT_TYPE);
+            }
         },
 
         /** 关闭对话框 */
@@ -366,7 +376,9 @@
         /** 显示遮罩 */
         mask : function () {
             var me = this;
-            var h = SQ.dom.$el.$body.height();
+            var bodyH = SQ.dom.$body.height();
+            var winH = SQ.dom.$win.height();
+            var h = bodyH > winH ? bodyH : winH;
 
             if (me.$mask) {
                 me.$mask.css({
@@ -387,7 +399,7 @@
                     "background" : me.config.CSS_MASK_BACKGROUND,
                     "opacity" : me.config.CSS_MASK_OPACITY,
                     "z-index" : 101
-                }).appendTo(SQ.dom.$el.$body);
+                }).appendTo(SQ.dom.$body);
 
                 if (me.config.LOCK) {
                     $mask.on("touchstart", function (e) {
