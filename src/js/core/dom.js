@@ -2,15 +2,12 @@
  * @file SQ.dom
  * @version 1.0.1
  */
-/*global
- $: false,
- SQ: true,
- Zepto: true
- */
+
 /**
  * @changelog
  * 1.0.1  * 简化 SQ.dom 层级
  */
+
 SQ.dom = {
     /**
      * 存储常用的 jQuery Dom 元素

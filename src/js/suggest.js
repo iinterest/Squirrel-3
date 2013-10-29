@@ -1,17 +1,11 @@
 /**
  * @file Squirrel Suggest
- * @version 0.5.9
- */
-
-/*global
- $: false,
- SQ: true,
- Zepto: true,
- toString: true
+ * @version 0.5.10
  */
 
 /**
  * @changelog
+ * 0.5.10 * 修复 jshint 问题
  * 0.5.9  * 修复在输入搜索后删除搜索词，再次输入相同字符，首字符无请求问题。issues#11
  * 0.5.8  * 修复 IE 下对 XHR 对象处理问题。
  * 0.5.7  * 修复多次发送请求时，老请求因为响应慢覆盖新请求问题。
@@ -21,6 +15,7 @@
  */
 
 (function ($, window) {
+    "use strict";
     /**
      * @name Suggest
      * @classdesc 搜索联想词交互组件
@@ -85,7 +80,7 @@
     }
     Suggest.prototype =  {
         construtor: Suggest,
-        version: "0.5.9",
+        version: "0.5.10",
         lastKeyword: "",        // 为 300ms（检测时长） 前的关键词
         lastSendKeyword : "",   // 上一次符合搜索条件的关键词
         canSendRequest : true,  // 是否可以进行下次联想请求
@@ -104,7 +99,10 @@
             me.$clearBtn.on("click", function () {
                 me.clear();
             });
-            me.beforeStartFun && me.beforeStartFun(e);
+            if (me.beforeStartFun) {
+                me.beforeStartFun(e);
+            }
+            //me.beforeStartFun && me.beforeStartFun(e);
         },
         /** 过滤输入内容 */
         _filter : function (originalKeyword) {
@@ -190,7 +188,10 @@
                     }
                     if (me._compare(keyword)) {
                         me._requestData(keyword);
-                        me.startFun && me.startFun();
+                        if (me.startFun) {
+                            me.startFun();
+                        }
+                        //me.startFun && me.startFun();
                     }
                     me.lastKeyword = keyword;
                 } else {
@@ -214,7 +215,10 @@
             }
             me.canSendRequest = true;
             me._initSuggest();
-            me.showFun && me.showFun(ds);
+            if (me.showFun) {
+                me.showFun(ds);
+            }
+            //me.showFun && me.showFun(ds);
         },
         /** 隐藏提示层 */
         hideSuggest : function () {
@@ -229,7 +233,10 @@
             me.$clearBtn.hide();
             me.canSendRequest = true;
             me.lastSendKeyword = "";
-            me.clearFun && me.clearFun();
+            if (me.clearFun) {
+                me.clearFun();
+            }
+            //me.clearFun && me.clearFun();
         }
     };
     SQ.Suggest = Suggest;

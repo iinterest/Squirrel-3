@@ -1,16 +1,12 @@
 /**
  * @file SQ.LoadMore 加载更多组件
- * @version 1.2.0
- */
-
-/*global
- $: false,
- SQ: true,
- Zepto: true
+ * @version 1.2.2
  */
 
 /**
  * @changelog
+ * 1.2.2  * 修复 jshint 问题，修复 #15 问题
+ * 1.2.1  * 修复启用 localstorage 时 _render 函数得到的数据为字符串的问题
  * 1.2.0  + 添加对 localStorage 支持，通过将 LOCAL_DATA 设置为 true 开启，通过 NUM_EXPIRES 来设置过期时间（单位：分钟）
  * 1.1.10 * 修复点击加载是，加载出错会导致无法展示状态栏
  * 1.1.9  + 可自定义 XHR_METHOD 为 GET 或 POST 方法，默认为 POST
@@ -36,6 +32,7 @@
  */
 
 (function ($, window) {
+    "use strict";
     /**
      * @name LoadMore
      * @classdesc 应用列表加载更多组件，支持点击加载和滑动加载两种方式，支持由滑动加载自动转为点击加载，依赖 jQuery 或 Zepto 库。
@@ -134,7 +131,7 @@
     }
     LoadMore.prototype =  {
         construtor: LoadMore,
-        version: "1.2.0",
+        version: "1.2.2",
 
         /** 验证参数是否合法 */
         _verify : function () {
@@ -288,7 +285,7 @@
             var isLoading = me.$stateBox.hasClass("J_loading");
             var isNoMore = me.$stateBox.hasClass("J_noMore");
 
-            if (isLoading && isNoMore) {
+            if (isLoading || isNoMore) {
                 return;
             }
 
@@ -327,7 +324,9 @@
             switch (state) {
             case "loading":         //正在加载阶段，添加 J_loading 标识，更新提示文字
                 me.$stateBox.addClass("J_loading").show().text(me.config.TXT_LOADING_TIP);
-                me.loading && me.loading();
+                if (me.loading) {
+                    me.loading();
+                }
                 break;
             case "loaded":          //加载完成
                 me.$stateBox.removeClass("J_loading");
@@ -346,23 +345,35 @@
                 }
 
                 me.page += 1;
-                me.loaded && me.loaded();
+                if (me.loaded) {
+                    me.loaded();
+                }
+                //me.loaded && me.loaded();
                 break;
             case "scrollEnd":       //滑动加载次数已达到上限
                 me._changeBind("click");
                 me.$stateBox.show().text(me.config.TXT_CLICK_TIP);
-                me.scrollEnd && me.scrollEnd();
+                if (me.scrollEnd) {
+                    me.scrollEnd();
+                }
+                //me.scrollEnd && me.scrollEnd();
                 break;
             case "noMore":          // 无下页数据
                 //me._unbind();     // 与 lazyload 插件冲突
                 me.$stateBox.addClass("J_noMore").hide();
-                me.loaded && me.loaded();
+                if (me.loaded) {
+                    me.loaded();
+                }
+                //me.loaded && me.loaded();
                 break;
             case "loadError":     // 加载错误提示
                 me.currentState = "loadError";
                 me._changeBind("click");
                 me.$stateBox.removeClass("J_loading").text(me.config.TXT_LOADED_ERROR);
-                me.loadError && me.loadError();
+                if (me.loadError) {
+                    me.loadError();
+                }
+                //me.loadError && me.loadError();
                 break;
             case "unknowError":    // 服务器返回数据无法识别
                 me.$stateBox.removeClass("J_loading").text(me.config.TXT_UNKNOWN_ERROR);
@@ -376,15 +387,16 @@
         _loadData : function (api) {
             var me = this;
             me._changeState("loading");
-            
+
             if (me.config.LOCAL_DATA) {
                 var localData = SQ.store.localStorage.get(api, me.config.NUM_EXPIRES);
+                localData = SQ.core.isString(localData) ? $.parseJSON(localData) : localData;
                 if (localData) {
                     me._render(localData);
                     return;
                 }
             }
-            
+
             $.ajax({
                 type: me.config.XHR_METHOD,
                 url: api,
@@ -410,8 +422,8 @@
                 me._changeState("loadError");
                 return;
             }
+            var jsonData = SQ.core.isString(data) ? $.parseJSON(data) : data;
             if (me.config.DATA_TYPE === "html") {
-                var jsonData = typeof data === "string" ? $.parseJSON(data) : data;
                 var code = parseInt(jsonData.code, 10);
 
                 switch (code) {
@@ -428,7 +440,10 @@
                 }
                 me._reset();
             }
-            me.render && me.render(data);
+            if (me.render) {
+                me.render(jsonData);
+            }
+            //me.render && me.render(jsonData);
         }
     };
     SQ.LoadMore = LoadMore;

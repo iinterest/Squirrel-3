@@ -1,15 +1,11 @@
 /**
  * @file Squirrel LazyLoad
- * @version 0.6.4
- */
-
-/*global
- $: false,
- SQ: true
+ * @version 0.6.5
  */
 
 /**
  * @changelog
+ * 0.6.5  * 修复 jshint 问题
  * 0.6.4  * 修复图片加载失败时会导致 error 时间一直被触发的 bug，
  *          修复与 loadmore 插件配合使用时，无法替换加载错误的图片
  * 0.6.3  + 新增首屏图片自动加载功能
@@ -20,6 +16,7 @@
  */
 
 (function ($, window) {
+    "use strict";
     /**
      * @name LazyLoad
      * @classdesc 内容延迟加载
@@ -45,7 +42,7 @@
         var i;
 
         me.config = {
-            "MODE": "image", 
+            "MODE": "image",
             "NUM_THRESHOLD": 200
         };
 
@@ -64,7 +61,7 @@
     }
     LazyLoad.prototype = {
         construtor: LazyLoad,
-        version: "0.6.4",
+        version: "0.6.5",
         scrollTimer: 0,     // 滑动计时器
         scrollDelay: 200,   // 滑动阀值
 
@@ -115,9 +112,9 @@
         _isInDisplayArea : function (item) {
             var me = this;
             var $item = $(item);
-            var win = window;
-            var winH = win.innerHeight;
-            var winOffsetTop = win.pageYOffset; // window Y 轴偏移量
+            //var win = window;
+            var winH = window.innerHeight;
+            var winOffsetTop = window.pageYOffset; // window Y 轴偏移量
             var itemOffsetTop = $item.offset().top;
             // itemOffsetTop >= winOffsetTop 只加载可视区域下方的内容
             // winOffsetTop + winH + me.config.NUM_THRESHOLD 加载可视区域下方一屏内的内容

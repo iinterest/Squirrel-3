@@ -18,22 +18,28 @@
         <h3>更新说明</h3>
         <div class="change-log">
             <div class="version build">
-                <h4>v0.8.2x</h4>
+                <h4>v0.8.21</h4>
                 <ul>
-
+                    <li class="up">SQ.store 核心版本更新至 1.1.0，实现 localstorage 的存储、读取、删除。</li>
+                    <li class="up">在构建过程中新增 squirrel-core.css、squirrel-core.js 文件</li>
+                    <li class="up">Lib 中新增 seajs 库。</li>
+                    <li class="up">新增 .jshintrc 配置文件。</li>
+                    <li class="fix">修复除 touchslip.js 外其它插件 jshint 问题。</li>
+                    <li class="fix">修复 loadmore.js 加载报错问题。<a href="https://github.com/iinterest/Squirrel-3/issues/15">#15</a></li>
+                    <li class="fix">修复 loadmore.js 启用 localstorage 时 _render 函数得到的数据为字符串问题。<a href="https://github.com/iinterest/Squirrel-3/issues/13">#13</a></li>
                 </ul>
                 <div class="data">构建中...</div>
             </div>
             <div class="version active">
                 <h4>v0.8.20</h4>
                 <ul>
-                    <li class="fix">Suggest 插件版本更新至 0.5.9，修复在输入搜索后删除搜索词，再次输入相同字符，首字符无请求问题。<a href="https://github.com/iinterest/Squirrel-3/issues/11" target="_blank">issues#11</a></li>
-                    <li class="fix">Dialog 插件版本更新至 0.9.4，修复遮罩问题。<a href="https://github.com/iinterest/Squirrel-3/issues/1" target="_blank">issues#1</a></li>
                     <li class="up">SQ.dom 核心版本更新至 1.0.1，简化 SQ.dom 层级。</li>
                     <li class="up">Tabs 插件版本更新至 0.7.0，新增自定义 CSS_HIGHLIGHT 属性，新增对 LocalStorage 支持。</li>
                     <li class="up">LoadMore 插件版本更新至 1.2.0，添加对 IE6 的支持，添加对 localStorage 支持。</li>
                     <li class="up">新增交互测试页面。</li>
                     <li class="up">调整框架结构，框架文档样式调整。</li>
+                    <li class="fix">Suggest 插件版本更新至 0.5.9，修复在输入搜索后删除搜索词，再次输入相同字符，首字符无请求问题。<a href="https://github.com/iinterest/Squirrel-3/issues/11" target="_blank">#11</a></li>
+                    <li class="fix">Dialog 插件版本更新至 0.9.4，修复遮罩问题。<a href="https://github.com/iinterest/Squirrel-3/issues/1" target="_blank">#1</a></li>
                 </ul>
                 <div class="data">2013-10-22</div>
             </div>
@@ -41,7 +47,7 @@
                 <h4>v0.8.12</h4>
                 <ul>
                     <li class="add">新增 LazyLoad 插件，插件版本 0.5.1。</li>
-                    <li class="add">新增 Tabs 插件，插件版本 0.5.1。<a href="https://github.com/iinterest/Squirrel/issues/4" target="_blank">issues#4</a></li>
+                    <li class="add">新增 Tabs 插件，插件版本 0.5.1。<a href="https://github.com/iinterest/Squirrel/issues/4" target="_blank">#4</a></li>
                     <li class="fix">LoadMore 插件版本更新至 1.1.5。</li>
                 </ul>
                 <div class="data">2013-09-22</div>
@@ -64,16 +70,16 @@
             <div class="version">
                 <h4>v0.8.9</h4>
                 <ul>
-                    <li class="fix">【重要】修改插件 suggest.js 类命名：DPLsuggest 改为 DPL_suggest。</li>
-                    <li class="up">【重要】插件 suggest.js 更新至 0.5.5，修改了 clear 按钮样式。</li>
-                    <li class="del">【重要】删除核心 dom.js 脚本中的 getWidth、getHeight 方法。</li>
                     <li class="add">核心 core.js 脚本中新增对象类型判断方法。</li>
                     <li class="add">button 样式中新增 Flat 风格样式。</li>
                     <li class="up">改用 jsHint 检测脚本。</li>
+                    <li class="up">【重要】插件 suggest.js 更新至 0.5.5，修改了 clear 按钮样式。</li>
+                    <li class="fix">【重要】修改插件 suggest.js 类命名：DPLsuggest 改为 DPL_suggest。</li>
                     <li class="fix">删除插件 dialog.js 脚本中的 SQ.lib = zepto 定义，直接修改为 $。</li>
                     <li class="fix">修复核心 store.js 脚本中 cookie 无法通过 jsHint 检测问题。</li>
                     <li class="fix">修复核心 ua.js 脚本中无法通过 jsHint 检测问题。</li>
                     <li class="fix">修复 list 样式中垂直排列的按钮没有对齐问题。</li>
+                    <li class="del">【重要】删除核心 dom.js 脚本中的 getWidth、getHeight 方法。</li>
                 </ul>
                 <div class="data">2013-08-05</div>
             </div>

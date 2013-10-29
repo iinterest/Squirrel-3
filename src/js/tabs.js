@@ -1,17 +1,11 @@
 /**
  * @file Squirrel Tabs
- * @version 0.7.0
- */
-
-/*global
- $: false,
- SQ: true,
- Zepto: true,
- toString: true
+ * @version 0.7.1
  */
 
 /**
  * @changelog
+ * 0.7.1  * 修复 jshint 问题
  * 0.7.0  + 添加对 localStorage 支持，通过将 LOCAL_DATA 设置为 true 开启，通过 NUM_EXPIRES 来设置过期时间（单位：分钟）
  * 0.6.1  * 屏蔽 click 默认动作，新增自定义 CSS_HIGHLIGHT 属性
  * 0.6.0  * 重写 Tabs 插件，使 Tabs 插件能够在同一页面多次实例化
@@ -21,6 +15,7 @@
  */
 
 (function ($, window) {
+    "use strict";
     /**
      * @name Tabs
      * @classdesc 选项卡交互组件
@@ -108,7 +103,7 @@
     }
     Tabs.prototype =  {
         construtor: Tabs,
-        version: "0.7.0",
+        version: "0.7.1",
         needLoadContent : false,    // 选项卡内容是否需要异步加载
 
         // 验证参数是否合法
@@ -129,7 +124,7 @@
             }
             // 判断是否需要生成异步加载提示语
             if (me.config.API_URL && (SQ.core.isString(me.config.API_URL) || SQ.core.isArray(me.config.API_URL))) {
-                me.$loadingTip = $('<div class="dpl-tabs-loadingTip"></div>');
+                me.$loadingTip = $("<div class='dpl-tabs-loadingTip'></div>");
                 if (me.config.CSS_LOADING_TIP) {
                     me.$loadingTip.addClass(me.config.CSS_LOADING_TIP);
                 } else {
@@ -163,7 +158,10 @@
             }
 
             me.show($tabs, $panels, tabIndex);
-            me.triggerFun && me.triggerFun($tabs, $panels, tabIndex);
+            if (me.triggerFun) {
+                me.triggerFun($tabs, $panels, tabIndex);
+            }
+            //me.triggerFun && me.triggerFun($tabs, $panels, tabIndex);
         },
         _cleanPanel : function ($activePanels) {
             $activePanels.empty();
@@ -177,8 +175,10 @@
             $panels.removeClass(me.config.CSS_HIGHLIGHT);
             $activeTab.addClass(me.config.CSS_HIGHLIGHT);
             $activePanels.addClass(me.config.CSS_HIGHLIGHT);
-
-            me.showFun && me.showFun($tabs, $panels, tabIndex);
+            if (me.showFun) {
+                me.showFun($tabs, $panels, tabIndex);
+            }
+            //me.showFun && me.showFun($tabs, $panels, tabIndex);
 
             if (me.config.API_URL) {
                 me._load($activePanels, tabIndex);
@@ -223,7 +223,10 @@
                 var localData = SQ.store.localStorage.get(api, me.config.NUM_EXPIRES);
                 if (localData) {
                     $activePanels.addClass("hasLoaded");
-                    me.loadFun && me.loadFun(JSON.parse(localData), $activePanels);
+                    if (me.loadFun) {
+                        me.loadFun(JSON.parse(localData), $activePanels);
+                    }
+                    //me.loadFun && me.loadFun(JSON.parse(localData), $activePanels);
                     return;
                 }
             }
@@ -239,7 +242,10 @@
                     if (me.config.LOCAL_DATA) {
                         SQ.store.localStorage.set(api, data);
                     }
-                    me.loadFun && me.loadFun(data, $activePanels);
+                    if (me.loadFun) {
+                        me.loadFun(data, $activePanels);
+                    }
+                    //me.loadFun && me.loadFun(data, $activePanels);
                 },
                 error : function () {
                     me._showReloadTips($activePanels, tabIndex);
@@ -250,10 +256,10 @@
             var me = this;
             var $tip = $activePanels.find(".dpl-tabs-loadingTip");
             $tip.show().empty();
-            var reloadHTML = '<div class="reload">' +
-                '<p style="padding:5px 0;">抱歉，加载失败，请重试</p>' +
-                '<div class="sq-btn f-grey J_reload">重新加载</div>' +
-                '</div>';
+            var reloadHTML = "<div class='reload'>" +
+                "<p style='padding:5px 0;'>抱歉，加载失败，请重试</p>" +
+                "<div class='sq-btn f-grey J_reload'>重新加载</div>" +
+                "</div>";
             $tip.append(reloadHTML);
             $activePanels.on("click", ".J_reload", function () {
                 me._load($activePanels, tabIndex);

@@ -1,0 +1,204 @@
+/**
+ * css-reset.css
+ * @version 1.1.5
+ * @author Hesong <hesong@ucweb.com>
+ * @copyright 2004-2013 UCweb <www.uc.cn>
+ */
+html {
+  color: #333333;
+  background: #fff;
+}
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td,
+aside,
+article,
+figcaption,
+figure,
+header,
+hgroup,
+menu,
+nav,
+section {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font: 14px "Helvetica Neue", HelveticaNeue, "Helvetica-Neue", Helvetica, "\u5FAE\u8F6F\u96C5\u9ED1";
+  color: #333333;
+  -webkit-text-size-adjust: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+fieldset,
+img {
+  border: 0;
+}
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var {
+  font-style: normal;
+  font-weight: normal;
+}
+ol,
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+caption,
+th {
+  text-align: left;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+}
+q:before,
+q:after {
+  content: '';
+}
+abbr,
+acronym {
+  border: 0;
+  font-variant: normal;
+}
+sup {
+  vertical-align: text-top;
+}
+sub {
+  vertical-align: text-bottom;
+}
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+  vertical-align: middle;
+}
+legend {
+  color: #333333;
+}
+header,
+menu,
+nav,
+section,
+article,
+aside {
+  display: block;
+}
+body {
+  word-wrap: break-word;
+  break-word: break-all;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.m10 {
+  margin: 10px;
+}
+.p10 {
+  padding: 10px;
+}
+.h-col {
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+}
+.h-col > * {
+  display: block;
+  -webkit-box-flex: 1;
+}
+.col2 ul::after,
+.col3 ul::after,
+.col4 ul::after,
+.col5 ul::after,
+.col6 ul::after {
+  content: ' ';
+  display: block;
+  height: 0;
+  clear: both;
+}
+.col2 li,
+.col3 li,
+.col4 li,
+.col5 li,
+.col6 li {
+  -webkit-box-sizing: border-box;
+  float: left;
+}
+.col2 li {
+  width: 50%;
+}
+.col3 li {
+  width: 33.3333%;
+}
+.col4 li {
+  width: 25%;
+}
+.col5 li {
+  width: 20%;
+}
+.col6 li {
+  width: 16.6666%;
+}
+.ucweb-anchor {
+  position: relative;
+}
+.ucweb-anchor li {
+  position: relative;
+}
+.ucweb-anchor a {
+  position: absolute!important;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.sq-box .hd {
+  height: 40px;
+  padding: 0 10px;
+  line-height: 40px;
+}
+.hide {
+  display: none;
+}

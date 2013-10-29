@@ -1,3 +1,10 @@
+/*global
+ $: false,
+ SQ: true,
+ Zepto: true,
+ config: true
+ */
+"use strict";
 //----------------------------------------------------------------------------
 // Dialog test
 //----------------------------------------------------------------------------
@@ -11,7 +18,7 @@ var dialogDemo1 = new SQ.Dialog({
     MASK : true,
     LOCK : true,
     DESTROY : true,
-    show : function (e) {
+    show : function () {
         var me = this;
         me.$dialogContent.append("<p class='demo-text'>单次响应的全屏窗口示例</p>");
     },
@@ -29,17 +36,17 @@ var dialogDemo2 = new SQ.Dialog({
     HORIZONTAL : "center",
     //MASK : true,
     //LOCK : true,
-    show : function (e) {
+    show : function () {
         var me = this;
         me.$dialogContent.append("<p class='demo-text'>固定尺寸窗口</p>");
         $(".J_closeBtn").off("click").on("click", function () {
             me.$okBtn.trigger("click");
         });
     },
-    ok : function (e) {
+    ok : function () {
 
     },
-    cancel : function (e) {
+    cancel : function () {
 
     }
 });
@@ -53,14 +60,14 @@ var dialogDemo3 = new SQ.Dialog({
     HORIZONTAL : "center",
     NUM_CLOSE_TIME : 2000,
     MASK : true,
-    show : function (e) {
+    show : function () {
         var me = this;
         me.$dialogContent.append("<p class='demo-text'>2 秒后自动关闭</p>");
     },
-    ok : function (e) {
+    ok : function () {
 
     },
-    cancel : function (e) {
+    cancel : function () {
 
     }
 });
@@ -85,28 +92,36 @@ var LoadMoreDemo = new SQ.LoadMore({
     DOM_AJAX_BOX : ".J_ajaxWrap",
     DOM_STATE_BOX : ".J_scrollLoadMore",
     CSS_INIT_STYLE : "sq-loadMore-btn",
+    //NUM_START_PAGE_INDEX : 1,
+    //NUM_SCROLL_MAX_PAGE : 3,
     DATA_TYPE : "html",
-    LOCAL_DATA : true,
+    //LOCAL_DATA : true,
     render : function (data) {
-
+        //console.log("render: " + data);
     },
     scrollEnd : function () {
         var me = this;
         me.$stateBox.addClass("sq-loadMore-clickState");
+        //console.log("scrollEnd");
     },
     loaded : function () {
         var me = this;
+        console.log(me.page);
+        /*if (me.page === 3) {
+            me.api = "data/list-900.json";
+        }*/
         // 模拟第 n 次滑动加载失败
-        //console.log(me.page)
         if (me.page === 3) {
-            //me.api = "data/list-error.json";
+            me.api = "data/list-error.json";
         }
+        //console.log("loaded");
     },
     loadError : function () {
         var me = this;
         //console.log(me.api)
         // 模拟滑动加载在点击加载后恢复正常
-        //me.api = "data/list.json";
+        me.api = "data/list.json";
+        //console.log("loadError");
     }
 });
 
@@ -127,7 +142,7 @@ var LoadMoreDemo = new SQ.LoadMore({
         $dot.eq(this.page).addClass("active");
     }
 
-    var imgSlider = SQ.TouchSlip({
+    var picSlider = SQ.TouchSlip({
         MODE : "page",
         DOM_TRIGGER_TARGET : ".J_imgSlider",
         AUTO_TIMER: 5000,
@@ -142,7 +157,7 @@ var LoadMoreDemo = new SQ.LoadMore({
 (function suggest() {
     function renderSuggestPanel(me, ds) {
         SQ.TEMP = SQ.TEMP || {};
-        var searchURI = config.search_URI + "&keyword=";
+        var searchUri = config.search_URI + "&keyword=";
         var suggestList = "<ul>";
         var keywordList = "";
         var i, len;
@@ -156,14 +171,14 @@ var LoadMoreDemo = new SQ.LoadMore({
         for (i = 0; i < len; i++) {
             var item = keywordList[i];
             if (!item.appName) {
-                suggestList += '<li class="keyword"><a href="' + searchURI + item.keyword + '">' + item.keyword + '</a></li>';
+                suggestList += '<li class="keyword"><a href="' + searchUri + item.keyword + '">' + item.keyword + '</a></li>';
             }
         }
         suggestList += "</ul>";
         me.$suggestPanel.append(suggestList).show();
     }
 
-    var suggest = new SQ.Suggest({
+    var suggestTips = new SQ.Suggest({
         DOM_INPUT : ".J_searchInput",
         DOM_CLEAR_BTN : ".J_clearInput",
         DOM_SUGGEST_PANEL : ".J_suggest",

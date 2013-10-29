@@ -16,34 +16,35 @@ module.exports = function (grunt) {
             testServer: {}
         },
         less: {
-            build: {
+            core: {
                 files: {
-                    "<%= pkg.dirs.base %>/<%= pkg.dirs.css_build %>/<%= pkg.name%>.css": [
-                        "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/core/core.less",
-                        "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/*.less",
-                        "!<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/base.less",  // 排除重复样式
-                        "!<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/core/reset.less"
+                    "<%= pkg.dirs.base %>/<%= pkg.dirs.css_build %>/<%= pkg.name%>-core.css": [
+                        "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/core/core.less"
                     ]
                 }
             },
-            apkx: {
+            build: {
                 files: {
-                    "<%= pkg.dirs.base %>/<%= pkg.dirs.css_build %>/<%= pkg.name%>.css": "<%= pkg.project.apkx.css %>"
+                    "<%= pkg.dirs.base %>/<%= pkg.dirs.css_build %>/<%= pkg.name%>.css": [
+                        "<%= pkg.dirs.base %>/<%= pkg.dirs.css_build %>/<%= pkg.name%>-core.css",
+                        "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/*.less"
+                    ]
                 }
             }
         },
         concat: {
-            build: {
+            core: {
                 src: [
                     "<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>/core/core.js",     // 确保合并顺序
-                    "<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>/core/*.js",
-                    "<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>/*.js"
+                    "<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>/core*//*.js"
                 ],
-                dest: "<%= pkg.dirs.base %>/<%= pkg.dirs.js_build %>/<%= pkg.name%>.js",
-                nonull: true
+                dest: "<%= pkg.dirs.base %>/<%= pkg.dirs.js_build %>/<%= pkg.name%>-core.js"
             },
-            apkx: {
-                src: "<%= pkg.project.apkx.js %>",
+            build: {
+                src: [
+                    "<%= pkg.dirs.base %>/<%= pkg.dirs.js_build %>/<%= pkg.name%>-core.js",
+                    "<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>*//*.js"
+                ],
                 dest: "<%= pkg.dirs.base %>/<%= pkg.dirs.js_build %>/<%= pkg.name%>.js",
                 nonull: true
             }
@@ -94,14 +95,14 @@ module.exports = function (grunt) {
         watch: {
             less: {
                 files: ["<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/*.less"],
-                tasks: ["less:build", "cssmin"]
+                tasks: ["less", "cssmin"]
             },
             script: {
                 files: [
                     "<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>/*.js",
                     "<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>/core/*.js"
                 ],
-                tasks: ["concat:build", "uglify"]
+                tasks: ["concat", "uglify"]
             }
         },
         jsdoc : {
@@ -111,7 +112,35 @@ module.exports = function (grunt) {
                     destination: "<%= pkg.dirs.base %>/docs/jsdoc"
                 }
             }
-        }
+        }/*,
+        transport: {
+            options : {
+                format : "test/mod/"  //生成的id的格式
+            },
+            mod: {
+                files: {
+                    "mod": [
+                        //"<%= pkg.dirs.base %>/libs/zepto/zepto-1.0.min.js",
+                        //"<%= pkg.dirs.base %>/test/modules/src/js/squirrel-core.js",
+                        "<%= pkg.dirs.base %>/test/modules/src/js/dialog.js",
+                        //"<%= pkg.dirs.base %>/test/modules/src/js/tabs.js",
+                        "<%= pkg.dirs.base %>/test/modules/src/js/main.js"
+
+                    ]
+                }
+            }
+        },
+        concat: {
+            main: {
+                options: {
+                    relative : true
+                },
+                files: {
+                    'dist/application.js' : ['../../test/dist/application.js'],  // 合并.build/application.js文件到dist/application.js中
+                    'dist/application-debug.js' : ['../../test/dist/application-debug.js']
+                }
+            }
+        }*/
     });
 
     grunt.loadNpmTasks('grunt-contrib-connect'); // 本地服务器
@@ -124,12 +153,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-open');
     //grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-jsdoc');
-
+    //grunt.loadNpmTasks('grunt-cmd-transport');
+    //grunt.loadNpmTasks('grunt-cmd-concat');
     //grunt.registerTask("openit", ["open"]);
-    grunt.registerTask('webServer', ['connect:devServer']);
-    grunt.registerTask("apkx", ["clean", "less:apkx", "concat:apkx", "uglify", "cssmin"]);
-    grunt.registerTask("build", ["clean", "less:build", "concat:build", "uglify", "cssmin"]);
-
+    //grunt.registerTask('webServer', ['connect:devServer']);
+    grunt.registerTask("build", ["clean", "less", "concat", "uglify", "cssmin"]);
+    grunt.registerTask("mod", ["transport","concat"]);
     /*grunt.event.on('watch', function (action, filepath) {
         grunt.log.writeln(filepath + ' has ' + action);
     });*/

@@ -3,11 +3,7 @@
  * 常用函数
  * @version 1.0.0
  */
-/*global
- $: false,
- SQ: true,
- Zepto: true
- */
+
 SQ.util = {
     /**
      * 随机数输出

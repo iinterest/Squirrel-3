@@ -1,16 +1,11 @@
 /**
  * @file SQ.Dialog 对话框组件
- * @version 0.9.6
- */
-
-/*global
- $: false,
- SQ: true,
- Zepto: true
+ * @version 0.9.7
  */
 
 /**
  * @changelog
+ * 0.9.7  * 修复 jshint 问题
  * 0.9.6  * 改写 _bin、_unbind 方法，新增 DESTROY 参数，设置 DESTROY 后会清除目标 DOM 的绑定事件。
  * 0.9.5  * 修复 IE 兼容性问题。
  * 0.9.4  * 调整 SQ.dom 的调用。
@@ -35,6 +30,7 @@
  */
 
 (function ($, window) {
+    "use strict";
     /**
      * @name Dialog
      * @classdesc 对话框组件，依赖 jQuery 或 Zepto 库。
@@ -114,7 +110,7 @@
     }
     Dialog.prototype =  {
         construtor: Dialog,
-        version: "0.9.6",
+        version: "0.9.7",
         timer : undefined,
         resizeTimer : false,    // resize 
         closed : true,
@@ -200,7 +196,10 @@
                             "height" : me.height
                         });
                         me.resizeTimer = false;
-                        me.resizeFun && me.resizeFun();
+                        if (me.resizeFun) {
+                            me.resizeFun();
+                        }
+                        //me.resizeFun && me.resizeFun();
                     }, 200);
                 }
             });
@@ -341,7 +340,10 @@
             // 绑定对话框事件
             me._initDialogEvent();
             // 执行回调函数
-            me.showFun && me.showFun(e);
+            if (me.showFun) {
+                me.showFun(e);
+            }
+            //me.showFun && me.showFun(e);
             if (me.config.DESTROY) {
                 me._unbind(me.config.EVE_EVENT_TYPE);
             }
@@ -357,7 +359,10 @@
                 me.$mask.hide();
             }
             me.closed = true;
-            me.closeFun && me.closeFun(e);
+            if (me.closeFun) {
+                me.closeFun(e);
+            }
+            //me.closeFun && me.closeFun(e);
         },
 
         /**
@@ -414,19 +419,25 @@
         },
 
         unlock : function () {
-            var me = this;
+            //var me = this;
         },
 
         ok : function (e) {
             var me = this;
             me.close();
-            me.okFun && me.okFun(e);
+            if (me.okFun) {
+                me.okFun(e);
+            }
+            //me.okFun && me.okFun(e);
         },
 
         cancel : function (e) {
             var me = this;
             me.close();
-            me.cancelFun && me.cancelFun(e);
+            if (me.cancelFun) {
+                me.cancelFun(e);
+            }
+            //me.cancelFun && me.cancelFun(e);
         }
     };
     SQ.Dialog = Dialog;

@@ -2,11 +2,7 @@
  * @file SQ.core
  * @version 1.0.0
  */
-/*global
- $: false,
- Zepto: false,
- jQuery: false
- */
+
 var SQ = SQ || {};
 SQ.core = {
     /**
@@ -95,15 +91,12 @@ SQ.core = {
  * @file SQ.dom
  * @version 1.0.1
  */
-/*global
- $: false,
- SQ: true,
- Zepto: true
- */
+
 /**
  * @changelog
  * 1.0.1  * 简化 SQ.dom 层级
  */
+
 SQ.dom = {
     /**
      * 存储常用的 jQuery Dom 元素
@@ -115,13 +108,9 @@ SQ.dom = {
 };
 /**
  * @file SQ.store
- * @version 1.0.0
+ * @version 1.1.0
  */
-/*global
- $: false,
- SQ: true,
- Zepto: true
- */
+
 SQ.store = {
     /**
      * Cookie 操作
@@ -261,11 +250,7 @@ SQ.store = {
  * 获取设备 ua 信息，判断系统版本、浏览器名称及版本
  * @version 1.0.0
  */
-/*global
- $: false,
- SQ: true,
- Zepto: true
- */
+
 SQ.ua = (function () {
     var info = {};
     var ua = navigator.userAgent;
@@ -350,11 +335,7 @@ SQ.ua = (function () {
  * 常用函数
  * @version 1.0.0
  */
-/*global
- $: false,
- SQ: true,
- Zepto: true
- */
+
 SQ.util = {
     /**
      * 随机数输出
@@ -426,21 +407,18 @@ SQ.util = {
 };
 /**
  * @file Squirrel Button
- * @version 0.1.1
- */
-
-/*global
- $: false,
- SQ: true
+ * @version 0.1.2
  */
 
 /**
  * @changelog
+ * 0.1.2  * 修复 jshint 问题
  * 0.1.1  + 新增 menu 交互模式
  * 0.0.1  + 新建
  */
 
 (function ($, window) {
+    "use strict";
     /**
      * @name Button
      * @classdesc 选项卡交互组件
@@ -472,18 +450,18 @@ SQ.util = {
     }
     Button.prototype =  {
         construtor: Button,
-        version: "0.1.1",
+        version: "0.1.2",
         //state: "init",
 
         // 验证参数是否合法
         _verify : function () {
             return true;
         },
-        _init : function (e) {
+        _init : function () {
             var me = this;
             // menu 模式
             if (me.config.MODE === "menu") {
-                me.$triggerTarget.on(me.config.EVE_EVENT_TYPE, function (e) {
+                me.$triggerTarget.on(me.config.EVE_EVENT_TYPE, function () {
                     me.menu();
                 });
             }
@@ -493,7 +471,7 @@ SQ.util = {
             var me = this;
             //me.state = state;
             if (state === "active") {
-               me.$triggerTarget.addClass("active");
+                me.$triggerTarget.addClass("active");
             }
             if (state === "init") {
                 me.$triggerTarget.removeClass("active");
@@ -537,7 +515,7 @@ SQ.util = {
         },
         // 按钮开关效果
         toggle : function () {
-            var me = this;
+            //var me = this;
 
         }
     };
@@ -556,17 +534,12 @@ SQ.util = {
 }($, window));
 /**
  * @file SQ.Dialog 对话框组件
- * @version 0.9.6
- */
-
-/*global
- $: false,
- SQ: true,
- Zepto: true
+ * @version 0.9.7
  */
 
 /**
  * @changelog
+ * 0.9.7  * 修复 jshint 问题
  * 0.9.6  * 改写 _bin、_unbind 方法，新增 DESTROY 参数，设置 DESTROY 后会清除目标 DOM 的绑定事件。
  * 0.9.5  * 修复 IE 兼容性问题。
  * 0.9.4  * 调整 SQ.dom 的调用。
@@ -591,6 +564,7 @@ SQ.util = {
  */
 
 (function ($, window) {
+    "use strict";
     /**
      * @name Dialog
      * @classdesc 对话框组件，依赖 jQuery 或 Zepto 库。
@@ -670,7 +644,7 @@ SQ.util = {
     }
     Dialog.prototype =  {
         construtor: Dialog,
-        version: "0.9.6",
+        version: "0.9.7",
         timer : undefined,
         resizeTimer : false,    // resize 
         closed : true,
@@ -756,7 +730,10 @@ SQ.util = {
                             "height" : me.height
                         });
                         me.resizeTimer = false;
-                        me.resizeFun && me.resizeFun();
+                        if (me.resizeFun) {
+                            me.resizeFun();
+                        }
+                        //me.resizeFun && me.resizeFun();
                     }, 200);
                 }
             });
@@ -897,7 +874,10 @@ SQ.util = {
             // 绑定对话框事件
             me._initDialogEvent();
             // 执行回调函数
-            me.showFun && me.showFun(e);
+            if (me.showFun) {
+                me.showFun(e);
+            }
+            //me.showFun && me.showFun(e);
             if (me.config.DESTROY) {
                 me._unbind(me.config.EVE_EVENT_TYPE);
             }
@@ -913,7 +893,10 @@ SQ.util = {
                 me.$mask.hide();
             }
             me.closed = true;
-            me.closeFun && me.closeFun(e);
+            if (me.closeFun) {
+                me.closeFun(e);
+            }
+            //me.closeFun && me.closeFun(e);
         },
 
         /**
@@ -970,35 +953,37 @@ SQ.util = {
         },
 
         unlock : function () {
-            var me = this;
+            //var me = this;
         },
 
         ok : function (e) {
             var me = this;
             me.close();
-            me.okFun && me.okFun(e);
+            if (me.okFun) {
+                me.okFun(e);
+            }
+            //me.okFun && me.okFun(e);
         },
 
         cancel : function (e) {
             var me = this;
             me.close();
-            me.cancelFun && me.cancelFun(e);
+            if (me.cancelFun) {
+                me.cancelFun(e);
+            }
+            //me.cancelFun && me.cancelFun(e);
         }
     };
     SQ.Dialog = Dialog;
 }($, window));
 /**
  * @file Squirrel LazyLoad
- * @version 0.6.4
- */
-
-/*global
- $: false,
- SQ: true
+ * @version 0.6.5
  */
 
 /**
  * @changelog
+ * 0.6.5  * 修复 jshint 问题
  * 0.6.4  * 修复图片加载失败时会导致 error 时间一直被触发的 bug，
  *          修复与 loadmore 插件配合使用时，无法替换加载错误的图片
  * 0.6.3  + 新增首屏图片自动加载功能
@@ -1009,6 +994,7 @@ SQ.util = {
  */
 
 (function ($, window) {
+    "use strict";
     /**
      * @name LazyLoad
      * @classdesc 内容延迟加载
@@ -1034,7 +1020,7 @@ SQ.util = {
         var i;
 
         me.config = {
-            "MODE": "image", 
+            "MODE": "image",
             "NUM_THRESHOLD": 200
         };
 
@@ -1053,7 +1039,7 @@ SQ.util = {
     }
     LazyLoad.prototype = {
         construtor: LazyLoad,
-        version: "0.6.4",
+        version: "0.6.5",
         scrollTimer: 0,     // 滑动计时器
         scrollDelay: 200,   // 滑动阀值
 
@@ -1104,9 +1090,9 @@ SQ.util = {
         _isInDisplayArea : function (item) {
             var me = this;
             var $item = $(item);
-            var win = window;
-            var winH = win.innerHeight;
-            var winOffsetTop = win.pageYOffset; // window Y 轴偏移量
+            //var win = window;
+            var winH = window.innerHeight;
+            var winOffsetTop = window.pageYOffset; // window Y 轴偏移量
             var itemOffsetTop = $item.offset().top;
             // itemOffsetTop >= winOffsetTop 只加载可视区域下方的内容
             // winOffsetTop + winH + me.config.NUM_THRESHOLD 加载可视区域下方一屏内的内容
@@ -1138,17 +1124,13 @@ SQ.util = {
 }($, window));
 /**
  * @file SQ.LoadMore 加载更多组件
- * @version 1.2.0
- */
-
-/*global
- $: false,
- SQ: true,
- Zepto: true
+ * @version 1.2.2
  */
 
 /**
  * @changelog
+ * 1.2.2  * 修复 jshint 问题，修复 #15 问题
+ * 1.2.1  * 修复启用 localstorage 时 _render 函数得到的数据为字符串的问题
  * 1.2.0  + 添加对 localStorage 支持，通过将 LOCAL_DATA 设置为 true 开启，通过 NUM_EXPIRES 来设置过期时间（单位：分钟）
  * 1.1.10 * 修复点击加载是，加载出错会导致无法展示状态栏
  * 1.1.9  + 可自定义 XHR_METHOD 为 GET 或 POST 方法，默认为 POST
@@ -1174,6 +1156,7 @@ SQ.util = {
  */
 
 (function ($, window) {
+    "use strict";
     /**
      * @name LoadMore
      * @classdesc 应用列表加载更多组件，支持点击加载和滑动加载两种方式，支持由滑动加载自动转为点击加载，依赖 jQuery 或 Zepto 库。
@@ -1272,7 +1255,7 @@ SQ.util = {
     }
     LoadMore.prototype =  {
         construtor: LoadMore,
-        version: "1.2.0",
+        version: "1.2.2",
 
         /** 验证参数是否合法 */
         _verify : function () {
@@ -1426,7 +1409,7 @@ SQ.util = {
             var isLoading = me.$stateBox.hasClass("J_loading");
             var isNoMore = me.$stateBox.hasClass("J_noMore");
 
-            if (isLoading && isNoMore) {
+            if (isLoading || isNoMore) {
                 return;
             }
 
@@ -1465,7 +1448,9 @@ SQ.util = {
             switch (state) {
             case "loading":         //正在加载阶段，添加 J_loading 标识，更新提示文字
                 me.$stateBox.addClass("J_loading").show().text(me.config.TXT_LOADING_TIP);
-                me.loading && me.loading();
+                if (me.loading) {
+                    me.loading();
+                }
                 break;
             case "loaded":          //加载完成
                 me.$stateBox.removeClass("J_loading");
@@ -1484,23 +1469,35 @@ SQ.util = {
                 }
 
                 me.page += 1;
-                me.loaded && me.loaded();
+                if (me.loaded) {
+                    me.loaded();
+                }
+                //me.loaded && me.loaded();
                 break;
             case "scrollEnd":       //滑动加载次数已达到上限
                 me._changeBind("click");
                 me.$stateBox.show().text(me.config.TXT_CLICK_TIP);
-                me.scrollEnd && me.scrollEnd();
+                if (me.scrollEnd) {
+                    me.scrollEnd();
+                }
+                //me.scrollEnd && me.scrollEnd();
                 break;
             case "noMore":          // 无下页数据
                 //me._unbind();     // 与 lazyload 插件冲突
                 me.$stateBox.addClass("J_noMore").hide();
-                me.loaded && me.loaded();
+                if (me.loaded) {
+                    me.loaded();
+                }
+                //me.loaded && me.loaded();
                 break;
             case "loadError":     // 加载错误提示
                 me.currentState = "loadError";
                 me._changeBind("click");
                 me.$stateBox.removeClass("J_loading").text(me.config.TXT_LOADED_ERROR);
-                me.loadError && me.loadError();
+                if (me.loadError) {
+                    me.loadError();
+                }
+                //me.loadError && me.loadError();
                 break;
             case "unknowError":    // 服务器返回数据无法识别
                 me.$stateBox.removeClass("J_loading").text(me.config.TXT_UNKNOWN_ERROR);
@@ -1514,15 +1511,16 @@ SQ.util = {
         _loadData : function (api) {
             var me = this;
             me._changeState("loading");
-            
+
             if (me.config.LOCAL_DATA) {
                 var localData = SQ.store.localStorage.get(api, me.config.NUM_EXPIRES);
+                localData = SQ.core.isString(localData) ? $.parseJSON(localData) : localData;
                 if (localData) {
                     me._render(localData);
                     return;
                 }
             }
-            
+
             $.ajax({
                 type: me.config.XHR_METHOD,
                 url: api,
@@ -1548,8 +1546,8 @@ SQ.util = {
                 me._changeState("loadError");
                 return;
             }
+            var jsonData = SQ.core.isString(data) ? $.parseJSON(data) : data;
             if (me.config.DATA_TYPE === "html") {
-                var jsonData = typeof data === "string" ? $.parseJSON(data) : data;
                 var code = parseInt(jsonData.code, 10);
 
                 switch (code) {
@@ -1566,25 +1564,22 @@ SQ.util = {
                 }
                 me._reset();
             }
-            me.render && me.render(data);
+            if (me.render) {
+                me.render(jsonData);
+            }
+            //me.render && me.render(jsonData);
         }
     };
     SQ.LoadMore = LoadMore;
 }($, window));
 /**
  * @file Squirrel Suggest
- * @version 0.5.9
- */
-
-/*global
- $: false,
- SQ: true,
- Zepto: true,
- toString: true
+ * @version 0.5.10
  */
 
 /**
  * @changelog
+ * 0.5.10 * 修复 jshint 问题
  * 0.5.9  * 修复在输入搜索后删除搜索词，再次输入相同字符，首字符无请求问题。issues#11
  * 0.5.8  * 修复 IE 下对 XHR 对象处理问题。
  * 0.5.7  * 修复多次发送请求时，老请求因为响应慢覆盖新请求问题。
@@ -1594,6 +1589,7 @@ SQ.util = {
  */
 
 (function ($, window) {
+    "use strict";
     /**
      * @name Suggest
      * @classdesc 搜索联想词交互组件
@@ -1658,7 +1654,7 @@ SQ.util = {
     }
     Suggest.prototype =  {
         construtor: Suggest,
-        version: "0.5.9",
+        version: "0.5.10",
         lastKeyword: "",        // 为 300ms（检测时长） 前的关键词
         lastSendKeyword : "",   // 上一次符合搜索条件的关键词
         canSendRequest : true,  // 是否可以进行下次联想请求
@@ -1677,7 +1673,10 @@ SQ.util = {
             me.$clearBtn.on("click", function () {
                 me.clear();
             });
-            me.beforeStartFun && me.beforeStartFun(e);
+            if (me.beforeStartFun) {
+                me.beforeStartFun(e);
+            }
+            //me.beforeStartFun && me.beforeStartFun(e);
         },
         /** 过滤输入内容 */
         _filter : function (originalKeyword) {
@@ -1763,7 +1762,10 @@ SQ.util = {
                     }
                     if (me._compare(keyword)) {
                         me._requestData(keyword);
-                        me.startFun && me.startFun();
+                        if (me.startFun) {
+                            me.startFun();
+                        }
+                        //me.startFun && me.startFun();
                     }
                     me.lastKeyword = keyword;
                 } else {
@@ -1787,7 +1789,10 @@ SQ.util = {
             }
             me.canSendRequest = true;
             me._initSuggest();
-            me.showFun && me.showFun(ds);
+            if (me.showFun) {
+                me.showFun(ds);
+            }
+            //me.showFun && me.showFun(ds);
         },
         /** 隐藏提示层 */
         hideSuggest : function () {
@@ -1802,25 +1807,22 @@ SQ.util = {
             me.$clearBtn.hide();
             me.canSendRequest = true;
             me.lastSendKeyword = "";
-            me.clearFun && me.clearFun();
+            if (me.clearFun) {
+                me.clearFun();
+            }
+            //me.clearFun && me.clearFun();
         }
     };
     SQ.Suggest = Suggest;
 }($, window));
 /**
  * @file Squirrel Tabs
- * @version 0.7.0
- */
-
-/*global
- $: false,
- SQ: true,
- Zepto: true,
- toString: true
+ * @version 0.7.1
  */
 
 /**
  * @changelog
+ * 0.7.1  * 修复 jshint 问题
  * 0.7.0  + 添加对 localStorage 支持，通过将 LOCAL_DATA 设置为 true 开启，通过 NUM_EXPIRES 来设置过期时间（单位：分钟）
  * 0.6.1  * 屏蔽 click 默认动作，新增自定义 CSS_HIGHLIGHT 属性
  * 0.6.0  * 重写 Tabs 插件，使 Tabs 插件能够在同一页面多次实例化
@@ -1830,6 +1832,7 @@ SQ.util = {
  */
 
 (function ($, window) {
+    "use strict";
     /**
      * @name Tabs
      * @classdesc 选项卡交互组件
@@ -1917,7 +1920,7 @@ SQ.util = {
     }
     Tabs.prototype =  {
         construtor: Tabs,
-        version: "0.7.0",
+        version: "0.7.1",
         needLoadContent : false,    // 选项卡内容是否需要异步加载
 
         // 验证参数是否合法
@@ -1938,7 +1941,7 @@ SQ.util = {
             }
             // 判断是否需要生成异步加载提示语
             if (me.config.API_URL && (SQ.core.isString(me.config.API_URL) || SQ.core.isArray(me.config.API_URL))) {
-                me.$loadingTip = $('<div class="dpl-tabs-loadingTip"></div>');
+                me.$loadingTip = $("<div class='dpl-tabs-loadingTip'></div>");
                 if (me.config.CSS_LOADING_TIP) {
                     me.$loadingTip.addClass(me.config.CSS_LOADING_TIP);
                 } else {
@@ -1972,7 +1975,10 @@ SQ.util = {
             }
 
             me.show($tabs, $panels, tabIndex);
-            me.triggerFun && me.triggerFun($tabs, $panels, tabIndex);
+            if (me.triggerFun) {
+                me.triggerFun($tabs, $panels, tabIndex);
+            }
+            //me.triggerFun && me.triggerFun($tabs, $panels, tabIndex);
         },
         _cleanPanel : function ($activePanels) {
             $activePanels.empty();
@@ -1986,8 +1992,10 @@ SQ.util = {
             $panels.removeClass(me.config.CSS_HIGHLIGHT);
             $activeTab.addClass(me.config.CSS_HIGHLIGHT);
             $activePanels.addClass(me.config.CSS_HIGHLIGHT);
-
-            me.showFun && me.showFun($tabs, $panels, tabIndex);
+            if (me.showFun) {
+                me.showFun($tabs, $panels, tabIndex);
+            }
+            //me.showFun && me.showFun($tabs, $panels, tabIndex);
 
             if (me.config.API_URL) {
                 me._load($activePanels, tabIndex);
@@ -2032,7 +2040,10 @@ SQ.util = {
                 var localData = SQ.store.localStorage.get(api, me.config.NUM_EXPIRES);
                 if (localData) {
                     $activePanels.addClass("hasLoaded");
-                    me.loadFun && me.loadFun(JSON.parse(localData), $activePanels);
+                    if (me.loadFun) {
+                        me.loadFun(JSON.parse(localData), $activePanels);
+                    }
+                    //me.loadFun && me.loadFun(JSON.parse(localData), $activePanels);
                     return;
                 }
             }
@@ -2048,7 +2059,10 @@ SQ.util = {
                     if (me.config.LOCAL_DATA) {
                         SQ.store.localStorage.set(api, data);
                     }
-                    me.loadFun && me.loadFun(data, $activePanels);
+                    if (me.loadFun) {
+                        me.loadFun(data, $activePanels);
+                    }
+                    //me.loadFun && me.loadFun(data, $activePanels);
                 },
                 error : function () {
                     me._showReloadTips($activePanels, tabIndex);
@@ -2059,10 +2073,10 @@ SQ.util = {
             var me = this;
             var $tip = $activePanels.find(".dpl-tabs-loadingTip");
             $tip.show().empty();
-            var reloadHTML = '<div class="reload">' +
-                '<p style="padding:5px 0;">抱歉，加载失败，请重试</p>' +
-                '<div class="sq-btn f-grey J_reload">重新加载</div>' +
-                '</div>';
+            var reloadHTML = "<div class='reload'>" +
+                "<p style='padding:5px 0;'>抱歉，加载失败，请重试</p>" +
+                "<div class='sq-btn f-grey J_reload'>重新加载</div>" +
+                "</div>";
             $tip.append(reloadHTML);
             $activePanels.on("click", ".J_reload", function () {
                 me._load($activePanels, tabIndex);

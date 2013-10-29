@@ -3,11 +3,7 @@
  * 获取设备 ua 信息，判断系统版本、浏览器名称及版本
  * @version 1.0.0
  */
-/*global
- $: false,
- SQ: true,
- Zepto: true
- */
+
 SQ.ua = (function () {
     var info = {};
     var ua = navigator.userAgent;

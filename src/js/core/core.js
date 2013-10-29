@@ -2,11 +2,7 @@
  * @file SQ.core
  * @version 1.0.0
  */
-/*global
- $: false,
- Zepto: false,
- jQuery: false
- */
+
 var SQ = SQ || {};
 SQ.core = {
     /**

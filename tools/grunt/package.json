@@ -1,6 +1,6 @@
 {
     "name": "squirrel",
-    "version": "0.8.12",
+    "version": "0.8.21",
     "description": "",
     "dirs": {
         "base": "../..",
@@ -35,7 +35,8 @@
         "grunt-contrib-concat": "~0.3.0",
         "grunt-contrib-uglify": "~0.2.2",
         "grunt-contrib-clean": "~0.4.0",
-        "grunt-jsdoc": "~0.4.0"
+        "grunt-jsdoc": "~0.4.0",
+        "grunt-cmd-transport": "~0.3.0"
     },
     "dependencies": {
         "grunt-open": "~0.2.0"

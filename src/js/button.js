@@ -1,20 +1,17 @@
 /**
  * @file Squirrel Button
- * @version 0.1.1
- */
-
-/*global
- $: false,
- SQ: true
+ * @version 0.1.2
  */
 
 /**
  * @changelog
+ * 0.1.2  * 修复 jshint 问题
  * 0.1.1  + 新增 menu 交互模式
  * 0.0.1  + 新建
  */
 
 (function ($, window) {
+    "use strict";
     /**
      * @name Button
      * @classdesc 选项卡交互组件
@@ -46,18 +43,18 @@
     }
     Button.prototype =  {
         construtor: Button,
-        version: "0.1.1",
+        version: "0.1.2",
         //state: "init",
 
         // 验证参数是否合法
         _verify : function () {
             return true;
         },
-        _init : function (e) {
+        _init : function () {
             var me = this;
             // menu 模式
             if (me.config.MODE === "menu") {
-                me.$triggerTarget.on(me.config.EVE_EVENT_TYPE, function (e) {
+                me.$triggerTarget.on(me.config.EVE_EVENT_TYPE, function () {
                     me.menu();
                 });
             }
@@ -67,7 +64,7 @@
             var me = this;
             //me.state = state;
             if (state === "active") {
-               me.$triggerTarget.addClass("active");
+                me.$triggerTarget.addClass("active");
             }
             if (state === "init") {
                 me.$triggerTarget.removeClass("active");
@@ -111,7 +108,7 @@
         },
         // 按钮开关效果
         toggle : function () {
-            var me = this;
+            //var me = this;
 
         }
     };

@@ -1,12 +1,8 @@
 /**
  * @file SQ.store
- * @version 1.0.0
+ * @version 1.1.0
  */
-/*global
- $: false,
- SQ: true,
- Zepto: true
- */
+
 SQ.store = {
     /**
      * Cookie 操作
