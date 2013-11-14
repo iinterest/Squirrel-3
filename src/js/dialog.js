@@ -102,7 +102,9 @@
 
         me.$triggerTarget = $(me.config.DOM_TRIGGER_TARGET); // 触发元素
         me.cssStyle = me.config.CSS_STYLE.indexOf(".") === 0 ? me.config.CSS_STYLE.slice(1) : me.config.CSS_STYLE;
-        me.animate = me.config.ANIMATE.indexOf(".") === 0 ? me.config.ANIMATE.slice(1) : me.config.ANIMATE;
+        if (me.config.ANIMATE) {
+            me.animate = me.config.ANIMATE.indexOf(".") === 0 ? me.config.ANIMATE.slice(1) : me.config.ANIMATE;
+        }
 
         me.showFun = me.config.show;
         me.closeFun = me.config.close;

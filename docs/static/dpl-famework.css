@@ -20,7 +20,7 @@ sub{ vertical-align:text-bottom;}
 input,textarea,select{ font-family:inherit; font-size:inherit; font-weight:inherit;}
 legend{ color:#333;}
 
-html, body{ background:#f3f3f3; font-size:14px;}
+html, body{ background:#f3f3f3; font-size:14px; -webkit-text-size-adjust:none;}
 a{ color:#105cb6;}
 a[href*=".less"]{ color:#105cb6; padding-left:40px; padding-right:10px; background:url("../images/less.png") 0 1px no-repeat; background-size:40px;}
 .center{ text-align:center;}
@@ -308,7 +308,8 @@ blockquote{ margin:20px 0; padding-left:20px; border-left:5px solid #d7d7d7; fon
 .change-log .version{ position:relative; margin:10px 30px 10px 0; border:1px solid #d7d7d7; border-left:6px solid #d7d7d7; overflow:hidden;}
 .change-log .version.active{ border-left-color:#38c483;}
 .change-log .version.build{ border-left-color:#ff6600;}
-.change-log h4{ float:left; width:70px; height:40px; padding-left:10px; line-height:40px;}
+.change-log .version.hotfix h4::after{ content:"Hotfix"; display:inline-block; padding:0 4px; background:#d10000; border-radius:3px; color:#fff; font-weight:normal; -webkit-transform: scale(0.81);}
+.change-log h4{ float:left; width:70px; height:40px; padding:10px 0 10px 10px; line-height:20px;}
 .change-log ul{ float:left; padding:10px;}
 .change-log li{ position:relative; width:540px; margin:2px 0; padding-left:20px; line-height:1.4;}
 .change-log .data{ position:absolute; top:0; right:0; width:80px; height:20px; text-align:center; line-height:20px; background:#e7e7e7; color:#999; font-size:12px; border-radius:0 0 0 2px;}

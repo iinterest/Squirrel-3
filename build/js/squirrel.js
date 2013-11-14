@@ -636,7 +636,9 @@ SQ.util = {
 
         me.$triggerTarget = $(me.config.DOM_TRIGGER_TARGET); // 触发元素
         me.cssStyle = me.config.CSS_STYLE.indexOf(".") === 0 ? me.config.CSS_STYLE.slice(1) : me.config.CSS_STYLE;
-        me.animate = me.config.ANIMATE.indexOf(".") === 0 ? me.config.ANIMATE.slice(1) : me.config.ANIMATE;
+        if (me.config.ANIMATE) {
+            me.animate = me.config.ANIMATE.indexOf(".") === 0 ? me.config.ANIMATE.slice(1) : me.config.ANIMATE;
+        }
 
         me.showFun = me.config.show;
         me.closeFun = me.config.close;
@@ -997,7 +999,7 @@ SQ.util = {
 
 /**
  * @changelog
- * 0.7.0  * 调整滑动阀值 scrollDelay，由 200 调整至 60；
+ * 0.7.0  * 调整滑动阀值 scrollDelay，由 200 调整至 150；
  *        * 调整可视区的计算方式，由 offset 改为 getBoundingClientRect；
  *        * 针对 UC 浏览器极速版进行优化，可以在滑动过程中进行加载。
  * 0.6.5  * 修复 jshint 问题
@@ -1058,7 +1060,7 @@ SQ.util = {
         construtor: LazyLoad,
         version: "0.7.0",
         scrollTimer: 0,     // 滑动计时器
-        scrollDelay: 60,   // 滑动阀值
+        scrollDelay: 150,   // 滑动阀值
 
         /** 验证参数是否合法 */
         _verify : function () {
@@ -1102,14 +1104,14 @@ SQ.util = {
                     }, me.scrollDelay);
                 }
             });
-            if (SQ.ua.browser.shell === "ucweb") {
+            /*if (SQ.ua.browser.shell === "ucweb") {
                 $win.on("touchmove", function () {
                     // 针对 UC 浏览器极速版进行优化，可以在滑动过程中进行加载。
                     if (me.config.MODE === "image") {
                         me._loadImg();
                     }
                 });
-            }
+            }*/
         },
         /** 判断是否在显示区域 */
         _isInDisplayArea : function (item) {
@@ -1135,7 +1137,8 @@ SQ.util = {
                 $item.on("error", function () {
                     $(this).attr("src", me.config.IMG_PLACEHOLDER).off("error");
                 });
-                //me.refresh();
+                me.refresh();
+                //console.log($("." + me.lazyItemClassName).length, me.$lazyItems.length);
             }
             me.$lazyItems.each(function (index, item) {
                 var $item = $(item);
