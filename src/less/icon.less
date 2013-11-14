@@ -1,7 +1,14 @@
 @import "base";
-
-//@name .sq-icon
-//@version 1.0.2
+/**
+ * Sq-icon
+ * 通用图标
+ * @section sq-icon
+ * @version 1.0.2
+ * @tested Android(2.3, 4.1), iOS(6.1.2)
+ */
+// @changelog
+// 1.0.2 新增 arrow 方向。
+// 1.0.0 新建 sq-icon。
 .sq-icon{
     @step: -25px;
     @img-size: 125px;
@@ -17,7 +24,12 @@
     &.download{ background-position:    0           (@step * 1);}
     &.refresh{ background-position:     (@step * 1) (@step * 1);}
     &.good{ background-position:        (@step * 2) (@step * 1);}
-    &.arrow{ background-position:       (@step * 3) (@step * 1);}
+    &.arrow{ background-position:       (@step * 3) (@step * 1);
+        &.top{ -webkit-transform: rotate(180deg);}
+        &.right{ -webkit-transform: rotate(-90deg);}
+        //&.down{} //default
+        &.left{ -webkit-transform: rotate(90deg);}
+    }
     // orange
     // row 3
     &.magic{ background-position:       0           (@step * 2);}

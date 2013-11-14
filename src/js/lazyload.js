@@ -1,10 +1,13 @@
 /**
  * @file Squirrel LazyLoad
- * @version 0.6.5
+ * @version 0.7.0
  */
 
 /**
  * @changelog
+ * 0.7.0  * 调整滑动阀值 scrollDelay，由 200 调整至 60；
+ *        * 调整可视区的计算方式，由 offset 改为 getBoundingClientRect；
+ *        * 针对 UC 浏览器极速版进行优化，可以在滑动过程中进行加载。
  * 0.6.5  * 修复 jshint 问题
  * 0.6.4  * 修复图片加载失败时会导致 error 时间一直被触发的 bug，
  *          修复与 loadmore 插件配合使用时，无法替换加载错误的图片
@@ -61,9 +64,9 @@
     }
     LazyLoad.prototype = {
         construtor: LazyLoad,
-        version: "0.6.5",
+        version: "0.7.0",
         scrollTimer: 0,     // 滑动计时器
-        scrollDelay: 200,   // 滑动阀值
+        scrollDelay: 60,   // 滑动阀值
 
         /** 验证参数是否合法 */
         _verify : function () {
@@ -107,18 +110,31 @@
                     }, me.scrollDelay);
                 }
             });
+            if (SQ.ua.browser.shell === "ucweb") {
+                $win.on("touchmove", function () {
+                    // 针对 UC 浏览器极速版进行优化，可以在滑动过程中进行加载。
+                    if (me.config.MODE === "image") {
+                        me._loadImg();
+                    }
+                });
+            }
         },
         /** 判断是否在显示区域 */
         _isInDisplayArea : function (item) {
             var me = this;
-            var $item = $(item);
-            //var win = window;
-            var winH = window.innerHeight;
-            var winOffsetTop = window.pageYOffset; // window Y 轴偏移量
-            var itemOffsetTop = $item.offset().top;
+            //var $item = $(item);
+            //var winH = window.innerHeight;
+            //var winOffsetTop = window.pageYOffset; // window Y 轴偏移量
+            //var itemOffsetTop = $item.offset().top;
+            if (item.getBoundingClientRect()) {
+                var pos = item.getBoundingClientRect();
+                //console.log(pos.top, winH, pos.top > 0 - me.config.NUM_THRESHOLD && pos.top < window.innerHeight + me.config.NUM_THRESHOLD)
+                return pos.top > 0 - me.config.NUM_THRESHOLD && pos.top - me.config.NUM_THRESHOLD < window.innerHeight;
+                //console.log(pos.top > 0 && pos.top < winH, itemOffsetTop);
+            }
             // itemOffsetTop >= winOffsetTop 只加载可视区域下方的内容
             // winOffsetTop + winH + me.config.NUM_THRESHOLD 加载可视区域下方一屏内的内容
-            return itemOffsetTop >= winOffsetTop && itemOffsetTop <= winOffsetTop + winH + me.config.NUM_THRESHOLD;
+            //return itemOffsetTop >= winOffsetTop && itemOffsetTop <= winOffsetTop + winH + me.config.NUM_THRESHOLD;
         },
         _loadImg : function () {
             var me = this;

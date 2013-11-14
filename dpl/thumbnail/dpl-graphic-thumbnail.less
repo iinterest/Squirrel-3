@@ -1,9 +1,15 @@
-.thumbnails{
-    &.custom-style-thumbnail{
-        @thumbnail-w: 121px;         // 缩略图容器最大宽度
-        @thumbnail-h: auto;         // 缩略图容器最大高度
-        @img-w: 106px;           // 图片最大宽度
-        @img-h: 196px;           // 图片最大高度
+/**
+ * DPL: dpl-photo-thumbnail
+ * 缩略图展示列表
+ * @extend .thumbnails
+ * @author iinterest.bell@gmail.com
+ * @version 1.0.0
+ */
+.dpl-graphic-thumbnail(@img-w, @img-h){
+    // 声明继承至 .thumbnails，同时提升 CSS 特殊性
+    &.thumbnails{
+        //@img-w: 106px;              // 图片最大宽度
+        //@img-h: 196px;              // 图片最大高度
         li{ text-align:center;}
         .thumbnail{
             display:inline-block; width:@img-w; padding:1px; background:#fff; border:1px solid #e1e1e1; overflow:hidden;
@@ -12,9 +18,7 @@
         .caption{ position:relative; height:24px; margin-top:-24px; z-index:1;}
         .title{ height:24px; margin:0; padding:0 5px; background:rgba(0,0,0,.3); font-size:12px; color:#fff; text-align:center; line-height:24px; overflow:hidden;}
         .extend{ padding:4px 3px 3px 3px; overflow:hidden;}
-        .rank{ position:relative; float:left; padding:4px 0 0 19px; color:#f89104;}
         .sq-btn{ float:right;}
-        .heart,.star{ position:absolute; -webkit-transform:scale(0.8); top:-1px; left:-2px;}
 
         @media screen and (max-width:320px){
             .thumbnail{
@@ -25,4 +29,15 @@
             .star{ -webkit-transform:scale(0.5); top:-2px; left:-8px;}
         }
     }
+}
+// 调用示例：
+.de-theme-list{
+    .dpl-graphic-thumbnail(106px, 196px);
+    .rank{ position:relative; float:left; padding:4px 0 0 19px; color:#f89104;}
+    .heart,.star{ position:absolute; -webkit-transform:scale(0.8); top:-1px; left:-2px;}
+}
+
+.ia-theme-list{
+    .dpl-graphic-thumbnail(135px, 225px);
+    .size{ float:left; padding:5px 0 0 4px; font-size:12px; color:#777;}
 }

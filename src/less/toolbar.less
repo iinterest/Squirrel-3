@@ -3,10 +3,11 @@
  * Sq-toolbar
  * 通用工具栏，包括普通工具栏、导航栏、页脚栏、Fixed 定位导航栏等
  * @section sq-toolbar
- * @version 1.2.0
+ * @version 1.2.1
  * @tested Android(2.3, 4.1), iOS(6.1.2)
  */
 // @changelog
+// 1.2.1 新增 pagebar 分页栏样式。
 // 1.2.0 将独立到 DPL 的 .header、.nav 类重新合并到 toolbar 模块中。
 // 1.1.2 去除 .title 的 text-align:center 属性。
 // 1.1.1 根据 UI 设计规范将高度调整为 44 像素。
@@ -36,5 +37,10 @@
         a{ .border-box; display:block; height:@height-set; overflow:hidden;}
         .active{}
         .badge{ position:absolute; top:-2px; right:-2px; padding:0 4px; max-width:21px; height:15px; background:#f60; .rounded-corners; font-size:@badge-font-size; line-height:15px; color:#fff; overflow:hidden; z-index:1;}
+    }
+    // Pagebar
+    // 分页栏
+    &.pagebar:extend(.sq-toolbar.header all){
+        .pages{ position:absolute; .overspread(0,80px,0,80px); font-size:@content-font-size; text-align:center;}
     }
 }

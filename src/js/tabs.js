@@ -1,17 +1,18 @@
 /**
  * @file Squirrel Tabs
- * @version 0.7.1
+ * @version 0.7.2
  */
 
 /**
  * @changelog
- * 0.7.1  * 修复 jshint 问题
- * 0.7.0  + 添加对 localStorage 支持，通过将 LOCAL_DATA 设置为 true 开启，通过 NUM_EXPIRES 来设置过期时间（单位：分钟）
- * 0.6.1  * 屏蔽 click 默认动作，新增自定义 CSS_HIGHLIGHT 属性
- * 0.6.0  * 重写 Tabs 插件，使 Tabs 插件能够在同一页面多次实例化
- * 0.5.6  * 修改组件名称为 Tabs
- * 0.5.1  * 完成选项卡基本功能
- * 0.0.1  + 新建
+ * 0.7.2  * 修复初始化时，me.$loadingTip 无法找到的问题。
+ * 0.7.1  * 修复 jshint 问题。
+ * 0.7.0  + 添加对 localStorage 支持，通过将 LOCAL_DATA 设置为 true 开启，通过 NUM_EXPIRES 来设置过期时间（单位：分钟）。
+ * 0.6.1  * 屏蔽 click 默认动作，新增自定义 CSS_HIGHLIGHT 属性。
+ * 0.6.0  * 重写 Tabs 插件，使 Tabs 插件能够在同一页面多次实例化。
+ * 0.5.6  * 修改组件名称为 Tabs。
+ * 0.5.1  * 完成选项卡基本功能。
+ * 0.0.1  + 新建。
  */
 
 (function ($, window) {
@@ -103,7 +104,7 @@
     }
     Tabs.prototype =  {
         construtor: Tabs,
-        version: "0.7.1",
+        version: "0.7.2",
         needLoadContent : false,    // 选项卡内容是否需要异步加载
 
         // 验证参数是否合法
@@ -118,10 +119,6 @@
                 $(this).attr("data-tabIndex", i);
                 i++;
             });
-            // 初始化高亮
-            if (me.config.NUM_ACTIVE !== undefined) {
-                me.show($tabs, $panels, me.config.NUM_ACTIVE);
-            }
             // 判断是否需要生成异步加载提示语
             if (me.config.API_URL && (SQ.core.isString(me.config.API_URL) || SQ.core.isArray(me.config.API_URL))) {
                 me.$loadingTip = $("<div class='dpl-tabs-loadingTip'></div>");
@@ -136,6 +133,10 @@
                 }
                 me.$loadingTip.text(me.config.TXT_LOADING_TIP);
                 me.needLoadContent = true;
+            }
+            // 初始化高亮
+            if (me.config.NUM_ACTIVE !== undefined) {
+                me.show($tabs, $panels, me.config.NUM_ACTIVE);
             }
             // 绑定事件
             $tabs.on(me.config.EVE_EVENT_TYPE, function (e) {

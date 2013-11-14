@@ -1,4 +1,14 @@
 /**
+ * LESS Define
+ * 定义常用 less 模块及片段，也可以定义需要兼容多个现代浏览器的 CSS3 样式
+ * @version 1.0.1
+ */
+/**
+ * @changelog
+ * 1.0.1  + 新增三角箭头（4个方向）
+ * 1.0.0  + 新建
+ */
+/**
  * css-reset.css
  * @version 1.1.5
  * @author Hesong <hesong@ucweb.com>

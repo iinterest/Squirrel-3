@@ -48,6 +48,7 @@
         <div class="space"></div>
         <div class="J_closeBtn sq-btn f-grey">关闭固定窗口</div>
         <div class="space"></div>
+        <a href="http://www.9apps.mobi/apk/404/en-us/9999x9999/0.0.1/jump/down/com.nd.android.freemobiledesktop/app/?f=6_1_0_0_1&uc_param_str=dnfrpfvesscpmintnisieilanwcugi" class="J_showDemo4">下载应用</a>
     </div>
     <script type="text/javascript" src="../../../../libs/zepto/zepto-1.0.min.js"></script>
     <script type="text/javascript" src="../../../../build/js/squirrel.js"></script>
@@ -57,9 +58,9 @@
                 EVE_EVENT_TYPE : "click",
                 DOM_TRIGGER_TARGET : ".J_showDemo1",
                 TXT_CLOSE_VAL : "&times;",
-                CSS_STYLE : "demo1",
+                CSS_STYLE : ".demo1",
                 FULLSCREEN_OFFSET : [20, 20],
-                ANIMATE : "bounceIn",
+                ANIMATE : ".bounceIn",
                 MASK : true,
                 LOCK : true,
                 show : function (e) {
@@ -74,7 +75,7 @@
             var dialogDemo2 = new SQ.Dialog({
                 EVE_EVENT_TYPE : "click",
                 DOM_TRIGGER_TARGET : ".J_showDemo2",
-                CSS_STYLE : "demo2",
+                CSS_STYLE : ".demo2",
                 CSS_WIDTH : 240,
                 CSS_HEIGHT : 150,
                 VERTICAL : "middle",
@@ -98,7 +99,7 @@
             var dialogDemo3 = new SQ.Dialog({
                 EVE_EVENT_TYPE : "click",
                 DOM_TRIGGER_TARGET : ".J_showDemo3",
-                CSS_STYLE : "demo3",
+                CSS_STYLE : ".demo3",
                 CSS_WIDTH : 240,
                 CSS_HEIGHT : 100,
                 VERTICAL : "middle",
@@ -114,6 +115,28 @@
                 },
                 cancel : function (e) {
 
+                }
+            });
+            
+            /*$(".J_showDemo4").click(function () {
+                setTimeout(function () {
+                    alert("ok");
+                },200);
+            });*/
+            var dialogDemo4 = new SQ.Dialog({
+                EVE_EVENT_TYPE : "click",
+                DOM_TRIGGER_TARGET : ".J_showDemo4",
+                CSS_STYLE : "demo2",
+                CSS_WIDTH : 240,
+                CSS_HEIGHT : 100,
+                VERTICAL : "middle",
+                HORIZONTAL : "center",
+                MASK : true,
+                PREVENT_DEFAULT: false,
+                //DELAY: 2000,
+                show : function (e) {
+                    var api = $(e.target).attr("href");
+                    //window.location = api;
                 }
             });
         });

@@ -43,7 +43,7 @@
     TXT_CLOSE_VAL : "×",
     CSS_STYLE : "demo1",
     FULLSCREEN_OFFSET : [20, 20],
-    ANIMATE : "bounceIn",
+    ANIMATE : ".bounceIn",
     MASK : true,
     LOCK : true,
     show : function (e) {
@@ -252,6 +252,20 @@
                 <td class="description last">自动关闭对话框时间，单位：毫秒</td>
             </tr>
             <tr>
+                <td class="name"><code>PREVENT_DEFAULT</code></td>
+                <td class="type">
+                    boole
+                </td>
+                <td class="description last">默认动作响应设置，默认为 true，不响应默认操作</td>
+            </tr>
+            <tr>
+                <td class="name"><code>DELAY</code></td>
+                <td class="type">
+                    number
+                </td>
+                <td class="description last">延时显示对话框设置，单位：毫秒</td>
+            </tr>
+            <tr>
                 <td class="name"><code>show</code></td>
                 <td class="type">
                     function
@@ -355,7 +369,7 @@ me.height       //对话框 height 数据</pre></p>
             TXT_CLOSE_VAL : "×",
             CSS_STYLE : "demo1",
             FULLSCREEN_OFFSET : [20, 20],
-            ANIMATE : "bounceIn",
+            ANIMATE : ".bounceIn",
             LOCK : true,
             show : function (e) {
                 var me = this;

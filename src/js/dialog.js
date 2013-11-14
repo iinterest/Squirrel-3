@@ -1,19 +1,20 @@
 /**
  * @file SQ.Dialog 对话框组件
- * @version 0.9.7
+ * @version 0.9.8
  */
 
 /**
  * @changelog
- * 0.9.7  * 修复 jshint 问题
+ * 0.9.8  * 新增 PREVENT_DEFAULT、DELAY 设置，增强 ANIMATE 参数的兼容性，可以支持 ".style-name" 或 "style-name" 写法。
+ * 0.9.7  * 修复 jshint 问题。
  * 0.9.6  * 改写 _bin、_unbind 方法，新增 DESTROY 参数，设置 DESTROY 后会清除目标 DOM 的绑定事件。
  * 0.9.5  * 修复 IE 兼容性问题。
  * 0.9.4  * 调整 SQ.dom 的调用。
  *          修复当文档内容高度小于窗口高度时，遮罩不完全的问题。
  * 0.9.3  * 更改 _bind 中的绑定方式，修正异步加载的 DOM 无法绑定 dialog 事件问题。
- * 0.9.2  * 将 _bind 中的 .live 改为 .on 绑定，添加 TXT_CLOSE_VAL 默认值为 x
+ * 0.9.2  * 将 _bind 中的 .live 改为 .on 绑定，添加 TXT_CLOSE_VAL 默认值为 x。
  * 0.9.1  * 核心删除了 SQ.dom.getHeight 方法，所以改用 .height() 方法。
- * 0.9.0  + 新增 resize 回调函数
+ * 0.9.0  + 新增 resize 回调函数，
  *        * 拆分 show 方法，新增 _initDialogStyle、_initDialogEvent 方法，
  *        * 新增 _reset 方法，当窗口发生变化时将会重新计算对话框样式，
  *        * 修复遮罩在窗口发生变化时无法铺满全屏的问题。
@@ -62,6 +63,8 @@
      * @param {boole} config.MASK 遮罩设定，默认为 false，设为 true 将显示遮罩效果
      * @param {boole} config.LOCK 锁定操作，默认为 false，设为 true 将屏蔽触摸操作，默认值：false
      * @param {number} config.NUM_CLOSE_TIME 自动关闭对话框时间，单位：毫秒
+     * @param {boole} config.PREVENT_DEFAULT 默认动作响应设置，默认为 true，不响应默认操作
+     * @param {number} config.DELAY 延时显示对话框设置，单位：毫秒
      * @param {function} config.show 打开对话框回调函数
      * @param {function} config.ok 点击确定按钮回调函数
      * @param {function} config.cancel 点击取消按钮回调函数
@@ -87,7 +90,8 @@
             TXT_CLOSE_VAL : "×",
             ANIMATE : undefined,
             LOCK : false,
-            MASK : false
+            MASK : false,
+            PREVENT_DEFAULT : true
         };
 
         for (i in config) {
@@ -97,6 +101,8 @@
         }
 
         me.$triggerTarget = $(me.config.DOM_TRIGGER_TARGET); // 触发元素
+        me.cssStyle = me.config.CSS_STYLE.indexOf(".") === 0 ? me.config.CSS_STYLE.slice(1) : me.config.CSS_STYLE;
+        me.animate = me.config.ANIMATE.indexOf(".") === 0 ? me.config.ANIMATE.slice(1) : me.config.ANIMATE;
 
         me.showFun = me.config.show;
         me.closeFun = me.config.close;
@@ -110,7 +116,7 @@
     }
     Dialog.prototype =  {
         construtor: Dialog,
-        version: "0.9.7",
+        version: "0.9.8",
         timer : undefined,
         resizeTimer : false,    // resize 
         closed : true,
@@ -152,7 +158,9 @@
             var me = this;
             // 绑定在 document 上是为了解决 Ajax 内容绑定问题
             SQ.dom.$doc.on(EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET, function (e) {
-                e.preventDefault();
+                if (me.config.PREVENT_DEFAULT) {
+                    e.preventDefault();
+                }
                 me._trigger(e);
             });
         },
@@ -173,6 +181,12 @@
          */
         _trigger : function (e) {
             var me = this;
+            if (me.config.DELAY) {
+                setTimeout(function () {
+                    me.show(e);
+                }, me.config.DELAY);
+                return;
+            }
             me.show(e);
         },
 
@@ -219,7 +233,7 @@
             var $cancelBtn = $("<div class='cancel'>" + me.config.TXT_CANCEL_VAL + "</div>");
             var $close = $("<div class='close-btn'>" + me.config.TXT_CLOSE_VAL + "</div>");
             $dialogWindow.append($close).append($dialogContent).append($okBtn).append($cancelBtn);
-            $dialogWindow.addClass(me.config.CSS_STYLE);
+            $dialogWindow.addClass(me.cssStyle);
             // 保存关键 Dom
             //me.$dialogWindow = $dialogWindow;
             me.$dialogContent = $dialogContent;
@@ -324,7 +338,7 @@
             me._initDialogStyle();
             // 添加动画
             if (me.config.ANIMATE) {
-                me.$dialogWindow.addClass("animated " + me.config.ANIMATE);
+                me.$dialogWindow.addClass("animated " + me.animate);
             }
             // 设置对话框样式
             me.$dialogWindow.css({

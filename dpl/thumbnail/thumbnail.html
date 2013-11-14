@@ -3,40 +3,31 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link type= "text/css" rel="stylesheet" href="../../build/css/squirrel.css" />
-    <link type= "text/css" rel="stylesheet" href="dpl-thumbnail.css" />
+    <link type= "text/css" rel="stylesheet" href="dpl-graphic-thumbnail.css" />
     <!--common-->
     <link type="text/css" rel="stylesheet" href="../../docs/static/dpl-famework.css" />
     <link type="text/css" rel="stylesheet" href="../../docs/static/prettify.css" />
     <script type="text/javascript" src="../../docs/static/prettify.js"></script>
     <script type="text/javascript" src="../../libs/jquery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../../docs/static/dpl-famework.js"></script>
-    <title>Squirrel DPL Thumbnail</title>
+    <title>Squirrel DPL Graphic Thumbnail</title>
 </head>
 <body onload="prettyPrint();">
 <div class="dpl-container default-theme">
 
-    <!--<aside class="sidebar">
-        <ul class="anchor">
-            <li class="level-1"><a href="#">基础列表</a></li>
-                <li class="level-2"><a href="#vertical-list">垂直列表</a></li>
-                    <li class="level-3"><a href="#text-overflow">文字隐藏</a></li>
-                    <li class="level-3"><a href="#extend">扩展</a></li>
-                    <li class="level-3"><a href="#top-10">排行</a></li>
-                <li class="level-2"><a href="#Horizontal">水平列表</a></li>
-                <li class="level-2"><a href="#Window">栅格列表</a></li>
-                <li class="level-2"><a href="#Thumbnails">缩略图</a></li>
-            <li class="level-1"><a href="#todo">待办事项</a></li>
-            &lt;!&ndash;<li><a href="#compatibility">Compatibility</a></li>&ndash;&gt;
-        </ul>
-    </aside>-->
+    <aside class="sidebar">
+        <div class="author">
+            
+        </div>
+    </aside>
 
 
 
     <section class="dpl-module" id="thumbnail">
-        <h3>主题列表</h3>
+        <h3>缩略图</h3>
 
         <div class="demo" style="width:360px;">
-            <div class="sq-list col3 thumbnails custom-style-thumbnail">
+            <div class="sq-list col3 thumbnails de-theme-list">
                 <ul>
                     <li>
                         <div class="thumbnail">
@@ -82,6 +73,119 @@
                     </li>
                 </ul>
             </div>
+        </div>
+        <p></p>
+        <div class="demo" style="width:320px;">
+            <div class="sq-list col2 thumbnails ia-theme-list">
+                <ul>
+                    <li>
+                        <div class="thumbnail">
+                            <div class="pic">
+                                <a href="#;"><img src="../../dpl/images/sq-thumbnail.png" /></a>
+                                <div class="caption">
+                                    <h3 class="title">图片标题</h3>
+                                </div>
+                            </div>
+                            <div class="extend">
+                                <div class="size">22.5MB</div>
+                                <div class="sq-btn small f-grey ucweb-anchor"><a href="#btn"></a>Download</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="thumbnail">
+                            <div class="pic">
+                                <a href="#;"><img src="../../dpl/images/sq-thumbnail.png" /></a>
+                                <div class="caption">
+                                    <h3 class="title">图片标题</h3>
+                                </div>
+                            </div>
+                            <div class="extend">
+                                <div class="size">22.5MB</div>
+                                <div class="sq-btn small f-grey ucweb-anchor"><a href="#btn"></a>Download</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="thumbnail">
+                            <div class="pic">
+                                <a href="#;"><img src="../../dpl/images/sq-thumbnail.png" /></a>
+                                <div class="caption">
+                                    <h3 class="title">图片标题</h3>
+                                </div>
+                            </div>
+                            <div class="extend">
+                                <div class="size">22.5MB</div>
+                                <div class="sq-btn small f-grey ucweb-anchor"><a href="#btn"></a>Download</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="thumbnail">
+                            <div class="pic">
+                                <a href="#;"><img src="../../dpl/images/sq-thumbnail.png" /></a>
+                                <div class="caption">
+                                    <h3 class="title">图片标题</h3>
+                                </div>
+                            </div>
+                            <div class="extend">
+                                <div class="size">22.5MB</div>
+                                <div class="sq-btn small f-grey ucweb-anchor"><a href="#btn"></a>Download</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <h4>HTML 代码：</h4>
+        <div class="fold-code J_foldCode">
+            <div class="toggle">View Source</div>
+            <pre class="prettyprint">&lt;div class="sq-list col3 thumbnails dpl-graphic-thumbnail"&gt;
+    &lt;ul&gt;
+        &lt;li&gt;
+            &lt;div class="thumbnail"&gt;
+                &lt;div class="pic"&gt;
+                    &lt;a href="#;"&gt;&lt;img src="../../dpl/images/sq-thumbnail.png" /&gt;&lt;/a&gt;
+                    &lt;div class="caption"&gt;
+                        &lt;h3 class="title"&gt;图片标题&lt;/h3&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class="extend"&gt;
+                    &lt;div class="rank"&gt;&lt;i class="sq-icon star"&gt;&lt;/i&gt;&lt;em&gt;3&lt;/em&gt;&lt;/div&gt;
+                    &lt;div class="sq-btn small f-grey ucweb-anchor"&gt;&lt;a href="#btn"&gt;&lt;/a&gt;免费下载&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+            &lt;div class="thumbnail"&gt;
+                &lt;div class="pic"&gt;
+                    &lt;a href="#;"&gt;&lt;img src="../../dpl/images/sq-thumbnail.png" /&gt;&lt;/a&gt;
+                    &lt;div class="caption"&gt;
+                        &lt;h3 class="title"&gt;图片标题&lt;/h3&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class="extend"&gt;
+                    &lt;div class="rank"&gt;&lt;i class="sq-icon star"&gt;&lt;/i&gt;&lt;em&gt;3&lt;/em&gt;&lt;/div&gt;
+                    &lt;div class="sq-btn small f-grey ucweb-anchor"&gt;&lt;a href="#btn"&gt;&lt;/a&gt;免费下载&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+            &lt;div class="thumbnail"&gt;
+                &lt;div class="pic"&gt;
+                    &lt;a href="#;"&gt;&lt;img src="../../dpl/images/sq-thumbnail.png" /&gt;&lt;/a&gt;
+                    &lt;div class="caption"&gt;
+                        &lt;h3 class="title"&gt;图片标题&lt;/h3&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class="extend"&gt;
+                    &lt;div class="rank"&gt;&lt;i class="sq-icon star"&gt;&lt;/i&gt;&lt;em&gt;3&lt;/em&gt;&lt;/div&gt;
+                    &lt;div class="sq-btn small f-grey ucweb-anchor"&gt;&lt;a href="#btn"&gt;&lt;/a&gt;免费下载&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;</pre>
         </div>
     </section>
 </div>

@@ -1,16 +1,17 @@
 /**
  * @file SQ.LoadMore 加载更多组件
- * @version 1.2.2
+ * @version 1.2.3
  */
 
 /**
  * @changelog
- * 1.2.2  * 修复 jshint 问题，修复 #15 问题
- * 1.2.1  * 修复启用 localstorage 时 _render 函数得到的数据为字符串的问题
- * 1.2.0  + 添加对 localStorage 支持，通过将 LOCAL_DATA 设置为 true 开启，通过 NUM_EXPIRES 来设置过期时间（单位：分钟）
- * 1.1.10 * 修复点击加载是，加载出错会导致无法展示状态栏
- * 1.1.9  + 可自定义 XHR_METHOD 为 GET 或 POST 方法，默认为 POST
- * 1.1.8  + 添加对 IE6 的支持
+ * 1.2.3  * 增强 CSS_INIT_STYLE 参数的兼容性，可以支持 ".style-name" 或 "style-name" 写法。
+ * 1.2.2  * 修复 jshint 问题，修复 #15 问题。
+ * 1.2.1  * 修复启用 localstorage 时 _render 函数得到的数据为字符串的问题。
+ * 1.2.0  + 添加对 localStorage 支持，通过将 LOCAL_DATA 设置为 true 开启，通过 NUM_EXPIRES 来设置过期时间（单位：分钟）。
+ * 1.1.10 * 修复点击加载是，加载出错会导致无法展示状态栏。
+ * 1.1.9  + 可自定义 XHR_METHOD 为 GET 或 POST 方法，默认为 POST。
+ * 1.1.8  + 添加对 IE6 的支持。
  * 1.1.7  * 为 noMore 状态添加 loaded 回调函数。
  * 1.1.6  * 去除 unbind，解决与 lazyload 插件冲突。
  * 1.1.5  + 新增 _changeBind 函数，用来改变交绑定互事件；
@@ -68,7 +69,7 @@
             DOM_TRIGGER_TARGET : window,
             DOM_AJAX_BOX : ".J_ajaxWrap",
             DOM_STATE_BOX : ".J_scrollLoadMore",
-            CSS_INIT_STYLE : "loadMore-btn",
+            CSS_INIT_STYLE : ".loadMore-btn",
             NUM_SCROLL_MAX_PAGE : 3,
             DATA_TYPE : "json",
             render : function (data) {
@@ -116,6 +117,7 @@
         me.api = me.$stateBox.attr("data-api") || me.config.API;
         me.page = me.config.NUM_START_PAGE_INDEX;
         me.maxPage = me.config.NUM_SCROLL_MAX_PAGE + me.page;
+        me.initStyle = me.config.CSS_INIT_STYLE.indexOf(".") === 0 ? me.config.CSS_INIT_STYLE.slice(1) : me.config.CSS_INIT_STYLE;
         me.scrollTimer = 0;                                 // 滑动事件计时器
         me.scrollDelay = 200;                               // 滑动事件触发伐值
 
@@ -131,7 +133,7 @@
     }
     LoadMore.prototype =  {
         construtor: LoadMore,
-        version: "1.2.2",
+        version: "1.2.3",
 
         /** 验证参数是否合法 */
         _verify : function () {
@@ -208,7 +210,7 @@
         _init : function () {
             var me = this;
             me._currentState = "none";  // 设置当前状态
-            me.$stateBox.addClass(me.config.CSS_INIT_STYLE).text(me.config.TXT_INIT_TIP);
+            me.$stateBox.addClass(me.initStyle).text(me.config.TXT_INIT_TIP);
             me._reset();
             me._bind(me.config.EVE_EVENT_TYPE);
             me.currentEventType = me.config.EVE_EVENT_TYPE; // 临时存储事件类型，以供 _changeState 判断使用。

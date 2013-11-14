@@ -1,4 +1,14 @@
 /**
+ * LESS Define
+ * 定义常用 less 模块及片段，也可以定义需要兼容多个现代浏览器的 CSS3 样式
+ * @version 1.0.1
+ */
+/**
+ * @changelog
+ * 1.0.1  + 新增三角箭头（4个方向）
+ * 1.0.0  + 新建
+ */
+/**
  * css-reset.css
  * @version 1.1.5
  * @author Hesong <hesong@ucweb.com>
@@ -203,12 +213,32 @@ body {
   display: none;
 }
 
+/**
+ * LESS Define
+ * 定义常用 less 模块及片段，也可以定义需要兼容多个现代浏览器的 CSS3 样式
+ * @version 1.0.1
+ */
+/**
+ * @changelog
+ * 1.0.1  + 新增三角箭头（4个方向）
+ * 1.0.0  + 新建
+ */
 
+/**
+ * LESS Define
+ * 定义常用 less 模块及片段，也可以定义需要兼容多个现代浏览器的 CSS3 样式
+ * @version 1.0.1
+ */
+/**
+ * @changelog
+ * 1.0.1  + 新增三角箭头（4个方向）
+ * 1.0.0  + 新建
+ */
 /**
  * Sq-button
  * 通用按钮，包括单体按钮、组合按钮 
  * @section sq-btn
- * @version 1.0.4
+ * @version 1.0.5
  * @tested Android(2.3, 4.1), iOS(6.1.2)
  */
 .sq-btn {
@@ -430,8 +460,8 @@ input[type="submit"].sq-btn.block {
   border-left-color: #b3b3b3;
 }
 .sq-btn.f-grey-dark {
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #b2b2b2), color-stop(1, #666666));
-  border: 1px solid #777;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #c5c5c5), color-stop(1, #8c8c8c));
+  border: 1px solid #999;
   color: #fff;
 }
 .sq-btn.f-grey-dark a {
@@ -446,8 +476,8 @@ input[type="submit"].sq-btn.block {
   color: #fff;
 }
 .sq-btn.f-green {
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #6eb82c), color-stop(1, #39821a));
-  border: 1px solid #4aa00b;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #43c037), color-stop(1, #2a9b22));
+  border: 1px solid #2a9b22;
   border-bottom-color: #217001;
   color: #fff;
 }
@@ -578,6 +608,16 @@ input[type="submit"].sq-btn.block {
   border-radius: 0 0 3px 3px;
 }
 
+/**
+ * LESS Define
+ * 定义常用 less 模块及片段，也可以定义需要兼容多个现代浏览器的 CSS3 样式
+ * @version 1.0.1
+ */
+/**
+ * @changelog
+ * 1.0.1  + 新增三角箭头（4个方向）
+ * 1.0.0  + 新建
+ */
 .sq-dialog {
   background: #fff;
   border-radius: 5px;
@@ -638,6 +678,16 @@ input[type="submit"].sq-btn.block {
   padding: 5px 0;
 }
 
+/**
+ * LESS Define
+ * 定义常用 less 模块及片段，也可以定义需要兼容多个现代浏览器的 CSS3 样式
+ * @version 1.0.1
+ */
+/**
+ * @changelog
+ * 1.0.1  + 新增三角箭头（4个方向）
+ * 1.0.0  + 新建
+ */
 /**
  * Sq-form
  * 表单元素
@@ -842,6 +892,23 @@ input[type="submit"].sq-btn.block {
   border-radius: 0 2px 2px 0;
 }
 
+/**
+ * LESS Define
+ * 定义常用 less 模块及片段，也可以定义需要兼容多个现代浏览器的 CSS3 样式
+ * @version 1.0.1
+ */
+/**
+ * @changelog
+ * 1.0.1  + 新增三角箭头（4个方向）
+ * 1.0.0  + 新建
+ */
+/**
+ * Sq-icon
+ * ͨ��ͼ��
+ * @section sq-icon
+ * @version 1.0.2
+ * @tested Android(2.3, 4.1), iOS(6.1.2)
+ */
 .sq-icon {
   display: inline-block;
   width: 25px;
@@ -877,6 +944,15 @@ input[type="submit"].sq-btn.block {
 .sq-icon.arrow {
   background-position: -75px -25px;
 }
+.sq-icon.arrow.top {
+  -webkit-transform: rotate(180deg);
+}
+.sq-icon.arrow.right {
+  -webkit-transform: rotate(-90deg);
+}
+.sq-icon.arrow.left {
+  -webkit-transform: rotate(90deg);
+}
 .sq-icon.magic {
   background-position: 0 -50px;
 }
@@ -902,6 +978,16 @@ input[type="submit"].sq-btn.block {
   margin: 0 3px 0 -4px;
 }
 
+/**
+ * LESS Define
+ * 定义常用 less 模块及片段，也可以定义需要兼容多个现代浏览器的 CSS3 样式
+ * @version 1.0.1
+ */
+/**
+ * @changelog
+ * 1.0.1  + 新增三角箭头（4个方向）
+ * 1.0.0  + 新建
+ */
 /**
  * Sq-list
  * 垂直列表
@@ -932,7 +1018,7 @@ input[type="submit"].sq-btn.block {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 12;
+  z-index: 11;
   cursor: pointer;
 }
 .sq-list .row {
@@ -1174,6 +1260,16 @@ input[type="submit"].sq-btn.block {
   margin: 5px 0;
 }
 
+/**
+ * LESS Define
+ * 定义常用 less 模块及片段，也可以定义需要兼容多个现代浏览器的 CSS3 样式
+ * @version 1.0.1
+ */
+/**
+ * @changelog
+ * 1.0.1  + 新增三角箭头（4个方向）
+ * 1.0.0  + 新建
+ */
 .sq-loadMore-btn {
   position: relative;
   height: 40px;
@@ -1196,6 +1292,16 @@ input[type="submit"].sq-btn.block {
   background-size: contain;
 }
 
+/**
+ * LESS Define
+ * 定义常用 less 模块及片段，也可以定义需要兼容多个现代浏览器的 CSS3 样式
+ * @version 1.0.1
+ */
+/**
+ * @changelog
+ * 1.0.1  + 新增三角箭头（4个方向）
+ * 1.0.0  + 新建
+ */
 .suggest-panel {
   display: none;
   -webkit-box-sizing: border-box;
@@ -1260,6 +1366,16 @@ input[type="submit"].sq-btn.block {
   text-overflow: ellipsis;
 }
 
+/**
+ * LESS Define
+ * 定义常用 less 模块及片段，也可以定义需要兼容多个现代浏览器的 CSS3 样式
+ * @version 1.0.1
+ */
+/**
+ * @changelog
+ * 1.0.1  + 新增三角箭头（4个方向）
+ * 1.0.0  + 新建
+ */
 .dpl-tabs .tabs {
   border-top: 1px solid #d7d7d7;
   border-right: 1px solid #d7d7d7;
@@ -1288,17 +1404,28 @@ input[type="submit"].sq-btn.block {
 }
 
 /**
+ * LESS Define
+ * 定义常用 less 模块及片段，也可以定义需要兼容多个现代浏览器的 CSS3 样式
+ * @version 1.0.1
+ */
+/**
+ * @changelog
+ * 1.0.1  + 新增三角箭头（4个方向）
+ * 1.0.0  + 新建
+ */
+/**
  * Sq-toolbar
  * 通用工具栏，包括普通工具栏、导航栏、页脚栏、Fixed 定位导航栏等
  * @section sq-toolbar
- * @version 1.2.0
+ * @version 1.2.1
  * @tested Android(2.3, 4.1), iOS(6.1.2)
  */
 .sq-toolbar {
   height: 44px;
   line-height: 44px;
 }
-.sq-toolbar.header {
+.sq-toolbar.header,
+.sq-toolbar.pagebar {
   position: relative;
   display: -webkit-box;
   -webkit-box-align: center;
@@ -1307,7 +1434,8 @@ input[type="submit"].sq-btn.block {
   font-size: 14px;
   overflow: hidden;
 }
-.sq-toolbar.header .title {
+.sq-toolbar.header .title,
+.sq-toolbar.pagebar .title {
   position: absolute;
   top: 0;
   right: 80px;
@@ -1316,15 +1444,18 @@ input[type="submit"].sq-btn.block {
   font-size: 18px;
   text-align: center;
 }
-.sq-toolbar.header .sq-btn {
+.sq-toolbar.header .sq-btn,
+.sq-toolbar.pagebar .sq-btn {
   display: block;
   /*以适应弹性布局*/
   z-index: 1;
 }
-.sq-toolbar.header.align-end {
+.sq-toolbar.header.align-end,
+.sq-toolbar.pagebar.align-end {
   -webkit-box-pack: end;
 }
-.sq-toolbar.header.align-start {
+.sq-toolbar.header.align-start,
+.sq-toolbar.pagebar.align-start {
   -webkit-box-pack: start;
 }
 .sq-toolbar.nav {
@@ -1361,4 +1492,13 @@ input[type="submit"].sq-btn.block {
   color: #fff;
   overflow: hidden;
   z-index: 1;
+}
+.sq-toolbar.pagebar .pages {
+  position: absolute;
+  top: 0;
+  right: 80px;
+  bottom: 0;
+  left: 80px;
+  font-size: 14px;
+  text-align: center;
 }
