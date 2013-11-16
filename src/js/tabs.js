@@ -1,10 +1,11 @@
 /**
  * @file Squirrel Tabs
- * @version 0.7.2
+ * @version 0.7.3
  */
 
 /**
  * @changelog
+ * 0.7.3  * 修复 reload 按钮多次绑定问题。
  * 0.7.2  * 修复初始化时，me.$loadingTip 无法找到的问题。
  * 0.7.1  * 修复 jshint 问题。
  * 0.7.0  + 添加对 localStorage 支持，通过将 LOCAL_DATA 设置为 true 开启，通过 NUM_EXPIRES 来设置过期时间（单位：分钟）。
@@ -104,7 +105,7 @@
     }
     Tabs.prototype =  {
         construtor: Tabs,
-        version: "0.7.2",
+        version: "0.7.3",
         needLoadContent : false,    // 选项卡内容是否需要异步加载
 
         // 验证参数是否合法
@@ -262,7 +263,7 @@
                 "<div class='sq-btn f-grey J_reload'>重新加载</div>" +
                 "</div>";
             $tip.append(reloadHTML);
-            $activePanels.on("click", ".J_reload", function () {
+            $activePanels.find(".J_reload").off("click").on("click", function () {
                 me._load($activePanels, tabIndex);
             });
         }
