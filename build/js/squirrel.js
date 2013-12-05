@@ -993,23 +993,245 @@ SQ.util = {
     SQ.Dialog = Dialog;
 }($, window));
 /**
- * @file Squirrel LazyLoad
- * @version 0.7.0
+ * @file Squirrel Fixed
+ * @version 0.9.0
  */
 
 /**
  * @changelog
+ * 0.9.0  * 完成主要功能
+ * 0.0.1  + 新建。
+ */
+
+(function ($, window) {
+    "use strict";
+    /**
+     * @name Fixed
+     * @classdesc 元素固定定位
+     * @constructor
+     * @param {object} config 组件配置（下面的参数为配置项，配置会写入属性）
+     * @param {string} config.DOM_FIXED_ITEM        需要添加固定定位的元素。
+     * @param {array} config.ARRY_FIXED_POSITION    固定位置设置，遵循 [上,右,下,左] 规则，默认为 [0, 0, 0, 0]。
+     * @param {number} config.NUM_TRIGGER_POSITION  设置 fixed 激活位置，当有该值时以该值为准，没有则以元素当前位置为准。
+     * @param {number} config.NUM_ZINDEX            z-index 值设置，默认为 99。
+     * @param {boolen} config.PLACEHOLD             是否设置占位 DOM，默认为 false。
+     * @param {string} config.ANIMATE               动画类，默认值：undefined
+     * @param {function} config.fixedIn             设置固定布局时回调函数。
+     * @param {function} config.fixedOut            取消固定布局时回调函数。
+     * @example var fixedButton = new SQ.Fixed({
+                DOM_FIXED_ITEM: ".J_fixed",
+                DOM_TRIGGER_TARGET: window,
+                EVE_EVENT_TYPE: "scroll",
+                ARRY_FIXED_POSITION: ["auto", "auto", 20, 10],
+                PLACEHOLD: true
+            });
+     */
+    function Fixed(config) {
+        var me = this;
+        var i;
+
+        me.config = {
+            ARRY_FIXED_POSITION: [0, 0, 0, 0],
+            NUM_ZINDEX: 99,
+            PLACEHOLD: false
+        };
+
+        for (i in config) {
+            if (config.hasOwnProperty(i)) {
+                me.config[i] = config[i];
+            }
+        }
+
+        me.fixedIn = me.config.fixedIn;
+        me.fixedOut = me.config.fixedOut;
+
+        if (me._verify()) {
+            me._init();
+        }
+    }
+
+    Fixed.prototype = {
+        construtor: Fixed,
+        version: "0.9.0",
+        scrollTimer: 0,     // 滑动计时器
+        scrollDelay: 150,   // 滑动阀值
+        /**
+         * 验证参数是否合法
+         * @returns {boolean}
+         * @private
+         */
+        _verify: function () {
+            return true;
+        },
+        /**
+         * 初始化
+         * @private
+         */
+        _init: function () {
+            var me = this;
+
+            me.$fixedItems = $(me.config.DOM_FIXED_ITEM);
+            if (me.$fixedItems.length === 0) {
+                return;
+            }
+
+            me.$fixedItems.each(function (index) {
+                var fixedItem = {
+                    id: "fixId" + index,
+                    self: this,
+                    $self: $(this)
+                };
+
+                // 确定 fixed 激活位置，当有 NUM_TRIGGER_POSITION 值时以该值为准，没有则以元素当前位置为准
+                if (me.config.NUM_TRIGGER_POSITION && SQ.core.isNumber(me.config.NUM_TRIGGER_POSITION)) {
+                    fixedItem.triggerPosTop = me.config.NUM_TRIGGER_POSITION;
+                } else {
+                    // 设置占位 DOM
+                    if (me.config.PLACEHOLD) {
+                        me._setPlaceholder(fixedItem);
+                    }
+                    // 获取元素位置 top 值
+                    if (fixedItem.self.getBoundingClientRect()) {
+                        fixedItem.triggerPosTop = fixedItem.self.getBoundingClientRect().top;
+                    } else {
+                        console.log("Not Support getBoundingClientRect");
+                    }
+                    // 当元素处于页面顶端则立即设置为 fixed 布局
+                    // UC 浏览器在实际渲染时会有问题，不建议用 fixed.js 来实现顶部导航的固定布局（直接使用 CSS）
+                    if (fixedItem.self.triggerPosTop === 0) {
+                        me._setFixed(fixedItem);
+                    }
+                }
+                // 触发绑定
+                me._trigger(fixedItem);
+            });
+        },
+        /**
+         * 设置 fixed 元素占位 DOM
+         * @param fixedItem
+         * @private
+         */
+        _setPlaceholder: function (fixedItem) {
+            var $placeholderDom = $("<div class='sq-fixed-placeholder' id='"+ fixedItem.id +"'></div>").css({
+                display: "none",
+                width: fixedItem.$self.width(),
+                height: fixedItem.$self.height(),
+                background: fixedItem.$self.css("background")
+            });
+            $placeholderDom.insertAfter(fixedItem.$self);
+        },
+        _trigger: function (fixedItem) {
+            var me = this;
+            window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
+            // 高级浏览器使用 requestAnimationFrame
+            function advancedWatchEvent() {
+                var scrollTop = $(window).scrollTop();
+                if (scrollTop >= fixedItem.triggerPosTop && !fixedItem.$self.hasClass("sq-fixed")) {
+                    me._setFixed(fixedItem);
+                } else if (scrollTop < fixedItem.triggerPosTop && fixedItem.$self.hasClass("sq-fixed")) {
+                    me._removeFixed(fixedItem);
+                }
+                window.requestAnimationFrame(advancedWatchEvent);
+            }
+            // 不支持 requestAnimationFrame 的浏览器使用常用事件
+            function normalWatchEvent() {
+                var mobile = "android-ios";
+                // 触发函数
+                function fire() {
+                    var scrollTop = $(window).scrollTop();
+                    if (scrollTop >= fixedItem.triggerPosTop && !fixedItem.$self.hasClass("sq-fixed")) {
+                        me._setFixed(fixedItem);
+                    } else if (scrollTop < fixedItem.triggerPosTop && fixedItem.$self.hasClass("sq-fixed")) {
+                        me._removeFixed(fixedItem);
+                    }
+                }
+                // 触摸设备使用 touchstart 事件
+                if (mobile.indexOf(SQ.ua.os.name) !== -1) {
+                    $(window).on("touchstart", function () {
+                        // 在触摸滑动时浏览器会锁死进程，滑动停止后才会触发 touchstart 事件，而此时 scrollTop 值
+                        // 为触摸时的数值，所以添加 setTimeout 来计算获取滑动停止后的数值。
+                        setTimeout(function () {
+                            fire();
+                        }, 150);
+                    });
+                } else {
+                    $(window).on("scroll", function () {
+                        // 添加 scroll 事件相应伐值，优化其性能
+                        if (!me.scrollTimer) {
+                            me.scrollTimer = setTimeout(function () {
+                                fire();
+                                me.scrollTimer = 0;
+                            }, me.scrollDelay);
+                        }
+                    });
+                }
+            }
+            
+            if (window.requestAnimationFrame) {
+                window.requestAnimationFrame(advancedWatchEvent);
+            } else {
+                normalWatchEvent();
+            }
+        },
+        _setFixed: function (fixedItem) {
+            var me = this;
+            
+            var posCss = me.config.ARRY_FIXED_POSITION;
+            var $placeholderDom = $("#" + fixedItem.id);
+
+            fixedItem.$self.css({
+                "position": "fixed",
+                "top": posCss[0],
+                "right": posCss[1],
+                "bottom": posCss[2],
+                "left": posCss[3],
+                "z-index": me.config.NUM_ZINDEX
+            }).addClass("sq-fixed");
+
+            if (me.config.PLACEHOLD && $placeholderDom.length) {
+                $placeholderDom.show();
+            }
+            
+            if (me.fixedIn) {
+                me.fixedIn();
+            }
+        },
+        _removeFixed: function (fixedItem) {
+            var me = this;
+            var $placeholderDom = $("#" + fixedItem.id);
+            
+            fixedItem.$self.attr("style", "").removeClass("sq-fixed");
+
+            if (me.config.PLACEHOLD && $placeholderDom.length) {
+                $placeholderDom.hide();
+            }
+
+            if (me.fixedOut) {
+                me.fixedOut();
+            }
+        }
+    };
+    SQ.Fixed = Fixed;
+}($, window));
+/**
+ * @file Squirrel LazyLoad
+ * @version 0.8.0
+ */
+
+/**
+ * @changelog
+ * 0.8.0  * 重写 lazylaod 插件，提高整体性能。
  * 0.7.0  * 调整滑动阀值 scrollDelay，由 200 调整至 150；
  *        * 调整可视区的计算方式，由 offset 改为 getBoundingClientRect；
  *        * 针对 UC 浏览器极速版进行优化，可以在滑动过程中进行加载。
- * 0.6.5  * 修复 jshint 问题
- * 0.6.4  * 修复图片加载失败时会导致 error 时间一直被触发的 bug，
- *          修复与 loadmore 插件配合使用时，无法替换加载错误的图片
- * 0.6.3  + 新增首屏图片自动加载功能
- *        + 新增占位图、占位背景设置
- * 0.6.0  + 首屏图片自动加载
- * 0.5.1  * 完成图片模式的延迟加载功能
- * 0.0.1  + 新建
+ * 0.6.5  * 修复 jshint 问题。
+ * 0.6.4  * 修复图片加载失败时会导致 error 时间一直被触发的 bug；
+ *          修复与 loadmore 插件配合使用时，无法替换加载错误的图片。
+ * 0.6.3  + 新增首屏图片自动加载功能；
+ *        + 新增占位图、占位背景设置。
+ * 0.6.0  + 首屏图片自动加载。
+ * 0.5.1  * 完成图片模式的延迟加载功能。
+ * 0.0.1  + 新建。
  */
 
 (function ($, window) {
@@ -1048,52 +1270,59 @@ SQ.util = {
                 me.config[i] = config[i];
             }
         }
-        me.refresh = function () {
-            me.$lazyItems = $(me.config.DOM_LAZY_ITEMS);
-            me._loadImg();
-        };
         if (me._verify()) {
-            me.init();
+            me._init();
         }
     }
     LazyLoad.prototype = {
         construtor: LazyLoad,
-        version: "0.7.0",
+        version: "0.8.0",
         scrollTimer: 0,     // 滑动计时器
         scrollDelay: 150,   // 滑动阀值
-
-        /** 验证参数是否合法 */
-        _verify : function () {
+        /**
+         * 刷新延迟加载元素，可以在外部调用。
+         */
+        refresh: function () {
+            var me = this;
+            me.$lazyItems = $(me.config.DOM_LAZY_ITEMS);
+            me._bindLazyEvent();
+            me._loadImg();
+        },
+        /**
+         * 验证参数是否合法
+         * @returns {boolean}
+         * @private
+         */
+        _verify: function () {
             return true;
         },
-        init : function () {
+        _init: function () {
             var me = this;
-            me.$lazyItems = $(me.config.DOM_LAZY_ITEMS); // 触发元素
-            me.lazyItemClassName = me.config.DOM_LAZY_ITEMS.slice(1);
-            // 加载首屏内容
-            if (me.config.MODE === "image") {
-                // 初始化占位图
-                if (me.config.IMG_PLACEHOLDER) {
-                    me.$lazyItems.each(function () {
-                        var $img = $(this);
-                        $img.attr("src", me.config.IMG_PLACEHOLDER);
-                        $img.on("error", function () {
-                            $(this).attr("src", me.config.IMG_PLACEHOLDER).off("error");
-                        });
+            me.$lazyItems = $(me.config.DOM_LAZY_ITEMS);
+            me.lazyItemClassName = me.config.DOM_LAZY_ITEMS.slice(1);   // ".style-name" => "style-name"
+            me._bindLazyEvent();
+            me._trigger();
+            me._loadImg();
+        },
+        _bindLazyEvent: function () {
+            var me = this;
+            // 为延迟加载元素绑定一次性执行事件
+            me.$lazyItems.one("appear", function () {
+                var img = this;
+                var $img = $(img);
+                var src = $img.attr("data-img");
+                // 替换 src 操作
+                if (src) {
+                    $img.attr("src", src).removeAttr("data-img").removeClass(me.lazyItemClassName);
+                    $img.on("error", function () {
+                        $(this).attr("src", me.config.IMG_PLACEHOLDER).off("error");
                     });
                 }
-                // 添加占位背景图
-                if (me.config.CSS_PLACEHOLDER && me.config.DOM_LAZY_PARENT) {
-                    $(me.config.DOM_LAZY_PARENT).addClass(me.config.CSS_PLACEHOLDER.slice(1));
-                }
-                me._loadImg();
-            }
-            me._trigger();
+            });
         },
-        _trigger : function () {
+        _trigger: function () {
             var me = this;
-            var $win = $(window);
-            $win.on("scroll", function () {
+            $(window).on("scroll", function () {
                 // 添加 scroll 事件相应伐值，优化其性能
                 if (!me.scrollTimer) {
                     me.scrollTimer = setTimeout(function () {
@@ -1113,42 +1342,37 @@ SQ.util = {
                 });
             }*/
         },
-        /** 判断是否在显示区域 */
-        _isInDisplayArea : function (item) {
+        /** 
+         * 判断是否在显示区域 
+         */
+        _isInDisplayArea: function (item) {
             var me = this;
-            //var $item = $(item);
-            //var winH = window.innerHeight;
-            //var winOffsetTop = window.pageYOffset; // window Y 轴偏移量
-            //var itemOffsetTop = $item.offset().top;
+            
             if (item.getBoundingClientRect()) {
                 var pos = item.getBoundingClientRect();
-                //console.log(pos.top, winH, pos.top > 0 - me.config.NUM_THRESHOLD && pos.top < window.innerHeight + me.config.NUM_THRESHOLD)
                 return pos.top > 0 - me.config.NUM_THRESHOLD && pos.top - me.config.NUM_THRESHOLD < window.innerHeight;
-                //console.log(pos.top > 0 && pos.top < winH, itemOffsetTop);
-            }
-            // itemOffsetTop >= winOffsetTop 只加载可视区域下方的内容
-            // winOffsetTop + winH + me.config.NUM_THRESHOLD 加载可视区域下方一屏内的内容
-            //return itemOffsetTop >= winOffsetTop && itemOffsetTop <= winOffsetTop + winH + me.config.NUM_THRESHOLD;
-        },
-        _loadImg : function () {
-            var me = this;
-            function replaceSrc($item, src) {
-                $item.attr("src", src).removeAttr("data-img").removeClass(me.lazyItemClassName);
-                $item.on("error", function () {
-                    $(this).attr("src", me.config.IMG_PLACEHOLDER).off("error");
-                });
-                me.refresh();
-                //console.log($("." + me.lazyItemClassName).length, me.$lazyItems.length);
-            }
-            me.$lazyItems.each(function (index, item) {
+            } else {
                 var $item = $(item);
-                var src = $item.attr("data-img");
-                var hasLazyTag = $item.hasClass(me.lazyItemClassName);
-                if (!item || !src || !hasLazyTag) {
-                    return;
+                var winH = window.innerHeight;
+                var winOffsetTop = window.pageYOffset; // window Y 轴偏移量
+                var itemOffsetTop = $item.offset().top;
+                // itemOffsetTop >= winOffsetTop 只加载可视区域下方的内容
+                // winOffsetTop + winH + me.config.NUM_THRESHOLD 加载可视区域下方一屏内的内容
+                return itemOffsetTop >= winOffsetTop && itemOffsetTop <= winOffsetTop + winH + me.config.NUM_THRESHOLD;
+            }
+        },
+        _loadImg: function () {
+            var me = this;
+            me.$lazyItems.each(function (index, item) {
+                var $img = $(item);
+                if (me.config.IMG_PLACEHOLDER && $img.hasClass(me.lazyItemClassName)) {
+                    $img.attr("src", me.config.IMG_PLACEHOLDER);
+                    $img.on("error", function () {
+                        $(this).attr("src", me.config.IMG_PLACEHOLDER).off("error");
+                    });
                 }
                 if (me._isInDisplayArea(item)) {
-                    replaceSrc($item, src);
+                    $img.trigger("appear");
                 }
             });
         }
@@ -1852,11 +2076,13 @@ SQ.util = {
 }($, window));
 /**
  * @file Squirrel Tabs
- * @version 0.7.3
+ * @version 0.7.4
  */
 
 /**
  * @changelog
+ * 0.7.4  * 解决 localStorage 问题，API_URL 兼容 ["","test.json",""] 这种写法；
+ *        * CSS_LOADING_TIP 兼容 ".demo" 和 "demo" 写法。
  * 0.7.3  * 修复 reload 按钮多次绑定问题。
  * 0.7.2  * 修复初始化时，me.$loadingTip 无法找到的问题。
  * 0.7.1  * 修复 jshint 问题。
@@ -1881,7 +2107,7 @@ SQ.util = {
      * @param {string} config.DOM_PANELS                            面板 Dom 元素
      * @param {string} config.API_URL                               API 接口① 字符串形式
      * @param {array}  config.API_URL                               API 接口② 数组形式，数组中各项对应各个选项卡
-     * @param {string} config.CSS_HIGHLIGHT                         自定义高亮样式名称，默认为 active
+     * @param {string} config.CSS_HIGHLIGHT                         自定义高亮样式名称，默认为 .active
      * @param {string} config.CSS_LOADING_TIP                       loading 提示样式
      * @param {string} config.TXT_LOADING_TIP                       loading 提示文字
      * @param {number} config.NUM_ACTIVE                            初始高亮选项卡序号，0 - n
@@ -1897,23 +2123,23 @@ SQ.util = {
      * @param {function} config.loaded(data, $activePanels)         异步加载成功回调函数，参数：data 是异步加载返回数据
      *                                                              参数：$activePanels 是当前激活的面板
      * @example var tabs = new SQ.Tabs({
-            EVE_EVENT_TYPE : "mouseover",
-            DOM_TRIGGER_TARGET : ".J_tabs",
-            DOM_TABS : ".tabs>li",
-            DOM_PANELS : ".panels",
-            API_URL : ["../data/content1.json", "../data/content2.json", "../data/content3.json"],
-            CSS_LOADING_TIP : "tab-loading-tip",
-            NUM_ACTIVE : 0,
-            trigger : function () {
+            EVE_EVENT_TYPE: "mouseover",
+            DOM_TRIGGER_TARGET: ".J_tabs",
+            DOM_TABS: ".tabs>li",
+            DOM_PANELS: ".panels",
+            API_URL: ["../data/content1.json", "../data/content2.json", "../data/content3.json"],
+            CSS_LOADING_TIP: ".tab-loading-tip",
+            NUM_ACTIVE: 0,
+            trigger: function () {
             
             },
-            show : function () {
+            show: function () {
 
             },
-            beforeLoad : function () {
+            beforeLoad: function () {
 
             },
-            loaded : function (data) {
+            loaded: function (data) {
 
             }
         });
@@ -1923,7 +2149,7 @@ SQ.util = {
         var i;
 
         me.config = {
-            CSS_HIGHLIGHT: "active",
+            CSS_HIGHLIGHT: ".active",
             NUM_ACTIVE : 0,
             NUM_XHR_TIMEER : 5000,
             TXT_LOADING_TIP : "正在加载请稍后...",     // 正在加载提示
@@ -1937,9 +2163,13 @@ SQ.util = {
                 me.config[i] = config[i];
             }
         }
+        
+        me.CSS_HIGHLIGHT = me.config.CSS_HIGHLIGHT.indexOf(".") === 0 ? me.config.CSS_HIGHLIGHT.slice(1) : me.config.CSS_HIGHLIGHT;
+        if (me.config.CSS_LOADING_TIP) {
+            me.CSS_LOADING_TIP = me.config.CSS_LOADING_TIP.indexOf(".") === 0 ? me.config.CSS_LOADING_TIP.slice(1) : me.config.CSS_LOADING_TIP;
+        }
 
         me.$triggerTarget = $(me.config.DOM_TRIGGER_TARGET);        // 目标元素
-        me.config.CSS_HIGHLIGHT = me.config.CSS_HIGHLIGHT.indexOf(".") > 0 ? me.config.CSS_HIGHLIGHT.slice(1) : me.config.CSS_HIGHLIGHT;
         me.tabsLen = me.$triggerTarget.length;
         me.triggerFun = me.config.trigger;
         me.showFun = me.config.show;
@@ -1955,16 +2185,19 @@ SQ.util = {
             }
         });
     }
-    Tabs.prototype =  {
+    Tabs.prototype = {
         construtor: Tabs,
-        version: "0.7.3",
+        version: "0.7.4",
         needLoadContent : false,    // 选项卡内容是否需要异步加载
-
-        // 验证参数是否合法
-        _verify : function () {
+        /**
+         * 验证参数是否合法
+         * @returns {boolean}
+         * @private
+         */
+        _verify: function () {
             return true;
         },
-        _init : function ($tabMould, $tabs, $panels) {
+        _init: function ($tabMould, $tabs, $panels) {
             var me = this;
             var i = 0;
             // 为选项卡添加序号
@@ -1975,8 +2208,8 @@ SQ.util = {
             // 判断是否需要生成异步加载提示语
             if (me.config.API_URL && (SQ.core.isString(me.config.API_URL) || SQ.core.isArray(me.config.API_URL))) {
                 me.$loadingTip = $("<div class='dpl-tabs-loadingTip'></div>");
-                if (me.config.CSS_LOADING_TIP) {
-                    me.$loadingTip.addClass(me.config.CSS_LOADING_TIP);
+                if (me.CSS_LOADING_TIP) {
+                    me.$loadingTip.addClass(me.CSS_LOADING_TIP);
                 } else {
                     me.$loadingTip.css({
                         "height" : 60,
@@ -2001,11 +2234,16 @@ SQ.util = {
         /**
          * 触发事件方法，在满足绑定事件条件时或满足指定触发条件的情况下调用触发方法，
          * 该方法用于集中处理触发事件，判定是否需要加载数据或者更新 UI 显示。
+         * @param $tabMould
+         * @param $tabs
+         * @param $panels
+         * @param $tab
+         * @private
          */
-        _trigger : function ($tabMould, $tabs, $panels, $tab) {
+        _trigger: function ($tabMould, $tabs, $panels, $tab) {
             var me = this;
             var tabIndex = $tab.attr("data-tabIndex");
-            var isCurrentActive = $tab.hasClass(me.config.CSS_HIGHLIGHT);
+            var isCurrentActive = $tab.hasClass(me.CSS_HIGHLIGHT);
 
             if (isCurrentActive) {
                 return;
@@ -2015,30 +2253,34 @@ SQ.util = {
             if (me.triggerFun) {
                 me.triggerFun($tabs, $panels, tabIndex);
             }
-            //me.triggerFun && me.triggerFun($tabs, $panels, tabIndex);
         },
-        _cleanPanel : function ($activePanels) {
+        _cleanPanel: function ($activePanels) {
             $activePanels.empty();
         },
-        // 显示目标选项卡，可以在外部调用该方法
-        show : function ($tabs, $panels, tabIndex) {
+        /**
+         * 显示目标选项卡，可以在外部调用该方法
+         * @param $tabs
+         * @param $panels
+         * @param tabIndex
+         */
+        show: function ($tabs, $panels, tabIndex) {
             var me = this;
             var $activeTab = $tabs.eq(tabIndex);
             var $activePanels = $panels.eq(tabIndex);
-            $tabs.removeClass(me.config.CSS_HIGHLIGHT);
-            $panels.removeClass(me.config.CSS_HIGHLIGHT);
-            $activeTab.addClass(me.config.CSS_HIGHLIGHT);
-            $activePanels.addClass(me.config.CSS_HIGHLIGHT);
+
+            $tabs.removeClass(me.CSS_HIGHLIGHT);
+            $panels.removeClass(me.CSS_HIGHLIGHT);
+            $activeTab.addClass(me.CSS_HIGHLIGHT);
+            $activePanels.addClass(me.CSS_HIGHLIGHT);
+
             if (me.showFun) {
                 me.showFun($tabs, $panels, tabIndex);
             }
-            //me.showFun && me.showFun($tabs, $panels, tabIndex);
-
             if (me.config.API_URL) {
                 me._load($activePanels, tabIndex);
             }
         },
-        _load : function ($activePanels, tabIndex) {
+        _load: function ($activePanels, tabIndex) {
             var me = this;
             var api = me.config.API_URL;
             var $currentLoadTip = $activePanels.find(".dpl-tabs-loadingTip");
@@ -2055,24 +2297,11 @@ SQ.util = {
                     return;
                 }
             }
-
-            if (SQ.core.isArray(me.config.API_URL) && me.config.API_URL[tabIndex]) {
-                api = me.config.API_URL[tabIndex];
-            }
-            if (me.xhr) {
-                me.xhr.abort();
-            }
+            // 是否清空面板
             if (me.config.CLEAR_PANEL) {
                 me._cleanPanel($activePanels);
             }
-            if (hasLoadingTip) {
-                $currentLoadTip.show();
-            } else {
-                $activePanels.append(me.$loadingTip);
-                $currentLoadTip = $activePanels.find(".dpl-tabs-loadingTip");
-                $currentLoadTip.show();
-            }
-
+            // 是否启用本地缓存
             if (me.config.LOCAL_DATA) {
                 var localData = SQ.store.localStorage.get(api, me.config.NUM_EXPIRES);
                 if (localData) {
@@ -2080,11 +2309,27 @@ SQ.util = {
                     if (me.loadFun) {
                         me.loadFun(JSON.parse(localData), $activePanels);
                     }
-                    //me.loadFun && me.loadFun(JSON.parse(localData), $activePanels);
                     return;
                 }
             }
-
+            // 开始 Ajax 流程
+            if (SQ.core.isArray(me.config.API_URL)) {
+                api = me.config.API_URL[tabIndex];
+            }
+            if (!api || api.length === 0) {
+                return;
+            }
+            if (me.xhr) {
+                me.xhr.abort();
+            }
+            // 显示加载提示语
+            if (hasLoadingTip) {
+                $currentLoadTip.show();
+            } else {
+                $activePanels.append(me.$loadingTip);
+                $currentLoadTip = $activePanels.find(".dpl-tabs-loadingTip");
+                $currentLoadTip.show();
+            }
             me.xhr = $.ajax({
                 type : "POST",
                 url : api,
@@ -2099,14 +2344,13 @@ SQ.util = {
                     if (me.loadFun) {
                         me.loadFun(data, $activePanels);
                     }
-                    //me.loadFun && me.loadFun(data, $activePanels);
                 },
                 error : function () {
                     me._showReloadTips($activePanels, tabIndex);
                 }
             });
         },
-        _showReloadTips : function ($activePanels, tabIndex) {
+        _showReloadTips: function ($activePanels, tabIndex) {
             var me = this;
             var $tip = $activePanels.find(".dpl-tabs-loadingTip");
             $tip.show().empty();

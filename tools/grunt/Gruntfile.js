@@ -77,14 +77,14 @@ module.exports = function (grunt) {
         watch: {
             less: {
                 files: ["<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/*.less"],
-                tasks: ["less", "cssmin", "copy"]
+                tasks: ["less", "cssmin", "copy", "notify:builded"]
             },
             script: {
                 files: [
                     "<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>/*.js",
                     "<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>/core/*.js"
                 ],
-                tasks: ["concat", "uglify", "copy"]
+                tasks: ["concat", "uglify", "copy", "notify:builded"]
             }
         },
         jsdoc: {
@@ -121,6 +121,13 @@ module.exports = function (grunt) {
                 }
             },
             testServer: {}
+        },
+        notify: {
+            builded: {
+                options: {
+                    message: "Squirrel is ready!"
+                }
+            }
         }
     });
     
@@ -134,6 +141,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-open");
     grunt.loadNpmTasks("grunt-contrib-connect"); // 本地服务器
     grunt.loadNpmTasks("grunt-contrib-copy");
+    grunt.loadNpmTasks("grunt-notify");
     //grunt.loadNpmTasks("grunt-cmd-transport");
     //grunt.loadNpmTasks("grunt-cmd-concat");
     //grunt.registerTask("openit", ["open"]);
@@ -146,4 +154,10 @@ module.exports = function (grunt) {
     /*grunt.event.on('watch', function (action, filepath) {
         grunt.config(["less"], filepath);
     });*/
+
+    //grunt.task.run('notify_hooks');
+    /*grunt.registerTask('server', [
+        'uglify',
+        'notify:server'
+    ]);*/
 };

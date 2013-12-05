@@ -1,21 +1,22 @@
 /**
  * @file Squirrel LazyLoad
- * @version 0.7.0
+ * @version 0.8.0
  */
 
 /**
  * @changelog
+ * 0.8.0  * 重写 lazylaod 插件，提高整体性能。
  * 0.7.0  * 调整滑动阀值 scrollDelay，由 200 调整至 150；
  *        * 调整可视区的计算方式，由 offset 改为 getBoundingClientRect；
  *        * 针对 UC 浏览器极速版进行优化，可以在滑动过程中进行加载。
- * 0.6.5  * 修复 jshint 问题
- * 0.6.4  * 修复图片加载失败时会导致 error 时间一直被触发的 bug，
- *          修复与 loadmore 插件配合使用时，无法替换加载错误的图片
- * 0.6.3  + 新增首屏图片自动加载功能
- *        + 新增占位图、占位背景设置
- * 0.6.0  + 首屏图片自动加载
- * 0.5.1  * 完成图片模式的延迟加载功能
- * 0.0.1  + 新建
+ * 0.6.5  * 修复 jshint 问题。
+ * 0.6.4  * 修复图片加载失败时会导致 error 时间一直被触发的 bug；
+ *          修复与 loadmore 插件配合使用时，无法替换加载错误的图片。
+ * 0.6.3  + 新增首屏图片自动加载功能；
+ *        + 新增占位图、占位背景设置。
+ * 0.6.0  + 首屏图片自动加载。
+ * 0.5.1  * 完成图片模式的延迟加载功能。
+ * 0.0.1  + 新建。
  */
 
 (function ($, window) {
@@ -54,52 +55,59 @@
                 me.config[i] = config[i];
             }
         }
-        me.refresh = function () {
-            me.$lazyItems = $(me.config.DOM_LAZY_ITEMS);
-            me._loadImg();
-        };
         if (me._verify()) {
-            me.init();
+            me._init();
         }
     }
     LazyLoad.prototype = {
         construtor: LazyLoad,
-        version: "0.7.0",
+        version: "0.8.0",
         scrollTimer: 0,     // 滑动计时器
         scrollDelay: 150,   // 滑动阀值
-
-        /** 验证参数是否合法 */
-        _verify : function () {
+        /**
+         * 刷新延迟加载元素，可以在外部调用。
+         */
+        refresh: function () {
+            var me = this;
+            me.$lazyItems = $(me.config.DOM_LAZY_ITEMS);
+            me._bindLazyEvent();
+            me._loadImg();
+        },
+        /**
+         * 验证参数是否合法
+         * @returns {boolean}
+         * @private
+         */
+        _verify: function () {
             return true;
         },
-        init : function () {
+        _init: function () {
             var me = this;
-            me.$lazyItems = $(me.config.DOM_LAZY_ITEMS); // 触发元素
-            me.lazyItemClassName = me.config.DOM_LAZY_ITEMS.slice(1);
-            // 加载首屏内容
-            if (me.config.MODE === "image") {
-                // 初始化占位图
-                if (me.config.IMG_PLACEHOLDER) {
-                    me.$lazyItems.each(function () {
-                        var $img = $(this);
-                        $img.attr("src", me.config.IMG_PLACEHOLDER);
-                        $img.on("error", function () {
-                            $(this).attr("src", me.config.IMG_PLACEHOLDER).off("error");
-                        });
+            me.$lazyItems = $(me.config.DOM_LAZY_ITEMS);
+            me.lazyItemClassName = me.config.DOM_LAZY_ITEMS.slice(1);   // ".style-name" => "style-name"
+            me._bindLazyEvent();
+            me._trigger();
+            me._loadImg();
+        },
+        _bindLazyEvent: function () {
+            var me = this;
+            // 为延迟加载元素绑定一次性执行事件
+            me.$lazyItems.one("appear", function () {
+                var img = this;
+                var $img = $(img);
+                var src = $img.attr("data-img");
+                // 替换 src 操作
+                if (src) {
+                    $img.attr("src", src).removeAttr("data-img").removeClass(me.lazyItemClassName);
+                    $img.on("error", function () {
+                        $(this).attr("src", me.config.IMG_PLACEHOLDER).off("error");
                     });
                 }
-                // 添加占位背景图
-                if (me.config.CSS_PLACEHOLDER && me.config.DOM_LAZY_PARENT) {
-                    $(me.config.DOM_LAZY_PARENT).addClass(me.config.CSS_PLACEHOLDER.slice(1));
-                }
-                me._loadImg();
-            }
-            me._trigger();
+            });
         },
-        _trigger : function () {
+        _trigger: function () {
             var me = this;
-            var $win = $(window);
-            $win.on("scroll", function () {
+            $(window).on("scroll", function () {
                 // 添加 scroll 事件相应伐值，优化其性能
                 if (!me.scrollTimer) {
                     me.scrollTimer = setTimeout(function () {
@@ -119,42 +127,37 @@
                 });
             }*/
         },
-        /** 判断是否在显示区域 */
-        _isInDisplayArea : function (item) {
+        /** 
+         * 判断是否在显示区域 
+         */
+        _isInDisplayArea: function (item) {
             var me = this;
-            //var $item = $(item);
-            //var winH = window.innerHeight;
-            //var winOffsetTop = window.pageYOffset; // window Y 轴偏移量
-            //var itemOffsetTop = $item.offset().top;
+            
             if (item.getBoundingClientRect()) {
                 var pos = item.getBoundingClientRect();
-                //console.log(pos.top, winH, pos.top > 0 - me.config.NUM_THRESHOLD && pos.top < window.innerHeight + me.config.NUM_THRESHOLD)
                 return pos.top > 0 - me.config.NUM_THRESHOLD && pos.top - me.config.NUM_THRESHOLD < window.innerHeight;
-                //console.log(pos.top > 0 && pos.top < winH, itemOffsetTop);
-            }
-            // itemOffsetTop >= winOffsetTop 只加载可视区域下方的内容
-            // winOffsetTop + winH + me.config.NUM_THRESHOLD 加载可视区域下方一屏内的内容
-            //return itemOffsetTop >= winOffsetTop && itemOffsetTop <= winOffsetTop + winH + me.config.NUM_THRESHOLD;
-        },
-        _loadImg : function () {
-            var me = this;
-            function replaceSrc($item, src) {
-                $item.attr("src", src).removeAttr("data-img").removeClass(me.lazyItemClassName);
-                $item.on("error", function () {
-                    $(this).attr("src", me.config.IMG_PLACEHOLDER).off("error");
-                });
-                me.refresh();
-                //console.log($("." + me.lazyItemClassName).length, me.$lazyItems.length);
-            }
-            me.$lazyItems.each(function (index, item) {
+            } else {
                 var $item = $(item);
-                var src = $item.attr("data-img");
-                var hasLazyTag = $item.hasClass(me.lazyItemClassName);
-                if (!item || !src || !hasLazyTag) {
-                    return;
+                var winH = window.innerHeight;
+                var winOffsetTop = window.pageYOffset; // window Y 轴偏移量
+                var itemOffsetTop = $item.offset().top;
+                // itemOffsetTop >= winOffsetTop 只加载可视区域下方的内容
+                // winOffsetTop + winH + me.config.NUM_THRESHOLD 加载可视区域下方一屏内的内容
+                return itemOffsetTop >= winOffsetTop && itemOffsetTop <= winOffsetTop + winH + me.config.NUM_THRESHOLD;
+            }
+        },
+        _loadImg: function () {
+            var me = this;
+            me.$lazyItems.each(function (index, item) {
+                var $img = $(item);
+                if (me.config.IMG_PLACEHOLDER && $img.hasClass(me.lazyItemClassName)) {
+                    $img.attr("src", me.config.IMG_PLACEHOLDER);
+                    $img.on("error", function () {
+                        $(this).attr("src", me.config.IMG_PLACEHOLDER).off("error");
+                    });
                 }
                 if (me._isInDisplayArea(item)) {
-                    replaceSrc($item, src);
+                    $img.trigger("appear");
                 }
             });
         }

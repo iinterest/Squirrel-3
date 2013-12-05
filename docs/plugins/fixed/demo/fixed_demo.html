@@ -3,22 +3,34 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <title>Squirrel Lazyload</title>
+    <title>Squirrel Fixed</title>
     <link type= "text/css" rel="stylesheet" href="../../../../build/css/squirrel.css" />
     <style type="text/css">
         .demo-go-back{ display:inline-block; position:fixed; width:120px; height:30px; left:50%; margin-left:-60px; background:#38c483; border-bottom:3px solid #299c5d; color:#fff; line-height:30px; text-align:center; z-index:999;}
         .default-icon{ position:relative; background:url("../../../static/images/sq-icon.png") no-repeat; background-size:50px;}
+
+        .fixed{ position:fixed!important; top:0; left:0; right:0; z-index:30;}
+        .fixed + .fixed-placehold{ height:44px;}
+        .gray{ background:#ddd;}
+        .green{ background:#38c483;}
+        .orange{ background:#ff6600;}
+        .go-top-btn{ display:none; width:50px; height:50px; background:#38c483; border-radius:30px; text-align:center; line-height:50px; color:#fff; position:fixed; bottom:20px; right:10px; z-index:99;}
     </style>
 </head>
 <body>
-    <!--<script type="text/javascript" src="../../../../libs/conzole.js"></script>-->
-    <a href="../lazyload.html" class="demo-go-back">返回</a>
+    
+    <a href="../fixed.html" class="demo-go-back">返回</a>
+    <a href="#" class="go-top-btn J_fixedGoTop">Top</a>
     <div class="wrapper">
+        <header class="sq-toolbar header fixed gray">
+            Title 1
+        </header>
+        <div class="fixed-placehold"></div>
         <div class="sq-list vertical">
             <ul class="J_ajaxWrap">
                 <!--lazyload-->
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -28,7 +40,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -38,7 +50,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/4/24/9120901.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/24/9120901.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -48,7 +60,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/3/7/9070669.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/3/7/9070669.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -58,7 +70,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/2/1/9060536.jpg"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/2/1/9060536.jpg"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -68,7 +80,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -78,7 +90,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -88,7 +100,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/4/24/9120901.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/24/9120901.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -98,7 +110,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/3/7/9070669.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/3/7/9070669.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -108,7 +120,25 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/2/1/9060536.jpg"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/2/1/9060536.jpg"/></i></div>
+                    <dl class="description">
+                        <dt class="row">UC浏览器9.0不止所见</dt>
+                        <dd class="row">32372 人推荐下载</dd>
+                        <dd class="row">工具软件 | 8.2MB</dd>
+                    </dl>
+                    <div class="extend v-middle"><div class="sq-btn m-grey"><a href="#">免费下载</a></div></div>
+                    <a href="#trigger-area" class="trigger-area"></a>
+                </li>
+            </ul>
+        </div>
+        <header class="sq-toolbar header J_fixedHeader green">
+            Title 2
+        </header>
+        <div class="sq-list vertical">
+            <ul class="J_ajaxWrap">
+                <!--lazyload-->
+                <li>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -118,7 +148,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -128,7 +158,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -138,7 +168,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/4/24/9120901.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -148,7 +178,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/3/7/9070669.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/24/9120901.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -158,7 +188,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/2/1/9060536.jpg"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/3/7/9070669.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -168,7 +198,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/2/1/9060536.jpg"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -178,7 +208,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -188,7 +218,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/4/24/9120901.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -198,7 +228,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/3/7/9070669.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/24/9120901.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -208,7 +238,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/2/1/9060536.jpg"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/3/7/9070669.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -218,7 +248,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2012/12/20/9042425-error.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/2/1/9060536.jpg"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -228,7 +258,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -238,7 +268,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/4/24/9120901.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -248,7 +278,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/3/7/9070669.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/24/9120901.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -258,7 +288,26 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/2/1/9060536.jpg"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/3/7/9070669.png"/></i></div>
+                    <dl class="description">
+                        <dt class="row">UC浏览器9.0不止所见</dt>
+                        <dd class="row">32372 人推荐下载</dd>
+                        <dd class="row">工具软件 | 8.2MB</dd>
+                    </dl>
+                    <div class="extend v-middle"><div class="sq-btn m-grey"><a href="#">免费下载</a></div></div>
+                    <a href="#trigger-area" class="trigger-area"></a>
+                </li>
+            </ul>
+        </div>
+        <header class="sq-toolbar header J_fixedHeader orange">
+            Title 3
+        </header>
+        <div class="sq-list vertical">
+            <ul class="J_ajaxWrap">
+                <!--lazyload-->
+                
+                <li>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/2/1/9060536.jpg"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -268,7 +317,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -278,7 +327,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -288,7 +337,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/4/24/9120901.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/24/9120901.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -298,7 +347,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/3/7/9070669.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/3/7/9070669.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -308,7 +357,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/2/1/9060536.jpg"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/2/1/9060536.jpg"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -318,7 +367,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -328,7 +377,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -338,7 +387,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/4/24/9120901.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/24/9120901.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -348,7 +397,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/3/7/9070669.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/3/7/9070669.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -358,7 +407,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/2/1/9060536.jpg"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/2/1/9060536.jpg"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -368,7 +417,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -378,7 +427,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -388,7 +437,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/4/24/9120901.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/24/9120901.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -398,7 +447,7 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/3/7/9070669.png"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/3/7/9070669.png"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -408,7 +457,27 @@
                     <a href="#trigger-area" class="trigger-area"></a>
                 </li>
                 <li>
-                    <div class="icon"><i><img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2013/2/1/9060536.jpg"/></i></div>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/2/1/9060536.jpg"/></i></div>
+                    <dl class="description">
+                        <dt class="row">UC浏览器9.0不止所见</dt>
+                        <dd class="row">32372 人推荐下载</dd>
+                        <dd class="row">工具软件 | 8.2MB</dd>
+                    </dl>
+                    <div class="extend v-middle"><div class="sq-btn m-grey"><a href="#">免费下载</a></div></div>
+                    <a href="#trigger-area" class="trigger-area"></a>
+                </li>
+                <li>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2012/12/20/9042425.png"/></i></div>
+                    <dl class="description">
+                        <dt class="row">UC浏览器9.0不止所见</dt>
+                        <dd class="row">32372 人推荐下载</dd>
+                        <dd class="row">工具软件 | 8.2MB</dd>
+                    </dl>
+                    <div class="extend v-middle"><div class="sq-btn m-grey"><a href="#">免费下载</a></div></div>
+                    <a href="#trigger-area" class="trigger-area"></a>
+                </li>
+                <li>
+                    <div class="icon"><i><img src="http://image.game.uc.cn/2013/4/17/9112852.jpg"/></i></div>
                     <dl class="description">
                         <dt class="row">UC浏览器9.0不止所见</dt>
                         <dd class="row">32372 人推荐下载</dd>
@@ -420,39 +489,38 @@
             </ul>
         </div>
         <div class="loadMore J_scrollLoadMore" data-api="data/list.json"></div>
-
     </div>
     <script type="text/javascript" src="../../../../libs/zepto/zepto-1.0.min.js"></script>
     <script type="text/javascript" src="../../../../build/js/squirrel.js"></script>
+    <!--<script type="text/javascript" src="../../../../libs/conzole.js"></script>-->
     <script type="text/javascript">
+        //conzole.open();
+        //conzole.setWidth(100);
+
         $(document).ready(function () {
-            //conzole.open();
-            //conzole.setWidth(100);
-            
-            var imglazyload = new SQ.LazyLoad({
-                DOM_LAZY_ITEMS : ".J_lazyload",
-                DOM_LAZY_PARENT : ".sq-list .icon",
-                CSS_PLACEHOLDER : ".default-icon",
-                IMG_PLACEHOLDER : "../../../static/images/sq-icon.png",
-                NUM_THRESHOLD : 350
+            var fixedHeader = new SQ.Fixed({
+                DOM_FIXED_ITEM: ".J_fixedHeader",
+                DOM_TRIGGER_TARGET: window,
+                NUM_ZINDEX: 99,
+                PLACEHOLD: true
             });
-            
-            var appList = new SQ.LoadMore({
-                EVE_EVENT_TYPE : "scroll",
-                DOM_TRIGGER_TARGET : window,
-                DOM_AJAX_BOX : ".J_ajaxWrap",
-                DOM_STATE_BOX : ".J_scrollLoadMore",
-                CSS_INIT_STYLE : "sq-loadMore-btn",
-                DATA_TYPE : "html",
-                NUM_SCROLL_MAX_PAGE : 999,
-                loaded : function () {
+
+            var fixedButton = new SQ.Fixed({
+                DOM_FIXED_ITEM: ".J_fixedGoTop",
+                DOM_TRIGGER_TARGET: window,
+                ARRY_FIXED_POSITION: ["auto", 10, 20, "auto"],
+                NUM_TRIGGER_POSITION: 300,
+                ANIMATE: "",
+                NUM_ZINDEX: 31,
+                fixedIn: function () {
                     var me = this;
-                    imglazyload.refresh();
+                    me.$fixedItems.show();
+                    console.log("fixedIn");
                 },
-                scrollEnd : function () {
-                    //var me = this;
-                    //me.$stateBox.addClass("sq-loadMore-clickState");
-                    //imglazyload.refresh();
+                fixedOut: function () {
+                    var me = this;
+                    me.$fixedItems.hide();
+                    console.log("fixedOut");
                 }
             });
         });

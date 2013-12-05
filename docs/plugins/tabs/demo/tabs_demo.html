@@ -10,7 +10,7 @@
         .demo-go-back{ display:inline-block; position:fixed; width:120px; height:30px; left:50%; margin-left:-60px; background:#38c483; border-bottom:3px solid #299c5d; color:#fff; line-height:30px; text-align:center; z-index:999;}
     </style>
     <style type="text/css">
-        .wrapper{ max-width:500px; padding:10px;}
+        .wrapper{ max-width:500px; padding:40px 10px 10px;}
         .tab-loading-tip{ padding:40px 10px; text-align:center; line-height:1.5;}
         .J_scrollLoadWrap{ border-top:1px solid #d7d7d7;}
     </style>
@@ -56,7 +56,7 @@
     <script type="text/javascript" src="../../../../build/js/squirrel.js"></script>
     <script type="text/javascript">
         var config = {
-            search_URI : "search_uri"
+            search_URI: "search_uri"
         }
         
         function renderPanelContent(ds, $panel) {
@@ -81,33 +81,34 @@
             $panel.append($appListWrap);
 
             var appList = new SQ.LoadMore({
-                EVE_EVENT_TYPE : "scroll",
-                DOM_TRIGGER_TARGET : window,
-                DOM_AJAX_BOX : ".J_ajaxWrap" + index,
-                DOM_STATE_BOX : ".J_scrollLoadMore" + index,
-                CSS_INIT_STYLE : "sq-loadMore-btn",
-                DATA_TYPE : "html",
-                NUM_SCROLL_MAX_PAGE : 2
+                EVE_EVENT_TYPE: "scroll",
+                DOM_TRIGGER_TARGET: window,
+                DOM_AJAX_BOX: ".J_ajaxWrap" + index,
+                DOM_STATE_BOX: ".J_scrollLoadMore" + index,
+                CSS_INIT_STYLE: "sq-loadMore-btn",
+                DATA_TYPE: "html",
+                NUM_SCROLL_MAX_PAGE: 2
             });
         }
 
         var tabs = new SQ.Tabs({
-            EVE_EVENT_TYPE : "click",
-            DOM_TRIGGER_TARGET : ".J_tabs",
-            DOM_TABS : ".tabs>li",
-            DOM_PANELS : ".panels",
-            //API_URL : "data/content.json",
-            API_URL : ["data/content1-error.json", "data/content2.json", "data/content3.json"],
-            CSS_LOADING_TIP : "tab-loading-tip",
-            NUM_ACTIVE : 0,
-            show : function ($tabs, $panels, tabIndex) {
+            EVE_EVENT_TYPE: "click",
+            DOM_TRIGGER_TARGET: ".J_tabs",
+            DOM_TABS: ".tabs>li",
+            DOM_PANELS: ".panels",
+            //API_URL: "data/content.json",
+            API_URL: ["data/content1.json", "data/content2.json", ""],
+            CSS_LOADING_TIP: "tab-loading-tip",
+            NUM_ACTIVE: 0,
+            LOCAL_DATA: true,
+            show: function ($tabs, $panels, tabIndex) {
                 var $activePanels = $panels.eq(tabIndex);
                 // 选项卡只会进行一次异步加载，所以要在 show 回调函数里执行 creatLoadMore
                 if ($activePanels.hasClass("hasLoad")) {
                     creatLoadMore($activePanels, tabIndex);
                 }
             },
-            loaded : function (data, $activePanels) {
+            loaded: function (data, $activePanels) {
                 var tabIndex = $activePanels.index() - 1;
                 renderPanelContent(data, $activePanels);
                 // 首先在 loaded 回调函数里执行 creatLoadMore 确保显示顺序

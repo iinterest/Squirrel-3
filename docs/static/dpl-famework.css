@@ -309,6 +309,7 @@ blockquote{ margin:20px 0; padding-left:20px; border-left:5px solid #d7d7d7; fon
 .change-log .version.active{ border-left-color:#38c483;}
 .change-log .version.build{ border-left-color:#ff6600;}
 .change-log .version.hotfix h4::after{ content:"Hotfix"; display:inline-block; padding:0 4px; background:#d10000; border-radius:3px; color:#fff; font-weight:normal; -webkit-transform: scale(0.81);}
+.change-log .version a[href*="github"]{ display:inline-block; padding:0 4px 0 4px; background:#f7f7f7; border-radius:2px;}
 .change-log h4{ float:left; width:70px; height:40px; padding:10px 0 10px 10px; line-height:20px;}
 .change-log ul{ float:left; padding:10px;}
 .change-log li{ position:relative; width:540px; margin:2px 0; padding-left:20px; line-height:1.4;}
