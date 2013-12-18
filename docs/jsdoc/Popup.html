@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: Popup</title>
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+<div id="main">
+<h1 class="page-title">Class: Popup</h1>
+<section>
+<header>
+    <h2>
+        Popup </h2>
+
+    <div class="class-description">对话框组件，依赖 jQuery 或 Zepto 库。</div>
+</header>
+<article>
+<div class="container-overview">
+<dt>
+<h4 class="name" id="Popup"><span class="type-signature"></span>new Popup<span class="signature">(config)</span><span
+        class="type-signature"></span></h4>
+</dt>
+<dd>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>config</code></td>
+<td class="type">
+    <span class="param-type">object</span>
+</td>
+<td class="description last">组件配置（下面的参数为配置项，配置会写入属性）
+<h6>Properties</h6>
+<table class="params">
+<thead>
+<tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td class="name"><code>EVE_EVENT_TYPE</code></td>
+    <td class="type">
+        <span class="param-type">string</span>
+    </td>
+    <td class="description last">绑定事件设置，默认值为："click"</td>
+</tr>
+<tr>
+    <td class="name"><code>DOM_TRIGGER_TARGET</code></td>
+    <td class="type">
+        <span class="param-type">string</span>
+    </td>
+    <td class="description last">被绑定事件的 Dom 元素</td>
+</tr>
+<tr>
+    <td class="name"><code>DOM_PARENT</code></td>
+    <td class="type">
+        <span class="param-type">string</span>
+    </td>
+    <td class="description last">被绑定事件的 Dom 元素的父元素，用于确定定位原</td>
+</tr>
+<tr>
+    <td class="name"><code>CSS_CLASS</code></td>
+    <td class="type">
+        <span class="param-type">string</span>
+    </td>
+    <td class="description last">弹窗样式类</td>
+</tr>
+<tr>
+    <td class="name"><code>CSS_POSITION</code></td>
+    <td class="type">
+        <span class="param-type">string</span>
+    </td>
+    <td class="description last">弹窗定位方式，默认值："fixed"， 可以设置为："absolute"</td>
+</tr>
+<tr>
+    <td class="name"><code>CSS_TOP</code></td>
+    <td class="type">
+        <span class="param-type">number</span>
+    </td>
+    <td class="description last">弹窗 top 属性值</td>
+</tr>
+<tr>
+    <td class="name"><code>CSS_RIGHT</code></td>
+    <td class="type">
+        <span class="param-type">number</span>
+    </td>
+    <td class="description last">弹窗 right 属性值</td>
+</tr>
+<tr>
+    <td class="name"><code>CSS_BOTTOM</code></td>
+    <td class="type">
+        <span class="param-type">number</span>
+    </td>
+    <td class="description last">弹窗 bottom 属性值</td>
+</tr>
+<tr>
+    <td class="name"><code>CSS_LEFT</code></td>
+    <td class="type">
+        <span class="param-type">number</span>
+    </td>
+    <td class="description last">弹窗 left 属性值</td>
+</tr>
+<tr>
+    <td class="name"><code>CSS_WIDTH</code></td>
+    <td class="type">
+        <span class="param-type">number</span>
+    </td>
+    <td class="description last">弹窗 width 属性值</td>
+</tr>
+<tr>
+    <td class="name"><code>CSS_HEIGHT</code></td>
+    <td class="type">
+        <span class="param-type">number</span>
+    </td>
+    <td class="description last">弹窗 height 属性值</td>
+</tr>
+<tr>
+    <td class="name"><code>VERTICAL_CENTER</code></td>
+    <td class="type">
+        <span class="param-type">boolen</span>
+    </td>
+    <td class="description last">弹窗是否垂直居中设定，默认值：true</td>
+</tr>
+<tr>
+    <td class="name"><code>HORIZONTAL_CENTER</code></td>
+    <td class="type">
+        <span class="param-type">boolen</span>
+    </td>
+    <td class="description last">弹窗是否水平居中设定，默认值：true</td>
+</tr>
+<tr>
+    <td class="name"><code>CLOSE_BTN</code></td>
+    <td class="type">
+        <span class="param-type">boolen</span>
+    </td>
+    <td class="description last">关闭按钮显示设定，默认值：true</td>
+</tr>
+<tr>
+    <td class="name"><code>OK_BTN</code></td>
+    <td class="type">
+        <span class="param-type">boolen</span>
+    </td>
+    <td class="description last">去掉按钮显示设定，默认值：false</td>
+</tr>
+<tr>
+    <td class="name"><code>CANCEL_BTN</code></td>
+    <td class="type">
+        <span class="param-type">boolen</span>
+    </td>
+    <td class="description last">取消按钮显示设定，默认值：false</td>
+</tr>
+<tr>
+    <td class="name"><code>TXT_CLOSE_VAL</code></td>
+    <td class="type">
+        <span class="param-type">string</span>
+    </td>
+    <td class="description last">关闭按钮显示文字，默认值："×"</td>
+</tr>
+<tr>
+    <td class="name"><code>TXT_OK_VAL</code></td>
+    <td class="type">
+        <span class="param-type">string</span>
+    </td>
+    <td class="description last">确定按钮显示文字，默认值："确定"</td>
+</tr>
+<tr>
+    <td class="name"><code>TXT_CANCEL_VAL</code></td>
+    <td class="type">
+        <span class="param-type">string</span>
+    </td>
+    <td class="description last">取消按钮显示文字，默认值："取消"</td>
+</tr>
+<tr>
+    <td class="name"><code>ANIMATE</code></td>
+    <td class="type">
+        <span class="param-type">string</span>
+    </td>
+    <td class="description last">动画类</td>
+</tr>
+<tr>
+    <td class="name"><code>MASK</code></td>
+    <td class="type">
+        <span class="param-type">boolen</span>
+    </td>
+    <td class="description last">遮罩设定，默认为 false，设为 true 将显示遮罩效果</td>
+</tr>
+<tr>
+    <td class="name"><code>CSS_MASK_BACKGROUND</code></td>
+    <td class="type">
+        <span class="param-type">string</span>
+    </td>
+    <td class="description last">遮罩背景色，默认值："#000000"</td>
+</tr>
+<tr>
+    <td class="name"><code>CSS_MASK_OPACITY</code></td>
+    <td class="type">
+        <span class="param-type">string</span>
+    </td>
+    <td class="description last">遮罩透明度，默认值：0.5</td>
+</tr>
+<tr>
+    <td class="name"><code>NUM_CLOSE_TIME</code></td>
+    <td class="type">
+        <span class="param-type">number</span>
+    </td>
+    <td class="description last">对话框自动关闭时间，单位：毫秒</td>
+</tr>
+<tr>
+    <td class="name"><code>LOCK</code></td>
+    <td class="type">
+        <span class="param-type">boolen</span>
+    </td>
+    <td class="description last">锁定操作，默认为 false，设为 true 将屏蔽触摸操作，默认值：false</td>
+</tr>
+<tr>
+    <td class="name"><code>PREVENT_DEFAULT</code></td>
+    <td class="type">
+        <span class="param-type">boolen</span>
+    </td>
+    <td class="description last">默认动作响应设置，默认为 true，不响应默认操作</td>
+</tr>
+<tr>
+    <td class="name"><code>DISPOSABLE</code></td>
+    <td class="type">
+        <span class="param-type">boolen</span>
+    </td>
+    <td class="description last">设置弹窗是否是只显示一次，默认为 false</td>
+</tr>
+<tr>
+    <td class="name"><code>DELAY</code></td>
+    <td class="type">
+        <span class="param-type">number</span>
+    </td>
+    <td class="description last">延时显示对话框设置，单位：毫秒</td>
+</tr>
+<tr>
+    <td class="name"><code>beforeShow</code></td>
+    <td class="type">
+        <span class="param-type">function</span>
+    </td>
+    <td class="description last">打开弹窗前回调函数，该函数必须返回为 true 才能继续执行 show 函数</td>
+</tr>
+<tr>
+    <td class="name"><code>show</code></td>
+    <td class="type">
+        <span class="param-type">function</span>
+    </td>
+    <td class="description last">打开弹窗回调函数</td>
+</tr>
+<tr>
+    <td class="name"><code>ok</code></td>
+    <td class="type">
+        <span class="param-type">function</span>
+    </td>
+    <td class="description last">点击确定按钮回调函数</td>
+</tr>
+<tr>
+    <td class="name"><code>cancel</code></td>
+    <td class="type">
+        <span class="param-type">function</span>
+    </td>
+    <td class="description last">点击取消按钮回调函数</td>
+</tr>
+<tr>
+    <td class="name"><code>close</code></td>
+    <td class="type">
+        <span class="param-type">function</span>
+    </td>
+    <td class="description last">关闭对话框回调函数</td>
+</tr>
+<tr>
+    <td class="name"><code>reszie</code></td>
+    <td class="type">
+        <span class="param-type">function</span>
+    </td>
+    <td class="description last">resize 回调函数</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+        <ul class="dummy">
+            <li>
+                <a href="popup.js.html">popup.js</a>, <a href="popup.js.html#line19">line 19</a>
+            </li>
+        </ul>
+    </dd>
+</dl>
+</dd>
+</div>
+</article>
+</section>
+</div>
+<nav>
+    <h2><a href="index.html">Index</a></h2>
+
+    <h3>Classes</h3>
+    <ul>
+        <li><a href="Button.html">Button</a></li>
+        <li><a href="Dialog.html">Dialog</a></li>
+        <li><a href="Fixed.html">Fixed</a></li>
+        <li><a href="LazyLoad.html">LazyLoad</a></li>
+        <li><a href="LoadMore.html">LoadMore</a></li>
+        <li><a href="Popup.html">Popup</a></li>
+        <li><a href="Suggest.html">Suggest</a></li>
+        <li><a href="Tabs.html">Tabs</a></li>
+    </ul>
+</nav>
+<br clear="both">
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Mon Dec 16 2013 17:03:23
+    GMT+0800 (CST)
+</footer>
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

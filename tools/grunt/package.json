@@ -1,6 +1,6 @@
 {
     "name": "squirrel",
-    "version": "0.8.23",
+    "version": "0.8.24",
     "description": "",
     "dirs": {
         "base": "../..",
