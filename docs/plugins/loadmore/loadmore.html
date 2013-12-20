@@ -185,14 +185,14 @@
                                 <td class="type">
                                     string
                                 </td>
-                                <td class="description last">Ajax 加载错误或超时提示，默认值："加载错误，请重试"</td>
+                                <td class="description last">AJAX 加载错误或超时提示，默认值："加载错误，请重试"</td>
                             </tr>
                             <tr>
                                 <td class="name"><code>TXT_UNKNOWN_ERROR</code></td>
                                 <td class="type">
                                     string
                                 </td>
-                                <td class="description last">通过 Ajax 接收到的数据无法识别，默认值："未知错误，请重试"</td>
+                                <td class="description last">通过 AJAX 接收到的数据无法识别，默认值："未知错误，请重试"</td>
                             </tr>
                             <tr>
                                 <td class="name"><code>DATA_TYPE</code></td>
@@ -206,16 +206,25 @@
                             <tr>
                                 <td class="name"><code>LOCAL_DATA</code></td>
                                 <td class="type">
-                                    string
+                                    boolen
                                 </td>
-                                <td class="description last">Ajax 数据 loaclstorage 开关，默认为 false</td>
+                                <td class="description last">AJAX 数据 loaclstorage 开关，默认为 false</td>
                             </tr>
                             <tr>
                                 <td class="name"><code>NUM_EXPIRES</code></td>
                                 <td class="type">
                                     number
                                 </td>
-                                <td class="description last">Ajax 数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟</td>
+                                <td class="description last">AJAX 数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟</td>
+                            </tr>
+                            <tr>
+                                <td class="name"><code>RESTFUL</code></td>
+                                <td class="type">
+                                    object | boolen
+                                </td>
+                                <td class="description last">当设为 true 时，程序会自动将 API 中的 ":page" 段替换为页码 (me.page)，
+                                    也可以设置为 hash 列表，程序会遍历替换所有值。
+                                </td>
                             </tr>
                             <tr>
                                 <td class="name"><code>loading</code></td>
@@ -275,6 +284,10 @@ me.$stateBox;       //状态展示元素</pre>
     DOM_AJAX_BOX : ".J_ajaxWrap",
     DOM_STATE_BOX : ".J_scrollLoadMore",
     CSS_INIT_STYLE : ".loadMore-btn",
+    API: "data/:id/:page/list.json",
+    RESTFUL: {
+        ":id": appid
+    },
     loading : function () {
         // 加载阶段执行
     },
@@ -283,7 +296,7 @@ me.$stateBox;       //状态展示元素</pre>
     },
     render : function (data) {
         // 渲染阶段执行
-        // data 是 Ajax 返回数据
+        // data 是 AJAX 返回数据
     },
     scrollEnd : function () {
         // 滑动加载事件完成执行

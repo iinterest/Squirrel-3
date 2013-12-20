@@ -216,7 +216,8 @@
                 </li>
             </ul>
         </div>
-        <div class="loadMore J_scrollLoadMore" data-api="data/list.json"></div>
+        <div class="loadMore J_scrollLoadMore"></div>
+        <!--<div class="loadMore J_scrollLoadMore" data-api="data/list.json"></div>-->
 
     </div>
     <script type="text/javascript" src="../../../../libs/zepto/zepto-1.0.min.js"></script>
@@ -224,22 +225,27 @@
     <!--<script type="text/javascript" src="loadmore.js"></script>-->
     <script type="text/javascript">
         $(document).ready(function () {
+            var appid = 1001;
             var appList = new SQ.LoadMore({
-                EVE_EVENT_TYPE : "scroll",
-                DOM_TRIGGER_TARGET : window,
-                DOM_AJAX_BOX : ".J_ajaxWrap",
-                DOM_STATE_BOX : ".J_scrollLoadMore",
-                CSS_INIT_STYLE : ".sq-loadMore-btn",
-                //TXT_LOADED_ERROR : "自动加载失败，点击重新加载",
-                DATA_TYPE : "html",
-                render : function (data) {
+                API: "data/:id/:page/list.json",
+                EVE_EVENT_TYPE: "scroll",
+                DOM_TRIGGER_TARGET: window,
+                DOM_AJAX_BOX: ".J_ajaxWrap",
+                DOM_STATE_BOX: ".J_scrollLoadMore",
+                CSS_INIT_STYLE: ".sq-loadMore-btn",
+                //TXT_LOADED_ERROR: "自动加载失败，点击重新加载",
+                DATA_TYPE: "html",
+                RESTFUL: {
+                    ":id": appid
+                },
+                render: function (data) {
 
                 },
-                scrollEnd : function () {
+                scrollEnd: function () {
                     var me = this;
                     me.$stateBox.addClass("sq-loadMore-clickState");
                 },
-                loaded : function () {
+                loaded: function () {
                     var me = this;
                     // 模拟第 n 次滑动加载失败
                     //console.log(me.page)
@@ -247,7 +253,7 @@
                         me.api = "data/list1.json" 
                     }
                 },
-                loadError : function () {
+                loadError: function () {
                     var me = this;
                     //console.log(me.api)
                     // 模拟滑动加载在点击加载后恢复正常
