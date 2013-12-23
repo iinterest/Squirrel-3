@@ -68,8 +68,6 @@ SQ.core.isFunction(fn);  // return true</pre>
 
     <section class="dpl-module" id="dom">
         <h3>SQ.dom</h3>
-        <p>对 Dom 操作。</p>
-        <h4>Dom 节点的封装</h4>
         <p>用于存储常用的 jQuery Dom 元素，在具体的业务中也可以将页面 jQuery Dom 存入 SQ.Dom 对象。</p>
         <pre class="prettyprint">SQ.dom.$demo = $(".demo");</pre>
         <p>已封装的节点包括：</p>
@@ -82,8 +80,8 @@ SQ.dom.$body;   //$("body")</pre>
         <h3>SQ.store</h3>
         <p>前端数据持久化，支持对 cookie、localStorage、sessionStorage 进行增删改操作，支持 applicationCache 操作。</p>
         <h4>Cookie 操作</h4>
-        <p>实现对 Cookie 的增删改操作。</p>
         <div class="module-level2">
+            <p>实现对 Cookie 的增删改操作。</p>
             <h5>.cookie.get()</h5>
             <pre class="prettyprint">SQ.store.cookie.get("name");           // 读取</pre>
             <h5>.cookie.set()</h5>
@@ -113,8 +111,8 @@ SQ.ua.browser.module     // 浏览器模式，swift(UC 浏览器急速模式，�
     <section class="dpl-module" id="util">
         <h3>SQ.util</h3>
         <h4>生成函数</h4>
-        <p>可以生成随机数、随机数组、唯一标识符等。</p>
         <div class="module-level2">
+            <p>可以生成随机数、随机数组、唯一标识符等。</p>
             <h5>.generate.randomInt(min, max)</h5>
             <p>从最小与最大至之间返回一个随机数。</p>
             <pre class="prettyprint">var randomNum = SQ.util.generate.randomInt(1, 10);      // return 3</pre>

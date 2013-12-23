@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link type="text/css" rel="stylesheet" href="../dist/css/squirrel-min.css" />
+    <link type="text/css" rel="stylesheet" href="static/font-awesome.min.css" />
     <script type="text/javascript" src="../libs/jquery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="static/dpl-famework.js"></script>
     <link type="text/css" rel="stylesheet" href="static/dpl-famework.css" />
@@ -20,27 +21,34 @@
                 <li><a href="../index.html">首页</a></li>
                 <li class="active"><a href="../docs/documentation.html">文档</a></li>
                 <li><a href="../dpl/dpl.html">模式库</a></li>
-                <li><a href="../tools/customize.html">定制</a></li>
+                <li><a href="../customize/customize.html">定制</a></li>
                 <li class="construct">开发</li>
             </ul>
             <div class="warning">请使用 Webkit 内核浏览器以获得最佳浏览体验！</div>
         </nav>
     </header>
     <nav class="side-nav">
+        <h3><i class="fa fa-book"></i>Squirrel 框架文档</h3>
         <ul>
-            <li class="hd">Squirrel 框架文档</li>
             <li class="active"><a href="guide.html">使用指南</a></li>
             <li><a href="changelog.html">更新说明</a></li>
-            <li class="hd">核心<em>Core</em></li>
+        </ul>
+        <h3><i class="fa fa-gears"></i>核心<em>Core</em></h3>
+        <ul>
             <li><a href="core/less.html">LESS 混合<em>Mixins</em></a></li>
             <li><a href="core/core.html">核心方法<em>SQ.core</em></a></li>
-            <li class="hd">组件<em>Components</em></li>
+        </ul>
+        <h3><i class="fa fa-tasks"></i>组件<em>Components</em></h3>
+        <ul>
             <li><a href="components/toolbar.html">工具栏<em>Toolbar</em></a></li>
             <li><a href="components/list.html">列表<em>List</em></a></li>
             <li><a href="components/button.html">按钮<em>Button</em></a></li>
             <li><a href="components/form.html">表单<em>Form</em></a></li>
-            <li><a href="components/icon.html">图标<em>Icon</em></a></li>
-            <li class="hd">插件<em>Plugins</em></li>
+            <li><a href="components/font-icon.html">字体图标<em>Font Icon</em></a></li>
+            <li class="deprecated"><a href="components/icon.html">图标<em>Icon</em></a></li>
+        </ul>
+        <h3><i class="fa fa-puzzle-piece"></i>插件<em>Plugins</em></h3>
+        <ul>
             <li><a href="plugins/loadmore/loadmore.html">加载更多<em>LoadMore</em></a></li>
             <li><a href="plugins/popup/popup.html">弹窗<em>Popup</em></a></li>
             <li><a href="plugins/touchslip/touchslip.html">触摸滑动<em>TouchSlip</em></a></li>
@@ -49,8 +57,8 @@
             <li><a href="plugins/lazyload/lazyload.html">延迟加载<em>LazyLoad</em></a></li>
             <li><a href="plugins/fixed/fixed.html">固定布局<em>Fixed</em></a></li>
             <li class="deprecated"><a href="plugins/dialog/dialog.html">对话框<em>Dialog</em></a></li>
-            <li id="bottom"></li>
         </ul>
+        <div id="bottom"></div>
     </nav>
     <a href="#bottom" class="more-nav">▼</a>
     <div class="dpl-frame">
