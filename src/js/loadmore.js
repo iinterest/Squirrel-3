@@ -5,7 +5,8 @@
 
 /**
  * @changelog
- * 1.2.4  * 新增 RESTFUL 配置，支持 RESTful 接口风格，
+ * 1.2.4  + 新增 RESTFUL 配置，支持 RESTful 接口风格，
+ *        + 新增 XHR_TIMEOUT 配置，
  *        * 精简的验证方法。
  * 1.2.3  * 增强 CSS_INIT_STYLE 参数的兼容性，可以支持 ".style-name" 或 "style-name" 写法。
  * 1.2.2  * 修复 jshint 问题，修复 #15 问题。
@@ -75,13 +76,13 @@
      * @param {function} config.scrollEnd           滑动加载事件完成回调函数
      * @param {function} config.render              渲染阶段回调函数
      * @example var appList = new SQ.LoadMore({
-            EVE_EVENT_TYPE : "scroll",
-            DOM_TRIGGER_TARGET : window,
-            DOM_AJAX_BOX : ".J_ajaxWrap",
-            DOM_STATE_BOX : ".J_scrollLoadMore",
-            CSS_INIT_STYLE : ".loadMore-btn",
-            NUM_SCROLL_MAX_PAGE : 3,
-            DATA_TYPE : "json",
+            EVE_EVENT_TYPE: "scroll",
+            DOM_TRIGGER_TARGET: window,
+            DOM_AJAX_BOX: ".J_ajaxWrap",
+            DOM_STATE_BOX: ".J_scrollLoadMore",
+            CSS_INIT_STYLE: ".loadMore-btn",
+            NUM_SCROLL_MAX_PAGE: 3,
+            DATA_TYPE: "json",
             render: function (data) {
                 // data 为 AJAX 返回数据，通常为 JSON 格式
             },
@@ -98,21 +99,22 @@
         var i;
 
         me.config = {
-            API : "",                                 // API 接口
-            NUM_START_PAGE_INDEX : 0,                 // 起始页面序号
-            NUM_LOAD_POSITION : 0.5,                  // 滑动加载位置（0.5 表示页面滑动到 50% 的位置开始加载，该值会递增）
-            NUM_SCROLL_MAX_PAGE : 3,                  // 
-            TXT_LOADING_TIP : "正在加载请稍后...",     // 正在加载提示
-            TXT_INIT_TIP : "滑动加载更多内容",         // 初始提示文字
-            TXT_CLICK_TIP : "点击加载更多",            // 触发点击交互提示文字
-            TXT_LOADED_ERROR : "加载失败，请点击重试",     // Ajax 加载错误或超时提示
-            TXT_UNKNOWN_ERROR : "未知错误，请重试",    // 通过 Ajax 接收到的数据无法识别
-            NUM_SUCCESS_CODE : 200,
-            NUM_NO_MORE_CODE : 900,
-            DATA_TYPE : "json",
-            XHR_METHOD : "POST",
-            LOCAL_DATA : false,
-            NUM_EXPIRES : 15
+            API: "",                                 // API 接口
+            NUM_START_PAGE_INDEX: 0,                 // 起始页面序号
+            NUM_LOAD_POSITION: 0.5,                  // 滑动加载位置（0.5 表示页面滑动到 50% 的位置开始加载，该值会递增）
+            NUM_SCROLL_MAX_PAGE: 3,                  // 
+            TXT_LOADING_TIP: "正在加载请稍后...",     // 正在加载提示
+            TXT_INIT_TIP: "滑动加载更多内容",         // 初始提示文字
+            TXT_CLICK_TIP: "点击加载更多",            // 触发点击交互提示文字
+            TXT_LOADED_ERROR: "加载失败，请点击重试",     // Ajax 加载错误或超时提示
+            TXT_UNKNOWN_ERROR: "未知错误，请重试",    // 通过 Ajax 接收到的数据无法识别
+            NUM_SUCCESS_CODE: 200,
+            NUM_NO_MORE_CODE: 900,
+            DATA_TYPE: "json",
+            XHR_METHOD: "POST",
+            XHR_TIMEOUT: 5000,
+            LOCAL_DATA: false,
+            NUM_EXPIRES: 15
         };
 
         for (i in config) {
@@ -393,7 +395,7 @@
             $.ajax({
                 type: me.config.XHR_METHOD,
                 url: api,
-                timeout: 5000,
+                timeout: me.config.XHR_TIMEOUT,
                 success: function (data) {
                     me._render(data);
                     if (me.config.LOCAL_DATA) {
