@@ -14,7 +14,8 @@ module.exports = function (grunt) {
                 files: {
                     "<%= pkg.dirs.base %>/<%= pkg.dirs.css_build %>/<%= pkg.name%>.css": [
                         "<%= pkg.dirs.base %>/<%= pkg.dirs.css_build %>/<%= pkg.name%>-core.css",
-                        "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/*.less"
+                        "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/*.less",
+                        "<%= pkg.dirs.base %>/<%= pkg.dirs.css_build %>/animate.css"
                     ]
                 }
             }
@@ -34,6 +35,14 @@ module.exports = function (grunt) {
                 ],
                 dest: "<%= pkg.dirs.base %>/<%= pkg.dirs.js_build %>/<%= pkg.name%>.js",
                 nonull: true
+            },
+            // 动画 CSS 合并
+            animate: {
+                src: [
+                    "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/animate/_base.css",
+                    "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/animate/**/*.css"
+                ],
+                dest: "<%= pkg.dirs.base %>/<%= pkg.dirs.css_build %>/animate.css"
             }
         },
         uglify: {
@@ -76,8 +85,11 @@ module.exports = function (grunt) {
         },
         watch: {
             less: {
-                files: ["<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/*.less"],
-                tasks: ["less", "cssmin", "copy", "notify:builded"]
+                files: [
+                    "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/*.less",
+                    "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/animate/**/*.css"
+                ],
+                tasks: ["concat:animate", "autoprefixer", "less", "cssmin", "copy", "notify:builded"]
             },
             script: {
                 files: [
@@ -105,28 +117,25 @@ module.exports = function (grunt) {
         },
         open: {
             server: {
-                path: "http://192.168.93.148/~Bell/Dropbox/Code/Framework/Squirrel-3/index.html"
+                path: "http://192.168.93.170/~Bell/Dropbox/Code/Framework/Squirrel-3/index.html"
             }
-        },
-        // 本地服务器
-        // 文档 https://github.com/gruntjs/grunt-contrib-connect
-        connect: {
-            devServer: {
-                options: {
-                    port: 8000,
-                    hostname: "localhost",
-                    //hostname: '0.0.0.0',
-                    base: "../../",
-                    keepalive: true
-                }
-            },
-            testServer: {}
         },
         notify: {
             builded: {
                 options: {
                     message: "Squirrel is ready!"
                 }
+            }
+        },
+        autoprefixer: {
+            options: {
+                browsers: ["android 3"]
+            },
+            multiple_files: {
+                expand: true,
+                flatten: true,
+                src: "<%= pkg.dirs.base %>/<%= pkg.dirs.css_build %>/animate.css",
+                dest: "<%= pkg.dirs.base %>/<%= pkg.dirs.css_build %>/"
             }
         }
     });
@@ -137,27 +146,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-cssmin");
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-contrib-watch");
+    grunt.loadNpmTasks("grunt-contrib-copy");
+    grunt.loadNpmTasks("grunt-autoprefixer");
     grunt.loadNpmTasks("grunt-jsdoc");
     grunt.loadNpmTasks("grunt-open");
-    grunt.loadNpmTasks("grunt-contrib-connect"); // 本地服务器
-    grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-notify");
-    //grunt.loadNpmTasks("grunt-cmd-transport");
-    //grunt.loadNpmTasks("grunt-cmd-concat");
-    //grunt.registerTask("openit", ["open"]);
-    //grunt.registerTask("webServer", ["connect:devServer"]);
-    grunt.registerTask("build", ["clean", "less", "concat", "uglify", "cssmin", "copy"]);
-    //grunt.registerTask("mod", ["transport","concat"]);
-    /*grunt.event.on('watch', function (action, filepath) {
-        grunt.log.writeln(filepath + ' has ' + action);
-    });*/
-    /*grunt.event.on('watch', function (action, filepath) {
-        grunt.config(["less"], filepath);
-    });*/
-
-    //grunt.task.run('notify_hooks');
-    /*grunt.registerTask('server', [
-        'uglify',
-        'notify:server'
-    ]);*/
+    grunt.registerTask("build", ["clean", "concat", "less", "autoprefixer", "uglify", "cssmin", "copy"]);
 };

@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>Squirrel Popup Demo</title>
+    <link type= "text/css" rel="stylesheet" href="../../../../build/css/squirrel.css" />
+    <style type="text/css">
+        .demo-go-back{ display:inline-block; position:fixed; width:120px; height:30px; left:50%; margin-left:-60px; background:#38c483; border-bottom:3px solid #299c5d; color:#fff; line-height:30px; text-align:center; z-index:999;}
+        .wrapper{ height:1000px; padding:40px 10px 10px;}
+        .sq-btn{ margin:10px 0;}
+
+        .popup-demo .close-btn{ width:30px; height:30px; background:#d7d7d7; text-align:center; line-height:30px; cursor:pointer;}
+        .popup-demo p{ text-align:center; line-height:110px; font-size:20px;}
+    </style>
+</head>
+<body>
+    <a href="../popup.html" class="demo-go-back">返回</a>
+    <div class="wrapper">
+        <div class="J_showFullPopup sq-btn f-grey">显示「全屏」Popup 窗口</div><br/>
+        <div class="J_showBoxPopup sq-btn f-grey">显示「固定尺寸」Popup 窗口</div><br/>
+        <div class="J_showAutoClosePopup sq-btn f-grey">显示「自动关闭」Popup 窗口</div><br/>
+        <div class="J_showAbsPopup sq-btn f-grey">显示「绝对定位」Popup 窗口</div><br/>
+    </div>
+    <script type="text/javascript" src="../../../../libs/zepto/zepto-1.0.min.js"></script>
+    <script type="text/javascript" src="../../../../build/js/squirrel.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var popupFull = new SQ.Popup({
+                //CSS_POSITION: "fixed",
+                //CSS_POSITION: "absolute",
+                //EVE_EVENT_TYPE: "click",
+                DOM_TRIGGER_TARGET: ".J_showFullPopup",
+                CSS_CLASS: ".popup-demo",
+                //CSS_WIDTH: 300,
+                //CSS_HEIGHT: 150,
+                CSS_TOP: 10,
+                CSS_RIGHT: 10,
+                CSS_BOTTOM: 10,
+                CSS_LEFT: 10,
+                //OK_BTN: true,
+                //CANCEL_BTN: true,
+                MASK: true,
+                //LOCK: true,
+                //VERTICAL: "middle",
+                //HORIZONTAL: "center",
+                //NUM_CLOSE_TIME: 2000,
+                //DISPOSABLE: true,
+                beforeShow: function () {
+                    var me = this;
+                    console.log("beforeShow");
+                    me.$popupContent.append('<p>全屏窗口</p>');
+                    return true;
+                },
+                show: function () {
+
+                },
+                ok: function () {
+                    console.log("确定");
+                },
+                cancel: function () {
+                    console.log("取消");
+                },
+                close: function () {
+                    console.log("关闭");
+                },
+                resize: function () {
+                    console.log("resize")
+                }
+            });
+
+            var popupBox = new SQ.Popup({
+                DOM_TRIGGER_TARGET: ".J_showBoxPopup",
+                CSS_CLASS: ".popup-demo",
+                CSS_WIDTH: 300,
+                CSS_HEIGHT: 150,
+                MASK: true,
+                OK_BTN: true,
+                CANCEL_BTN: true,
+                VERTICAL: "middle",
+                HORIZONTAL: "center",
+                LOCK: true,
+                ANIMATE: ".fadeInDown",
+                beforeShow: function () {
+                    var me = this;
+                    me.$popupContent.append('<p style="height:110px;line-height:110px;">固定尺寸窗口</p>');
+                    return true;
+                }
+            });
+
+            var popupAutoClose = new SQ.Popup({
+                DOM_TRIGGER_TARGET: ".J_showAutoClosePopup",
+                CSS_CLASS: ".popup-demo",
+                CSS_WIDTH: 300,
+                CSS_HEIGHT: 150,
+                MASK: true,
+                VERTICAL: "middle",
+                HORIZONTAL: "center",
+                NUM_CLOSE_TIME: 2000,
+                beforeShow: function () {
+                    var me = this;
+                    me.$popupContent.append('<p>2秒后自动关闭</p>');
+                    return true;
+                }
+            });
+
+            var popupAbsClose = new SQ.Popup({
+                DOM_TRIGGER_TARGET: ".J_showAbsPopup",
+                CSS_POSITION: "absolute",
+                CSS_CLASS: ".popup-demo",
+                CSS_TOP: 20,
+                CSS_RIGHT: 20,
+                CSS_WIDTH: 300,
+                CSS_HEIGHT: 150,
+                MASK: true,
+                beforeShow: function () {
+                    var me = this;
+                    me.$popupContent.append('<p>定位到右上角</p>');
+                    return true;
+                }
+            });
+        });
+
+        
+    </script>
+</body>
+</html>

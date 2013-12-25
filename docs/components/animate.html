@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link type="text/css" rel="stylesheet" href="../../build/css/squirrel.css" />
+    <link type="text/css" rel="stylesheet" href="../../build/css/animate.css" />
+    <link type="text/css" rel="stylesheet" href="../static/dpl-famework.css" />
+    <link type="text/css" rel="stylesheet" href="../static/prettify.css" />
+    <script type="text/javascript" src="../static/prettify.js"></script>
+    <script type="text/javascript" src="../../libs/jquery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../static/dpl-famework.js"></script>
+    <script type="text/javascript" src="../../build/js/squirrel.js"></script>
+    <title>Squirrel Animate</title>
+</head>
+<body onload="prettyPrint();">
+<div class="dpl-container">
+
+
+    <aside class="sidebar">
+        <ul class="anchor">
+            <li class="level-1"><a href="#">动画</a></li>
+            <li class="level-2"><a href="#dom">DOM 使用</a></li>
+            <li class="level-2"><a href="#plugins">插件使用</a></li>
+        </ul>
+    </aside>
+
+    <section class="dpl-module">
+        <h3>动画</h3>
+        <p>
+            引用 <a href="https://daneden.me/animate/">Animate.css</a> 动画样式并精选了 26 个常用的。如果需要更多可以使用<a href="../../customize/customize.html" target="_top">『定制』</a>功能。
+        </p>
+        <h4>示例：</h4>
+        <div class="animate-sandbox">
+            <div id="animate-demo" class="animated">Animate Demo</div>
+        </div>
+        <div class="animate-list J_animateDemo">
+            <h3>吸引注意力</h3>
+            <a class="sq-btn f-grey" data-test="shake">shake</a>
+            <a class="sq-btn f-grey" data-test="swing">swing</a>
+            <a class="sq-btn f-grey" data-test="pulse">pulse</a>
+            <h3>翻转</h3>
+            <a class="sq-btn f-grey" data-test="flip">flip</a>
+            <a class="sq-btn f-grey" data-test="flipInX">flipInX</a>
+            <a class="sq-btn f-grey" data-test="flipOutX">flipOutX</a>
+            <a class="sq-btn f-grey" data-test="flipInY">flipInY</a>
+            <a class="sq-btn f-grey" data-test="flipOutY">flipOutY</a>
+            <h3>淡入</h3>
+            <a class="sq-btn f-grey" data-test="fadeIn">fadeIn</a>
+            <a class="sq-btn f-grey" data-test="fadeInUp">fadeInUp</a>
+            <a class="sq-btn f-grey" data-test="fadeInDown">fadeInDown</a>
+            <a class="sq-btn f-grey" data-test="fadeInLeft">fadeInLeft</a>
+            <a class="sq-btn f-grey" data-test="fadeInRight">fadeInRight</a>
+            <h3>淡出</h3>
+            <a class="sq-btn f-grey" data-test="fadeOut">fadeOut</a>
+            <a class="sq-btn f-grey" data-test="fadeOutUp">fadeOutUp</a>
+            <a class="sq-btn f-grey" data-test="fadeOutDown">fadeOutDown</a>
+            <a class="sq-btn f-grey" data-test="fadeOutLeft">fadeOutLeft</a>
+            <a class="sq-btn f-grey" data-test="fadeOutRight">fadeOutRight</a>
+            <h3>滑动</h3>
+            <a class="sq-btn f-grey" data-test="slideInDown">slideInDown</a>
+            <a class="sq-btn f-grey" data-test="slideInLeft">slideInLeft</a>
+            <a class="sq-btn f-grey" data-test="slideInRight">slideInRight</a>
+            <a class="sq-btn f-grey" data-test="slideOutUp">slideOutUp</a>
+            <a class="sq-btn f-grey" data-test="slideOutLeft">slideOutLeft</a>
+            <a class="sq-btn f-grey" data-test="slideOutRight">slideOutRight</a>
+            <h3>跳动</h3>
+            <a class="sq-btn f-grey" data-test="bounceIn">bounceIn</a>
+            <a class="sq-btn f-grey" data-test="bounceOut">bounceOut</a>
+        </div>
+        <div class="module-level2">
+            <h5 id="dom">DOM 使用：</h5>
+            <p>可以为 DOM 元素添加动画基础样式<code>animated</code>加特殊动画样式<code>bounceIn</code>来实现动画效果，例如：</p>
+            <pre class="prettyprint">&lt;class="sq-btn animated bounceIn"&gt;&lt;/a&gt;</pre>
+            <h5 id="plugins">插件调用：</h5>
+            <p>除了直接使用动画样式，还可以在支持动画的插件中设置<code>ANIMATE</code>来使用，例如 SQ.Popup 插件：</p>
+            <pre class="prettyprint">var popupDemo = new SQ.Popup({
+    DOM_TRIGGER_TARGET: ".J_popupDemo",
+    CSS_CLASS: ".popup-demo",
+    CSS_WIDTH: 300,
+    CSS_HEIGHT: 150,
+    VERTICAL: "middle",
+    HORIZONTAL: "center",
+    ANIMATE: ".fadeIn"
+});</pre>
+        </div>
+    </section>
+
+</div>
+</body>
+</html>

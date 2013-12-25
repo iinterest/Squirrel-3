@@ -1,0 +1,432 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link type="text/css" rel="stylesheet" href="../../../build/css/squirrel.css" />
+    <link type="text/css" rel="stylesheet" href="../../static/dpl-famework.css" />
+    <link type="text/css" rel="stylesheet" href="../../static/prettify.css" />
+    <script type="text/javascript" src="../../../libs/jquery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../../static/prettify.js"></script>
+    <script type="text/javascript" src="../../static/dpl-famework.js"></script>
+    <title>Squirrel Popup</title>
+</head>
+<body onload="prettyPrint();">
+    <div class="dpl-container">
+
+        <aside class="sidebar">
+            <ul class="anchor">
+                <li class="level-1"><a href="#">SQ.Popup</a></li>
+                <li class="level-2"><a href="#how">如何使用</a></li>
+                <li class="level-2"><a href="#params">参数</a></li>
+                <li class="level-2"><a href="#inner-doc">内部文档对象</a></li>
+                <!--<li class="level-2"><a href="#inner-data">内部数据</a></li>-->
+                <li class="level-2"><a href="#callback">回调函数</a></li>
+                <li class="level-2"><a href="#demo">完整例子</a></li>
+            </ul>
+        </aside>
+
+        <section class="dpl-module">
+            <h3>SQ.Popup</h3>
+            <p>SQ.Popup 是一个弹出窗口组件（原 SQ.dialog），可以灵活的定制窗口样式并在弹窗中显示各种内容。</p>
+            <h4>示例：</h4>
+            <p><a class="demo-btn" href="demo/popup_demo.html">Popup Demo</a></p>
+            <h4 id="how">如何使用：</h4>
+            <div class="module-level2">
+            <h5>加载：</h5>
+            <p>初次使用时，可以在定制页面勾选 Popup 组件，然后下载 Squirrel 代码。</p>
+            <p>如果是在已有工程中新增，可以将 <code>popup.js</code>、<code>popup.less</code> 文件分别加入到工程目录的<code>src/js</code>、<code>src/less</code> 文件夹下，Squirrel 框架构建工具会自动进行合并处理。然后加入相应的 HTML 和 JS 代码：</p>
+            <h5>HTML 代码：</h5>
+            <pre class="prettyprint">&lt;div class="J_popupDemo"&gt;Show Popup&lt;/div&gt;</pre>
+            <h5>JS 代码：</h5>
+            <pre class="prettyprint">var popupDemo = new SQ.Popup({
+    DOM_TRIGGER_TARGET: ".J_popupDemo",
+    CSS_CLASS: ".popup-demo",
+    CSS_WIDTH: 300,
+    CSS_HEIGHT: 150,
+    MASK: true,
+    VERTICAL: "middle",
+    HORIZONTAL: "center",
+    beforeShow: function () {
+        var me = this;
+        me.$popupContent.append('Popup Demo');
+        return true;
+    }
+});</pre>
+            </div>
+            <h4 id="params">参数：</h4>
+            <table class="params">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            <td class="name"><code>config</code></td>
+            <td class="type">
+                <span class="param-type">object</span>
+            </td>
+            <td class="description last">组件配置（下面的参数为配置项，配置会写入属性）
+            <h6>Properties</h6>
+            <table class="params">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="name"><code>EVE_EVENT_TYPE</code></td>
+                <td class="type">
+                    <span class="param-type">string</span>
+                </td>
+                <td class="description last">绑定事件设置，默认值为："click"</td>
+            </tr>
+            <tr>
+                <td class="name"><code>DOM_TRIGGER_TARGET</code></td>
+                <td class="type">
+                    <span class="param-type">string</span>
+                </td>
+                <td class="description last">被绑定事件的 Dom 元素</td>
+            </tr>
+            <tr>
+                <td class="name"><code>DOM_PARENT</code></td>
+                <td class="type">
+                    <span class="param-type">string</span>
+                </td>
+                <td class="description last">被绑定事件的 Dom 元素的父元素，用于确定定位原</td>
+            </tr>
+            <tr>
+                <td class="name"><code>CSS_CLASS</code></td>
+                <td class="type">
+                    <span class="param-type">string</span>
+                </td>
+                <td class="description last">弹窗样式类</td>
+            </tr>
+            <tr>
+                <td class="name"><code>CSS_POSITION</code></td>
+                <td class="type">
+                    <span class="param-type">string</span>
+                </td>
+                <td class="description last">弹窗定位方式，默认值："fixed"， 可以设置为："absolute"</td>
+            </tr>
+            <tr>
+                <td class="name"><code>CSS_TOP</code></td>
+                <td class="type">
+                    <span class="param-type">number</span>
+                </td>
+                <td class="description last">弹窗 top 属性值</td>
+            </tr>
+            <tr>
+                <td class="name"><code>CSS_RIGHT</code></td>
+                <td class="type">
+                    <span class="param-type">number</span>
+                </td>
+                <td class="description last">弹窗 right 属性值</td>
+            </tr>
+            <tr>
+                <td class="name"><code>CSS_BOTTOM</code></td>
+                <td class="type">
+                    <span class="param-type">number</span>
+                </td>
+                <td class="description last">弹窗 bottom 属性值</td>
+            </tr>
+            <tr>
+                <td class="name"><code>CSS_LEFT</code></td>
+                <td class="type">
+                    <span class="param-type">number</span>
+                </td>
+                <td class="description last">弹窗 left 属性值</td>
+            </tr>
+            <tr>
+                <td class="name"><code>CSS_WIDTH</code></td>
+                <td class="type">
+                    <span class="param-type">number</span>
+                </td>
+                <td class="description last">弹窗 width 属性值</td>
+            </tr>
+            <tr>
+                <td class="name"><code>CSS_HEIGHT</code></td>
+                <td class="type">
+                    <span class="param-type">number</span>
+                </td>
+                <td class="description last">弹窗 height 属性值</td>
+            </tr>
+            <tr>
+                <td class="name"><code>VERTICAL_CENTER</code></td>
+                <td class="type">
+                    <span class="param-type">boolen</span>
+                </td>
+                <td class="description last">弹窗是否垂直居中设定，默认值：true</td>
+            </tr>
+            <tr>
+                <td class="name"><code>HORIZONTAL_CENTER</code></td>
+                <td class="type">
+                    <span class="param-type">boolen</span>
+                </td>
+                <td class="description last">弹窗是否水平居中设定，默认值：true</td>
+            </tr>
+            <tr>
+                <td class="name"><code>CLOSE_BTN</code></td>
+                <td class="type">
+                    <span class="param-type">boolen</span>
+                </td>
+                <td class="description last">关闭按钮显示设定，默认值：true</td>
+            </tr>
+            <tr>
+                <td class="name"><code>OK_BTN</code></td>
+                <td class="type">
+                    <span class="param-type">boolen</span>
+                </td>
+                <td class="description last">去掉按钮显示设定，默认值：false</td>
+            </tr>
+            <tr>
+                <td class="name"><code>CANCEL_BTN</code></td>
+                <td class="type">
+                    <span class="param-type">boolen</span>
+                </td>
+                <td class="description last">取消按钮显示设定，默认值：false</td>
+            </tr>
+            <tr>
+                <td class="name"><code>TXT_CLOSE_VAL</code></td>
+                <td class="type">
+                    <span class="param-type">string</span>
+                </td>
+                <td class="description last">关闭按钮显示文字，默认值："×"</td>
+            </tr>
+            <tr>
+                <td class="name"><code>TXT_OK_VAL</code></td>
+                <td class="type">
+                    <span class="param-type">string</span>
+                </td>
+                <td class="description last">确定按钮显示文字，默认值："确定"</td>
+            </tr>
+            <tr>
+                <td class="name"><code>TXT_CANCEL_VAL</code></td>
+                <td class="type">
+                    <span class="param-type">string</span>
+                </td>
+                <td class="description last">取消按钮显示文字，默认值："取消"</td>
+            </tr>
+            <tr>
+                <td class="name"><code>ANIMATE</code></td>
+                <td class="type">
+                    <span class="param-type">string</span>
+                </td>
+                <td class="description last">动画类</td>
+            </tr>
+            <tr>
+                <td class="name"><code>MASK</code></td>
+                <td class="type">
+                    <span class="param-type">boolen</span>
+                </td>
+                <td class="description last">遮罩设定，默认为 false，设为 true 将显示遮罩效果</td>
+            </tr>
+            <tr>
+                <td class="name"><code>CSS_MASK_BACKGROUND</code></td>
+                <td class="type">
+                    <span class="param-type">string</span>
+                </td>
+                <td class="description last">遮罩背景色，默认值："#000000"</td>
+            </tr>
+            <tr>
+                <td class="name"><code>CSS_MASK_OPACITY</code></td>
+                <td class="type">
+                    <span class="param-type">string</span>
+                </td>
+                <td class="description last">遮罩透明度，默认值：0.5</td>
+            </tr>
+            <tr>
+                <td class="name"><code>NUM_CLOSE_TIME</code></td>
+                <td class="type">
+                    <span class="param-type">number</span>
+                </td>
+                <td class="description last">对话框自动关闭时间，单位：毫秒</td>
+            </tr>
+            <tr>
+                <td class="name"><code>LOCK</code></td>
+                <td class="type">
+                    <span class="param-type">boolen</span>
+                </td>
+                <td class="description last">锁定操作，默认为 false，设为 true 将屏蔽触摸操作，默认值：false</td>
+            </tr>
+            <tr>
+                <td class="name"><code>PREVENT_DEFAULT</code></td>
+                <td class="type">
+                    <span class="param-type">boolen</span>
+                </td>
+                <td class="description last">默认动作响应设置，默认为 true，不响应默认操作</td>
+            </tr>
+            <tr>
+                <td class="name"><code>DISPOSABLE</code></td>
+                <td class="type">
+                    <span class="param-type">boolen</span>
+                </td>
+                <td class="description last">设置弹窗是否是只显示一次，默认为 false</td>
+            </tr>
+            <tr>
+                <td class="name"><code>DELAY</code></td>
+                <td class="type">
+                    <span class="param-type">number</span>
+                </td>
+                <td class="description last">延时显示对话框设置，单位：毫秒</td>
+            </tr>
+            <tr>
+                <td class="name"><code>beforeShow</code></td>
+                <td class="type">
+                    <span class="param-type">function</span>
+                </td>
+                <td class="description last">打开弹窗前回调函数，该函数必须返回为 true 才能继续执行 show 函数</td>
+            </tr>
+            <tr>
+                <td class="name"><code>show</code></td>
+                <td class="type">
+                    <span class="param-type">function</span>
+                </td>
+                <td class="description last">打开弹窗回调函数</td>
+            </tr>
+            <tr>
+                <td class="name"><code>ok</code></td>
+                <td class="type">
+                    <span class="param-type">function</span>
+                </td>
+                <td class="description last">点击确定按钮回调函数</td>
+            </tr>
+            <tr>
+                <td class="name"><code>cancel</code></td>
+                <td class="type">
+                    <span class="param-type">function</span>
+                </td>
+                <td class="description last">点击取消按钮回调函数</td>
+            </tr>
+            <tr>
+                <td class="name"><code>close</code></td>
+                <td class="type">
+                    <span class="param-type">function</span>
+                </td>
+                <td class="description last">关闭对话框回调函数</td>
+            </tr>
+            <tr>
+                <td class="name"><code>reszie</code></td>
+                <td class="type">
+                    <span class="param-type">function</span>
+                </td>
+                <td class="description last">resize 回调函数</td>
+            </tr>
+            </tbody>
+            </table>
+            </td>
+            </tr>
+            </tbody>
+            </table>
+            
+            <h4 id="inner-doc">内部文档对象：</h4>
+            <p>SQ.Popup 内封装了以下 jQuery(zepto) 对象，可以在回调函数中直接使用：</p>
+            <p><pre class="prettyprint">var me = this;
+me.$popupPanel     // 弹窗对象
+me.$popupContent   // 弹窗内容显示区，异步加载时可将内容填充至该区域。
+me.$okBtn          // 确定按钮
+me.$cancelBtn      // 取消按钮
+me.$close          // 关闭按钮</pre></p>
+            <!--<h4 id="inner-data">内部数据：</h4>-->
+            <h4 id="callback">回调函数：</h4>
+            <p>SQ.Popup 内置了以下回调函数，可以在触发相应事件时调用：</p>
+            
+            <pre class="prettyprint">var popupDemo = new SQ.Popup({
+    DOM_TRIGGER_TARGET: ".J_popupDemo",
+    CSS_CLASS: ".popup-demo",
+    CSS_WIDTH: 300,
+    CSS_HEIGHT: 150,
+    MASK: true,
+    VERTICAL: "middle",
+    HORIZONTAL: "center",
+    beforeShow: function () {
+        console.log("打开弹窗前回调函数，该函数必须返回为 true 才能继续执行 show 函数");
+    },
+    show: function () {
+        console.log("打开弹窗回调函数");
+    },
+    ok: function () {
+        console.log("点击确定按钮回调函数");
+    },
+    cancel: function () {
+        console.log("点击取消按钮回调函数");
+    },
+    close: function () {
+        console.log("关闭对话框回调函数");
+    },
+    resize: function () {
+        console.log("浏览器发生 resize 事件时回调函数");
+    }
+});</pre>
+
+        <h4 id="demo">完整例子：</h4>
+        <pre class="prettyprint">&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" /&gt;
+    &lt;title&gt;Squirrel DPL&lt;/title&gt;
+    &lt;link type= "text/css" rel="stylesheet" href="../../release/css/squirrel.css" /&gt;
+    &lt;style type="text/css"&gt;
+        /* 自定义样式 */
+        .sq-popup-demo{}
+        .sq-popup-demo .close-btn{}
+        .sq-popup-demo .ok{}
+        .sq-popup-demo .cancel{}
+}
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class="wrapper"&gt;
+    &lt;div class="J_showFullPopup sq-btn f-grey"&gt;全屏窗口&lt;/div&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript" src="../../libs/zepto/zepto-1.0.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="../../release/js/squirrel.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+    $(document).ready(function () {
+        var popupFull = new SQ.Popup({
+            DOM_TRIGGER_TARGET: ".J_showFullPopup",
+            CSS_CLASS: ".popup-demo",
+            CSS_TOP: 10,
+            CSS_RIGHT: 10,
+            CSS_BOTTOM: 10,
+            CSS_LEFT: 10,
+            MASK: true,
+            ANIMATE : ".bounceIn",
+            beforeShow: function () {
+                var me = this;
+                console.log("beforeShow");
+                me.$popupContent.append('&lt;p&gt;Popup Demo&lt;/p&gt;');
+                return true;
+            },
+            show: function () {
+                console.log("show");
+            },
+            ok: function () {
+                console.log("ok");
+            },
+            cancel: function () {
+                console.log("cancel");
+            },
+            close: function () {
+                console.log("close");
+            },
+            resize: function () {
+                console.log("resize");
+            }
+        });
+    });
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+        </section>
+    </div>
+    <!--<script type="text/javascript" src="../../../libs/zepto/zepto-1.0.min.js"></script>-->
+    <script type="text/javascript" src="../../../build/js/squirrel.js"></script>
+</body>
+</html>
