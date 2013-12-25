@@ -1833,11 +1833,13 @@ SQ.util = {
 }($, window));
 /**
  * @file SQ.Popup 弹窗组件
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 /**
  * @changelog
+ * 1.0.1  * 在设置了 ANIMATE 时，_setPopupPos 函数不使用 translate(-50%, -50%) 方法定位，因为会与动画产生冲突。
+ *        * 修复 ANIMATE 设置问题。
  * 1.0.0  * 原 Dialog 组件重构为 Popup 组件。
  */
 
@@ -1926,7 +1928,7 @@ SQ.util = {
     }
     Popup.prototype =  {
         construtor: Popup,
-        version: "1.0.0",
+        version: "1.0.1",
         timer : undefined,
         resizeTimer : false,    // resize 
         closed : true,
@@ -2044,6 +2046,7 @@ SQ.util = {
             var me = this;
             var top;
             var supportBroswer = "chrome";
+            var isAnimate = me.config.ANIMATE;
             var isMiddle = me.config.VERTICAL === "middle" ? true : false;
             var isCenter = me.config.HORIZONTAL === "center" ? true : false;
             var isSupportTransform = SQ.ua.browser.shell === "ucweb" && SQ.ua.browser.version >= 9 || supportBroswer.indexOf(SQ.ua.browser.shell) !== -1;
@@ -2061,7 +2064,7 @@ SQ.util = {
                 me.config.CSS_LEFT = 0;
             }
 
-            if (isSupportTransform) {
+            if (isSupportTransform && !isAnimate) {
                 if (isMiddle && isCenter) {
                     me.$popupPanel.css({
                         "top": top,
@@ -2164,7 +2167,8 @@ SQ.util = {
             me._setPopupEvent();
             // 添加动画
             if (me.config.ANIMATE) {
-                me.$popupPanel.addClass("animated " + me.config.ANIMATE.indexOf(".") === 0 ? me.config.ANIMATE.slice(1) : me.config.ANIMATE);
+                var animateClassName = me.config.ANIMATE.indexOf(".") === 0 ? me.config.ANIMATE.slice(1) : me.config.ANIMATE;
+                me.$popupPanel.addClass("animated " + animateClassName);
             }
             if (me.beforeShowFun) {
                 return me.beforeShowFun(e);

@@ -7,7 +7,11 @@
  // ====================================================================
  //Lib Core
 
-
+/*global
+ $: false,
+ SQ: false,
+ console: false
+ */
 
 $(document).ready(function () {
 
@@ -45,6 +49,34 @@ $(document).ready(function () {
 
         });
 
+    }());
+    
+    (function animateDemo() {
+        var $demo = $("#animate-demo");
+        var $animateList = $(".J_animateDemo").find("a");
+
+        $animateList.click(function () {
+            var $me = $(this);
+            var animateStyle = $me.attr("data-test");
+            $animateList.removeClass("f-green");
+            $me.addClass("f-green");
+            $demo.removeClass().addClass("animated " + animateStyle);
+        });
+
+
+        var fixedButton = new SQ.Fixed({
+            DOM_FIXED_ITEM: ".animate-sandbox",
+            DOM_TRIGGER_TARGET: window,
+            ARRY_FIXED_POSITION: [10, 0, 0, 60],
+            PLACEHOLD: true,
+            NUM_ZINDEX: 31,
+            fixedIn: function () {
+                // 设置固定布局时回调函数
+            },
+            fixedOut: function () {
+                // 取消固定布局时回调函数
+            }
+        });
     }());
 
 });//jQuery ready end
