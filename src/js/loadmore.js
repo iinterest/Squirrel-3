@@ -70,6 +70,7 @@
      * @param {number} config.NUM_EXPIRES Ajax      数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟
      * @param {object | boolen} config.RESTFUL      当设为 true 时，程序会自动将 API 中的 ":page" 段替换为页码 (me.page)，
      *                                              也可以设置为 hash 列表，程序会遍历替换所有值。
+     * @param {number} config.XHR_TIMEOUT           设置 AJAX 超时时间，默认为 5000 ms
      * @param {function} config.loading             加载阶段回调函数
      * @param {function} config.loaded              加载完成回调函数
      * @param {function} config.loadError           加载失败回调函数

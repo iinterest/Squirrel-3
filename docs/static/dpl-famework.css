@@ -104,16 +104,16 @@ blockquote{ margin:20px 0; padding-left:20px; border-left:6px solid #d7d7d7; fon
     .features-buttons .next:hover{ border-left-color:#555; border-bottom-color:#555;}
     /*font icon*/
     .features-list .fa{ background:-webkit-gradient(linear, 0% 25%, 0% 100%, from(#249f73), to(#0c2e53)); color:transparent; -webkit-background-clip:text;}
-    .features-list .fa-html5{ font-size:8em;}
+    .features-list .fa-html5{ font-size:7.5em;}
     .features-list .fa-android,
     .features-list .fa-apple,
     .features-list .fa-windows{ font-size:3.5em;}
-    .features-list .fa-android{ font-size:7.5em;}
+    .features-list .fa-android{ font-size:7em;}
     .features-list .fa-windows{ font-size:3em;}
-    .features-list .fa-mobile{ font-size:6em;}
-    .features-list .fa-tablet{ font-size:10em;}
+    .features-list .fa-mobile{ font-size:5.5em;}
+    .features-list .fa-tablet{ font-size:9em;}
     .features-list .fa-magic{ font-size:7.5em;}
-    .features-list .fa-cut{ position:absolute; left:50%; top:50%; margin:-53px 0 0 -63px; font-size:7.5em; z-index:8;}
+    .features-list .fa-cut{ position:absolute; left:50%; top:50%; margin:-49px 0 0 -63px; font-size:7em; z-index:8;}
 
 /*加入我们*/
 .join-us{}
