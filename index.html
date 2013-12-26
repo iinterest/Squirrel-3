@@ -7,6 +7,7 @@
     <link type="text/css" rel="stylesheet" href="docs/static/dpl-famework.css" />
     <script type="text/javascript" src="libs/jquery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="docs/static/dpl-famework.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <title>Squirrel 前端开发框架</title>
 </head>
 <body>
@@ -33,12 +34,12 @@
             <ul class="version">
                 <li>最新版本：0.8.24</li>
                 <li>更新时间：2013-12-25</li>
-                <li><a href="docs/changelog.html" target="_blank">更新说明</a></li>
+                <li><a href="docs/changelog.html" target="_top">更新说明</a></li>
             </ul>
         </div>
         <div class="banner-bg"></div>
     </div>
-    <section class="fw-box features">
+    <section class="fw-box features J_featuresSlider">
         <header>
             <h1>框架特性</h1>
             <p>Squirrel 框架包含许多实用特性，帮助你快速构建移动 Web 应用。</p>
@@ -65,7 +66,7 @@
                         </div>
                         <div class="introduc">
                             <h3>操作系统</h3>
-                            <p>支持 iOS、Android、Windows Phone 等操作系统，可以根据需要扩展支持更多系统。</p>
+                            <p>支持 Android、iOS 系统，可扩展支持 Windows Phone、Firefox OS 等系统。</p>
                         </div>
                     </li>
                     <li>
@@ -75,12 +76,11 @@
                         </div>
                         <div class="introduc">
                             <h3>移动设备</h3>
-                            <p>专为手持移动设备打造的框架，能适应不同屏幕尺寸，针对不同尺寸屏幕做了排版优化。</p>
+                            <p>专为手持移动设备打造，能适应不同屏幕尺寸，针对不同尺寸屏幕做了排版优化。</p>
                         </div>
                     </li>
                     <li>
                         <div class="icon custom">
-                            <!--<i class="fa fa-magic"></i>-->
                             <div class="dashed"></div>
                             <i class="fa fa-cut"></i>
                         </div>
@@ -90,12 +90,32 @@
                         </div>
                     </li>
                     <li>
-                        <div class="icon amd"></div>
+                        <div class="icon less">
+                            <i class="fa">LESS</i>
+                        </div>
+                        <div class="introduc">
+                            <h3>LESS</h3>
+                            <p>基于 LESS 开发，能够方便的创建结构良好、高扩展性、高可维护性的代码。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="icon open">
+                            <i class="fa">Open Source</i>
+                        </div>
                         <div class="introduc">
                             <h3>模块化</h3>
                             <p>遵循 CMD 规范，借助 Sea.js 可以按需最小化加载组件及插件，同时也能够方便的构建并管理自定义模块。</p>
                         </div>
                     </li>
+                    <!--<li>
+                        <div class="icon cmd">
+                            <i class="fa">CMD</i>
+                        </div>
+                        <div class="introduc">
+                            <h3>模块化</h3>
+                            <p>遵循 CMD 规范，借助 Sea.js 可以按需最小化加载组件及插件，同时也能够方便的构建并管理自定义模块。</p>
+                        </div>
+                    </li>-->
                 </ul>
             </div>
         </div>
@@ -109,12 +129,7 @@
             <div class="developer">
                 <h2><i class="fa fa-wrench"></i></h2>
                 <ul class="contributors">
-                    <li><a href="#"><img src="docs/static/images/avatar/bell.jpg" alt="bell"/></a></li>
                     <li><a href="#"><img src="docs/static/images/avatar/hs.png" alt="hs"/></a></li>
-                    <li><a href="#"><img src="docs/static/images/avatar/hxy.jpg" alt="hxy"/></a></li>
-                    <!--<li><a href="#"><img src="docs/static/images/avatar/lzg.jpg" alt="lzg"/></a></li>-->
-                    <!--<li><a href="#"><img src="docs/static/images/avatar/macji.jpg" alt="macji"/></a></li>-->
-                    <!--<li><a href="#"><img src="docs/static/images/avatar/hello.jpg" alt="hello"/></a></li>-->
                     <li class="more"><a href="#"></a></li>
                 </ul>
                 <ul class="join-content">
@@ -135,8 +150,6 @@
             <div class="user">
                 <h2><i class="fa fa-comments"></i></h2>
                 <ul class="contributors">
-                    <li><a href="#"><img src="docs/static/images/avatar/chenyan.jpg" alt="chanyan"/></a></li>
-                    <!--<li><a href="#"><img src="docs/static/images/avatar/zkj.png" alt="zkj"/></a></li>-->
                     <li class="more"><a href="#"></a></li>
                 </ul>
                 <ul class="join-content">
@@ -153,18 +166,18 @@
             
         </div>
     </section>
-    <section class="fw-box who-used">
+    <!--<section class="fw-box who-used">
         <header>
             <h1>应用案例</h1>
             <p>由 Squirrel 驱动的应用</p>
         </header>
-    </section>
+    </section>-->
     <footer id="footer">
         <div class="bd">
-            <div class="links">
-                <a href="#">GitHub</a><a href="#">Issues</a><a href="#">Changelog</a><a href="#">Twitter</a>
-            </div>
-            <p class="copyright">Made by IInterest with love and caffeine. Licensed under <a href="#">MIT</a>  license.</p>
+            <!--<div class="links">
+                <a href="https://github.com/iinterest/Squirrel-3" target="_blank">GitHub</a><a href="https://github.com/iinterest/Squirrel-3/issues?state=open" target="_blank">Issues</a><a href="docs/changelog.html" target="_top">Changelog</a>
+            </div>-->
+            <p class="copyright">Made by IInterest and Bell Lab. <br/>Licensed under <a href="#">MIT</a> license.</p>
         </div>
         <!--<div class="ft"></div>-->
     </footer>
