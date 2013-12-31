@@ -7,116 +7,75 @@
     <link type="text/css" rel="stylesheet" href="../docs/static/prettify.css"/>
     <script type="text/javascript" src="../docs/static/less-1.3.3.min.js"></script>
     <script type="text/javascript" src="../docs/static/prettify.js"></script>
-    <title>Squirrel DPL Guide</title>
-    <!--<style type="text/css">
-        html, body{ background:#fff; }
-            /*Icarus 1.2.2*/
-        strong em{ color:#f00; text-emphasis:circle; -moz-text-emphasis:circle; -o-text-emphasis:circle; -webkit-text-emphasis:circle; text-emphasis-position:under; -moz-text-emphasis-position:under; -o-text-emphasis-position:under; -webkit-text-emphasis-position:under }
-        h1, h2, h3, h4, h5, h6{ font-weight:bold }
-        h1 strong, h2 strong, h3 strong, h4 strong, h5 strong, h6 strong{ font-variant:small-caps }
-        h1{ font-size:1.8em; text-align:center }
-        h2{ font-size:1.4em }
-        h3{ font-size:1.2em }
-        h4{ font-size:1.0em }
-        h5{ margin:1em 0; border-bottom:1px solid #ccc; font-size:1.4em; line-height:1.6em }
-        h6{ margin:1em 0; font-size:1.4em; text-align:center }
-        p{ margin:1em 0 }
-        li p:last-child{ margin:0 }
-        ul, ol{ margin:1em 0 2em; padding:0 0 0 2em }
-        ul ul{ margin:.5em 0 }
-        ol ol{ margin:.5em 0; list-style:upper-roman }
-        ol ol ol{ list-style:upper-alpha }
-        li{ line-height:1.5em }
-        blockquote{ margin:0; padding-left:2em; border-left:.4em #eee solid; color:#666 }
-        li>blockquote{ margin-top:10px }
-        pre, code{ font:13px Consolas, Monaco, Andale Mono, monospace }
-        pre{ max-width:800px; padding:.8em 1.2em; background-color:#f5f5f5; border:1px solid #d7d7d7; border-radius:3px; white-space:pre-wrap; word-wrap:break-word }
-        code{ margin:0 .5em; padding:0 .5em; background-color:#f8f8f8; border:1px solid #dedede; border-radius:2px; line-height:1.6em }
-        pre code, pre pre{ margin:0; padding:0; background-color:transparent; border:0; border-radius:0 }
-        hr{ display:block; height:0; margin:1em 0; padding:0; border:0; border-top:2px dashed #ccc }
-        img{ display:block; margin:.2em 0; border:0; -ms-interpolation-mode:bicubic; vertical-align:middle }
-        table{ border-collapse:collapse; border-spacing:0 }
-        td{ vertical-align:top }
-        table th, table td, th, td{ border:1px solid #d7d7d7; padding:5px 10px }
-        table th, th{ background:#f8f8f8; white-space:nowrap }
-        table thead th, thead th{ background:#f8f8f8 }
-        a:link{ color:#4183c4 !important }
-        h2{ border:none !important }
-        li{ margin:0 !important; padding:0 !important; line-height:1.5em !important }
-        pre code, pre pre{ margin:0 !important; padding:0 !important; border:none !important; background-color:transparent !important }
-    </style>-->
+    <title>Squirrel Guide</title>
     <style type="text/css">
-        html, body{ background:#fff; }
-        /*Icarus 1.2.2*/
-        strong em{ color:#f00; text-emphasis:circle; -moz-text-emphasis:circle; -o-text-emphasis:circle; -webkit-text-emphasis:circle; text-emphasis-position:under; -moz-text-emphasis-position:under; -o-text-emphasis-position:under; -webkit-text-emphasis-position:under }
-        h1, h2, h3, h4, h5, h6{ font-weight:bold }
-        h1 strong, h2 strong, h3 strong, h4 strong, h5 strong, h6 strong{ font-variant:small-caps }
-        h1{ font-size:1.8em; text-align:center }
-        h2{ font-size:1.4em }
-        h3{ font-size:1.2em }
-        h4{ font-size:1.0em }
-        h5{ margin:1em 0; border-bottom:1px solid #ccc; font-size:1.4em; line-height:1.6em }
-        h6{ margin:1em 0; font-size:1.4em; text-align:center }
-        p{ margin:1em 0 }
-        li p:last-child{ margin:0 }
-        ul, ol{ margin:1em 0 2em; padding:0 0 0 2em }
-        ul ul{ margin:.5em 0 }
-        ol ol{ margin:.5em 0; list-style:upper-roman }
-        ol ol ol{ list-style:upper-alpha }
-        li{ line-height:1.5em }
-        blockquote{ margin:0; padding-left:2em; border-left:.4em #eee solid; color:#666 }
-        li>blockquote{ margin-top:10px }
-        pre, code{ font:13px Consolas, Monaco, Andale Mono, monospace }
-        pre{ max-width:800px; padding:.8em 1.2em; background-color:#f5f5f5; border:1px solid #d7d7d7; border-radius:3px; white-space:pre-wrap; word-wrap:break-word }
-        code{ margin:0 .5em; padding:0 .5em; background-color:#f8f8f8; border:1px solid #dedede; border-radius:2px; line-height:1.6em }
-        pre code, pre pre{ margin:0; padding:0; background-color:transparent; border:0; border-radius:0 }
-        hr{ display:block; height:0; margin:1em 0; padding:0; border:0; border-top:2px dashed #ccc }
-        img{ display:block; margin:.2em 0; border:0; -ms-interpolation-mode:bicubic; vertical-align:middle }
-        table{ border-collapse:collapse; border-spacing:0 }
-        td{ vertical-align:top }
-        table th, table td, th, td{ border:1px solid #d7d7d7; padding:5px 10px }
-        table th, th{ background:#f8f8f8; white-space:nowrap }
-        table thead th, thead th{ background:#f8f8f8 }
-        a:link{ color:#4183c4 !important }
-        h2{ border:none !important }
-        li{ margin:0 !important; padding:0 !important; line-height:1.5em !important }
-        pre code, pre pre{ margin:0 !important; padding:0 !important; border:none !important; background-color:transparent !important }
+        .markdown p{ margin:1em 0 }
+        .markdown li p:last-child{ margin:0 }
+        .markdown ul,.markdown ol{ margin:1em 0 2em; padding:0 0 0 2em }
+        .markdown pre{ max-width:800px; padding:.8em 1.2em; background-color:#f5f5f5; border:1px solid #d7d7d7; white-space:pre-wrap; word-wrap:break-word; }
+        .markdown pre code,.markdown pre pre{ margin:0; padding:0; background-color:transparent; border:0; border-radius:0 }
+        .markdown pre{ margin-bottom:1em;}
+        .markdown code{ white-space:inherit; color:#555;}
     </style>
 </head>
 <body onload="prettyPrint();">
 <div class="dpl-container">
-    <section class="dpl-module full">
-        <h3>使用指南</h3>
-    </section>
-    <div class="markdown">
-        <h3>1、安装</h3>
-
-        <p>Squirrel 支持两种安装方式：</p>
-        <ol>
-            <li><p>1. 下载 Squirrle 3 开发包，开发包分为『正式版』和『开发版』；『正式版』里面包含已经编译好的 CSS、Javascript 文件和图片文件；『开发版』则额外包含文档和源码，目录结构：</p>
-
-<pre><code> Squirrel/
+    <aside class="sidebar">
+        <ul class="anchor">
+            <li class="level-1"><a href="#">快速起步</a></li>
+            <li class="level-1"><a href="#project">安装工程套件</a></li>
+            <li class="level-1"><a href="#howtouse">使用组件、插件</a></li>
+            <li class="level-1"><a href="#broswer">浏览器支持</a></li>
+        </ul>
+    </aside>
+    <section class="dpl-module">
+        <h3 id="getstart">快速起步</h3>
+        <p>首先要获取 Squirrel 代码，您可以点击下载按钮来获取托管于 Github 的最新版本。</p>
+        <p><a class="demo-btn" href="https://github.com/iinterest/Squirrel-3/releases" target="_blank">下载 Squirrel 3</a></p>
+        <p>解压缩后即可看到以下目录结构——这是 Squirrel 最基本组织架构，里面包含了已经编译并压缩好的 CSS 和 JS 文件，还有一些图片和字体文件。</p>
+        <div class="markdown">
+            <pre><code> Squirrel/
     ├── css/
-    │ ├── squirrel.css
     │ ├── squirrel.min.css
     ├── js/
-    │ ├── squirrel.js
     │ ├── squirrel.min.js
     └── images/
     │ ├── sq-icon@2x.png
-    └── index.html
-</code></pre>
-            </li>
-            <li><p>2. 使用 NPM 安装 Squirrle 3 工程套件<br/>
-                完整的 Squirrle 3 工程套件包括框架代码、单元测试和自动化构建工具，是一套完整的前端开发、测试、发布解决方案（工程套件需要 NodeJS、npm 和 Grunt 支持，请自行配置），套件目录结构：
-            </p>
-
-<pre><code> Squirrel-pt/
+    └── font/
+    │ ├── fontello.ttf
+    │ ├── fontello.woff
+    └── index.html</code></pre>
+        </div>
+        <p>其中 index.html 文件是一个最精简的 HTML 模板，您可以在这个模板的基础上对按照自己的需求进行修改。</p>
+        <pre class="prettyprint">&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" /&gt;
+    &lt;link type="text/css" rel="stylesheet" href="dist/css/squirrel-min.css" /&gt;
+    &lt;title&gt;Squirrel 3&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello World!&lt;/h1&gt;
+    &lt;script type="text/javascript" src="../libs/zepto/zepto-1.0.min.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="dist/js/squirrel-min.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+    <p>值得注意的是：模板中引入了 zepto.js，这是因为 Squirrel 依赖 zepto 或者 jQuery 库，您可以根据项目情况自行配置该文件路径。</p>
+    </section>
+    <section class="dpl-module">
+        <h3 id="project">安装工程套件</h3>
+        <p>Squirrle 3 工程套件包括框架源码、单元测试和自动化构建工具，是一套完整的前端开发、测试、发布解决方案（工程套件需要 NodeJS、npm 和 Grunt 支持，请自行配置），您可以手动下载 Squirrle 3 工程套件包 Project-Template（15MB），或者通过 npm 命令安装：</p>
+        <pre class="prettyprint">npm install squirrel-pt</pre>
+        <p>安装完成后可以看到以下目录结构：</p>
+        <div class="markdown">
+            <pre><code> Squirrel-pt/
     ├── app/ (应用目录)
     │ ├── dist/ (构建代码)
     │ │ ├── css/
     │ │ ├── js/
     │ │ ├── images/
+    │ │ ├── font/
     │ ├── src/ (源码)
     │ │ ├── less/
     │ │ ├── js/
@@ -127,23 +86,92 @@
     ├── test/ (单元测试)
     ├── tools/ (自动化构建工具)
     │ ├── grunt/
-    └── index.html
-</code></pre>
-                <p> 可以手动下载 Squirrle 3 工程套件包 Project-Template（15MB），或者通过 npm 命令安装：</p>
-
-<pre><code> npm install squirrel-pt
-</code></pre>
-                <p> 下载完成后需要对 package.json 进行配置。</p></li>
+    └── index.html</code></pre>
+        </div>
+        <p>在工程的<code>grunt</code>目录下可以执行 Grunt 命令：</p>
+        <pre class="prettyprint">grunt build    // 执行构建
+grunt watch    // 监视文件，发现变化自动构建
+grunt jsdocs   // 生成 JSDoc 模板</pre>
+    </section>
+    <section class="dpl-module">
+        <h3 id="howtouse">使用组件、插件</h3>
+        <p>Squirrel 集成了多种常用的组件及插件，只需要简单的几步就可以构建一个应用：</p>
+        <ol class="guide-list">
+            <li>在文档侧边栏中选择需要的组件或插件；</li>
+            <li>使用所需的 HTML 代码片段；</li>
+            <li>如果选择的是插件则还使用所需的 JS 代码；</li>
         </ol>
-        <h3>2、使用</h3>
-
-        <p>Squirrel 集成了许多常用的组件及插件，只需要简单的几步就可以快速的使用集成的组件及插件构建一个应用：</p>
-        <!--<ol>
-            <li>1. 打开并编辑安装目录中 index.html 文件；<img src="static/images/guide_1.png"/></li>
-            <li>2. 在框架文档中拷贝所需组件代码片段或者插件的实例化方法；<img src="static/images/guide_2.png"/></li>
-            <li>3. 加入自定义样式和 Javascript 脚本。</li>
-        </ol>-->
-    </div>
+        <p><img src="static/images/how.png" width="600" alt="how to use"/></p>
+    </section>
+    <section class="dpl-module">
+        <h3 id="broswer">浏览器支持</h3>
+        <table class="broswer-support">
+            <thead>
+            <tr>
+                <th class="system">系统</th>
+                <th class="version">版本</th>
+                <th class="support">支持情况</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Android</td>
+                <td class="sub">
+                    <table class="version-list">
+                        <tbody>
+                            <tr><td>Android 4.4 (KitKat)</td></tr>
+                            <tr><td>Android 4.1 - 4.3 (Jelly Bean) </td></tr>
+                            <tr><td>Android 4.0 (ICS)</td></tr>
+                            <tr><td>Android 2.1 - 2.3</td></tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class="sub">
+                    <table class="grade">
+                        <tbody>
+                        <tr><td class="a"></td></tr>
+                        <tr><td class="a"></td></tr>
+                        <tr><td class="a"></td></tr>
+                        <tr><td class="c"></td></tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>Apple</td>
+                <td class="sub">
+                    <table class="version-list">
+                        <tbody>
+                        <tr><td>iOS 5.0 - 7.0</td></tr>
+                        <tr><td>iOS 4.3</td></tr>
+                        <tr><td>iOS 3.x</td></tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class="sub">
+                    <table class="grade">
+                        <tbody>
+                        <tr><td class="a"></td></tr>
+                        <tr><td class="a"></td></tr>
+                        <tr><td class="c"></td></tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>Windows Phone</td>
+                <td class="sub">
+                    <table class="version-list">
+                        <tbody>
+                        <tr><td>Windows Phone 7.5 - 8</td></tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class="c"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
     <!--<section class="dpl-module">
         <h3>意见反馈</h3>
 

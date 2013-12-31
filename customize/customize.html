@@ -6,14 +6,14 @@
     <link type="text/css" rel="stylesheet" href="../docs/static/font-awesome.min.css" />
     <link type="text/css" rel="stylesheet" href="../docs/static/dpl-famework.css" />
     <script type="text/javascript" src="../libs/jquery/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="../docs/dpl-famework.js"></script>
+    <script type="text/javascript" src="../docs/static/dpl-famework.js"></script>
     <title>Squirrel Customize</title>
     <style>
         html, body{ width:100%; height:100%; overflow:hidden;}
     </style>
 </head>
 <body>
-<div class="wrapper">
+<div class="wrapper" id="customize">
     <header id="fw-header">
         <nav class="top-nav">
             <h1 class="logo">Squirrel</h1>
@@ -38,41 +38,47 @@
     <section class="cm-content iScroll">
         <aside class="sidebar">
             <div class="customize-info">
-                <h3>定制信息：</h3>
-                <p>版本：v0.8.12</p>
-                <p>大小：10 KB</p>
+                <ul>
+                    <li><i class="fa fa-tasks"></i>组件<em class="components-num">0</em></li>
+                    <li><i class="fa fa-puzzle-piece"></i>插件<em class="plugins-num">0</em></li>
+                    <li><i class="fa fa-coffee"></i>DPL<em class="dpl-num">0</em></li>
+                </ul>
             </div>
-            <a class="fw-btn green customize-btn" href="#;">下载定制框架</a>
+            <a class="fw-btn green customize-btn J_customizeBtn" href="#;">下 载</a>
         </aside>
         <div class="cm-module" id="Framework">
             <h3>框架</h3>
             <div class="select-list">
-                <h4>核心<small>Core</small></h4>
+                <h4><i class="fa fa-gears"></i>核心<small>Core</small></h4>
                 <ul>
-                    <li><label class="checkbox"><input type="checkbox" checked="checked" />核心<small>Core</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" checked="checked" disabled="disabled" />核心<small>Core</small></label></li>
                 </ul>
             </div>
             <div class="select-list">
-                <h4>组件<small>Components</small></h4>
+                <h4><i class="fa fa-tasks"></i>组件<small>Components</small></h4>
                 <ul>
-                    <li><label class="checkbox"><input type="checkbox" name="components" class="all" />全选<small>Toggle All</small></label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="components" />工具栏<small>Toolbar</small></label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="components" />列表<small>List</small></label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="components" />按钮<small>Button</small></label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="components" />表单<small>Form</small></label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="components" />图标<small>Icon</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" data-group="components" class="all J_selectAll"  />全选<small>Toggle All</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="components" class="toolbar" />工具栏<small>Toolbar</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="components" class="list" />列表<small>List</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="components" class="button" />按钮<small>Button</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="components" class="form" />表单<small>Form</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="components" class="font-icon" />字体图标<small>Font Icon</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="components" class="animate" />动画<small>CSS Animate</small></label></li>
+                    <!--<li class="deprecated"><label class="checkbox"><input type="checkbox" name="components" />图标<small>Icon</small></label></li>-->
                 </ul>
             </div>
             <div class="select-list">
-                <h4>插件<small>Plugins</small></h4>
+                <h4><i class="fa fa-puzzle-piece"></i>插件<small>Plugins</small></h4>
                 <ul>
-                    <li><label class="checkbox"><input type="checkbox" name="plugins" class="all" />全选<small>Toggle All</small></label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="plugins" />加载更多<small>LoadMore</small></label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="plugins" />对话框<small>Dialog</small></label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="plugins" />触摸滑动<small>TouchSlip</small></label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="plugins" />联想词<small>Suggest</small></label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="plugins" />选项卡<small>Tabs</small></label></li>
-                    <li><label class="checkbox"><input type="checkbox" name="plugins" />延迟加载<small>LazyLoad</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" data-group="plugins" class="all J_selectAll" />全选<small>Toggle All</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="plugins" class="loadmore" />加载更多<small>LoadMore</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="plugins" class="popup" />弹窗<small>Popup</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="plugins" class="touchslip" />触摸滑动<small>TouchSlip</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="plugins" class="suggest" />联想词<small>Suggest</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="plugins" class="tabs" />选项卡<small>Tabs</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="plugins" class="lazyload" />延迟加载<small>LazyLoad</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="plugins" class="fixed" />固定布局<small>Fixed</small></label></li>
+                    <!--<li class="deprecated"><label class="checkbox"><input type="checkbox" name="plugins" />对话框<small>Dialog</small></label></li>-->
                 </ul>
             </div>
         </div>
@@ -80,8 +86,9 @@
             <h3>设计模式库</h3>
             <div class="select-list">
                 <ul>
-                    <li><label class="checkbox"><input type="checkbox" />搜索栏<small>Searchbar</small></label></li>
-                    <li><label class="checkbox"><input type="checkbox" />缩略图<small>Thumbnails</small></label></li>
+                    <!--<li><label class="checkbox"><input type="checkbox" data-group="dpl" class="all J_selectAll" data-required="form,button,suggest,list" />全选<small>Toggle All</small></label></li>-->
+                    <li><label class="checkbox"><input type="checkbox" name="dpl" data-required="form,button,suggest" />搜索栏<small>Searchbar</small></label></li>
+                    <li><label class="checkbox"><input type="checkbox" name="dpl" data-required="list,button" />缩略图<small>Thumbnails</small></label></li>
                 </ul>
             </div>
         </div>
@@ -95,14 +102,14 @@
                 </ul>
             </div>
         </div>-->
-        <div class="cm-module" id="Tools">
+        <!--<div class="cm-module" id="Tools">
             <h3>工具</h3>
             <div class="select-list">
                 <ul>
                     <li><label class="checkbox"><input type="checkbox" />Grunt 构建工具</label></li>
                 </ul>
             </div>
-        </div>
+        </div>-->
     </section>
     
     <footer id="footer"></footer>
