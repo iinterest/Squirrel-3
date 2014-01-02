@@ -1,6 +1,6 @@
 {
     "name": "squirrel",
-    "version": "0.8.24",
+    "version": "0.8.25",
     "description": "移动前端开发框架，让移动 Web 应用开发更加简单、迅速。",
     "dirs": {
         "base": "../..",
