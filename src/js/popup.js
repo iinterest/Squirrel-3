@@ -110,9 +110,12 @@
          */
         _init: function () {
             var me = this;
+            me.$win = $(window);
+            me.$doc = $(document);
+            me.$body = $("body");
             // 如果页面中没有指定的 Dom 则生成一个插入到文档中
             if ($(me.config.DOM_TRIGGER_TARGET).length === 0) {
-                $("body").append("<div class='" + me.config.DOM_TRIGGER_TARGET + "' style='display:none'></div>");
+                me.$body.append("<div class='" + me.config.DOM_TRIGGER_TARGET + "' style='display:none'></div>");
             }
             me.$triggerTarget = $(me.config.DOM_TRIGGER_TARGET);    // 触发元素
             me.$parent = $(me.config.DOM_PARENT);                   // 触发元素的父元素
@@ -131,12 +134,12 @@
                     e.preventDefault();
                 }
                 if (me.config.DISPOSABLE) {
-                    SQ.dom.$doc.off(me.config.EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET, bindEvent);
+                    me.$doc.off(me.config.EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET, bindEvent);
                 }
                 me._trigger(e);
             }
             // 绑定在 document 上是为了解决 Ajax 内容绑定问题
-            SQ.dom.$doc.on(me.config.EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET, bindEvent);
+            me.$doc.on(me.config.EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET, bindEvent);
         },
         /**
          * 事件触发
@@ -195,7 +198,7 @@
                 $popupPanel.append($cancelBtn);
             }
 
-            $popupPanel.appendTo(SQ.dom.$body);
+            $popupPanel.appendTo(me.$body);
             // 保存 Dom
             me.$popupPanel = $popupPanel;
             me.$popupContent = $popupContent;
@@ -221,8 +224,8 @@
             if (me.config.CSS_POSITION === "fixed") {
                 top = "50%";
             } else if (me.config.CSS_POSITION === "absolute") {
-                var winHeight = window.innerHeight || SQ.dom.$win.height();
-                top = SQ.dom.$body.scrollTop() + winHeight / 2;
+                var winHeight = window.innerHeight || me.$win.height();
+                top = me.$body.scrollTop() + winHeight / 2;
             }
             
             if (!me.config.CSS_TOP && !me.config.CSS_LEFT && !me.config.CSS_BOTTOM && !me.config.CSS_RIGHT) {
@@ -322,7 +325,7 @@
                 me.close();
             });
 
-            SQ.dom.$win.resize(function () {
+            me.$win.resize(function () {
                 me.resize();
             });
         },
@@ -408,8 +411,8 @@
         /** 显示遮罩 */
         mask: function () {
             var me = this;
-            var bodyH = SQ.dom.$body.height();
-            var winH = SQ.dom.$win.height();
+            var bodyH = me.$body.height();
+            var winH = me.$win.height();
             var h = bodyH > winH ? bodyH : winH;
 
             if (me.$mask) {
@@ -430,7 +433,7 @@
                     "background" : me.config.CSS_MASK_BACKGROUND,
                     "opacity" : me.config.CSS_MASK_OPACITY,
                     "z-index" : 999
-                }).appendTo(SQ.dom.$body);
+                }).appendTo(me.$body);
 
                 if (me.config.LOCK) {
                     $mask.on("touchstart", function (e) {

@@ -3,11 +3,12 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link type="text/css" rel="stylesheet" href="../../build/css/squirrel.css" />
-    <link type="text/css" rel="stylesheet" href="../static/dpl-famework.css" />
-    <link type="text/css" rel="stylesheet" href="../static/prettify.css" />
-    <script type="text/javascript" src="../static/prettify.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../docs/static/dpl-famework.css" />
+    <link type="text/css" rel="stylesheet" href="../../docs/static/prettify.css" />
+    <link type="text/css" rel="stylesheet" href="dpl-icon.css"/>
+    <script type="text/javascript" src="../../docs/static/prettify.js"></script>
     <script type="text/javascript" src="../../libs/jquery/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="../static/dpl-famework.js"></script>
+    <script type="text/javascript" src="../../docs/static/dpl-famework.js"></script>
     <title>Squirrel Icon</title>
 </head>
 <body onload="prettyPrint();">
@@ -23,19 +24,18 @@
     </aside>
 
     <section class="dpl-module">
-        <h3>图标(Deprecated)</h3>
-        <p class="alert danger">请使用 Font Icon 代替；v0.8.25 版本已经移除 sq-icon。</p>
+        <h3>图标</h3>
         <p>
             图标<code>.sq-icon</code>，可以方便的添加至按钮、工具栏的按钮组、导航或表单等各种模块上，名为 sq-icon@2x.png 的图片即为全部图标的 Sprite，制作时单个的标准尺寸为 40 × 40 像素。
-            <!--<img src="../images/sq-icon@2x.png" alt="sq-icon@2x"/><br/>-->
-            <!--<img src="../images/sq-icon@2x.png" width="100" alt="sq-icon@2x"/>-->
         </p>
-        <h4>示例：</h4>
+        <h4>如何使用：</h4>
+        <p>将<code>dpl-searchbar.less</code>文件加入到工程目录的<code>src/less</code> 文件夹下，框架构建工具会自动进行合并处理。然后加入相应的 HTML 和 JS 代码：（注意：该组件依赖 <code>SQ.Suggest</code> 插件）</p>
+        <!--<h4>示例：</h4>
         <div class="demo">
             <i class="sq-icon home"></i>
             <i class="sq-icon msg"></i>
             <i class="sq-icon up"></i>
-        </div>
+        </div>-->
         <h4>HTML 代码：</h4>
         <pre class="prettyprint">&lt;i class="sq-icon home"&gt;&lt;/i&gt;
 &lt;i class="sq-icon msg"&gt;&lt;/i&gt;

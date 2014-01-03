@@ -11,9 +11,9 @@
 
         .fixed{ position:fixed!important; top:0; left:0; right:0; z-index:30;}
         .fixed + .fixed-placehold{ height:44px;}
-        .gray{ background:#ddd;}
-        .green{ background:#38c483;}
-        .orange{ background:#ff6600;}
+        .c1{ background:#dff0d8; color:#3c763d;}
+        .c2{ background:#d9edf7; color:#31708f;}
+        .c3{ background:#fcf8e3; color:#8a6d3b;}
         .go-top-btn{ display:none; width:50px; height:50px; background:#38c483; border-radius:30px; text-align:center; line-height:50px; color:#fff; position:fixed; bottom:20px; right:10px; z-index:99;}
     </style>
 </head>
@@ -22,7 +22,7 @@
     <a href="../fixed.html" class="demo-go-back">返回</a>
     <a href="#" class="go-top-btn J_fixedGoTop">Top</a>
     <div class="wrapper">
-        <header class="sq-toolbar header fixed gray">
+        <header class="sq-toolbar header fixed c1">
             Title 1
         </header>
         <div class="fixed-placehold"></div>
@@ -131,7 +131,7 @@
                 </li>
             </ul>
         </div>
-        <header class="sq-toolbar header J_fixedHeader green">
+        <header class="sq-toolbar header J_fixedHeader c2">
             Title 2
         </header>
         <div class="sq-list vertical">
@@ -299,7 +299,7 @@
                 </li>
             </ul>
         </div>
-        <header class="sq-toolbar header J_fixedHeader orange">
+        <header class="sq-toolbar header J_fixedHeader c3">
             Title 3
         </header>
         <div class="sq-list vertical">
@@ -490,7 +490,7 @@
         </div>
         <div class="loadMore J_scrollLoadMore" data-api="data/list.json"></div>
     </div>
-    <script type="text/javascript" src="../../../../libs/zepto/zepto-1.0.min.js"></script>
+    <script type="text/javascript" src="../../../../libs/zepto/zepto.min.js"></script>
     <script type="text/javascript" src="../../../../build/js/squirrel.js"></script>
     <!--<script type="text/javascript" src="../../../../libs/conzole.js"></script>-->
     <script type="text/javascript">
