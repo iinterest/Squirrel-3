@@ -24,6 +24,7 @@
         <ul class="anchor">
             <li class="level-1"><a href="#">快速起步</a></li>
             <li class="level-1"><a href="#project">安装工程套件</a></li>
+            <li class="level-1"><a href="#cmd">模块化加载</a></li>
             <li class="level-1"><a href="#howtouse">使用组件、插件</a></li>
             <li class="level-1"><a href="#broswer">浏览器支持</a></li>
         </ul>
@@ -70,28 +71,54 @@
         <p>安装完成后可以看到以下目录结构：</p>
         <div class="markdown">
             <pre><code> Squirrel-pt/
-    ├── app/ (应用目录)
-    │ ├── dist/ (构建代码)
-    │ │ ├── css/
-    │ │ ├── js/
-    │ │ ├── images/
-    │ │ ├── font/
-    │ ├── src/ (源码)
-    │ │ ├── less/
-    │ │ ├── js/
-    │ ├── index.html
+    ├── cmd_modules/ (模块代码)
+    ├── dist/ (构建代码)
+    │ ├── css/
+    │ ├── js/
+    │ ├── images/
+    │ ├── font/
+    ├── Gruntfile.js
+    ├── index.html
     ├── libs/ (第三方 JS 类库)
-    │ ├── zepto/
-    │ │ ├── zepto-1.0.min.js
-    ├── test/ (单元测试)
-    ├── tools/ (自动化构建工具)
-    │ ├── grunt/
-    └── index.html</code></pre>
+    │ ├── sea.js/
+    │ ├── zepto.min.js/
+    ├── package.json
+    ├── src/ (源码)
+    │ ├── less/
+    │ ├── js/
+    └── test/ (单元测试)</code></pre>
         </div>
-        <p>在工程的<code>grunt</code>目录下可以执行 Grunt 命令：</p>
+        <p>安装 Nodejs 组件</p>
+        <pre class="prettyprint">npm install</pre>
+        <p>根据项目需求手动修改 package.json 配置文件</p>
+        <pre class="prettyprint">{
+    "name": "Squirrel",                     // 项目名称
+    "description": "Mobile Web Framwork",   // 项目描述
+    "version": "0.0.1",                     // 版本
+    "isCMD": true,                          // 是否启用 CMD 模式
+    ......
+}
+</pre>
+        <p>在工程目录下可以执行 Grunt 命令：</p>
         <pre class="prettyprint">grunt build    // 执行构建
-grunt watch    // 监视文件，发现变化自动构建
-grunt jsdocs   // 生成 JSDoc 模板</pre>
+grunt watch    // 监视文件，发现变化自动构建</pre>
+    </section>
+    <section class="dpl-module">
+        <h3 id="cmd">模块化加载</h3>
+        <p>v0.8.26 版本以后开始支持模块化加载，可以按需加载模块，例如添加框架的选项卡模块<code>SQ.Tabs</code>，编辑<code>src/js/main.js</code>文件：</p>
+        <pre class="prettyprint">(function () {
+    var SQ = window.SQ || {};
+    SQ.Tabs = require("tabs");  // 加载 tabs 模块
+
+    var tabs = new SQ.Tabs({
+        EVE_EVENT_TYPE : "mouseover",
+        DOM_TRIGGER_TARGET : ".J_tabs",
+        DOM_TABS : ".tabs>li",
+        DOM_PANELS : ".panels",
+        NUM_ACTIVE : 0
+    });
+}());</pre>
+        <p>然后通过 Grunt 构建工具即可生成所需代码。</p>
     </section>
     <section class="dpl-module">
         <h3 id="howtouse">使用组件、插件</h3>

@@ -1,9 +1,9 @@
 {
     "name": "squirrel",
-    "version": "0.8.25",
-    "description": "移动前端开发框架，让移动 Web 应用开发更加简单、迅速。",
+    "version": "0.8.26",
+    "description": "移动前端开发框架，提供简单、快速的 Web 开发体验。",
     "dirs": {
-        "base": "../..",
+        "base": ".",
         "js_src": "src/js",
         "js_build": "build/js",
         "js_dist": "dist/js",
@@ -22,6 +22,8 @@
         "grunt-open": "~0.2.2",
         "grunt-notify": "~0.2.16",
         "grunt-contrib-copy": "~0.4.1",
-        "grunt-autoprefixer": "~0.5.0"
+        "grunt-autoprefixer": "~0.5.0",
+        "grunt-cmd-transport": "~0.4.1",
+        "grunt-cmd-concat": "~0.2.7"
     }
 }
