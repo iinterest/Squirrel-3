@@ -3,10 +3,9 @@
  * Sq-toolbar
  * 通用工具栏，包括普通工具栏、导航栏、页脚栏、Fixed 定位导航栏等
  * @section sq-toolbar
- * @version 1.2.1
- * @tested Android(2.3, 4.1), iOS(6.1.2)
  */
 // @changelog
+// 1.3.0 
 // 1.2.1 新增 pagebar 分页栏样式。
 // 1.2.0 将独立到 DPL 的 .header、.nav 类重新合并到 toolbar 模块中。
 // 1.1.2 去除 .title 的 text-align:center 属性。
@@ -15,14 +14,14 @@
 // 1.0.0 新增 .sq-toolbar 类，内置 .header、.nav、.sub-nav、.footer。
 .sq-toolbar{
     @height-set: 44px;
-    height:@height-set; line-height:@height-set; //overflow:hidden;
+    height:@height-set;
     // Header
     // 标题栏，用于显示页面的主标题，可添加按钮组件
     // @subsection header
     &.header{
-        position:relative; .display-box; .box-align(center); .box-pack(justify); padding:0 10px; font-size:@content-font-size; overflow:hidden;
-        .title{ position:absolute; .overspread(0,80px,0,80px); font-size:@head-font-size; text-align:center;}
-        .sq-btn{ display:block; /*以适应弹性布局*/ z-index:1; }
+        position:relative; .display-box; .box-align(center); .box-pack(justify); padding:0 4px; font-size:@content-font-size; z-index:100;
+        .title{ position:absolute; .overspread(0,80px,0,80px); height:@height-set; font-size:@head-font-size; line-height:@height-set; text-align:center; overflow:hidden;}
+        .sq-btn{ display:block; /*以适应弹性布局*/ z-index:1;}
         // extend：对齐方式
         &.align-end{ .box-pack(end);}
         &.align-start{ .box-pack(start);}
@@ -31,7 +30,7 @@
     // 主导航栏
     // @subsection nav
     &.nav{
-        text-align:center; font-size:@content-font-size;
+        text-align:center; font-size:@content-font-size; line-height:@height-set;
         ul{ .display-box; .box-pack(justify);}
         li{ position:relative; .box-flex(1); height:@height-set; padding:0 5px;}
         a{ .border-box; display:block; height:@height-set; overflow:hidden;}
@@ -40,6 +39,7 @@
     }
     // Pagebar
     // 分页栏
+    // @subsection Pagebar
     &.pagebar:extend(.sq-toolbar.header all){
         .pages{ position:absolute; .overspread(0,80px,0,80px); font-size:@content-font-size; text-align:center;}
     }

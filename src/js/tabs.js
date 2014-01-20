@@ -1,10 +1,11 @@
 /**
  * @file Squirrel Tabs
- * @version 0.7.4
+ * @version 0.7.5
  */
 
 /**
  * @changelog
+ * 0.7.5  * 修改类名
  * 0.7.4  * 解决 localStorage 问题，API_URL 兼容 ["","test.json",""] 这种写法；
  *        * CSS_LOADING_TIP 兼容 ".demo" 和 "demo" 写法。
  * 0.7.3  * 修复 reload 按钮多次绑定问题。
@@ -17,7 +18,11 @@
  * 0.5.1  * 完成选项卡基本功能。
  * 0.0.1  + 新建。
  */
-
+/*global
+ $: false,
+ SQ: false,
+ console: false
+ */
 (function ($, window) {
     "use strict";
     /**
@@ -111,7 +116,7 @@
     }
     Tabs.prototype = {
         construtor: Tabs,
-        version: "0.7.4",
+        version: "0.7.5",
         needLoadContent : false,    // 选项卡内容是否需要异步加载
         /**
          * 验证参数是否合法
@@ -131,7 +136,7 @@
             });
             // 判断是否需要生成异步加载提示语
             if (me.config.API_URL && (SQ.core.isString(me.config.API_URL) || SQ.core.isArray(me.config.API_URL))) {
-                me.$loadingTip = $("<div class='dpl-tabs-loadingTip'></div>");
+                me.$loadingTip = $("<div class='sq-tabs-loading-tip'></div>");
                 if (me.CSS_LOADING_TIP) {
                     me.$loadingTip.addClass(me.CSS_LOADING_TIP);
                 } else {
@@ -207,7 +212,7 @@
         _load: function ($activePanels, tabIndex) {
             var me = this;
             var api = me.config.API_URL;
-            var $currentLoadTip = $activePanels.find(".dpl-tabs-loadingTip");
+            var $currentLoadTip = $activePanels.find(".sq-tabs-loading-tip");
             var hasLoadingTip = $currentLoadTip.length > 0 ? true : false;
             var hasLoaded = $activePanels.hasClass("hasLoaded");
 
@@ -228,6 +233,7 @@
             // 是否启用本地缓存
             if (me.config.LOCAL_DATA) {
                 var localData = SQ.store.localStorage.get(api, me.config.NUM_EXPIRES);
+                localData = SQ.core.isString(localData) ? $.parseJSON(localData) : localData;
                 if (localData) {
                     $activePanels.addClass("hasLoaded");
                     if (me.loadFun) {
@@ -251,7 +257,7 @@
                 $currentLoadTip.show();
             } else {
                 $activePanels.append(me.$loadingTip);
-                $currentLoadTip = $activePanels.find(".dpl-tabs-loadingTip");
+                $currentLoadTip = $activePanels.find(".sq-tabs-loading-tip");
                 $currentLoadTip.show();
             }
             me.xhr = $.ajax({
@@ -276,10 +282,10 @@
         },
         _showReloadTips: function ($activePanels, tabIndex) {
             var me = this;
-            var $tip = $activePanels.find(".dpl-tabs-loadingTip");
+            var $tip = $activePanels.find(".sq-tabs-loading-tip");
             $tip.show().empty();
             var reloadHTML = "<div class='reload'>" +
-                "<p style='padding:5px 0;'>抱歉，加载失败，请重试</p>" +
+                "<p>抱歉，加载失败，请重试</p>" +
                 "<div class='sq-btn f-grey J_reload'>重新加载</div>" +
                 "</div>";
             $tip.append(reloadHTML);

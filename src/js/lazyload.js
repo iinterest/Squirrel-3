@@ -1,10 +1,11 @@
 /**
  * @file Squirrel LazyLoad
- * @version 0.8.0
+ * @version 0.8.1
  */
 
 /**
  * @changelog
+ * 0.8.1  * 新增 ANIMATE 设置。
  * 0.8.0  * 重写 lazylaod 插件，提高整体性能。
  * 0.7.0  * 调整滑动阀值 scrollDelay，由 200 调整至 150；
  *        * 调整可视区的计算方式，由 offset 改为 getBoundingClientRect；
@@ -17,6 +18,12 @@
  * 0.6.0  + 首屏图片自动加载。
  * 0.5.1  * 完成图片模式的延迟加载功能。
  * 0.0.1  + 新建。
+ */
+
+/*global
+ $: false,
+ SQ: false,
+ console: false
  */
 
 (function ($, window) {
@@ -32,6 +39,7 @@
      * @param {string} config.CSS_PLACEHOLDER       图片模式下，设置占位样式，必须与 DOM_LAZY_PARENT 同时配置。
      * @param {string} config.MODE                  延迟加载模式：image（图片模式）。
      * @param {string} config.NUM_THRESHOLD         灵敏度，数值越大越灵敏，延迟性越小，默认为 200。
+     * @param {string} config.ANIMATE               动画类，例如 .fadeIn
      * @param {function} config.refresh             刷新延迟加载元素列表。
      * @example var imglazyload = new SQ.LazyLoad({
                 DOM_LAZY_ITEMS : ".J_lazyload",
@@ -61,7 +69,7 @@
     }
     LazyLoad.prototype = {
         construtor: LazyLoad,
-        version: "0.8.0",
+        version: "0.8.1",
         scrollTimer: 0,     // 滑动计时器
         scrollDelay: 150,   // 滑动阀值
         /**
@@ -96,6 +104,11 @@
                 var img = this;
                 var $img = $(img);
                 var src = $img.attr("data-img");
+                // 添加动画
+                if (me.config.ANIMATE) {
+                    var animateClassName = me.config.ANIMATE.indexOf(".") === 0 ? me.config.ANIMATE.slice(1) : me.config.ANIMATE;
+                    $img.addClass("animated " + animateClassName);
+                }
                 // 替换 src 操作
                 if (src) {
                     $img.attr("src", src).removeAttr("data-img").removeClass(me.lazyItemClassName);

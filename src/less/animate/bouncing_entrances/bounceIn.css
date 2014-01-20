@@ -9,9 +9,9 @@
 		transform: scale(1.05);
 	}
 
-	70% {
+	/*70% {
 		transform: scale(.9);
-	}
+	}*/
 
 	100% {
 		transform: scale(1);

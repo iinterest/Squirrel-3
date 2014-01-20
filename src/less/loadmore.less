@@ -1,5 +1,31 @@
 @import "base";
 
-.sq-loadMore-btn{ position:relative; height:40px; line-height:40px; text-align:center; background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0,#eee),color-stop(1,#f9f9f9)); text-shadow:0 1px 1px #fff; border-top:1px solid #d7d7d7; border-bottom:1px solid #fff; color:#333; font-size:14px;}
+.sq-loadMore-state{ 
+    position:relative; height:40px; line-height:40px; background:#d7d7d7; color:#333; text-align:center; cursor:pointer; overflow:hidden;
+    .state-icon{ 
+        display:inline-block;
+        &::before{ font-family:"fontello"; font-style:normal; font-weight:normal; speak:none;}
+    }
+    .state-txt{ padding:0 8px;}
+    &.error{}
+    &.click{
+        .state-icon{ -webkit-transform:rotate(90deg);}
+        .state-icon::before{ content:'\e834';}
+    }
+    &.no-more{}
+    &.loading{
+        .state-icon{ position:relative; top:-1px; -webkit-animation: spin 2s infinite linear;}
+        .state-icon::before{ content:'\e812';}
+    }
+}
 
-.sq-loadMore-clickState::before{ content:""; display:inline-block; width:10px; height:10px; margin-right:5px; background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAaCAMAAABvn+dxAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRFd3d3AAAADlogTAAAAAJ0Uk5T/wDltzBKAAAAU0lEQVR42tySAQrAIAwDL///9KRstSe+YEWxXkMwILkVtQ6yNgjXlSpBeCmCBKm/XibdMRV7vDXDihhn0Bh2sOOB0+SSuI8/JY4Ti0YJr7/kEWAAa1MBS66ah5oAAAAASUVORK5CYII=") no-repeat; background-size:contain;}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+    }
+}
+
+/*.sq-loadMore-clickState::before{ content:""; display:inline-block; width:10px; height:10px; margin-right:5px; background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAaCAMAAABvn+dxAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRFd3d3AAAADlogTAAAAAJ0Uk5T/wDltzBKAAAAU0lEQVR42tySAQrAIAwDL///9KRstSe+YEWxXkMwILkVtQ6yNgjXlSpBeCmCBKm/XibdMRV7vDXDihhn0Bh2sOOB0+SSuI8/JY4Ti0YJr7/kEWAAa1MBS66ah5oAAAAASUVORK5CYII=") no-repeat; background-size:contain;}*/

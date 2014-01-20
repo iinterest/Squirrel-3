@@ -5,6 +5,7 @@
 
 /**
  * @changelog
+ * 1.0.2  * _setPopupPos 函数优化
  * 1.0.1  * 在设置了 ANIMATE 时，_setPopupPos 函数不使用 translate(-50%, -50%) 方法定位，因为会与动画产生冲突。
  *        * 修复 ANIMATE 设置问题。
  * 1.0.0  * 原 Dialog 组件重构为 Popup 组件。
@@ -95,7 +96,7 @@
     }
     Popup.prototype =  {
         construtor: Popup,
-        version: "1.0.1",
+        version: "1.0.2",
         timer : undefined,
         resizeTimer : false,    // resize 
         closed : true,
@@ -113,7 +114,7 @@
             me.$win = $(window);
             me.$doc = $(document);
             me.$body = $("body");
-            // 如果页面中没有指定的 Dom 则生成一个插入到文档中
+            // 如果页面中没有指定的 Dom 则生成一个插入到文档中，避免因 trigger() 触发 Popup 时找不到该 Dom 而报错。
             if ($(me.config.DOM_TRIGGER_TARGET).length === 0) {
                 me.$body.append("<div class='" + me.config.DOM_TRIGGER_TARGET + "' style='display:none'></div>");
             }
@@ -232,6 +233,17 @@
                 // 当坐标全部未设置时给一个默认值，避免弹窗定位到页面最底部
                 me.config.CSS_TOP = 0;
                 me.config.CSS_LEFT = 0;
+            }
+
+            if (me.config.CSS_TOP && me.config.CSS_LEFT && me.config.CSS_BOTTOM && me.config.CSS_RIGHT) {
+                // 当坐标全部设置时，直接定位弹窗不做计算
+                me.$popupPanel.css({
+                    "top": me.config.CSS_TOP,
+                    "left": me.config.CSS_LEFT,
+                    "bottom": me.config.CSS_BOTTOM,
+                    "right": me.config.CSS_RIGHT
+                });
+                return;
             }
 
             if (isSupportTransform && !isAnimate) {
@@ -424,15 +436,15 @@
             } else {
                 var $mask = $("<div class='mask'></div>");
                 $mask.css({
-                    "position" : "absolute",
-                    "top" : 0,
-                    "left" : 0,
-                    "right" : 0,
-                    "width" : "100%",
-                    "height" : h,
-                    "background" : me.config.CSS_MASK_BACKGROUND,
-                    "opacity" : me.config.CSS_MASK_OPACITY,
-                    "z-index" : 999
+                    "position": "absolute",
+                    "top": 0,
+                    "left": 0,
+                    "right": 0,
+                    "width": "100%",
+                    "height": h,
+                    "background": me.config.CSS_MASK_BACKGROUND,
+                    "opacity": me.config.CSS_MASK_OPACITY,
+                    "z-index": 999
                 }).appendTo(me.$body);
 
                 if (me.config.LOCK) {

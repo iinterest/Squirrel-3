@@ -53,11 +53,11 @@
             <h5>JS 代码：</h5>
             <pre class="prettyprint">&lt;script type="text/javascript"&gt;
     var imglazyload = new SQ.LazyLoad({
-        DOM_LAZY_ITEMS : ".J_lazyload",
-        DOM_LAZY_PARENT : ".sq-list .icon",
-        CSS_PLACEHOLDER : ".default-icon",
-        IMG_PLACEHOLDER : "../../../static/images/sq-icon.png",
-        NUM_THRESHOLD : 250
+        DOM_LAZY_ITEMS: ".J_lazyload",
+        DOM_LAZY_PARENT: ".sq-list .icon",
+        CSS_PLACEHOLDER: ".default-icon",
+        IMG_PLACEHOLDER: "../../../static/images/sq-icon.png",
+        NUM_THRESHOLD: 250
     });
 &lt;/script&gt;</pre>
             </div>
@@ -125,6 +125,13 @@
                                 <td class="description last">灵敏度，数值越大越灵敏，延迟性越小，默认为 200。</td>
                             </tr>
                             <tr>
+                                <td class="name"><code>ANIMATE</code></td>
+                                <td class="type">
+                                    <span class="param-type">string</span>
+                                </td>
+                                <td class="description last">动画类，例如 .fadeIn。</td>
+                            </tr>
+                            <tr>
                                 <td class="name"><code>refresh</code></td>
                                 <td class="type">
                                     <span class="param-type">function</span>
@@ -141,11 +148,11 @@
             <h4 id="inner-fun">内置方法：</h4>
             <p>SQ.LazyLoad.refresh();</p>
             <p><pre class="prettyprint">var imglazyload = new SQ.LazyLoad({
-    DOM_LAZY_ITEMS : ".J_lazyload",
-    DOM_LAZY_PARENT : ".sq-list .icon",
-    CSS_PLACEHOLDER : ".default-icon",
-    IMG_PLACEHOLDER : "../../../static/images/sq-icon.png",
-    NUM_THRESHOLD : 250
+    DOM_LAZY_ITEMS: ".J_lazyload",
+    DOM_LAZY_PARENT: ".sq-list .icon",
+    CSS_PLACEHOLDER: ".default-icon",
+    IMG_PLACEHOLDER: "../../../static/images/sq-icon.png",
+    NUM_THRESHOLD: 250
 });
 imglazyload.refresh();  // 刷新延迟加载元素列表
 </pre></p>
@@ -182,26 +189,27 @@ imglazyload.refresh();  // 刷新延迟加载元素列表
 &lt;script type="text/javascript" src="../../build/js/squirrel.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript"&gt;
     var imglazyload = new SQ.LazyLoad({
-        DOM_LAZY_ITEMS : ".J_lazyload",
-        DOM_LAZY_PARENT : ".sq-list .icon",
-        CSS_PLACEHOLDER : ".default-icon",
-        IMG_PLACEHOLDER : "../../../static/images/sq-icon.png",
-        NUM_THRESHOLD : 250
+        DOM_LAZY_ITEMS: ".J_lazyload",
+        DOM_LAZY_PARENT: ".sq-list .icon",
+        CSS_PLACEHOLDER: ".default-icon",
+        IMG_PLACEHOLDER: "../../../static/images/sq-icon.png",
+        ANIMATE: ".fadeIn",
+        NUM_THRESHOLD: 250
     });
 
     // 可以与 loadmore 插件组合使用
     var appList = new SQ.LoadMore({
-        EVE_EVENT_TYPE : "scroll",
-        DOM_TRIGGER_TARGET : window,
-        DOM_AJAX_BOX : ".J_ajaxWrap",
-        DOM_STATE_BOX : ".J_scrollLoadMore",
-        CSS_INIT_STYLE : "sq-loadMore-btn",
-        DATA_TYPE : "html",
-        loaded : function () {
+        EVE_EVENT_TYPE: "scroll",
+        DOM_TRIGGER_TARGET: window,
+        DOM_AJAX_BOX: ".J_ajaxWrap",
+        DOM_STATE_BOX: ".J_scrollLoadMore",
+        CSS_INIT_STYLE: "sq-loadMore-btn",
+        DATA_TYPE: "html",
+        loaded: function () {
             var me = this;
             imglazyload.refresh();
         },
-        scrollEnd : function () {
+        scrollEnd: function () {
             var me = this;
             me.$stateBox.addClass("sq-loadMore-clickState");
             imglazyload.refresh();

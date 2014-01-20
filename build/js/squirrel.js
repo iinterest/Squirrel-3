@@ -388,16 +388,21 @@ SQ.util = {
 };
 /**
  * @file Squirrel Button
- * @version 0.1.2
+ * @version 0.2.0
  */
 
 /**
  * @changelog
+ * 0.2.0  * 重写 menu 模式代码，独立 button.js 为插件
  * 0.1.2  * 修复 jshint 问题
  * 0.1.1  + 新增 menu 交互模式
  * 0.0.1  + 新建
  */
-
+/*global
+ $: false,
+ SQ: false,
+ console: false
+ */
 (function ($, window) {
     "use strict";
     /**
@@ -407,14 +412,15 @@ SQ.util = {
      * @param {object} config 组件配置（下面的参数为配置项，配置会写入属性）
      * @param {string} config.EVE_EVENT_TYPE        触发事件，click 或 mouseover
      * @param {string} config.DOM_TRIGGER_TARGET    被绑定事件的 Dom 元素
-     * @param {string} config.MODE                  交互模式
+     * @param {string} config.MODE                  交互模式，目前只有 menu
+     * @param {string} config.ANIMATE               动画类，例如 .fadeIn
      */
     function Button(config) {
         var me = this;
         var i;
 
         me.config = {
-            TXT_LOADING_TIP : "正在加载请稍后..."     // 正在加载提示
+
         };
 
         for (i in config) {
@@ -431,41 +437,53 @@ SQ.util = {
     }
     Button.prototype =  {
         construtor: Button,
-        version: "0.1.2",
-        //state: "init",
+        version: "0.2.0",
 
         // 验证参数是否合法
-        _verify : function () {
+        _verify: function () {
             return true;
         },
-        _init : function () {
+        _init: function () {
             var me = this;
             // menu 模式
             if (me.config.MODE === "menu") {
-                me.$triggerTarget.on(me.config.EVE_EVENT_TYPE, function () {
-                    me.menu();
-                });
+                me.menu();
             }
         },
-        // 改变按钮状态
-        setState : function (state) {
+        /**
+         * 
+         * @param state
+         */
+        setState: function (state) {
             var me = this;
-            //me.state = state;
             if (state === "active") {
                 me.$triggerTarget.addClass("active");
             }
             if (state === "init") {
                 me.$triggerTarget.removeClass("active");
             }
-           
         },
-        // 按钮菜单效果
-        menu : function () {
+        /**
+         * 
+         */
+        menu: function () {
             var me = this;
             var $menuBtns = $(".J_buttonMenu");
-            var $menu = me.$triggerTarget.find(".menu");
-            var $menus = $menuBtns.find(".menu");
+            var $menu = me.$triggerTarget.find(".dropdown-menu");
+            var $menus = $menuBtns.find(".dropdown-menu");
             var $doc = $(document);
+
+            me.$triggerTarget.on(me.config.EVE_EVENT_TYPE, function (e) {
+                _toggle(e);
+            });
+
+            function _toggle() {
+                if (!me.$triggerTarget.hasClass("active")) {
+                    _showMenu();
+                } else {
+                    _hideMenu();
+                }
+            }
             
             function _resetAll() {
                 $menus.hide();
@@ -473,45 +491,33 @@ SQ.util = {
             }
             function _showMenu() {
                 _resetAll();
+                if (me.config.ANIMATE) {
+                    var animateClassName = me.config.ANIMATE.indexOf(".") === 0 ? me.config.ANIMATE.slice(1) : me.config.ANIMATE;
+                    $menu.addClass("animated " + animateClassName);
+                }
                 $menu.show();
                 me.setState("active");
-                $doc.on("click", function (e) {
-                    var $target = $(e.target);
-                    if (!$target.hasClass("sq-btn") && $target.parents(".sq-btn").length === 0) {
-                        _hideMenu();
-                    }
-                });
+                $doc.on("click", _documentEvent);
             }
             function _hideMenu() {
                 $menu.hide();
                 me.setState("init");
-                $doc.off("click");
+                $doc.off("click", _documentEvent);
             }
-
-            if (!me.$triggerTarget.hasClass("active")) {
-                _showMenu();
-            } else {
-                _hideMenu();
+            function _documentEvent(e) {
+                var $target = $(e.target);
+                if (!$target.hasClass("sq-btn") && $target.parents(".sq-btn").length === 0) {
+                    _hideMenu();
+                }
             }
         },
         // 按钮开关效果
-        toggle : function () {
+        toggle: function () {
             //var me = this;
 
         }
     };
     SQ.Button = Button;
-    
-    // 初始化菜单类型按钮
-    $(".J_buttonMenu").each(function () {
-        var $me = $(this);
-        var button = new SQ.Button({
-            EVE_EVENT_TYPE : "click",
-            DOM_TRIGGER_TARGET : $me,
-            MODE : "menu",
-            CSS_STYLE : ""
-        });
-    });
 }($, window));
 /**
  * @file Squirrel Fixed
@@ -523,7 +529,11 @@ SQ.util = {
  * 0.9.0  * 完成主要功能
  * 0.0.1  + 新建。
  */
-
+/*global
+ $: false,
+ SQ: false,
+ console: false
+ */
 (function ($, window) {
     "use strict";
     /**
@@ -712,6 +722,11 @@ SQ.util = {
             if (me.config.PLACEHOLD && $placeholderDom.length) {
                 $placeholderDom.show();
             }
+
+            if (me.config.ANIMATE) {
+                var animateClassName = me.config.ANIMATE.indexOf(".") === 0 ? me.config.ANIMATE.slice(1) : me.config.ANIMATE;
+                fixedItem.$self.addClass("animated " + animateClassName);
+            }
             
             if (me.fixedIn) {
                 me.fixedIn();
@@ -736,11 +751,12 @@ SQ.util = {
 }($, window));
 /**
  * @file Squirrel LazyLoad
- * @version 0.8.0
+ * @version 0.8.1
  */
 
 /**
  * @changelog
+ * 0.8.1  * 新增 ANIMATE 设置。
  * 0.8.0  * 重写 lazylaod 插件，提高整体性能。
  * 0.7.0  * 调整滑动阀值 scrollDelay，由 200 调整至 150；
  *        * 调整可视区的计算方式，由 offset 改为 getBoundingClientRect；
@@ -753,6 +769,12 @@ SQ.util = {
  * 0.6.0  + 首屏图片自动加载。
  * 0.5.1  * 完成图片模式的延迟加载功能。
  * 0.0.1  + 新建。
+ */
+
+/*global
+ $: false,
+ SQ: false,
+ console: false
  */
 
 (function ($, window) {
@@ -768,6 +790,7 @@ SQ.util = {
      * @param {string} config.CSS_PLACEHOLDER       图片模式下，设置占位样式，必须与 DOM_LAZY_PARENT 同时配置。
      * @param {string} config.MODE                  延迟加载模式：image（图片模式）。
      * @param {string} config.NUM_THRESHOLD         灵敏度，数值越大越灵敏，延迟性越小，默认为 200。
+     * @param {string} config.ANIMATE               动画类，例如 .fadeIn
      * @param {function} config.refresh             刷新延迟加载元素列表。
      * @example var imglazyload = new SQ.LazyLoad({
                 DOM_LAZY_ITEMS : ".J_lazyload",
@@ -797,7 +820,7 @@ SQ.util = {
     }
     LazyLoad.prototype = {
         construtor: LazyLoad,
-        version: "0.8.0",
+        version: "0.8.1",
         scrollTimer: 0,     // 滑动计时器
         scrollDelay: 150,   // 滑动阀值
         /**
@@ -832,6 +855,11 @@ SQ.util = {
                 var img = this;
                 var $img = $(img);
                 var src = $img.attr("data-img");
+                // 添加动画
+                if (me.config.ANIMATE) {
+                    var animateClassName = me.config.ANIMATE.indexOf(".") === 0 ? me.config.ANIMATE.slice(1) : me.config.ANIMATE;
+                    $img.addClass("animated " + animateClassName);
+                }
                 // 替换 src 操作
                 if (src) {
                     $img.attr("src", src).removeAttr("data-img").removeClass(me.lazyItemClassName);
@@ -902,24 +930,25 @@ SQ.util = {
 }($, window));
 /**
  * @file SQ.LoadMore 加载更多组件
- * @version 1.2.4
+ * @version 1.3.0
  */
 
 /**
  * @changelog
+ * 1.3.0  * 删除 render 回调函数
  * 1.2.4  + 新增 RESTFUL 配置，支持 RESTful 接口风格，
  *        + 新增 XHR_TIMEOUT 配置，
  *        * 精简的验证方法。
- * 1.2.3  * 增强 CSS_INIT_STYLE 参数的兼容性，可以支持 ".style-name" 或 "style-name" 写法。
+ * 1.2.3  * 增强 CSS_STATE_BAR 参数的兼容性，可以支持 ".style-name" 或 "style-name" 写法。
  * 1.2.2  * 修复 jshint 问题，修复 #15 问题。
- * 1.2.1  * 修复启用 localstorage 时 _render 函数得到的数据为字符串的问题。
+ * 1.2.1  * 修复启用 localstorage 时 _loadedResult 函数得到的数据为字符串的问题。
  * 1.2.0  + 添加对 localStorage 支持，通过将 LOCAL_DATA 设置为 true 开启，通过 NUM_EXPIRES 来设置过期时间（单位：分钟）。
  * 1.1.10 * 修复点击加载是，加载出错会导致无法展示状态栏。
  * 1.1.9  + 可自定义 XHR_METHOD 为 GET 或 POST 方法，默认为 POST。
  * 1.1.8  + 添加对 IE6 的支持。
  * 1.1.7  * 为 noMore 状态添加 loaded 回调函数。
  * 1.1.6  * 去除 unbind，解决与 lazyload 插件冲突。
- * 1.1.5  + 新增 _changeBind 函数，用来改变交绑定互事件；
+ * 1.1.5  + 新增 _changeEvent 函数，用来改变交绑定互事件；
  *        * 精简 _bind、_unbind 函数，对整体逻辑做小的优化。
  * 1.1.3  + 新增 loadError 回调函数。
  * 1.1.2  + 新增 NUM_SUCCESS_CODE、NUM_NO_MORE_CODE 配置项。
@@ -953,46 +982,39 @@ SQ.util = {
      * @param {string} config.EVE_EVENT_TYPE        绑定事件设置
      * @param {string} config.API API               接口
      * @param {string} config.DOM_TRIGGER_TARGET    被绑定事件的 Dom 元素
-     * @param {string} config.DOM_AJAX_BOX          数据展示 Dom 元素
-     * @param {string} config.DOM_STATE_BOX         状态展示 Dom 元素
-     * @param {string} config.CSS_INIT_STYLE        初始状态展示样式
+     * @param {string} config.DOM_AJAX_WRAP         数据展示 Dom 元素
+     * @param {string} config.CSS_STATE_BAR         初始状态展示样式
      * @param {string} config.NUM_LOAD_POSITION     滑动加载位置，默认值：0.5
      * @param {number} config.NUM_START_PAGE_INDEX  起始页面序号，默认值：0
      * @param {number} config.NUM_SCROLL_MAX_PAGE   最大滑动加载页数，默认值：3
-     * @param {number} config.NUM_SUCCESS_CODE      AJAX 成功返回码，默认值：200
+     * @param {number} config.NUM_SUCCESS_CODE      XHR 成功返回码，默认值：200
      * @param {number} config.NUM_NO_MORE_CODE      无下页数据返回码，默认值：900
      * @param {string} config.TXT_LOADING_TIP       正在加载提示，默认值："正在加载请稍后..."
      * @param {string} config.TXT_INIT_TIP          初始提示文字，默认值："滑动加载更多内容"
      * @param {string} config.TXT_CLICK_TIP         触发点击交互提示文字，默认值："点击加载更多"
-     * @param {string} config.TXT_LOADED_ERROR      AJAX 加载错误或超时提示，默认值："加载错误，请重试"
-     * @param {string} config.TXT_UNKNOWN_ERROR     通过 AJAX 接收到的数据无法识别，默认值："未知错误，请重试"
-     * @param {string} config.DATA_TYPE             设置 data 字段中的数据类型，值为 html 或 json
-     *                                              当 DATA_TYPE 设为 html 时，会进行简单处理，具体见 _render 方法
-     * @param {boolen} config.LOCAL_DATA Ajax       数据 loaclstorage 开关，默认为 false
-     * @param {number} config.NUM_EXPIRES Ajax      数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟
+     * @param {string} config.TXT_LOADED_ERROR      XHR 加载错误或超时提示，默认值："加载错误，请重试"
+     * @param {string} config.TXT_UNKNOWN_ERROR     通过 XHR 接收到的数据无法识别，默认值："未知错误，请重试"
+     * @param {string} config.MODE                  插件模式，默认为 simple，当模式为 simple 时插件会自动判断并更新运行状态，
+     *                                              在 simple 模式下 XHR 的返回值必须遵循以下 json 格式：{ code:int, data:object} 
+     * @param {boolen} config.LOCAL_DATA            数据 loaclstorage 开关，默认为 false
+     * @param {number} config.NUM_EXPIRES           数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟
      * @param {object | boolen} config.RESTFUL      当设为 true 时，程序会自动将 API 中的 ":page" 段替换为页码 (me.page)，
      *                                              也可以设置为 hash 列表，程序会遍历替换所有值。
-     * @param {number} config.XHR_TIMEOUT           设置 AJAX 超时时间，默认为 5000 ms
+     * @param {number} config.XHR_TIMEOUT           设置 XHR 超时时间，默认为 5000 ms
      * @param {function} config.loading             加载阶段回调函数
      * @param {function} config.loaded              加载完成回调函数
      * @param {function} config.loadError           加载失败回调函数
      * @param {function} config.scrollEnd           滑动加载事件完成回调函数
-     * @param {function} config.render              渲染阶段回调函数
      * @example var appList = new SQ.LoadMore({
             EVE_EVENT_TYPE: "scroll",
             DOM_TRIGGER_TARGET: window,
-            DOM_AJAX_BOX: ".J_ajaxWrap",
+            DOM_AJAX_WRAP: ".J_ajaxWrap",
             DOM_STATE_BOX: ".J_scrollLoadMore",
-            CSS_INIT_STYLE: ".loadMore-btn",
+            CSS_STATE_BAR: ".loadMore-btn",
             NUM_SCROLL_MAX_PAGE: 3,
             DATA_TYPE: "json",
-            render: function (data) {
-                // data 为 AJAX 返回数据，通常为 JSON 格式
-            },
-            scrollEnd: function () {
-                // 添加点击模式样式
-                var me = this;
-                me.$stateBox.addClass("loadMore-clickState");
+            loaded: function (data, $ajaxWrap) {
+                // data 为 XHR 返回数据，通常为 JSON 格式
             }
         });
      * @requires jQuery or Zepto
@@ -1010,10 +1032,10 @@ SQ.util = {
             TXT_INIT_TIP: "滑动加载更多内容",         // 初始提示文字
             TXT_CLICK_TIP: "点击加载更多",            // 触发点击交互提示文字
             TXT_LOADED_ERROR: "加载失败，请点击重试",     // Ajax 加载错误或超时提示
-            TXT_UNKNOWN_ERROR: "未知错误，请重试",    // 通过 Ajax 接收到的数据无法识别
+            //TXT_UNKNOWN_ERROR: "未知错误，请重试",    // 通过 Ajax 接收到的数据无法识别
             NUM_SUCCESS_CODE: 200,
             NUM_NO_MORE_CODE: 900,
-            DATA_TYPE: "json",
+            MODE: "simple",
             XHR_METHOD: "POST",
             XHR_TIMEOUT: 5000,
             LOCAL_DATA: false,
@@ -1026,21 +1048,23 @@ SQ.util = {
             }
         }
 
-        me.$triggerTarget = $(me.config.DOM_TRIGGER_TARGET); // 触发元素
-        me.$ajaxBox = $(me.config.DOM_AJAX_BOX);             // 数据展示元素
-        me.$stateBox = $(me.config.DOM_STATE_BOX);           // 状态展示元素
-        me.api = me.$stateBox.attr("data-api") || me.config.API;
+        me.$win = $(window);
+        me.$triggerTarget = $(me.config.DOM_TRIGGER_TARGET) || me.$win;     // 触发元素
+        me.$ajaxWrap = $(me.config.DOM_AJAX_WRAP);                          // 数据展示元素
+        me.$stateBar = $('<div class="sq-loadMore-state"><i class="state-icon"></i><span class="state-txt"></span></div>');
+        me.$stateTxt = me.$stateBar.find(".state-txt");
+        me.api = me.config.API;
         me.page = me.config.NUM_START_PAGE_INDEX;
         me.maxPage = me.config.NUM_SCROLL_MAX_PAGE + me.page;
-        me.initStyle = me.config.CSS_INIT_STYLE.indexOf(".") === 0 ? me.config.CSS_INIT_STYLE.slice(1) : me.config.CSS_INIT_STYLE;
-        me.scrollTimer = 0;                                 // 滑动事件计时器
-        me.scrollDelay = 200;                               // 滑动事件触发伐值
+        me.initStyle = me.config.CSS_STATE_BAR.indexOf(".") === 0 ? me.config.CSS_STATE_BAR.slice(1) : me.config.CSS_STATE_BAR;
+        me.scrollTimer = 0;                                                 // 滑动事件计时器
+        me.scrollDelay = 200;                                               // 滑动事件触发伐值
 
-        me.render = me.config.render;
-        me.loading = me.config.loading;
-        me.loaded = me.config.loaded;
-        me.loadError = me.config.loadError;
-        me.scrollEnd = me.config.scrollEnd;
+        me.beforeLoadFun = me.config.beforeLoad;
+        me.loadingFun = me.config.loading;
+        me.loadFun = me.config.loaded;
+        me.loadErrorFun = me.config.loadError;
+        me.scrollEndFun = me.config.scrollEnd;
 
         if (me._verify()) {
             me._init();
@@ -1048,7 +1072,7 @@ SQ.util = {
     }
     LoadMore.prototype =  {
         construtor: LoadMore,
-        version: "1.2.4",
+        version: "1.3.0",
         /**
          * 验证
          * @returns {boolean}
@@ -1057,7 +1081,7 @@ SQ.util = {
         _verify: function () {
             var me = this;
             // Dom 验证，触发元素、数据展示元素、状态展示元素必须都存在
-            if (me.$triggerTarget.length === 0 || me.$ajaxBox.length === 0 || me.$stateBox.length === 0) {
+            if (me.$triggerTarget.length === 0 || me.$ajaxWrap.length === 0) {
                 console.warn("SQ.loadmore: 缺少 Dom 元素");
                 return false;
             }
@@ -1074,11 +1098,23 @@ SQ.util = {
          */
         _init: function () {
             var me = this;
-            me._currentState = "none";  // 设置当前状态
-            me.$stateBox.addClass(me.initStyle).text(me.config.TXT_INIT_TIP);
+            var contentHeight = me._getHeight(document.querySelector("body")) || $("body").height();
+            var winHeight = window.innerHeight || $(window).height();
+
+            me._currentState = "none";                      // 设置当前状态
+            me.$stateBar.addClass(me.initStyle);
+            me.$stateTxt.text(me.config.TXT_INIT_TIP);
+            me.$ajaxWrap.after(me.$stateBar);
+            me.currentEventType = me.config.EVE_EVENT_TYPE; // 临时存储事件类型，以供 _changeState 判断使用。
+
+            if (contentHeight < winHeight) {
+                me._changeEvent("click");
+                me.$stateTxt.text(me.config.TXT_CLICK_TIP);
+            }
+
             me._reset();
             me._bind(me.config.EVE_EVENT_TYPE);
-            me.currentEventType = me.config.EVE_EVENT_TYPE; // 临时存储事件类型，以供 _changeState 判断使用。
+            
         },
         /**
          * 重置计算参数
@@ -1086,30 +1122,12 @@ SQ.util = {
          */
         _reset: function () {
             var me = this;
-            var contentHeight = me._getHeight($("body")) || $("body").height();
+            var contentHeight = me._getHeight(document.querySelector("body")) || $("body").height();
             var winHeight = window.innerHeight || $(window).height();
             me.triggerHeight = (contentHeight - winHeight) * (me.config.NUM_LOAD_POSITION);
             if (me.config.NUM_LOAD_POSITION < 0.8) {
                 me.config.NUM_LOAD_POSITION += 0.15555;
             }
-        },
-        /**
-         * 计算页面高度
-         * @param $el   jQuert 或 Zepto 元素包装集。
-         * @returns {*}
-         * @private
-         */
-        _getHeight: function ($el) {
-            if ($el.get) {
-                $el = $el.get(0);
-            }
-            if (!$el) {
-                return 0;
-            }
-            if ($el.getBoundingClientRect) {
-                return $el.getBoundingClientRect().height;
-            }
-            return Math.max($el.clientHeight, $el.offsetHeight, $el.scrollHeight);
         },
         /**
          * 事件绑定
@@ -1118,34 +1136,42 @@ SQ.util = {
          */
         _bind: function (eventType) {
             var me = this;
-            me.$triggerTarget.bind(eventType, function () {
+            me.$triggerTarget.on(eventType, function () {
                 me._trigger(eventType);
             });
         },
         /**
-         * 解除事件绑定
+         * 计算页面高度
+         * @param el   element 元素。
+         * @returns {*}
          * @private
          */
-        _unbind: function () {
-            var me = this;
-            me.$triggerTarget.unbind();
-            //me.unbind(me.$triggerTarget, me.config.EVE_EVENT_TYPE);
+        _getHeight: function (el) {
+            if (!el) {
+                console.warn("SQ.loadmore: 无法计算页面高度");
+                return 0;
+            }
+            if (el.getBoundingClientRect) {
+                return el.getBoundingClientRect().height;
+            }
+            return Math.max(el.clientHeight, el.offsetHeight, el.scrollHeight);
         },
         /**
          * 转换绑定事件
          * @param {string} eventType
          * @private
          */
-        _changeBind: function (eventType) {
+        _changeEvent: function (eventType) {
             var me = this;
             //me._unbind(); //解除绑定  // 与 lazyload 插件冲突
             me.currentEventType = eventType;
             if (eventType === "click") {
-                me.$triggerTarget = me.$stateBox;   //变更触发目标，并将加载触发方式更改为 click
-                me._bind(eventType);   //重新绑定
+                me.$triggerTarget = me.$stateBar;   // 变更触发目标，并将加载触发方式更改为 click
+                me._bind(eventType);                // 重新绑定
+                me.$stateBar.addClass("click").show();
             }
             if (eventType === "scroll") {
-                me.$triggerTarget = $(me.config.DOM_TRIGGER_TARGET);
+                me.$triggerTarget = me.$win;
                 me._bind(eventType);
             }
         },
@@ -1158,8 +1184,8 @@ SQ.util = {
          */
         _trigger: function (eventType) {
             var me = this;
-            var isLoading = me.$stateBox.hasClass("J_loading");
-            var isNoMore = me.$stateBox.hasClass("J_noMore");
+            var isLoading = me.$stateBar.hasClass("loading");
+            var isNoMore = me.$stateBar.hasClass("no-more");
 
             if (isLoading || isNoMore) {
                 return;
@@ -1170,7 +1196,7 @@ SQ.util = {
                     // 添加 scroll 事件相应伐值，优化其性能
                     me.scrollTimer = setTimeout(function () {
                         if (me.$triggerTarget.scrollTop() >= me.triggerHeight && !isLoading && !isNoMore) {
-                            me._loadData(me._spliceApi());
+                            me._load(me._spliceApi());
                         }
                         me.scrollTimer = 0;
                     }, me.scrollDelay);
@@ -1181,7 +1207,7 @@ SQ.util = {
             }
 
             if (eventType === "click") {
-                me._loadData(me._spliceApi());
+                me._load(me._spliceApi());
             }
         },
         /**
@@ -1210,7 +1236,7 @@ SQ.util = {
         /**
          * 运行状态反馈
          * @description 该方法用于记录程序运行状态，并针对不同状态做出 UI 更新及事件重新绑定等操作。
-         * @param {string} state 运行状态，值包括：loading、loaded、scrollEnd、noMore、TXT_LOADED_ERROR、TXT_UNKNOWN_ERROR。
+         * @param {string} state 运行状态，值包括：loading、success、scrollEnd、noMore、loadError、unknowError。
          * @private
          */
         _changeState: function (state) {
@@ -1220,61 +1246,51 @@ SQ.util = {
                 return;
             }
             me._currentState = state;
-
             // 状态判断
             switch (state) {
-            case "loading":         //正在加载阶段，添加 J_loading 标识，更新提示文字
-                me.$stateBox.addClass("J_loading").show().text(me.config.TXT_LOADING_TIP);
-                if (me.loading) {
-                    me.loading();
+            case "loading":         //正在加载阶段，添加 loading 标识，更新提示文字
+                me.$stateTxt.text(me.config.TXT_LOADING_TIP);
+                me.$stateBar.removeClass("loading").addClass("loading").show();     // 使用 CSS 特殊值技巧
+                if (me.loadingFun) {
+                    me.loadingFun();
                 }
                 break;
-            case "loaded":          //加载完成
-                me.$stateBox.removeClass("J_loading");
-
+            case "success":          //加载完成
+                me.$stateBar.removeClass("loading");
                 if (me.currentState === "loadError") {
-                    //me._changeBind("scroll"); // 点击加载出错会导致无法展示状态栏
                     me.currentState = undefined;
                 }
-
                 if (me.currentEventType === "scroll") {
-                    me.$stateBox.hide().text("");
+                    me.$stateTxt.text(me.config.TXT_INIT_TIP);
                 }
-
                 if (me.currentEventType === "click") {
-                    me.$stateBox.text(me.config.TXT_CLICK_TIP);
+                    me.$stateTxt.text(me.config.TXT_CLICK_TIP);
                 }
-
                 me.page += 1;
-                if (me.loaded) {
-                    me.loaded();
-                }
                 break;
             case "scrollEnd":       //滑动加载次数已达到上限
-                me._changeBind("click");
-                me.$stateBox.show().text(me.config.TXT_CLICK_TIP);
-                if (me.scrollEnd) {
-                    me.scrollEnd();
+                me._changeEvent("click");
+                me.$stateTxt.text(me.config.TXT_CLICK_TIP);
+                if (me.scrollEndFun) {
+                    me.scrollEndFun();
                 }
                 break;
             case "noMore":          // 无下页数据
-                //me._unbind();     // 与 lazyload 插件冲突
-                me.$stateBox.addClass("J_noMore").hide();
-                if (me.loaded) {
-                    me.loaded();
-                }
+                me.$stateBar.addClass("no-more").hide();
                 break;
             case "loadError":     // 加载错误提示
                 me.currentState = "loadError";
-                me._changeBind("click");
-                me.$stateBox.removeClass("J_loading").text(me.config.TXT_LOADED_ERROR);
-                if (me.loadError) {
-                    me.loadError();
+                me._changeEvent("click");
+                me.$stateTxt.text(me.config.TXT_LOADED_ERROR);
+                me.$stateBar.removeClass("loading");
+                if (me.loadErrorFun) {
+                    me.loadErrorFun();
                 }
                 break;
-            case "unknowError":    // 服务器返回数据无法识别
-                me.$stateBox.removeClass("J_loading").text(me.config.TXT_UNKNOWN_ERROR);
-                break;
+            /*case "unknowError":    // 服务器返回数据无法识别
+                me.$stateBar.removeClass("loading");
+                me.$stateTxt.text(me.config.TXT_UNKNOWN_ERROR);
+                break;*/
             }
         },
         /**
@@ -1282,25 +1298,37 @@ SQ.util = {
          * @param {string} api 请求数据的 API 接口。
          * @private
          */
-        _loadData: function (api) {
+        _load: function (api) {
             var me = this;
             me._changeState("loading");
-
+            // 如果设置了 beforeLoadFun 回调函数，则 beforeLoadFun 必须返回 true 才能继续向下执行，
+            // 用于人为中断 _load 事件。
+            if (me.beforeLoadFun) {
+                if (!me.beforeLoadFun()) {
+                    return;
+                }
+            }
+            // 是否启用本地缓存
             if (me.config.LOCAL_DATA) {
                 var localData = SQ.store.localStorage.get(api, me.config.NUM_EXPIRES);
                 localData = SQ.core.isString(localData) ? $.parseJSON(localData) : localData;
                 if (localData) {
-                    me._render(localData);
+                    me._loadedResult(localData);
                     return;
                 }
             }
-
-            $.ajax({
+            if (!api || api.length === 0) {
+                return;
+            }
+            if (me.xhr) {
+                me.xhr.abort();
+            }
+            me.xhr = $.ajax({
                 type: me.config.XHR_METHOD,
                 url: api,
                 timeout: me.config.XHR_TIMEOUT,
                 success: function (data) {
-                    me._render(data);
+                    me._loadedResult(data);
                     if (me.config.LOCAL_DATA) {
                         SQ.store.localStorage.set(api, data);
                     }
@@ -1312,39 +1340,335 @@ SQ.util = {
         },
         /**
          * 数据渲染
-         * @param {object} data data 服务器返回的数据
+         * @param {object} data 服务器返回的数据
          * @private
          */
-        _render: function (data) {
+        _loadedResult: function (data) {
             var me = this;
+            var jsonData;
+            var code;
             if (!data) {
                 me._changeState("loadError");
                 return;
             }
-            var jsonData = SQ.core.isString(data) ? $.parseJSON(data) : data;
-            if (me.config.DATA_TYPE === "html") {
-                var code = parseInt(jsonData.code, 10);
-
+            jsonData = SQ.core.isString(data) ? $.parseJSON(data) : data;
+            // 简单模式
+            // 会自动判断并更新运行状态，前提是数据格式必须要符合要求
+            if (me.config.MODE === "simple") {
+                code = parseInt(jsonData.code, 10);
                 switch (code) {
                 case me.config.NUM_SUCCESS_CODE:   //成功加载
-                    me.$ajaxBox.append(jsonData.data);
-                    me._changeState("loaded");
+                    me._changeState("success");
                     break;
                 case me.config.NUM_NO_MORE_CODE:   //无下页数据
-                    me.$ajaxBox.append(jsonData.data);
                     me._changeState("noMore");
                     break;
                 default:
-                    me._changeState("unknowError");
+                    me._changeState("loadError");
+                    return;
                 }
-                me._reset();
             }
-            if (me.render) {
-                me.render(jsonData);
+            if (me.loadFun) {
+                me.loadFun(jsonData, me.$ajaxWrap);
             }
+            me._reset();
         }
     };
     SQ.LoadMore = LoadMore;
+}($, window));
+/**
+ * @file SQ.Panel 滑动面板组件
+ * @version 0.5.0
+ */
+
+/**
+ * @changelog
+ * 0.5.0  * 完成左侧滑动面板功能
+ * 0.0.1  * 新建。
+ */
+
+/*global
+ $: false,
+ SQ: false,
+ console: false
+ */
+
+(function ($, window) {
+    "use strict";
+    /**
+     * @name Panel
+     * @classdesc 侧滑面板。
+     * @constructor
+     * @param {object} config 组件配置（下面的参数为配置项，配置会写入属性）
+     * @param {string} config.EVE_EVENT_TYPE        绑定事件设置，默认值为："click"
+     * @param {string} config.DOM_TRIGGER_TARGET    被绑定事件的 Dom 元素
+     * @param {string} config.DIRECTION             面板出现方向
+     * @param {string} config.CSS_WIDTH             面板宽度，DIRECTION 设置为 left、right 时使用
+     * @param {string} config.CSS_HEIGHT            面板高度，DIRECTION 设置为 top、bottom 时使用
+     */
+    function Panel(config) {
+        var me = this;
+        var i;
+
+        me.config = {
+            EVE_EVENT_TYPE: "click",
+            DIRECTION: "left",
+            CSS_WIDTH: 300,
+            CLOSE_BTN: true,
+            TXT_CLOSE_VAL: "×"
+        };
+
+        for (i in config) {
+            if (config.hasOwnProperty(i)) {
+                me.config[i] = config[i];
+            }
+        }
+        
+        me.$triggerTarget = $(me.config.DOM_TRIGGER_TARGET);    // 触发元素
+        me.$wrapper = $(me.config.DOM_WRAPPER);
+
+        me.beforeShowFun = me.config.beforeShow;
+        me.showFun = me.config.show;
+        me.closeFun = me.config.close;
+        me.resizeFun = me.config.resize;
+
+        if (me._verify()) {
+            me._init();
+        }
+    }
+    Panel.prototype =  {
+        construtor: Panel,
+        version: "0.0.1",
+        resizeTimer : false,    // resize 
+        closed : true,
+
+        /**
+         * 验证
+         * @returns {boolean}
+         * @private
+         */
+        _verify: function () {
+            var me = this;
+            // Dom 验证，触发元素、数据展示元素、状态展示元素必须都存在
+            if (me.$triggerTarget.length === 0 || me.$wrapper.length === 0) {
+                console.warn("SQ.panel: 缺少 Dom 元素");
+                return false;
+            }
+            return true;
+        },
+        /**
+         * 初始化
+         * @private
+         */
+        _init: function () {
+            var me = this;
+            me.$win = $(window);
+            me.$doc = $(document);
+            me.$body = $("body");
+            me._bind();
+            
+            var css = "@-webkit-keyframes showPanel {0% {-webkit-transform: translateX(-"+ me.config.CSS_WIDTH +"px);} 100% {-webkit-transform: translateX(0);}}" +
+                "@-webkit-keyframes hidePanel{0% {-webkit-transform: translateX(0);}100% {-webkit-transform: translateX(-"+ me.config.CSS_WIDTH +"px);}}" +
+                "@-webkit-keyframes hideWrap {0% {-webkit-transform: translateX(0);}100% {-webkit-transform: translateX("+ me.config.CSS_WIDTH +"px);}}" +
+                "@-webkit-keyframes showWrap {0% {-webkit-transform: translateX("+ me.config.CSS_WIDTH +"px);}100% {-webkit-transform: translateX(0);}}";
+            
+            me.$body.append("<style>" + css + "</style>");
+        },
+        /**
+         * 事件绑定方法
+         * @param {string} EVE_EVENT_TYPE 事件类型，"scroll" 或 "click"。
+         * @private
+         */
+        _bind: function () {
+            var me = this;
+            function bindEvent(e) {
+                e.preventDefault();
+                me.show(e);
+            }
+            // 绑定在 document 上是为了解决 Ajax 内容绑定问题
+            me.$doc.on(me.config.EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET, bindEvent);
+        },
+        /**
+         * 新建滑动面板对象
+         * @returns {*} $panel
+         * @private
+         */
+        _createPanel: function () {
+            var me = this;
+
+            // 初始化
+            var $panel = $("<div class='sq-panel'></div>");
+            var $panelContent = $("<div class='content'></div>");
+            var $close = $("<div class='close-btn'>" + me.config.TXT_CLOSE_VAL + "</div>");
+
+            // 设置样式
+            if (me.config.DIRECTION === "left" || me.config.DIRECTION === "right") {
+                $panel.css({
+                    "position": "absolute",
+                    "display": "none",
+                    "top": 0,
+                    "bottom": 0,
+                    "width": me.config.CSS_WIDTH,
+                    "z-index": 1000
+                });
+            }
+
+            if (me.config.CSS_CLASS) {
+                $panel.addClass(me.config.CSS_CLASS.indexOf(".") === 0 ? me.config.CSS_CLASS.slice(1) : me.config.CSS_CLASS);
+            }
+            // 装载内容
+            $panel.append($panelContent);
+            // 设置显示按钮
+            if (me.config.CLOSE_BTN) {
+                $panel.append($close);
+            }
+
+            $panel.appendTo(me.$body);
+            // 保存 Dom
+            me.$panel = $panel;
+            me.$panelContent = $panelContent;
+            me.$close = $close;
+
+            return $panel;
+        },
+        /**
+         * 设置滑动面板事件
+         * @private
+         */
+        _setPanelEvent : function () {
+            var me = this;
+            // 锁定操作 
+            // 优化 Android 下 UCweb 浏览器触摸操作，减少滑动误操作
+            if (SQ.ua.os.name === "android" && SQ.ua.browser.shell === "ucweb" && SQ.ua.browser.version >= 9) {
+                me.$panel.on("touchstart", function (e) {
+                    e.preventDefault();
+                });
+            } else {
+                me.$panel.on("touchmove", function (e) {
+                    e.preventDefault();
+                });
+            }
+            me.$panel.on("mousewheel", function (e) {
+                e.preventDefault();
+            });
+            
+            me.$close.on("click", function () {
+                me.close();
+            });
+
+            me.$win.resize(function () {
+                me.resize();
+            });
+        },
+        /**
+         * 
+         * @param e
+         * @returns {*}
+         * @private
+         */
+        _beforeShow: function (e) {
+            var me = this;
+            // 如果没有找到面板就创建新的面板，并执行 _beforeShow 回调函数
+            // _beforeShow 函数只在首次执行时运行一次
+            if (!me.$panel) {
+                me.$panel = me._createPanel();
+                me._setPanelEvent();
+                if (me.beforeShowFun) {
+                    return me.beforeShowFun(e);
+                }
+                return true;
+            }
+            return true;
+        },
+        /**
+         * 显示对话框
+         * @param e
+         */
+        show: function (e) {
+            var me = this;
+            if (!me.closed) {
+                return;
+            }
+            if (!me._beforeShow(e)) {
+                console.warn("SQ.Panel: _beforeShow 回调函数返回 false");
+                return;
+            }
+            me.mask();
+            me.$panel.removeClass("sq-hidePanel").addClass("animated sq-showPanel fast");
+            me.$wrapper.removeClass("sq-showWrap").addClass("animated sq-hideWrap fast");
+            me.closed = false;
+            // 执行回调函数。
+            if (me.showFun) {
+                me.showFun(e);
+            }
+
+            me.$panel.show();
+        },
+        /** 显示遮罩 */
+        mask: function () {
+            var me = this;
+            var bodyH = me.$body.height();
+            var winH = me.$win.height();
+            var h = bodyH > winH ? bodyH : winH;
+
+            if (me.$mask) {
+                me.$mask.css({
+                    "width" : "100%",
+                    "height" : h
+                });
+                me.$mask.show();
+            } else {
+                var $mask = $("<div class='mask'></div>");
+                $mask.css({
+                    "position": "absolute",
+                    "top": 0,
+                    "left": 0,
+                    "right": 0,
+                    "width": "100%",
+                    "height": h,
+                    //"background": "rgba(255,255,255,.3)",
+                    "z-index": 999
+                }).appendTo(me.$body);
+
+                $mask.on("touchstart", function (e) {
+                    e.preventDefault();
+                });
+                $mask.on("click", function (e) {
+                    e.preventDefault();
+                    me.close();
+                });
+                $mask.on("mousewheel", function (e) {
+                    e.preventDefault();
+                });
+                
+                me.$mask = $mask;
+            }
+        },
+        /**
+         * 关闭对话框
+         * @param e
+         */
+        close: function (type) {
+            var me = this;
+            me.$panel.removeClass("sq-showPanel").addClass("sq-hidePanel");
+            me.$wrapper.removeClass("sq-hideWrap").addClass("sq-showWrap");
+            me.$mask.hide();
+            me.closed = true;
+            if (me.closeFun && !type) {
+                me.closeFun();
+            }
+        },
+        resize: function () {
+
+        },
+        destroy: function () {
+            var me =this;
+            me.$panel.remove();
+            me.$panelContent.empty();
+            me.$panel = null;
+        }
+    };
+    SQ.Panel = Panel;
 }($, window));
 /**
  * @file SQ.Popup 弹窗组件
@@ -1353,6 +1677,7 @@ SQ.util = {
 
 /**
  * @changelog
+ * 1.0.2  * _setPopupPos 函数优化
  * 1.0.1  * 在设置了 ANIMATE 时，_setPopupPos 函数不使用 translate(-50%, -50%) 方法定位，因为会与动画产生冲突。
  *        * 修复 ANIMATE 设置问题。
  * 1.0.0  * 原 Dialog 组件重构为 Popup 组件。
@@ -1443,7 +1768,7 @@ SQ.util = {
     }
     Popup.prototype =  {
         construtor: Popup,
-        version: "1.0.1",
+        version: "1.0.2",
         timer : undefined,
         resizeTimer : false,    // resize 
         closed : true,
@@ -1461,7 +1786,7 @@ SQ.util = {
             me.$win = $(window);
             me.$doc = $(document);
             me.$body = $("body");
-            // 如果页面中没有指定的 Dom 则生成一个插入到文档中
+            // 如果页面中没有指定的 Dom 则生成一个插入到文档中，避免因 trigger() 触发 Popup 时找不到该 Dom 而报错。
             if ($(me.config.DOM_TRIGGER_TARGET).length === 0) {
                 me.$body.append("<div class='" + me.config.DOM_TRIGGER_TARGET + "' style='display:none'></div>");
             }
@@ -1580,6 +1905,17 @@ SQ.util = {
                 // 当坐标全部未设置时给一个默认值，避免弹窗定位到页面最底部
                 me.config.CSS_TOP = 0;
                 me.config.CSS_LEFT = 0;
+            }
+
+            if (me.config.CSS_TOP && me.config.CSS_LEFT && me.config.CSS_BOTTOM && me.config.CSS_RIGHT) {
+                // 当坐标全部设置时，直接定位弹窗不做计算
+                me.$popupPanel.css({
+                    "top": me.config.CSS_TOP,
+                    "left": me.config.CSS_LEFT,
+                    "bottom": me.config.CSS_BOTTOM,
+                    "right": me.config.CSS_RIGHT
+                });
+                return;
             }
 
             if (isSupportTransform && !isAnimate) {
@@ -1772,15 +2108,15 @@ SQ.util = {
             } else {
                 var $mask = $("<div class='mask'></div>");
                 $mask.css({
-                    "position" : "absolute",
-                    "top" : 0,
-                    "left" : 0,
-                    "right" : 0,
-                    "width" : "100%",
-                    "height" : h,
-                    "background" : me.config.CSS_MASK_BACKGROUND,
-                    "opacity" : me.config.CSS_MASK_OPACITY,
-                    "z-index" : 999
+                    "position": "absolute",
+                    "top": 0,
+                    "left": 0,
+                    "right": 0,
+                    "width": "100%",
+                    "height": h,
+                    "background": me.config.CSS_MASK_BACKGROUND,
+                    "opacity": me.config.CSS_MASK_OPACITY,
+                    "z-index": 999
                 }).appendTo(me.$body);
 
                 if (me.config.LOCK) {
@@ -2060,11 +2396,12 @@ SQ.util = {
 }($, window));
 /**
  * @file Squirrel Tabs
- * @version 0.7.4
+ * @version 0.7.5
  */
 
 /**
  * @changelog
+ * 0.7.5  * 修改类名
  * 0.7.4  * 解决 localStorage 问题，API_URL 兼容 ["","test.json",""] 这种写法；
  *        * CSS_LOADING_TIP 兼容 ".demo" 和 "demo" 写法。
  * 0.7.3  * 修复 reload 按钮多次绑定问题。
@@ -2077,7 +2414,11 @@ SQ.util = {
  * 0.5.1  * 完成选项卡基本功能。
  * 0.0.1  + 新建。
  */
-
+/*global
+ $: false,
+ SQ: false,
+ console: false
+ */
 (function ($, window) {
     "use strict";
     /**
@@ -2171,7 +2512,7 @@ SQ.util = {
     }
     Tabs.prototype = {
         construtor: Tabs,
-        version: "0.7.4",
+        version: "0.7.5",
         needLoadContent : false,    // 选项卡内容是否需要异步加载
         /**
          * 验证参数是否合法
@@ -2191,7 +2532,7 @@ SQ.util = {
             });
             // 判断是否需要生成异步加载提示语
             if (me.config.API_URL && (SQ.core.isString(me.config.API_URL) || SQ.core.isArray(me.config.API_URL))) {
-                me.$loadingTip = $("<div class='dpl-tabs-loadingTip'></div>");
+                me.$loadingTip = $("<div class='sq-tabs-loading-tip'></div>");
                 if (me.CSS_LOADING_TIP) {
                     me.$loadingTip.addClass(me.CSS_LOADING_TIP);
                 } else {
@@ -2267,7 +2608,7 @@ SQ.util = {
         _load: function ($activePanels, tabIndex) {
             var me = this;
             var api = me.config.API_URL;
-            var $currentLoadTip = $activePanels.find(".dpl-tabs-loadingTip");
+            var $currentLoadTip = $activePanels.find(".sq-tabs-loading-tip");
             var hasLoadingTip = $currentLoadTip.length > 0 ? true : false;
             var hasLoaded = $activePanels.hasClass("hasLoaded");
 
@@ -2288,6 +2629,7 @@ SQ.util = {
             // 是否启用本地缓存
             if (me.config.LOCAL_DATA) {
                 var localData = SQ.store.localStorage.get(api, me.config.NUM_EXPIRES);
+                localData = SQ.core.isString(localData) ? $.parseJSON(localData) : localData;
                 if (localData) {
                     $activePanels.addClass("hasLoaded");
                     if (me.loadFun) {
@@ -2311,7 +2653,7 @@ SQ.util = {
                 $currentLoadTip.show();
             } else {
                 $activePanels.append(me.$loadingTip);
-                $currentLoadTip = $activePanels.find(".dpl-tabs-loadingTip");
+                $currentLoadTip = $activePanels.find(".sq-tabs-loading-tip");
                 $currentLoadTip.show();
             }
             me.xhr = $.ajax({
@@ -2336,10 +2678,10 @@ SQ.util = {
         },
         _showReloadTips: function ($activePanels, tabIndex) {
             var me = this;
-            var $tip = $activePanels.find(".dpl-tabs-loadingTip");
+            var $tip = $activePanels.find(".sq-tabs-loading-tip");
             $tip.show().empty();
             var reloadHTML = "<div class='reload'>" +
-                "<p style='padding:5px 0;'>抱歉，加载失败，请重试</p>" +
+                "<p>抱歉，加载失败，请重试</p>" +
                 "<div class='sq-btn f-grey J_reload'>重新加载</div>" +
                 "</div>";
             $tip.append(reloadHTML);

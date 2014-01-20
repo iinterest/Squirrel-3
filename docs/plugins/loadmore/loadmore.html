@@ -36,24 +36,22 @@
             <p>如果是在已有工程中新增，可以将 <code>loadmore.js</code>、<code>loadmore.less</code> 文件分别加入到工程目录的<code>src/js</code>、<code>src/less</code> 文件夹下，Squirrel 框架构建工具会自动进行合并处理。然后加入相应的 HTML 和 JS 代码：</p>
             <h5>HTML 代码：</h5>
             <pre class="prettyprint">&lt;div class="sq-list vertical rock-app-list"&gt;
-&lt;ul class="J_ajaxWrap"&gt;
-    ......
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="J_scrollLoadMore" data-api="data/list.json"&gt;&lt;/div&gt;</pre>
-            <p><code>data-api</code>是请求接口设置，也可以通过 config.API 来设置。<code>data-api</code>的优先级大于 config.API。</p>
+    &lt;ul class="J_ajaxWrap"&gt;
+        ......
+    &lt;/ul&gt;
+&lt;/div&gt;</pre>
+            <!--<p><code>data-api</code>是请求接口设置，也可以通过 config.API 来设置。<code>data-api</code>的优先级大于 config.API。</p>-->
             <h5>JS 代码：</h5>
             <pre class="prettyprint">&lt;script type="text/javascript"&gt;
     var appList = new SQ.LoadMore({
-        EVE_EVENT_TYPE : "scroll",
-        DOM_TRIGGER_TARGET : window,
-        DOM_AJAX_BOX : ".J_ajaxWrap",
-        DOM_STATE_BOX : ".J_scrollLoadMore",
-        CSS_INIT_STYLE : ".loadMore-btn",
-        DATA_TYPE : "html",
-        scrollEnd : function () {
+        EVE_EVENT_TYPE: "scroll",
+        DOM_TRIGGER_TARGET: window,
+        DOM_AJAX_BOX: ".J_ajaxWrap",
+        CSS_STATE_BAR: ".loadMore-btn",
+        DATA_TYPE: "html",
+        scrollEnd: function () {
             var me = this;
-            me.$stateBox.addClass("loadMore-clickState");
+            me.$stateBar.addClass("loadMore-clickState");
         }
     });
 &lt;/script&gt;</pre>
@@ -112,14 +110,7 @@
                                 <td class="description last">数据展示 Dom 元素</td>
                             </tr>
                             <tr>
-                                <td class="name"><code>DOM_STATE_BOX</code></td>
-                                <td class="type">
-                                    string
-                                </td>
-                                <td class="description last">状态展示 Dom 元素</td>
-                            </tr>
-                            <tr>
-                                <td class="name"><code>CSS_INIT_STYLE</code></td>
+                                <td class="name"><code>CSS_STATE_BAR</code></td>
                                 <td class="type">
                                     string
                                 </td>
@@ -281,36 +272,35 @@
             <p><pre class="prettyprint">var me = this;
 me.$triggerTarget;  //事件触发元素
 me.$ajaxBox;        //数据展示元素
-me.$stateBox;       //状态展示元素</pre>
+me.$stateBar;       //状态展示元素</pre>
             </p>
             
             <h4 id="callback">回调函数：</h4>
             <p>SQ.LoadMore 内置了以下回调函数，可以在触发相应事件时调用：</p>
             <pre class="prettyprint">var appList = new SQ.LoadMore({
-    EVE_EVENT_TYPE : "scroll",
-    DOM_TRIGGER_TARGET : window,
-    DOM_AJAX_BOX : ".J_ajaxWrap",
-    DOM_STATE_BOX : ".J_scrollLoadMore",
-    CSS_INIT_STYLE : ".loadMore-btn",
+    EVE_EVENT_TYPE: "scroll",
+    DOM_TRIGGER_TARGET: window,
+    DOM_AJAX_BOX: ".J_ajaxWrap",
+    CSS_STATE_BAR: ".loadMore-btn",
     API: "data/:id/:page/list.json",
     RESTFUL: {
         ":id": appid
     },
-    loading : function () {
+    loading: function () {
         // 加载阶段执行
     },
-    loaded : function () {
+    loaded: function () {
         // 加载完成执行
     },
-    render : function (data) {
+    render: function (data) {
         // 渲染阶段执行
         // data 是 AJAX 返回数据
     },
-    scrollEnd : function () {
+    scrollEnd: function () {
         // 滑动加载事件完成执行
         // 例如：添加点击模式样式
         var me = this;
-        me.$stateBox.addClass("loadMore-clickState");
+        me.$stateBar.addClass("loadMore-clickState");
     }
 });</pre>
             
@@ -340,24 +330,23 @@ me.$stateBox;       //状态展示元素</pre>
             ......
         &lt;/ul&gt;
     &lt;/div&gt;
-    &lt;div class="loadMore J_scrollLoadMore" data-api="data/list.json"&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;script type="text/javascript" src="../../libs/zepto/zepto.min.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="../../build/js/squirrel.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript"&gt;
     var appList = new SQ.LoadMore({
-        EVE_EVENT_TYPE : "scroll",
-        DOM_TRIGGER_TARGET : window,
-        DOM_AJAX_BOX : ".J_ajaxWrap",
-        DOM_STATE_BOX : ".J_scrollLoadMore",
-        CSS_INIT_STYLE : ".sq-loadMore-btn",
-        DATA_TYPE : "html",
-        render : function (data) {
+        API: "data/list.json",
+        EVE_EVENT_TYPE: "scroll",
+        DOM_TRIGGER_TARGET: window,
+        DOM_AJAX_BOX: ".J_ajaxWrap",
+        CSS_STATE_BAR: ".sq-loadMore-btn",
+        DATA_TYPE: "html",
+        render: function (data) {
             renderList.call(this, data);    // 模板渲染
         },
-        scrollEnd : function () {
+        scrollEnd: function () {
             var me = this;
-            me.$stateBox.addClass("loadMore-clickState");
+            me.$stateBar.addClass("loadMore-clickState");
         }
     });
 &lt;/script&gt;

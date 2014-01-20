@@ -8,7 +8,11 @@
  * 0.9.0  * 完成主要功能
  * 0.0.1  + 新建。
  */
-
+/*global
+ $: false,
+ SQ: false,
+ console: false
+ */
 (function ($, window) {
     "use strict";
     /**
@@ -196,6 +200,11 @@
 
             if (me.config.PLACEHOLD && $placeholderDom.length) {
                 $placeholderDom.show();
+            }
+
+            if (me.config.ANIMATE) {
+                var animateClassName = me.config.ANIMATE.indexOf(".") === 0 ? me.config.ANIMATE.slice(1) : me.config.ANIMATE;
+                fixedItem.$self.addClass("animated " + animateClassName);
             }
             
             if (me.fixedIn) {

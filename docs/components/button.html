@@ -24,8 +24,6 @@
             <li class="level-1"><a href="#group">按钮组</a></li>
                 <li class="level-2"><a href="#Monospaced">等宽</a></li>
                 <li class="level-2"><a href="#Vertical">垂直排列</a></li>
-            <li class="level-1"><a href="#interactive">交互</a></li>
-                <li class="level-2"><a href="#menu">菜单</a></li>
         </ul>
     </aside>
 
@@ -65,8 +63,8 @@
                     <div class="sq-btn f-grey"><a href="#">普通按钮</a></div>
                 </p>
                 <p>
-                    <div class="sq-btn small f-grey"><a href="#">Small Button</a></div>
-                    <div class="sq-btn small f-grey"><a href="#">小型按钮</a></div>
+                    <a href="#" class="sq-btn small f-grey">Small Button</a>
+                    <a href="#" class="sq-btn small f-grey">小型按钮</a>
                 </p>
                 <p>
                     <input type="submit" class="sq-btn mini f-grey" value="Mini Button" />
@@ -234,66 +232,6 @@
     &lt;div class="sq-btn f-grey ucweb-anchor"&gt;&lt;a href="#"&gt;&lt;/a&gt;Button 3&lt;/div&gt;
 &lt;/div&gt;</pre>
             </div>
-        </div>
-    </section>
-    <section class="dpl-module" id="interactive">
-        <h3>交互</h3>
-        <p>通过给按钮添加特殊的类来实现多种交互效果：</p>
-        <div class="module-level2">
-            <h4 id="menu">菜单：</h4>
-            <p>为按钮<code>.sq-btn</code>添加<code>.J_buttonMenu</code>类以及对应的<code>.menu</code>即可实现带有菜单交互的按钮。</p>
-            <div class="demo">
-                <div class="sq-btn f-grey J_buttonMenu">
-                    Menu Button 1
-                    <ul class="menu">
-                        <li><a href="#menu1">menu 1</a></li>
-                        <li><a href="#menu2">menu 2</a></li>
-                        <li><a href="#menu3">menu 3</a></li>
-                    </ul>
-                </div>
-            </div>
-            <pre class="prettyprint">&lt;div class="sq-btn f-grey J_buttonMenu"&gt;
-    Menu Button 1
-    &lt;ul class="menu"&gt;
-        &lt;li&gt;&lt;a href="#menu1"&gt;menu 1&lt;/a&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;a href="#menu2"&gt;menu 2&lt;/a&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;a href="#menu3"&gt;menu 3&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;</pre>
-            <style type="text/css">
-                .black-menu .menu{
-                    margin-top:20px; background:rgba(0,0,0,.8); border:none; border-radius:3px;
-                }
-                .black-menu .menu::after{
-                    content:""; position:absolute; top:-20px; right:10px; width:0; height:0; border:10px solid transparent; border-bottom-color:rgba(0,0,0,.8);
-                }
-            </style>
-            <p>可以为菜单定义特殊样式：</p>
-            <div class="demo">
-                <div class="sq-btn f-black black-menu J_buttonMenu">
-                    自定义菜单样式&nbsp;&nbsp;&nbsp;<i class="sq-icon arrow"></i>
-                    <ul class="menu">
-                        <li><a href="#menu1">menu 1</a></li>
-                        <li><a href="#menu2">menu 2</a></li>
-                        <li><a href="#menu3">menu 3</a></li>
-                    </ul>
-                </div>
-            </div>
-            <pre class="prettyprint">.black-menu .menu{
-    margin-top:20px; background:rgba(0,0,0,.8); border:none; border-radius:3px;
-}
-.black-menu .menu::after{
-    content:""; position:absolute; top:-20px; right:10px; width:0; height:0; border:10px solid transparent; border-bottom-color:rgba(0,0,0,.8);
-}</pre>
-            <p></p>
-            <pre class="prettyprint">&lt;div class="sq-btn f-black black-menu J_buttonMenu"&gt;
-    Menu Button 1
-    &lt;ul class="menu"&gt;
-        &lt;li&gt;&lt;a href="#menu1"&gt;menu 1&lt;/a&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;a href="#menu2"&gt;menu 2&lt;/a&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;a href="#menu3"&gt;menu 3&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;</pre>
         </div>
     </section>
     

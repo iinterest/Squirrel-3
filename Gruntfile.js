@@ -89,14 +89,14 @@ module.exports = function (grunt) {
                     "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/*.less",
                     "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/animate/**/*.css"
                 ],
-                tasks: ["concat:animate", "autoprefixer", "less", "cssmin", "copy", "notify:builded"]
+                tasks: ["concat:animate", "autoprefixer", "less", "cssmin", "copy"]
             },
             script: {
                 files: [
                     "<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>/*.js",
                     "<%= pkg.dirs.base %>/<%= pkg.dirs.js_src %>/core/*.js"
                 ],
-                tasks: ["concat", "uglify", "copy", "notify:builded"]
+                tasks: ["concat", "uglify", "copy"]
             }
         },
         jsdoc: {
@@ -108,11 +108,17 @@ module.exports = function (grunt) {
             }
         },
         copy: {
-            template: {
+            dist: {
                 expand: true,
                 cwd: "<%= pkg.dirs.base %>",
                 src: "dist/**",
-                dest: "../../../Project-Template/app/"
+                dest: "../Project-Template/"
+            },
+            cmd_modules: {
+                expand: true,
+                cwd: "<%= pkg.dirs.base %>/src",
+                src: "cmd_modules/**",
+                dest: "../Project-Template/"
             }
         },
         open: {
@@ -151,5 +157,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-jsdoc");
     grunt.loadNpmTasks("grunt-open");
     grunt.loadNpmTasks("grunt-notify");
-    grunt.registerTask("build", ["clean", "concat", "less", "autoprefixer", "uglify", "cssmin", "copy"]);
+    grunt.registerTask("build", ["clean", "concat", "autoprefixer", "less", "uglify", "cssmin", "copy"]);
 };

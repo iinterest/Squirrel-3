@@ -11,16 +11,19 @@
     <script type="text/javascript" src="../static/dpl-famework.js"></script>
     <script type="text/javascript" src="../../build/js/squirrel.js"></script>
     <title>Squirrel Animate</title>
+    <style>
+        .sq-btn{ -webkit-user-select:text;}
+    </style>
 </head>
 <body onload="prettyPrint();">
 <div class="dpl-container">
-
 
     <aside class="sidebar">
         <ul class="anchor">
             <li class="level-1"><a href="#">动画</a></li>
             <li class="level-2"><a href="#dom">DOM 使用</a></li>
             <li class="level-2"><a href="#plugins">插件使用</a></li>
+            <li class="level-2"><a href="#speed">动画速度</a></li>
         </ul>
     </aside>
 
@@ -70,7 +73,7 @@
         <div class="module-level2">
             <h5 id="dom">DOM 使用：</h5>
             <p>可以为 DOM 元素添加动画基础样式<code>animated</code>加特殊动画样式<code>bounceIn</code>来实现动画效果，例如：</p>
-            <pre class="prettyprint">&lt;class="sq-btn animated bounceIn"&gt;&lt;/a&gt;</pre>
+            <pre class="prettyprint">&lt;a class="sq-btn animated bounceIn"&gt;&lt;/a&gt;</pre>
             <h5 id="plugins">插件调用：</h5>
             <p>除了直接使用动画样式，还可以在支持动画的插件中设置<code>ANIMATE</code>来使用，例如 SQ.Popup 插件：</p>
             <pre class="prettyprint">var popupDemo = new SQ.Popup({
@@ -80,8 +83,13 @@
     CSS_HEIGHT: 150,
     VERTICAL: "middle",
     HORIZONTAL: "center",
-    ANIMATE: ".fadeIn"
+    ANIMATE: ".fadeIn quick"
 });</pre>
+            <h5 id="speed">动画速度：</h5>
+            <p>可以添加<code>.quick</code>、<code>.hinge</code>类来调节动画的展现速度：</p>
+            <pre class="prettyprint">&lt;a class="sq-btn animated bounceIn"&gt;&lt;/a&gt;           &lt;!--动画时长 1s--&gt;
+&lt;a class="sq-btn animated bounceIn quick"&gt;&lt;/a&gt;     &lt;!--动画时长 0.6s--&gt;
+&lt;a class="sq-btn animated bounceIn hinge"&gt;&lt;/a&gt;     &lt;!--动画时长 2s--&gt;</pre>
         </div>
     </section>
 

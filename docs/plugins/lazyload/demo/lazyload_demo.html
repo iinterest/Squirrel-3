@@ -430,26 +430,27 @@
             //conzole.setWidth(100);
             
             var imglazyload = new SQ.LazyLoad({
-                DOM_LAZY_ITEMS : ".J_lazyload",
-                DOM_LAZY_PARENT : ".sq-list .icon",
-                CSS_PLACEHOLDER : ".default-icon",
-                IMG_PLACEHOLDER : "../../../static/images/sq-icon.png",
-                NUM_THRESHOLD : 350
+                DOM_LAZY_ITEMS: ".J_lazyload",
+                DOM_LAZY_PARENT: ".sq-list .icon",
+                CSS_PLACEHOLDER: ".default-icon",
+                IMG_PLACEHOLDER: "../../../static/images/sq-icon.png",
+                ANIMATE: ".fadeIn",
+                NUM_THRESHOLD: 350
             });
             
             var appList = new SQ.LoadMore({
-                EVE_EVENT_TYPE : "scroll",
-                DOM_TRIGGER_TARGET : window,
-                DOM_AJAX_BOX : ".J_ajaxWrap",
-                DOM_STATE_BOX : ".J_scrollLoadMore",
-                CSS_INIT_STYLE : "sq-loadMore-btn",
-                DATA_TYPE : "html",
-                NUM_SCROLL_MAX_PAGE : 999,
-                loaded : function () {
+                EVE_EVENT_TYPE: "scroll",
+                DOM_TRIGGER_TARGET: window,
+                DOM_AJAX_BOX: ".J_ajaxWrap",
+                DOM_STATE_BOX: ".J_scrollLoadMore",
+                CSS_INIT_STYLE: "sq-loadMore-btn",
+                DATA_TYPE: "html",
+                NUM_SCROLL_MAX_PAGE: 999,
+                loaded: function () {
                     var me = this;
                     imglazyload.refresh();
                 },
-                scrollEnd : function () {
+                scrollEnd: function () {
                     //var me = this;
                     //me.$stateBox.addClass("sq-loadMore-clickState");
                     //imglazyload.refresh();

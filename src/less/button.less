@@ -3,10 +3,9 @@
  * Sq-button
  * 通用按钮，包括单体按钮、组合按钮 
  * @section sq-btn
- * @version 1.0.6
- * @tested Android(2.3, 4.1), iOS(6.1.2)
  */
 // @changelog
+// 1.1.0
 // 1.0.6 清除形状样式
 // 1.0.5 修改按钮颜色
 // 1.0.4 新增了多种按钮颜色
@@ -14,22 +13,24 @@
 // 1.0.2 .block 调整专为表单控件添加 width:100% 属性，以解决撑出页面问题。
 // 1.0.1 .block 类添加 width:100% 属性，修复 submit 表单控件无法充满父层空间问题。
 .sq-btn{
-	display:inline-block; position:relative; min-width:10px; min-height:26px; padding:1px 8px; .rounded-corners; line-height:26px; text-align:center; vertical-align:middle; cursor:pointer;
+    .border-box; display:inline-block; position:relative; padding:4px 8px; white-space:nowrap; text-align:center; vertical-align:middle; cursor:pointer; -webkit-user-select:none;
 
 	a{ position:relative;}
 
 	//extend：按钮尺寸
 	&.block{ 
-	    display:block; line-height:30px;
+	    display:block; line-height:1.7em;
 	    input[type="button"]&,
         input[type="submit"]&{ width:100%;}
 	}
-	&.large{ font-size:18px; line-height:30px;}
-	&.small{ font-size:12px; min-height:20px; line-height:20px;}
-	&.mini{ font-size:11px; min-height:12px; line-height:12px;}
+	&.large{ font-size:18px; line-height:1.5em;}
+	&.small{ font-size:12px; padding:4px 6px; line-height:1.2em;}
+	&.mini{ font-size:10px; padding:2px 4px; line-height:1em;}
 	
-	.menu{ display:none; position:absolute; left:0; width:99%; min-width:60px; margin-top:5px; background:#fff; border:1px solid #d7d7d7; line-height:30px;
-	    a{ display:block;} 
+	// 单按钮下拉菜单
+	.dropdown-menu{ 
+	    display:none; position:absolute; left:-1px; width:100%; min-width:100px; margin-top:4px; background:#fff; box-shadow:1px 2px 5px rgba(0,0,0,.2); border:1px solid #d7d7d7; line-height:30px;
+	    a{ display:block; color:#333;} 
 	}
 }
 
@@ -130,8 +131,6 @@
  * Sq-button-group
  * 通用组合按钮 
  * @subsection sq-btn-group
- * @version 1.0.0
- * @tested Android(2.3, 4.1), iOS(6.1.2)
  */
 .sq-btn-group{
     .display-box; .box-orient(horizontal);

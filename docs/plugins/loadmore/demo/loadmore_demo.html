@@ -231,8 +231,7 @@
                 EVE_EVENT_TYPE: "scroll",
                 DOM_TRIGGER_TARGET: window,
                 DOM_AJAX_BOX: ".J_ajaxWrap",
-                DOM_STATE_BOX: ".J_scrollLoadMore",
-                CSS_INIT_STYLE: ".sq-loadMore-btn",
+                CSS_STATE_BAR: ".sq-loadMore-btn",
                 XHR_TIMEOUT: 10000,
                 //TXT_LOADED_ERROR: "自动加载失败，点击重新加载",
                 DATA_TYPE: "html",
@@ -244,7 +243,7 @@
                 },
                 scrollEnd: function () {
                     var me = this;
-                    me.$stateBox.addClass("sq-loadMore-clickState");
+                    me.$stateBar.addClass("sq-loadMore-clickState");
                 },
                 loaded: function () {
                     var me = this;
