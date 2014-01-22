@@ -5,7 +5,7 @@
 
 /**
  * @changelog
- * 0.7.5  * 修改类名
+ * 0.7.5  * 修改类名，新增 beforeLoad 、loaded 回调函数的传参。
  * 0.7.4  * 解决 localStorage 问题，API_URL 兼容 ["","test.json",""] 这种写法；
  *        * CSS_LOADING_TIP 兼容 ".demo" 和 "demo" 写法。
  * 0.7.3  * 修复 reload 按钮多次绑定问题。
@@ -29,28 +29,28 @@
      * @name Tabs
      * @classdesc 选项卡交互组件
      * @constructor
-     * @param {object} config 组件配置（下面的参数为配置项，配置会写入属性）
-     * @param {string} config.EVE_EVENT_TYPE                        触发事件，click 或 mouseover
-     * @param {string} config.DOM_TRIGGER_TARGET                    被绑定事件的 Dom 元素
-     * @param {string} config.DOM_TABS                              标签 Dom 元素
-     * @param {string} config.DOM_PANELS                            面板 Dom 元素
-     * @param {string} config.API_URL                               API 接口① 字符串形式
-     * @param {array}  config.API_URL                               API 接口② 数组形式，数组中各项对应各个选项卡
-     * @param {string} config.CSS_HIGHLIGHT                         自定义高亮样式名称，默认为 .active
-     * @param {string} config.CSS_LOADING_TIP                       loading 提示样式
-     * @param {string} config.TXT_LOADING_TIP                       loading 提示文字
-     * @param {number} config.NUM_ACTIVE                            初始高亮选项卡序号，0 - n
-     * @param {number} config.NUM_XHR_TIMEER                        XHR 超时时间
-     * @param {boolean} config.CLEAR_PANEL                          切换选项卡时是否自动清理面板数据
-     * @param {string} config.LOCAL_DATA Ajax 数据 loaclstorage 开关，默认为 false
-     * @param {number} config.NUM_EXPIRES Ajax 数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟
-     * @param {function} config.trigger($tabs, $panels, tabIndex)   触发选项卡切换回调函数
-     * @param {function} config.show($tabs, $panels, tabIndex)      显示选项卡时回调函数
-     * @param {function} config.beforeLoad($activePanels)           异步加载前回调函数，当设定了该回调函数时，必须返回
-     *                                                              true 才能继续执行，异步加载事件，可中断异步加载事件。
-     *                                                              参数：$activePanels 是当前激活的面板
-     * @param {function} config.loaded(data, $activePanels)         异步加载成功回调函数，参数：data 是异步加载返回数据
-     *                                                              参数：$activePanels 是当前激活的面板
+     * @param {object} config                                           组件配置（下面的参数为配置项，配置会写入属性）
+     * @param {string} config.EVE_EVENT_TYPE                            触发事件，click 或 mouseover
+     * @param {string} config.DOM_TRIGGER_TARGET                        被绑定事件的 Dom 元素
+     * @param {string} config.DOM_TABS                                  标签 Dom 元素
+     * @param {string} config.DOM_PANELS                                面板 Dom 元素
+     * @param {string} config.API_URL                                   API 接口① 字符串形式
+     * @param {array}  config.API_URL                                   API 接口② 数组形式，数组中各项对应各个选项卡
+     * @param {string} config.CSS_HIGHLIGHT                             自定义高亮样式名称，默认为 .active
+     * @param {string} config.CSS_LOADING_TIP                           loading 提示样式
+     * @param {string} config.TXT_LOADING_TIP                           loading 提示文字
+     * @param {number} config.NUM_ACTIVE                                初始高亮选项卡序号，0 - n
+     * @param {number} config.NUM_XHR_TIMEER                            XHR 超时时间
+     * @param {boolean} config.CLEAR_PANEL                              切换选项卡时是否自动清理面板数据
+     * @param {string} config.LOCAL_DATA                                XHR 数据 loaclstorage 开关，默认为 false
+     * @param {number} config.NUM_EXPIRES                               XHR 数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟
+     * @param {function} config.trigger($tabs, $panels, tabIndex)       触发选项卡切换回调函数
+     * @param {function} config.show($tabs, $panels, tabIndex)          显示选项卡时回调函数
+     * @param {function} config.beforeLoad($activePanels, tabIndex)     异步加载前回调函数，当设定了该回调函数时，必须返回
+     *                                                                  true 才能继续执行，异步加载事件，可中断异步加载事件。
+     *                                                                  参数：$activePanels 是当前激活的面板
+     * @param {function} config.loaded(data, $activePanels, tabIndex)   异步加载成功回调函数，参数：data 是异步加载返回数据
+     *                                                                  参数：$activePanels 是当前激活的面板
      * @example var tabs = new SQ.Tabs({
             EVE_EVENT_TYPE: "mouseover",
             DOM_TRIGGER_TARGET: ".J_tabs",
@@ -222,7 +222,7 @@
             // 如果设置了 beforeLoadFun 回调函数，则 beforeLoadFun 必须返回 true 才能继续向下执行，
             // 用于人为中断 _load 事件。
             if (me.beforeLoadFun) {
-                if (!me.beforeLoadFun()) {
+                if (!me.beforeLoadFun($activePanels, tabIndex)) {
                     return;
                 }
             }
@@ -237,12 +237,12 @@
                 if (localData) {
                     $activePanels.addClass("hasLoaded");
                     if (me.loadFun) {
-                        me.loadFun(JSON.parse(localData), $activePanels);
+                        me.loadFun(JSON.parse(localData), $activePanels, tabIndex);
                     }
                     return;
                 }
             }
-            // 开始 Ajax 流程
+            // 开始 XHR 流程
             if (SQ.core.isArray(me.config.API_URL)) {
                 api = me.config.API_URL[tabIndex];
             }
@@ -272,7 +272,7 @@
                         SQ.store.localStorage.set(api, data);
                     }
                     if (me.loadFun) {
-                        me.loadFun(data, $activePanels);
+                        me.loadFun(data, $activePanels, tabIndex);
                     }
                 },
                 error : function () {

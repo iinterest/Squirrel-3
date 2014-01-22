@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <link type= "text/css" rel="stylesheet" href="../dist/css/squirrel-min.css" />
-    <link type= "text/css" rel="stylesheet" href="css/squirrel-demo.css?v10" />
+    <link type= "text/css" rel="stylesheet" href="css/squirrel-demo.css?v11" />
     <title>Squirrel Demo</title>
 </head>
 <body>
@@ -22,124 +22,46 @@
     </header>
     <section class="index-music">
         <div class="sub-nav J_tabs">
-            <ul class="sq-nav-tabs col3">
+            <ul class="sq-nav-tabs col3 J_fixedNav">
                 <li>New</li>
                 <li>Popular</li>
                 <li>Album</li>
             </ul>
             <div class="sq-tab-content">
-                <ul class="sq-list vertical music-list J_ajaxWrap J_loadMore"></ul>
+                <ul class="sq-list vertical music-list J_ajaxWrap"></ul>
             </div>
             <div class="sq-tab-content">
                 <ul class="sq-list vertical music-list J_ajaxWrap"></ul>
             </div>
             <div class="sq-tab-content">
-                <ul class="sq-list vertical music-list"></ul>
+                <ul class="sq-list vertical music-list J_ajaxWrap"></ul>
             </div>
         </div>
         <a href="#" class="go-top-btn J_fixedGoTop"><i class="icon-right-big up"></i></a>
     </section>
 </div>
-<div id="detail-template">
+
+
+
+<script id="music-detail" type="text/html">
     <div class="music-detail">
         <div class="album-cover">
-            <img src="images/cover3-full.jpg" alt="cover"/>
+            <img src="<%=cover%>" alt="cover"/>
             <div class="lyric">
-<blockquote><h1>Snowdrop</h1>
-
-
-心臓に合わせて
-本当の気持ちを  自分らしく さぁ話そう
-
-平凡な金曜日
-落ち込んだ毎日は
-不安と後悔の連続
-
-作戦を考えて
-「この気持ちどうやって言おうかな」
-って今日も終わる
-
-君の目が泳いだら
-不安でしょうがないんだよ
-「嫉妬しちゃう嫌だ嫌だ」って渦巻いて
-たまらないんだ
-
-ホントはね ずっと君と
-二人だけが 良かったんだ
-『純粋なアイのコトバ』
-笑わないでよ ねぇ
-きっとまた そんな君を
-「諦めてやるもんか」って
-必死に答を探す
-馬鹿みたいだね あぁ
-
-余裕なんてないんだよ
-迂闊に話せない
-溜め息をついて  さぁリセットしよう
-
-出来合いの言葉で
-飾った想いなんて
-2%も伝わらない
-
-「本当の心」を言葉にしようとして
-「気取ってないか」って 落ち込む
-
-おどけた態度取ってさ
-君は変わらないよね
-ホント解らない
-何で君ばっか気にしちゃうんだ
-最初から こんな心
-知らなければ 良かったんだ
-『繊細なアイのコトバ』
-いなくなってよ あぁ
-きっとまたこの気持ちが
-私を苦しめたって
-ホントの想いは消えない
-知ってるけど あぁ
-
-とめどない溜め息
-繰り返しても ほら
-「まだまだ」って立ってるんでしょ
-
-あの日 あの時に 何かが生まれたから
-きっとまた 辛い事だって
-あるのも当然
-
-「あのね、ホントはね」
-涙を隠しながら
-絶対に諦めないように、
-息を吸い込む
-
-「ホントはね、ずっとずっと言えなく
-て 寂しかったんだ」
-心臓が エールを送る
-このまま「ホントだよ、ずっとずっと
-二人だけで いたかったんだ」
-『純粋なアイのコトバ』
-やっと会えたね あぁ
-最初から この気持ちが
-君だけに 向いてるんだって
-真剣な恋の行方
-どうなるんだろう
-ねぇ、目と目を合わせたら
-怖がらずに ほら
-話してみよう  自分だけの 心を</blockquote>
+<blockquote><h1><%=name%></h1><%=#lyric%></blockquote>
             </div>
         </div>
-
         <div class="album-list">
             <ol>
-                <li class="active"><a href="#play">1. Snowdrop -春奈るなver.</a><a class="like" href="#like"><i class="icon-heart-empty"></i></a></li>
-                <li><a href="#play">2. TRUE STORY</a><a class="like" href="#like"><i class="icon-heart-empty"></i></a></li>
-                <li><a href="#play">3. 深海羽化のラプソディア</a><a class="like" href="#like"><i class="icon-heart-empty"></i></a></li>
-                <li><a href="#play">4. Snowdrop -春奈るな×河野マリナver.</a><a class="like" href="#like"><i class="icon-heart-empty"></i></a></li>
-                <li><a href="#play">5. Snowdrop -春奈るな×河野マリナ TV size ver.</a><a class="like" href="#like"><i class="icon-heart-empty"></i></a></li>
-                <li><a href="#play">6. TRUE STORY</a><a class="like" href="#like"><i class="icon-heart-empty"></i></a></li>
-                <li><a href="#play">7. 深海羽化のラプソディア</a><a class="like" href="#like"><i class="icon-heart-empty"></i></a></li>
+                <% for (var i = 0; i < albumList.length; i ++) { %>
+                <li class="active"><a href="#play"><%=albumList[i].name%></a><a class="like" href="#like"><i class="icon-heart-empty"></i></a></li>
+                <% } %>
             </ol>
         </div>
     </div>
-</div>
+</script>
+
+
 <script id="music-list" type="text/html">
     <% for (var i = 0; i < data.length; i ++) { %>
         <li>
@@ -153,11 +75,37 @@
         </li>
     <% } %>
 </script>
+
+
 <script type="text/javascript" src="../libs/zepto/zepto.min.js"></script>
-<!--<script type="text/javascript" src="../dist/js/squirrel-min.js?v10"></script>-->
-<script type="text/javascript" src="../build/js/squirrel.js?v10"></script>
+<!--<script type="text/javascript" src="../dist/js/squirrel-min.js?v11"></script>-->
+<script type="text/javascript" src="../build/js/squirrel.js?v11"></script>
 <script type="text/javascript" src="js/page.js"></script>
 <script type="text/javascript" src="js/template.js"></script>
-<script type="text/javascript" src="js/squirrel-demo.js?v10"></script>
+<script type="text/javascript" src="js/squirrel-demo.js?v11"></script>
+<!--<script>
+    // 单击处理函数
+    var clickHandle = function(rand){
+        console.log("time")
+        return function(){
+            console.log(rand);
+        };
+    };
+
+    var main = function(){
+        // 获取节点
+        var button = document.querySelectorAll(".wrapper");
+        // 获取一个随机数
+        var rand = Math.random();
+        // 获得匿名函数
+        var handle = clickHandle(rand);
+        // 添加单击事件 把rand传入
+        button[0].addEventListener("click", handle);
+        // 移除绑定事件
+        //button[0].removeEventListener("click", handle);
+    };
+
+    window.onload = main;
+</script>-->
 </body>
 </html>

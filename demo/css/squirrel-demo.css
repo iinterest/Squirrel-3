@@ -3,6 +3,7 @@
 .sq-toolbar.header i[class^="icon-"]{ font-size:1.7em;}
 
 .dropdown-menu{ right:4px;}
+.sq-nav-tabs{ background:#fff;}
 /*
 .dropdown-menu::after{
     content:""; position:absolute; top:-20px; right:10px; width:0; height:0; border:10px solid transparent; border-bottom-color:rgba(0,0,0,.8);
