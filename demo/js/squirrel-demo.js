@@ -11,41 +11,58 @@
         DOM_TRIGGER_TARGET: ".J_tabs",
         DOM_TABS: ".sq-nav-tabs>li",
         DOM_PANELS: ".sq-tab-content",
-        API_URL: ["data/music-list-json.json", "data/music-pop-json.json", "data/music-list-json.json"],
+        API_URL: ["data/music-new-json.json", "data/music-pop-json.json", "data/music-pop-json.json"],
         CSS_LOADING_TIP: "tab-loading-tip",
         NUM_ACTIVE: 0,
         LOCAL_DATA: true,
         //CLEAR_PANEL: true,
-        show: function ($tabs, $panels, tabIndex) {
+        show: function ($tabs, $panels, index) {
             if (musicList) {
-                musicList.active(tabIndex);
+                musicList.active(index);
             }
         },
-        loaded: function (data, $activePanels, tabIndex) {
-            var html = window.template.render("music-list", data);
+        loaded: function (data, $activePanels, index) {
+            var html;
+            if (index === 0) {
+                html = window.template.render("music-new-list", data);
+            } else {
+                html = window.template.render("music-pop-list", data);
+            }
             $activePanels.find(".J_ajaxWrap").append(html);
             if (imglazyload) {
                 imglazyload.refresh();
             }
             if (musicList) {
-                musicList.active(tabIndex);
+                musicList.active(index);
+            }
+            if (fixedNav) {
+                fixedNav.refresh();
             }
         }
     });
 
     var musicList = new SQ.LoadMore({
-        API: ["data/music-list-json.json", "data/music-pop-json.json", "data/music-pop-json.json"],
+        API: ["data/more/:page/music-new-more.json", "data/music-pop-json.json", "data/music-pop-json.json"],
+        RESTFUL: true,
         EVE_EVENT_TYPE: "scroll",
         DOM_TRIGGER_TARGET: window,
         DOM_AJAX_WRAP: ".J_ajaxWrap",
         CSS_STATE_BAR: ".music-list-loadmore",
         NUM_SCROLL_MAX_PAGE: 2,
         DATA_TYPE: "html",
-        loaded: function (data, $ajaxWrap) {
-            var html = window.template.render("music-list", data);
+        loaded: function (data, $ajaxWrap, index) {
+            var html;
+            if (index === 0) {
+                html = window.template.render("music-new-list", data);
+            } else {
+                html = window.template.render("music-pop-list", data);
+            }
             $ajaxWrap.append(html);
             if (imglazyload) {
                 imglazyload.refresh();
+            }
+            if (fixedNav) {
+                fixedNav.refresh();
             }
         }
     });
@@ -138,6 +155,7 @@
     var panelMenu = new SQ.Panel({
         DOM_TRIGGER_TARGET: ".J_panelMenu",
         DOM_WRAPPER: ".wrapper",
+        //DISPLAY: "push",
         CSS_CLASS: ".panel-menu",
         CSS_WIDTH: 240,
         beforeShow: function () {
@@ -148,4 +166,18 @@
             console.log("show");
         }
     });
+
+    var temp = (function () {
+        var a = 0;
+        var obj;
+        function funA () {
+            console.log(a);
+        }
+        obj = {
+            pubA: funA
+        };
+        return obj;
+    }());
+    temp.pubA();
+    
 }());

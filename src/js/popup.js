@@ -1,10 +1,11 @@
 /**
  * @file SQ.Popup 弹窗组件
- * @version 1.0.1
+ * @version 1.0.3
  */
 
 /**
  * @changelog
+ * 1.0.3  * 修复 resize 导致报错的 BUG。
  * 1.0.2  * _setPopupPos 函数优化
  * 1.0.1  * 在设置了 ANIMATE 时，_setPopupPos 函数不使用 translate(-50%, -50%) 方法定位，因为会与动画产生冲突。
  *        * 修复 ANIMATE 设置问题。
@@ -96,7 +97,7 @@
     }
     Popup.prototype =  {
         construtor: Popup,
-        version: "1.0.2",
+        version: "1.0.3",
         timer : undefined,
         resizeTimer : false,    // resize 
         closed : true,
@@ -474,7 +475,9 @@
         },
         resize: function () {
             var me = this;
-            me._setPopupPos();
+            if (me.$popupPanel) {
+                me._setPopupPos();
+            }
         }
     };
     SQ.Popup = Popup;

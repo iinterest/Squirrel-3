@@ -2,7 +2,9 @@
  * @file SQ.store
  * @version 1.1.0
  */
-
+/*global
+ SQ: false
+ */
 SQ.store = {
     /**
      * Cookie 操作

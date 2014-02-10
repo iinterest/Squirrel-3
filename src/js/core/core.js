@@ -2,9 +2,7 @@
  * @file SQ.core
  * @version 1.0.0
  */
-
-var SQ = SQ || {};
-SQ.core = {
+var SQ = {
     /**
      * 命名空间方法
      * @method
@@ -13,7 +11,7 @@ SQ.core = {
      * @example
      * SQ.core.namespace("SQ.modules.module2");
      */
-    namespace : function (nameSpaceString) {
+    namespace: function (nameSpaceString) {
         var parts = nameSpaceString.split(".");
         var parent = SQ;
         var i;
@@ -30,33 +28,33 @@ SQ.core = {
         }
         return parent;
     },
-    /** 
+    /**
      * 判断对象类型
      * @example
      * SQ.core.isString(str);
      */
-    isString : function (str) {
+    isString: function (str) {
         return Object.prototype.toString.call(str) === "[object String]";
     },
-    isArray : function (arr) {
+    isArray: function (arr) {
         return Object.prototype.toString.call(arr) === "[object Array]";
     },
-    isNumber : function (num) {
+    isNumber: function (num) {
         return Object.prototype.toString.call(num) === "[object Number]";
     },
-    isBoolean : function (bool) {
+    isBoolean: function (bool) {
         return Object.prototype.toString.call(bool) === "[object Boolean]";
     },
-    isNull : function (nullObj) {
+    isNull: function (nullObj) {
         return Object.prototype.toString.call(nullObj) === "[object Null]";
     },
-    isUndefined : function (undefinedObj) {
+    isUndefined: function (undefinedObj) {
         return Object.prototype.toString.call(undefinedObj) === "[object Undefined]";
     },
-    isFunction : function (fun) {
+    isFunction: function (fun) {
         return Object.prototype.toString.call(fun) === "[object Function]";
     },
-    isObject : function (obj) {
+    isObject: function (obj) {
         return Object.prototype.toString.call(obj) === "[object Object]";
     },
     /**
@@ -68,19 +66,20 @@ SQ.core = {
      */
     // 暂时无法使用
     /*isJSON : function (string) {
-        var rvalidchars = /^[\],:{}\s]*$/;
-        var rvalidescape = /\\(?:["\\\/bfnrt]|u[\da-fA-F]{4})/g;
-        var rvalidtokens = /"[^"\\\r\n]*"|true|false|null|-?(?:\d\d*\.|)\d+(?:[eE][\-+]?\d+|)/g;
-        var rvalidbraces = /(?:^|:|,)(?:\s*\[)+/g;
-        return typeof string === 'string' && $.trim(string) !== '' ?
-            rvalidchars.test(string
-                .replace(rvalidescape, '@')
-                .replace(rvalidtokens, ']')
-                .replace(rvalidbraces, '')) :
-            false;
-    }*/
-    extend : function (Child, Parent) {
-        var F = function () {};
+     var rvalidchars = /^[\],:{}\s]*$/;
+     var rvalidescape = /\\(?:["\\\/bfnrt]|u[\da-fA-F]{4})/g;
+     var rvalidtokens = /"[^"\\\r\n]*"|true|false|null|-?(?:\d\d*\.|)\d+(?:[eE][\-+]?\d+|)/g;
+     var rvalidbraces = /(?:^|:|,)(?:\s*\[)+/g;
+     return typeof string === 'string' && $.trim(string) !== '' ?
+     rvalidchars.test(string
+     .replace(rvalidescape, '@')
+     .replace(rvalidtokens, ']')
+     .replace(rvalidbraces, '')) :
+     false;
+     }*/
+    extend: function (Child, Parent) {
+        var F = function () {
+        };
         F.prototype = Parent.prototype;
         Child.prototype = new F();
         Child.prototype.constructor = Child;

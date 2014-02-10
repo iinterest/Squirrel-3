@@ -135,7 +135,7 @@
                 i++;
             });
             // 判断是否需要生成异步加载提示语
-            if (me.config.API_URL && (SQ.core.isString(me.config.API_URL) || SQ.core.isArray(me.config.API_URL))) {
+            if (me.config.API_URL && (SQ.isString(me.config.API_URL) || SQ.isArray(me.config.API_URL))) {
                 me.$loadingTip = $("<div class='sq-tabs-loading-tip'></div>");
                 if (me.CSS_LOADING_TIP) {
                     me.$loadingTip.addClass(me.CSS_LOADING_TIP);
@@ -233,7 +233,7 @@
             // 是否启用本地缓存
             if (me.config.LOCAL_DATA) {
                 var localData = SQ.store.localStorage.get(api, me.config.NUM_EXPIRES);
-                localData = SQ.core.isString(localData) ? $.parseJSON(localData) : localData;
+                localData = SQ.isString(localData) ? $.parseJSON(localData) : localData;
                 if (localData) {
                     $activePanels.addClass("hasLoaded");
                     if (me.loadFun) {
@@ -243,7 +243,7 @@
                 }
             }
             // 开始 XHR 流程
-            if (SQ.core.isArray(me.config.API_URL)) {
+            if (SQ.isArray(me.config.API_URL)) {
                 api = me.config.API_URL[tabIndex];
             }
             if (!api || api.length === 0) {

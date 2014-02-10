@@ -22,7 +22,7 @@
     </header>
     <section class="index-music">
         <div class="sub-nav J_tabs">
-            <ul class="sq-nav-tabs col3 J_fixedNav">
+            <ul class="sq-nav-tabs col3">
                 <li>New</li>
                 <li>Popular</li>
                 <li>Album</li>
@@ -41,8 +41,6 @@
     </section>
 </div>
 
-
-
 <script id="music-detail" type="text/html">
     <div class="music-detail">
         <div class="album-cover">
@@ -60,22 +58,35 @@
         </div>
     </div>
 </script>
-
-
-<script id="music-list" type="text/html">
+<script id="music-pop-list" type="text/html">
     <% for (var i = 0; i < data.length; i ++) { %>
+    <li>
+        <div class="icon"><img class="J_lazyload" data-img="<%=data[i].cover%>"/></div>
+        <dl class="description">
+            <dt class="row-ellipsis"><%=data[i].name%></dt>
+            <dd><%=data[i].description%></dd>
+        </dl>
+        <div class="extend v-middle"><i class="icon-angle-circled-right"></i></div>
+        <a href="#trigger-area" class="trigger-area J_popupDetail"></a>
+    </li>
+    <% } %>
+</script>
+<script id="music-new-list" type="text/html">
+    <% for (var i = 0; i < data.length; i ++) { %>
+        <li class="sub-title J_fixedNav"><%=data[i].date%></li>
+        <% for (var j = 0; j < data[i].list.length; j ++) { %>
         <li>
-            <div class="icon"><img class="J_lazyload" data-img="<%=data[i].cover%>"/></div>
+            <div class="icon"><img class="J_lazyload" data-img="<%=data[i].list[j].cover%>"/></div>
             <dl class="description">
-                <dt class="row-ellipsis"><%=data[i].name%></dt>
-                <dd><%=data[i].description%></dd>
+                <dt class="row-ellipsis"><%=data[i].list[j].name%></dt>
+                <dd><%=data[i].list[j].description%></dd>
             </dl>
             <div class="extend v-middle"><i class="icon-angle-circled-right"></i></div>
             <a href="#trigger-area" class="trigger-area J_popupDetail"></a>
         </li>
+        <% } %>
     <% } %>
 </script>
-
 
 <script type="text/javascript" src="../libs/zepto/zepto.min.js"></script>
 <!--<script type="text/javascript" src="../dist/js/squirrel-min.js?v11"></script>-->
@@ -83,29 +94,18 @@
 <script type="text/javascript" src="js/page.js"></script>
 <script type="text/javascript" src="js/template.js"></script>
 <script type="text/javascript" src="js/squirrel-demo.js?v11"></script>
-<!--<script>
-    // 单击处理函数
-    var clickHandle = function(rand){
-        console.log("time")
-        return function(){
-            console.log(rand);
-        };
-    };
-
-    var main = function(){
-        // 获取节点
-        var button = document.querySelectorAll(".wrapper");
-        // 获取一个随机数
-        var rand = Math.random();
-        // 获得匿名函数
-        var handle = clickHandle(rand);
-        // 添加单击事件 把rand传入
-        button[0].addEventListener("click", handle);
-        // 移除绑定事件
-        //button[0].removeEventListener("click", handle);
-    };
-
-    window.onload = main;
-</script>-->
+<script>
+    SQ.load({
+        type: "GET",
+        api: "data/music-pop-json.json",
+        timeout: 5000
+    }).then(function (data) {
+        //console.log(data)
+    }, function () {
+        //console.log("fail");
+    });
+    
+    //console.log(SQ.isString("hello"))
+</script>
 </body>
 </html>

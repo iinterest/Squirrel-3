@@ -13,6 +13,7 @@
 .music-list .icon{ width:75px; height:75px; background:#f9f6f1;}
 .music-list .description dd{ max-height:4em; color:#999; overflow:hidden;}
 .music-list .extend{ font-size:1.7em; color:#c0bdb6;}
+.music-list li.sub-title{ padding:5px 10px; background:#f9f6f1; color:#999;}
 
 .sub-nav li.active{ border-bottom-color:#1cb88e}
 

@@ -1,10 +1,11 @@
 /**
  * @file SQ.LoadMore 加载更多组件
- * @version 1.4.0
+ * @version 1.4.1
  */
 
 /**
  * @changelog
+ * 1.4.1  * 为 loaded、scrollEnd 回调函数增加 index 参数。
  * 1.4.0  * 重写 loadMore 插件，支持在一个页面里生成多个实例。
  * 1.3.0  * 删除 render 回调函数。
  * 1.2.4  + 新增 RESTFUL 配置，支持 RESTful 接口风格，
@@ -44,7 +45,7 @@
  */
 
 (function ($, window) {
-    //"use strict";
+    "use strict";
     /**
      * @name LoadMore
      * @classdesc 应用列表加载更多组件，支持点击加载和滑动加载两种方式，支持由滑动加载自动转为点击加载，依赖 jQuery 或 Zepto 库。
@@ -72,7 +73,7 @@
      * @param {object | boolen} config.RESTFUL      当设为 true 时，程序会自动将 API 中的 ":page" 段替换为页码 (self.page)，
      *                                              也可以设置为 hash 列表，程序会遍历替换所有值。
      * @param {number} config.XHR_TIMEOUT           设置 XHR 超时时间，默认为 5000 ms
-     * @param {function} config.loading             加载阶段回调函数
+     * @param {function} config.loading             加载阶段回调函数，index
      * @param {function} config.loaded              加载完成回调函数
      * @param {function} config.loadError           加载失败回调函数
      * @param {function} config.scrollEnd           滑动加载事件完成回调函数
@@ -83,7 +84,7 @@
             CSS_STATE_BAR: ".loadMore-btn",
             NUM_SCROLL_MAX_PAGE: 3,
             DATA_TYPE: "json",
-            loaded: function (data, $ajaxWrap) {
+            loaded: function (data, $ajaxWrap, index) {
                 // data 为 XHR 返回数据，通常为 JSON 格式
             }
         });
@@ -138,7 +139,7 @@
             self.$stateTxt = self.$stateBar.find(".state-txt");
             self.index = index;
             self.page = me.config.NUM_START_PAGE_INDEX;
-            self.api = SQ.core.isArray(me.config.API) ? me.config.API[index] : me.config.API;
+            self.api = SQ.isArray(me.config.API) ? me.config.API[index] : me.config.API;
             self.firstClickInit = true;
 
             if (me._verify(self)) {
@@ -149,7 +150,7 @@
     }
     LoadMore.prototype = {
         construtor: LoadMore,
-        version: "1.4.0",
+        version: "1.4.1",
         /**
          * 验证
          * @returns {boolean}
@@ -311,7 +312,7 @@
                 self.$stateTxt.text(me.config.TXT_LOADING_TIP);
                 self.$stateBar.removeClass("loading").addClass("loading").show();     // 使用 CSS 特殊值技巧
                 if (me.loadingFun) {
-                    me.loadingFun();
+                    me.loadingFun(self.index);
                 }
                 break;
             case "success":          //加载完成
@@ -331,7 +332,7 @@
                 me._changeEvent("click", self);
                 self.$stateTxt.text(me.config.TXT_CLICK_TIP);
                 if (me.scrollEndFun) {
-                    me.scrollEndFun();
+                    me.scrollEndFun(self.index);
                 }
                 break;
             case "noMore":          // 无下页数据
@@ -366,7 +367,7 @@
             // 是否启用本地缓存
             if (me.config.LOCAL_DATA) {
                 var localData = SQ.store.localStorage.get(api, me.config.NUM_EXPIRES);
-                localData = SQ.core.isString(localData) ? $.parseJSON(localData) : localData;
+                localData = SQ.isString(localData) ? $.parseJSON(localData) : localData;
                 if (localData) {
                     me._loadedResult(localData, self);
                     return;
@@ -406,7 +407,7 @@
                 me._changeState("loadError", self);
                 return;
             }
-            jsonData = SQ.core.isString(data) ? $.parseJSON(data) : data;
+            jsonData = SQ.isString(data) ? $.parseJSON(data) : data;
             // 简单模式
             // 会自动判断并更新运行状态，前提是数据格式必须要符合要求
             if (me.config.MODE === "simple") {
@@ -424,7 +425,7 @@
                 }
             }
             if (me.loadFun) {
-                me.loadFun(jsonData, self.$ajaxWrap);
+                me.loadFun(jsonData, self.$ajaxWrap, self.index);
             }
             me._reset(self);
         },

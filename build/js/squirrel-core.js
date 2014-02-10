@@ -2,9 +2,7 @@
  * @file SQ.core
  * @version 1.0.0
  */
-
-var SQ = SQ || {};
-SQ.core = {
+var SQ = {
     /**
      * 命名空间方法
      * @method
@@ -13,7 +11,7 @@ SQ.core = {
      * @example
      * SQ.core.namespace("SQ.modules.module2");
      */
-    namespace : function (nameSpaceString) {
+    namespace: function (nameSpaceString) {
         var parts = nameSpaceString.split(".");
         var parent = SQ;
         var i;
@@ -30,33 +28,33 @@ SQ.core = {
         }
         return parent;
     },
-    /** 
+    /**
      * 判断对象类型
      * @example
      * SQ.core.isString(str);
      */
-    isString : function (str) {
+    isString: function (str) {
         return Object.prototype.toString.call(str) === "[object String]";
     },
-    isArray : function (arr) {
+    isArray: function (arr) {
         return Object.prototype.toString.call(arr) === "[object Array]";
     },
-    isNumber : function (num) {
+    isNumber: function (num) {
         return Object.prototype.toString.call(num) === "[object Number]";
     },
-    isBoolean : function (bool) {
+    isBoolean: function (bool) {
         return Object.prototype.toString.call(bool) === "[object Boolean]";
     },
-    isNull : function (nullObj) {
+    isNull: function (nullObj) {
         return Object.prototype.toString.call(nullObj) === "[object Null]";
     },
-    isUndefined : function (undefinedObj) {
+    isUndefined: function (undefinedObj) {
         return Object.prototype.toString.call(undefinedObj) === "[object Undefined]";
     },
-    isFunction : function (fun) {
+    isFunction: function (fun) {
         return Object.prototype.toString.call(fun) === "[object Function]";
     },
-    isObject : function (obj) {
+    isObject: function (obj) {
         return Object.prototype.toString.call(obj) === "[object Object]";
     },
     /**
@@ -68,19 +66,20 @@ SQ.core = {
      */
     // 暂时无法使用
     /*isJSON : function (string) {
-        var rvalidchars = /^[\],:{}\s]*$/;
-        var rvalidescape = /\\(?:["\\\/bfnrt]|u[\da-fA-F]{4})/g;
-        var rvalidtokens = /"[^"\\\r\n]*"|true|false|null|-?(?:\d\d*\.|)\d+(?:[eE][\-+]?\d+|)/g;
-        var rvalidbraces = /(?:^|:|,)(?:\s*\[)+/g;
-        return typeof string === 'string' && $.trim(string) !== '' ?
-            rvalidchars.test(string
-                .replace(rvalidescape, '@')
-                .replace(rvalidtokens, ']')
-                .replace(rvalidbraces, '')) :
-            false;
-    }*/
-    extend : function (Child, Parent) {
-        var F = function () {};
+     var rvalidchars = /^[\],:{}\s]*$/;
+     var rvalidescape = /\\(?:["\\\/bfnrt]|u[\da-fA-F]{4})/g;
+     var rvalidtokens = /"[^"\\\r\n]*"|true|false|null|-?(?:\d\d*\.|)\d+(?:[eE][\-+]?\d+|)/g;
+     var rvalidbraces = /(?:^|:|,)(?:\s*\[)+/g;
+     return typeof string === 'string' && $.trim(string) !== '' ?
+     rvalidchars.test(string
+     .replace(rvalidescape, '@')
+     .replace(rvalidtokens, ']')
+     .replace(rvalidbraces, '')) :
+     false;
+     }*/
+    extend: function (Child, Parent) {
+        var F = function () {
+        };
         F.prototype = Parent.prototype;
         Child.prototype = new F();
         Child.prototype.constructor = Child;
@@ -88,10 +87,65 @@ SQ.core = {
     }
 };
 /**
+ * @file SQ.load
+ * @version 0.5.0
+ */
+/*global
+ SQ: false,
+ $: false
+ */
+SQ.load = function (param) {
+    var api;
+    var type;
+    var timeout;
+    var state = "pending";
+    var promise = {
+        state: function () {
+            return state;
+        },
+        then: function (done, fail) {
+            if (SQ.isFunction(done)) {
+                promise.done = done;
+            }
+            if (SQ.isFunction(fail)) {
+                promise.fail = fail;
+            }
+        }
+    };
+    var showLoading = function () {
+        console.log("showLoading")
+    };
+
+    if (SQ.isObject(param)) {
+        type = param.type || "GET";
+        api = param.api;
+        timeout = param.timeout || 5000;
+    }
+
+    if (api) {
+        showLoading();
+        $.ajax({
+            type: type,
+            url: api,
+            timeout: timeout,
+            success: function (data) {
+                promise.done(data);
+            },
+            error: function () {
+                promise.fail();
+            }
+        });
+    }
+
+    return promise;
+};
+/**
  * @file SQ.store
  * @version 1.1.0
  */
-
+/*global
+ SQ: false
+ */
 SQ.store = {
     /**
      * Cookie 操作
@@ -231,7 +285,9 @@ SQ.store = {
  * 获取设备 ua 信息，判断系统版本、浏览器名称及版本
  * @version 1.0.0
  */
-
+/*global
+ SQ: false
+ */
 SQ.ua = (function () {
     var info = {};
     var ua = navigator.userAgent;
@@ -316,7 +372,9 @@ SQ.ua = (function () {
  * 常用函数
  * @version 1.0.0
  */
-
+/*global
+ SQ: false
+ */
 SQ.util = {
     /**
      * 随机数输出
@@ -327,7 +385,7 @@ SQ.util = {
      * Sq.util.generate.randomInt(0, 9);
      * Sq.util.generate.randomArr([1,2,3]);
      */
-    generate : {
+    generate: {
         // 生成唯一标识符
         uniqueId: function () {
 
@@ -352,9 +410,9 @@ SQ.util = {
      * SQ.util.string.trim("   test string    ");
      * //return test string
      */
-    string : {
+    string: {
         // 过滤字符串首尾的空格
-        trim : function(srt) {
+        trim: function(srt) {
             return srt.replace(/^\s+|\s+$/g, "");
         }
     },
@@ -377,11 +435,11 @@ SQ.util = {
         var dateString = year + "-" + month + "-" + date + " " + hours + ":" + min + ":" + sec;
         return dateString;
     },
-    goTop : function (e) {
+    goTop: function (e) {
         e.preventDefault();
         window.scrollTo(0, 0);
     },
-    goBack : function (e) {
+    goBack: function (e) {
         e.preventDefault();
         history.back();
     }
