@@ -16,12 +16,11 @@
     </style>
 </head>
 <body onload="prettyPrint();">
-<div class="dpl-container default-theme">
+<div class="doc-container default-theme">
 
-    <aside class="sidebar">
+    <aside class="doc-section-dir">
         <ul class="anchor">
             <li class="level-1"><a href="#">SQ.Suggest</a></li>
-            <li class="level-2"><a href="#how">如何使用</a></li>
             <li class="level-2"><a href="#params">参数</a></li>
             <li class="level-2"><a href="#inner-doc">内部文档对象</a></li>
             <li class="level-2"><a href="#callback">回调函数</a></li>
@@ -29,10 +28,10 @@
         </ul>
     </aside>
 
-    <section class="dpl-module" id="suggest">
-        <h3>SQ.Suggest</h3>
-        <p>SQ.suggest 是搜索框的增强插件，能为输入框建立搜索联想词的提示交互。</p>
-        <h4>示例：</h4>
+    <section class="doc-section" id="suggest">
+        <h3 class="tit1">SQ.Suggest</h3>
+        <p class="doc-p">SQ.suggest 是搜索框的增强插件，能为输入框建立搜索联想词的提示交互。</p>
+        <h4 class="tit2">示例：</h4>
         <div class="demo w320">
             <header class="dpl-searchbar">
                 <form action="search.html">
@@ -49,12 +48,8 @@
                 <div class="suggest-panel J_suggest"></div>
             </header>
         </div>
-        <h4 id="how">如何使用：</h4>
-        <div class="module-level2">
-        <h5>加载：</h5>
-        <p>初次使用时，可以在定制页面勾选 Suggest 组件，然后下载 Squirrel 代码。</p>
-        <p>如果是在已有工程中新增，可以将 <code>suggest.js</code>、<code>suggest.less</code> 文件分别加入到工程目录的<code>src/js</code>、<code>src/less</code> 文件夹下，Squirrel 框架构建工具会自动进行合并处理。然后加入相应的 HTML 和 JS 代码：</p>
-        <h5>HTML 代码：</h5>
+        <div class="doc-subsection">
+        <h5 class="tit2">代码：</h5>
         <pre class="prettyprint">&lt;header class="dpl-searchbar"&gt;
     &lt;form action="search.html"&gt;
         &lt;div class="sq-search-bar simple"&gt;
@@ -69,7 +64,6 @@
     &lt;/form&gt;
     &lt;div class="suggest-panel J_suggest"&gt;&lt;/div&gt;
 &lt;/header&gt;</pre>
-        <h5>JS 代码：</h5>
         <pre class="prettyprint">var suggest = new SQ.Suggest({
         DOM_INPUT : ".J_searchInput",
         DOM_CLEAR_BTN : ".J_clearInput",
@@ -82,7 +76,7 @@
     });
 }());</pre>
         </div>
-        <h4 id="params">参数</h4>
+        <h4 class="tit2" id="params">参数</h4>
         <table class="params">
             <thead>
             <tr>
@@ -170,14 +164,14 @@
             </tr>
             </tbody>
         </table>
-        <h4 id="inner-doc">内部文档对象：</h4>
-        <p>SQ.Suggest 内封装了以下 jQuery(zepto) 对象，可以在回调函数中直接使用：</p>
-        <p><pre class="prettyprint">var me = this;
+        <h4 class="tit2" id="inner-doc">内部文档对象：</h4>
+        <p class="doc-p">SQ.Suggest 内封装了以下 jQuery(zepto) 对象，可以在回调函数中直接使用：</p>
+        <p class="doc-p"><pre class="prettyprint">var me = this;
 me.$input           //输入框
 me.$suggestPanel    //联想词显示面板
 me.$clearBtn        //清空输入框按钮</pre></p>
-        <h4 id="callback">回调函数：</h4>
-        <p>SQ.Suggest 内置了以下回调函数，可以在触发相应事件时调用：</p>
+        <h4 class="tit2" id="callback">回调函数：</h4>
+        <p class="doc-p">SQ.Suggest 内置了以下回调函数，可以在触发相应事件时调用：</p>
             
             <pre class="prettyprint">var suggest = new SQ.Suggest({
     DOM_INPUT : ".J_searchInput",
@@ -198,7 +192,7 @@ me.$clearBtn        //清空输入框按钮</pre></p>
     }
 });</pre>
 
-        <h4 id="demo">完整例子：</h4>
+        <h4 class="tit2" id="demo">完整例子：</h4>
         <pre class="prettyprint">&lt;!DOCTYPE HTML&gt;
 &lt;html&gt;
 &lt;head&gt;

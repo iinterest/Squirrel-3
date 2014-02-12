@@ -3,134 +3,128 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link type="text/css" rel="stylesheet" href="../../build/css/squirrel.css" />
-    <!--<link type="text/css" rel="stylesheet/less" href="../theme/Rock/rock.less" />-->
     <!--common-->
     <link type="text/css" rel="stylesheet" href="../static/dpl-famework.css" />
     <link type="text/css" rel="stylesheet" href="../static/prettify.css" />
     <script type="text/javascript" src="../static/prettify.js"></script>
     <script type="text/javascript" src="../../libs/jquery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../static/dpl-famework.js"></script>
-    <title>Squirrel DPL Toolbar</title>
+    <title>Squirrel Toolbar</title>
+    <style>
+        .demo-header{ background:#dedede;}
+        .demo-nav{ background:#dedede;}
+        .demo-nav li{ border-right:1px solid #fff;}
+        .demo-nav li:last-of-type{ border-right:none;}
+        .demo-nav .badge{ background:#ff6600;}
+        .demo-nav .active{ background:#f1f1f1;}
+    </style>
 </head>
 <body onload="prettyPrint();">
-<div class="dpl-container fw-demo">
-
-    <aside class="sidebar">
+<div class="doc-container">
+    <aside class="doc-section-dir">
         <ul class="anchor">
-            <li class="level-1"><a href="#">基础工具栏</a></li>
+            <li class="level-1 active"><a href="#">工具栏</a></li>
             <li class="level-2"><a href="#header">标题栏</a></li>
-                <li class="level-3"><a href="#buttons">添加按钮</a></li>
-                <li class="level-3"><a href="#align">对齐方式</a></li>
+            <li class="level-3"><a href="#buttons">添加按钮</a></li>
+            <li class="level-3"><a href="#align">对齐方式</a></li>
             <li class="level-2"><a href="#pagebar">分页栏</a></li>
-            <li class="level-2"><a href="#导航栏">导航栏</a></li>
-                <li class="level-3"><a href="#highlight-monospaced">高亮与等宽</a></li>
-                <li class="level-3"><a href="#badge">徽章</a></li>
-            <!--<li class="level-1"><a href="#Todo">待办事项</a></li>-->
+            <li class="level-2"><a href="#nav">导航栏</a></li>
+            <li class="level-3"><a href="#highlight-monospaced">高亮与等宽</a></li>
+            <li class="level-3"><a href="#badge">徽章</a></li>
         </ul>
     </aside>
-    
-    
-    
-    
-    
-    
-    <section class="dpl-module">
-        <h3>工具栏</h3>
-        <p>工具栏<code>.sq-toolbar</code>，适用于制作导航栏、标题栏、翻页栏等页面通栏控件。固定高度，内置标题栏<code>.header</code>、导航栏<code>.nav</code>样式。</p>
+
+    <section class="doc-section">
+        <h3 class="tit1">工具栏</h3>
+        <p class="doc-p">工具栏<code>.sq-toolbar</code>，适用于制作导航栏、标题栏、翻页栏等页面通栏控件。固定高度，内置标题栏<code>.header</code>、导航栏<code>.nav</code>样式。</p>
     </section>
 
-    
-    
-    <section class="dpl-module" id="header">
-        <h3>标题栏</h3>
-        <p>标题栏<code>.header</code>，通常位于页面顶部，包含页面的标题文字和可选的功能按钮。</p>
-
-        <h4>示例：</h4>
+    <section class="doc-section">
+        <h3 class="tit1"id="header">标题栏</h3>
+        <p class="doc-p">标题栏<code>.header</code>，通常位于页面顶部，包含页面的标题文字和可选的功能按钮。</p>
+        <h4 class="tit2">示例：</h4>
         <div class="demo w320">
-            <header class="sq-toolbar header">
+            <header class=" sq-toolbar header demo-header">
                 <h2 class="title">Title</h2>
             </header>
         </div>
-        
-        <h4>HTML 代码：</h4>
+        <h4 class="tit2">代码：</h4>
         <div class="fold-code J_foldCode">
             <div class="toggle">View Source</div>
-            <pre class="prettyprint">&lt;header class="sq-toolbar header"&gt;
+            <pre class="prettyprint">&lt;header class=" sq-toolbar header demo-header"&gt;
     &lt;h2 class="title"&gt;Title&lt;/h2&gt;
 &lt;/header&gt;</pre>
         </div>
-        
-        <div class="module-level2">
-            <h4 id="buttons">添加按钮：</h4>
-            <p>为标题栏添加功能按钮：</p>
+        <div class="fold-code J_foldCode">
+            <div class="toggle">View Source</div>
+            <pre class="prettyprint">.demo-header{ background:#dedede;}</pre>
+        </div>
+        <div class="doc-subsection">
+            <h4 class="tit2" id="buttons">添加按钮：</h4>
+            <p class="doc-p">为标题栏添加功能按钮：</p>
             <div class="demo w320">
-                <header class="sq-toolbar header">
+                <header class=" sq-toolbar header demo-header">
                     <h2 class="title">Title</h2>
-                    <a class="sq-btn m-grey" href="#">Button1</a>
-                    <a class="sq-btn m-grey" href="#">Button2</a>
+                    <a class="sq-btn m-grey-dark" href="#">Button1</a>
+                    <a class="sq-btn m-grey-dark" href="#">Button2</a>
                 </header>
             </div>
             <div class="fold-code J_foldCode">
                 <div class="toggle">View Source</div>
-                <pre class="prettyprint">&lt;header class="sq-toolbar header"&gt;
+                <pre class="prettyprint">&lt;header class=" sq-toolbar header demo-header"&gt;
     &lt;h2 class="title"&gt;Title&lt;/h2&gt;
-    &lt;a class="sq-btn m-grey" href="#"&gt;Button1&lt;/a&gt;
-    &lt;a class="sq-btn m-grey" href="#"&gt;Button2&lt;/a&gt;
+    &lt;a class="sq-btn m-grey-dark" href="#"&gt;Button1&lt;/a&gt;
+    &lt;a class="sq-btn m-grey-dark" href="#"&gt;Button2&lt;/a&gt;
 &lt;/header&gt;</pre>
             </div>
-            
-            <h4 id="align">对齐方式：</h4>
-            <p>标题栏内的按钮默认为两端对齐（justify），可以添加 <code>.align-start</code><code>.align-end</code>到达左端或右端对齐效果。</p>
+            <h4 class="tit2" id="align">对齐方式：</h4>
+            <p class="doc-p">标题栏内的按钮默认为两端对齐（justify），可以添加 <code>.align-start</code><code>.align-end</code>到达左端或右端对齐效果。</p>
             <div class="demo w640">
-                <header class="sq-toolbar header align-end">
-                    <a class="sq-btn m-grey" href="#">Button 1</a>
-                    <a class="sq-btn m-grey" href="#">Button 2</a>
-                    <a class="sq-btn m-grey" href="#">Button 3</a>
+                <header class=" sq-toolbar header demo-header align-end">
+                    <a class="sq-btn m-grey-dark" href="#">Button 1</a>
+                    <a class="sq-btn m-grey-dark" href="#">Button 2</a>
+                    <a class="sq-btn m-grey-dark" href="#">Button 3</a>
                 </header>
             </div>
-            
             <div class="fold-code J_foldCode">
                 <div class="toggle">View Source</div>
-                <pre class="prettyprint J_foldCode">&lt;header class="sq-toolbar header align-end"&gt;
-    &lt;a class="sq-btn m-grey" href="#"&gt;Button1&lt;/a&gt;
-    &lt;a class="sq-btn m-grey" href="#"&gt;Button2&lt;/a&gt;
-    &lt;a class="sq-btn m-grey" href="#"&gt;Button3&lt;/a&gt;
+                <pre class="prettyprint J_foldCode">&lt;header class=" sq-toolbar header demo-header align-end"&gt;
+    &lt;a class="sq-btn m-grey-dark" href="#"&gt;Button1&lt;/a&gt;
+    &lt;a class="sq-btn m-grey-dark" href="#"&gt;Button2&lt;/a&gt;
+    &lt;a class="sq-btn m-grey-dark" href="#"&gt;Button3&lt;/a&gt;
 &lt;/header&gt;</pre>
             </div>
         </div>
     </section>
 
-    <section class="dpl-module" id="pagebar">
-        <h3>分页栏</h3>
-        <p>分页栏<code>.pagebar</code>，通常位于页面底部，样式与功能与标题栏类似。</p>
-
-        <h4>示例：</h4>
+    <section class="doc-section">
+        <h3 class="tit1" id="pagebar">分页栏</h3>
+        <p class="doc-p">分页栏<code>.pagebar</code>，通常位于页面底部，样式与功能与标题栏类似。</p>
+        <h4 class="tit2">示例：</h4>
         <div class="demo w320">
-            <header class="sq-toolbar pagebar">
-                <div class="pages">1/22</div>
-                <a class="sq-btn m-grey" href="#">Prev</a>
-                <a class="sq-btn m-grey" href="#">Next</a>
+            <header class="sq-toolbar pagebar demo-header">
+                <div class="pages">1/28</div>
+                <a class="sq-btn m-grey-dark disable" href="#">Prev</a>
+                <a class="sq-btn m-grey-dark" href="#">Next</a>
             </header>
         </div>
-
-        <h4>HTML 代码：</h4>
+        <h4 class="tit2">代码：</h4>
         <div class="fold-code J_foldCode">
             <div class="toggle">View Source</div>
-            <pre class="prettyprint">&lt;header class="sq-toolbar pagebar"&gt;
-    &lt;div class="pages"&gt;1/22&lt;/div&gt;
-    &lt;a class="sq-btn m-grey" href="#"&gt;Prev&lt;/a&gt;
-    &lt;a class="sq-btn m-grey" href="#"&gt;Next&lt;/a&gt;
+            <pre class="prettyprint">&lt;header class="sq-toolbar pagebar demo-header"&gt;
+    &lt;div class="pages"&gt;1/28&lt;/div&gt;
+    &lt;a class="sq-btn m-grey-dark disable" href="#"&gt;Prev&lt;/a&gt;
+    &lt;a class="sq-btn m-grey-dark" href="#"&gt;Next&lt;/a&gt;
 &lt;/header&gt;</pre>
         </div>
     </section>
 
-    <section class="dpl-module" id="导航栏">
-        <h3>导航栏</h3>
-        <p>导航工具栏<code>.nav</code>，通常位于页面顶部，用于呈现网站主导航。</p>
-        
-        <h4>示例：</h4>
+    <section class="doc-section">
+        <h3 class="tit1" id="nav">导航栏</h3>
+        <p class="doc-p">导航工具栏<code>.nav</code>，通常位于页面顶部，用于呈现网站主导航。</p>
+        <h4 class="tit2">示例：</h4>
         <div class="demo w320">
-            <nav class="sq-toolbar nav custom-style-nav">
+            <nav class="sq-toolbar nav demo-nav">
                 <ul>
                     <li><a href="#home">Home</a></li>
                     <li><a href="#topic">Topic</a></li>
@@ -139,10 +133,10 @@
                 </ul>
             </nav>
         </div>
-        <h4>HTML 代码：</h4>
+        <h4 class="tit2">代码：</h4>
         <div class="fold-code J_foldCode">
             <div class="toggle">View Source</div>
-            <pre class="prettyprint ">&lt;nav class="sq-toolbar nav custom-style-nav"&gt;
+            <pre class="prettyprint ">&lt;nav class="sq-toolbar nav demo-nav"&gt;
     &lt;ul&gt;
         &lt;li&gt;&lt;a href="#home"&gt;Home&lt;/a&gt;&lt;/li&gt;
         &lt;li&gt;&lt;a href="#topic"&gt;Top&lt;/a&gt;&lt;/li&gt;
@@ -151,13 +145,24 @@
     &lt;/ul&gt;
 &lt;/nav&gt;</pre>
         </div>
+        <div class="fold-code J_foldCode">
+            <div class="toggle">View Source</div>
+            <pre class="prettyprint">.demo-nav{ 
+    background:#dedede;
+    li{ border-right:1px solid #fff;
+        &:last-of-type{ border-right:none;}
+    }
+    .badge{ background:#ff6600;}
+    .active{ background:#f1f1f1;}
+}
+</pre>
+        </div>
 
-        <div class="module-level2">
-            <h4 id="highlight-monospaced">高亮与等宽</h4>
-            <p>为<code>li</code>添加<code>.active</code>类，可显示选中高亮状态；<code>.sq-toolbar</code>默认为弹性布局，想达到各栏等宽效果，可以添加公共类<code>.col2</code>-<code>.col6</code>。</p>
-            
+        <div class="doc-subsection">
+            <h4 class="tit2" id="highlight-monospaced">高亮与等宽：</h4>
+            <p class="doc-p">为<code>li</code>添加<code>.active</code>类，可显示选中高亮状态；<code>.sq-toolbar</code>默认为弹性布局，想达到各栏等宽效果，可以添加公共类<code>.col2</code>-<code>.col6</code>。</p>
             <div class="demo w320">
-                <nav class="sq-toolbar nav col5 custom-style-nav">
+                <nav class="sq-toolbar nav col5 demo-nav">
                     <ul>
                         <li class="active"><a href="#home">Home</a></li>
                         <li><a href="#topic">Topic</a></li>
@@ -167,10 +172,9 @@
                     </ul>
                 </nav>
             </div>
-    
             <div class="fold-code J_foldCode">
                 <div class="toggle">View Source</div>
-                <pre class="prettyprint">&lt;nav class="sq-toolbar nav col5 custom-style-nav"&gt;
+                <pre class="prettyprint">&lt;nav class="sq-toolbar nav col5 demo-nav"&gt;
     &lt;ul&gt;
         &lt;li class="active"&gt;&lt;a href="#home"&gt;Home&lt;/a&gt;&lt;/li&gt;
         &lt;li&gt;&lt;a href="#topic"&gt;Topic&lt;/a&gt;&lt;/li&gt;
@@ -180,12 +184,10 @@
     &lt;/ul&gt;
 &lt;/nav&gt;</pre>
             </div>
-            
-            <h4 id="badge">徽章:</h4>
-            <p>在<code>li</code>中添加<code>&lt;span class="badge"&gt;129&lt;/span&gt;</code>可以显示徽章。</p>
-    
+            <h4 class="tit2" id="badge">徽章：</h4>
+            <p class="doc-p">在<code>li</code>中添加<code>&lt;span class="badge"&gt;129&lt;/span&gt;</code>可以显示徽章。</p>
             <div class="demo w320">
-                <nav class="sq-toolbar nav col5 custom-style-nav">
+                <nav class="sq-toolbar nav col5 demo-nav">
                     <ul>
                         <li class="active"><a href="#home">Home</a></li>
                         <li><a href="#topic">Topic</a></li>
@@ -195,10 +197,9 @@
                     </ul>
                 </nav>
             </div>
-    
             <div class="fold-code J_foldCode">
                 <div class="toggle">View Source</div>
-                <pre class="prettyprint">&lt;nav class="sq-toolbar nav col5 custom-style-nav"&gt;
+                <pre class="prettyprint">&lt;nav class="sq-toolbar nav col5 demo-nav"&gt;
     &lt;ul&gt;
         &lt;li class="active"&gt;&lt;a href="#home"&gt;Home&lt;/a&gt;&lt;/li&gt;
         &lt;li&gt;&lt;a href="#topic"&gt;Topic&lt;/a&gt;&lt;/li&gt;
@@ -210,14 +211,6 @@
             </div>
         </div>
     </section>
-
-    <!--<section class="dpl-module" id="Todo">
-        <h3>待办事项</h3>
-        <ul class="todo">
-            <li>无</li>
-        </ul>
-    </section>-->
-
 </div>
 </body>
 </html>

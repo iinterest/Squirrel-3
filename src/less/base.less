@@ -6,6 +6,14 @@
 //* 1.0.1  + 新增三角箭头（4个方向）
 //* 1.0.0  + 新建
 
+@font-face {
+    font-family: 'fontello';
+    src: url('../font/fontello.woff') format('woff'),
+    url('../font/fontello.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 //文字尺寸设置
 @head-font-size:18px;
 @title-font-size:16px;
@@ -52,7 +60,7 @@
 //阴影
 .shadow (@param){
     -webkit-box-shadow: @arguments;
-     //-moz-box-shadow: @arguments;
+    //-moz-box-shadow: @arguments;
     //box-shadow: inset @arguments ;
 }
 

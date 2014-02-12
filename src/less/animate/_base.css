@@ -3,6 +3,12 @@
     animation-duration: 1s;
     animation-fill-mode: both;
 }
+.animated.fast {
+    animation-duration: .3s;
+}
+.animated.quick {
+    animation-duration: .6s;
+}
 .animated.hinge {
     animation-duration: 2s;
 }

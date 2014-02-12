@@ -11,30 +11,25 @@
     <title>Squirrel LazyLoad</title>
 </head>
 <body onload="prettyPrint();">
-    <div class="dpl-container">
+    <div class="doc-container">
 
-        <aside class="sidebar">
+        <aside class="doc-section-dir">
             <ul class="anchor">
                 <li class="level-1"><a href="#">SQ.LazyLoad</a></li>
-                <li class="level-2"><a href="#how">如何使用</a></li>
                 <li class="level-2"><a href="#params">参数</a></li>
                 <li class="level-2"><a href="#inner-fun">内置方法</a></li>
                 <li class="level-2"><a href="#demo">完整例子</a></li>
             </ul>
         </aside>
 
-        <section class="dpl-module">
-            <h3>SQ.LazyLoad</h3>
-            <p>SQ.LazyLoad 是一个延迟插件，用于延迟加载图片、内容，可提高首屏的加载速度。</p>
-            <h4>示例：</h4>
-            <p><a class="demo-btn" href="demo/lazyload_demo.html">LazyLoad Demo</a></p>
-            <h4 id="how">如何使用：</h4>
-            <div class="module-level2">
-            <h5>加载：</h5>
-            <p>初次使用时，可以在定制页面勾选 LazyLoad 组件，然后下载 Squirrel 代码。</p>
-            <p>如果是在已有工程中新增，可以将 <code>lazyload.js</code>、<code>lazyload.less</code> 文件分别加入到工程目录的<code>src/js</code>、<code>src/less</code> 文件夹下，Squirrel 框架构建工具会自动进行合并处理。然后加入相应的 HTML 和 JS 代码：</p>
-            <h5>HTML 代码：</h5>
-            <pre class="prettyprint">&lt;div class="sq-list vertical rock-app-list"&gt;
+        <section class="doc-section">
+            <h3 class="tit1">SQ.LazyLoad</h3>
+            <p class="doc-p">SQ.LazyLoad 是一个延迟插件，用于延迟加载图片、内容，可提高首屏的加载速度。</p>
+            <h4 class="tit2">示例：</h4>
+            <p class="doc-p"><a class="demo-btn" href="demo/lazyload_demo.html">LazyLoad Demo</a></p>
+            <div class="doc-subsection">
+                <h5 class="tit2">代码：</h5>
+                <pre class="prettyprint">&lt;div class="sq-list vertical rock-app-list"&gt;
 &lt;ul class="J_ajaxWrap"&gt;
     ......
     &lt;li&gt;
@@ -49,19 +44,18 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class="J_scrollLoadMore" data-api="data/list.json"&gt;&lt;/div&gt;</pre>
-            <p>在给图片添加延迟加载效果时，需要为图片元素则添加一个特别勾子类，例如上面的<code>.J_lazyload</code>，然后将占位符填写至图片的<code>src</code>属性，最后将图片的真实地址填写至<code>data-img</code>属性中。</p>
-            <h5>JS 代码：</h5>
-            <pre class="prettyprint">&lt;script type="text/javascript"&gt;
+                <p class="doc-p">在给图片添加延迟加载效果时，需要为图片元素则添加一个特别勾子类，例如上面的<code>.J_lazyload</code>，然后将占位符填写至图片的<code>src</code>属性，最后将图片的真实地址填写至<code>data-img</code>属性中。</p>
+                <pre class="prettyprint">&lt;script type="text/javascript"&gt;
     var imglazyload = new SQ.LazyLoad({
-        DOM_LAZY_ITEMS : ".J_lazyload",
-        DOM_LAZY_PARENT : ".sq-list .icon",
-        CSS_PLACEHOLDER : ".default-icon",
-        IMG_PLACEHOLDER : "../../../static/images/sq-icon.png",
-        NUM_THRESHOLD : 250
+        DOM_LAZY_ITEMS: ".J_lazyload",
+        DOM_LAZY_PARENT: ".sq-list .icon",
+        CSS_PLACEHOLDER: ".default-icon",
+        IMG_PLACEHOLDER: "../../../static/images/sq-icon.png",
+        NUM_THRESHOLD: 250
     });
 &lt;/script&gt;</pre>
             </div>
-            <h4 id="params">参数：</h4>
+            <h4 class="tit2" id="params">参数：</h4>
             <table class="params">
                 <thead>
                 <tr>
@@ -125,6 +119,13 @@
                                 <td class="description last">灵敏度，数值越大越灵敏，延迟性越小，默认为 200。</td>
                             </tr>
                             <tr>
+                                <td class="name"><code>ANIMATE</code></td>
+                                <td class="type">
+                                    <span class="param-type">string</span>
+                                </td>
+                                <td class="description last">动画类，例如 .fadeIn。</td>
+                            </tr>
+                            <tr>
                                 <td class="name"><code>refresh</code></td>
                                 <td class="type">
                                     <span class="param-type">function</span>
@@ -138,70 +139,68 @@
                 </tbody>
             </table>
             
-            <h4 id="inner-fun">内置方法：</h4>
-            <p>SQ.LazyLoad.refresh();</p>
-            <p><pre class="prettyprint">var imglazyload = new SQ.LazyLoad({
-    DOM_LAZY_ITEMS : ".J_lazyload",
-    DOM_LAZY_PARENT : ".sq-list .icon",
-    CSS_PLACEHOLDER : ".default-icon",
-    IMG_PLACEHOLDER : "../../../static/images/sq-icon.png",
-    NUM_THRESHOLD : 250
+            <h4 class="tit2" id="inner-fun">内置方法：</h4>
+            <p class="doc-p">SQ.LazyLoad.refresh();</p>
+            <p class="doc-p"><pre class="prettyprint">var imglazyload = new SQ.LazyLoad({
+    DOM_LAZY_ITEMS: ".J_lazyload",
+    DOM_LAZY_PARENT: ".sq-list .icon",
+    CSS_PLACEHOLDER: ".default-icon",
+    IMG_PLACEHOLDER: "../../../static/images/sq-icon.png",
+    NUM_THRESHOLD: 250
 });
 imglazyload.refresh();  // 刷新延迟加载元素列表
 </pre></p>
             
-            <h4 id="demo">完整例子：</h4>
+            <h4 class="tit2" id="demo">完整例子：</h4>
             <pre class="prettyprint">&lt;!DOCTYPE HTML&gt;
 &lt;html&gt;
 &lt;head&gt;
     &lt;meta charset="utf-8" /&gt;
     &lt;meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" /&gt;
-    &lt;title&gt;Squirrel DPL&lt;/title&gt;
+    &lt;title&gt;Squirrel Lazyload&lt;/title&gt;
     &lt;link type= "text/css" rel="stylesheet" href="../../build/css/squirrel.css" /&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;div class="wrapper"&gt;
-    &lt;div class="sq-list vertical rock-app-list"&gt;
-        &lt;ul class="J_ajaxWrap"&gt;
-            ......
-            &lt;li&gt;
-                &lt;div class="icon"&gt;&lt;i&gt;&lt;img class="J_lazyload" src="../../../static/images/sq-icon.png" data-img="http://image.game.uc.cn/2013/4/17/9112852.jpg"/&gt;&lt;/i&gt;&lt;/div&gt;
-                &lt;dl class="description"&gt;
-                    &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
-                    &lt;dd class="row"&gt;32372 人推荐下载&lt;/dd&gt;
-                    &lt;dd class="row"&gt;工具软件 | 8.2MB&lt;/dd&gt;
-                &lt;/dl&gt;
-                &lt;div class="extend v-middle"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
-            &lt;/li&gt;
-            ......
-        &lt;/ul&gt;
-    &lt;/div&gt;
-    &lt;div class="loadMore J_scrollLoadMore" data-api="data/list.json"&gt;&lt;/div&gt;
+    &lt;ul class="sq-list app rock-app-list J_ajaxWrap"&gt;
+        ......
+        &lt;li&gt;
+            &lt;div class="icon"&gt;&lt;i&gt;&lt;img class="J_lazyload" src="../../../static/images/sq-icon.png" data-img="http://image.game.uc.cn/2013/4/17/9112852.jpg"/&gt;&lt;/i&gt;&lt;/div&gt;
+            &lt;dl class="des"&gt;
+                &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
+                &lt;dd class="row"&gt;32372 人推荐下载&lt;/dd&gt;
+                &lt;dd class="row"&gt;工具软件 | 8.2MB&lt;/dd&gt;
+            &lt;/dl&gt;
+            &lt;div class="extend v-middle"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;/li&gt;
+        ......
+    &lt;/ul&gt;
 &lt;/div&gt;
 &lt;script type="text/javascript" src="../../libs/zepto/zepto.min.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="../../build/js/squirrel.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript"&gt;
     var imglazyload = new SQ.LazyLoad({
-        DOM_LAZY_ITEMS : ".J_lazyload",
-        DOM_LAZY_PARENT : ".sq-list .icon",
-        CSS_PLACEHOLDER : ".default-icon",
-        IMG_PLACEHOLDER : "../../../static/images/sq-icon.png",
-        NUM_THRESHOLD : 250
+        DOM_LAZY_ITEMS: ".J_lazyload",
+        DOM_LAZY_PARENT: ".sq-list .icon",
+        CSS_PLACEHOLDER: ".default-icon",
+        IMG_PLACEHOLDER: "../../../static/images/sq-icon.png",
+        ANIMATE: ".fadeIn",
+        NUM_THRESHOLD: 250
     });
 
     // 可以与 loadmore 插件组合使用
     var appList = new SQ.LoadMore({
-        EVE_EVENT_TYPE : "scroll",
-        DOM_TRIGGER_TARGET : window,
-        DOM_AJAX_BOX : ".J_ajaxWrap",
-        DOM_STATE_BOX : ".J_scrollLoadMore",
-        CSS_INIT_STYLE : "sq-loadMore-btn",
-        DATA_TYPE : "html",
-        loaded : function () {
+        EVE_EVENT_TYPE: "scroll",
+        DOM_TRIGGER_TARGET: window,
+        DOM_AJAX_BOX: ".J_ajaxWrap",
+        DOM_STATE_BOX: ".J_scrollLoadMore",
+        CSS_INIT_STYLE: "sq-loadMore-btn",
+        DATA_TYPE: "html",
+        loaded: function () {
             var me = this;
             imglazyload.refresh();
         },
-        scrollEnd : function () {
+        scrollEnd: function () {
             var me = this;
             me.$stateBox.addClass("sq-loadMore-clickState");
             imglazyload.refresh();

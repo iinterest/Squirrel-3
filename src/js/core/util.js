@@ -3,7 +3,9 @@
  * 常用函数
  * @version 1.0.0
  */
-
+/*global
+ SQ: false
+ */
 SQ.util = {
     /**
      * 随机数输出
@@ -14,7 +16,7 @@ SQ.util = {
      * Sq.util.generate.randomInt(0, 9);
      * Sq.util.generate.randomArr([1,2,3]);
      */
-    generate : {
+    generate: {
         // 生成唯一标识符
         uniqueId: function () {
 
@@ -39,9 +41,9 @@ SQ.util = {
      * SQ.util.string.trim("   test string    ");
      * //return test string
      */
-    string : {
+    string: {
         // 过滤字符串首尾的空格
-        trim : function(srt) {
+        trim: function(srt) {
             return srt.replace(/^\s+|\s+$/g, "");
         }
     },
@@ -64,11 +66,11 @@ SQ.util = {
         var dateString = year + "-" + month + "-" + date + " " + hours + ":" + min + ":" + sec;
         return dateString;
     },
-    goTop : function (e) {
+    goTop: function (e) {
         e.preventDefault();
         window.scrollTo(0, 0);
     },
-    goBack : function (e) {
+    goBack: function (e) {
         e.preventDefault();
         history.back();
     }

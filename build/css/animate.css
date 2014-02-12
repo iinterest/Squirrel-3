@@ -7,6 +7,16 @@
   animation-fill-mode: both;
 }
 
+.animated.fast {
+  -webkit-animation-duration: .3s;
+  animation-duration: .3s;
+}
+
+.animated.quick {
+  -webkit-animation-duration: .6s;
+  animation-duration: .6s;
+}
+
 .animated.hinge {
   -webkit-animation-duration: 2s;
   animation-duration: 2s;
@@ -166,11 +176,6 @@
     transform: scale(1.05);
   }
 
-  70% {
-    -webkit-transform: scale(.9);
-    transform: scale(.9);
-  }
-
   100% {
     -webkit-transform: scale(1);
     transform: scale(1);
@@ -190,11 +195,6 @@
     transform: scale(1.05);
   }
 
-  70% {
-    -webkit-transform: scale(.9);
-    transform: scale(.9);
-  }
-
   100% {
     -webkit-transform: scale(1);
     transform: scale(1);
@@ -210,11 +210,6 @@
   0% {
     -webkit-transform: scale(1);
     transform: scale(1);
-  }
-
-  25% {
-    -webkit-transform: scale(.95);
-    transform: scale(.95);
   }
 
   50% {
@@ -234,11 +229,6 @@
   0% {
     -webkit-transform: scale(1);
     transform: scale(1);
-  }
-
-  25% {
-    -webkit-transform: scale(.95);
-    transform: scale(.95);
   }
 
   50% {
@@ -661,14 +651,9 @@
     opacity: 0;
   }
 
-  40% {
+  50% {
     -webkit-transform: perspective(400px) rotateX(-10deg);
     transform: perspective(400px) rotateX(-10deg);
-  }
-
-  70% {
-    -webkit-transform: perspective(400px) rotateX(10deg);
-    transform: perspective(400px) rotateX(10deg);
   }
 
   100% {
@@ -685,14 +670,9 @@
     opacity: 0;
   }
 
-  40% {
+  50% {
     -webkit-transform: perspective(400px) rotateX(-10deg);
     transform: perspective(400px) rotateX(-10deg);
-  }
-
-  70% {
-    -webkit-transform: perspective(400px) rotateX(10deg);
-    transform: perspective(400px) rotateX(10deg);
   }
 
   100% {
@@ -716,14 +696,9 @@
     opacity: 0;
   }
 
-  40% {
+  50% {
     -webkit-transform: perspective(400px) rotateY(-10deg);
     transform: perspective(400px) rotateY(-10deg);
-  }
-
-  70% {
-    -webkit-transform: perspective(400px) rotateY(10deg);
-    transform: perspective(400px) rotateY(10deg);
   }
 
   100% {
@@ -740,14 +715,9 @@
     opacity: 0;
   }
 
-  40% {
+  50% {
     -webkit-transform: perspective(400px) rotateY(-10deg);
     transform: perspective(400px) rotateY(-10deg);
-  }
-
-  70% {
-    -webkit-transform: perspective(400px) rotateY(10deg);
-    transform: perspective(400px) rotateY(10deg);
   }
 
   100% {

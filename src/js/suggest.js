@@ -13,7 +13,11 @@
  * 0.5.5  * 完成搜索联想词基本功能。
  * 0.0.1  + 新建。
  */
-
+/*global
+ $: false,
+ SQ: false,
+ console: false
+ */
 (function ($, window) {
     "use strict";
     /**
@@ -119,7 +123,7 @@
             var api = me.config.API_URL;
             var XHR;
             //console.log("request -> " + "keyword: " + keyword, "lastSendKeyword: " + me.lastSendKeyword);
-            if (XHR && SQ.core.isObject(XHR)) {
+            if (XHR && SQ.isObject(XHR)) {
                 XHR.abort();
             }
             XHR = $.ajax({

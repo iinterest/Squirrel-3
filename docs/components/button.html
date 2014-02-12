@@ -11,10 +11,8 @@
     <title>Squirrel Button</title>
 </head>
 <body onload="prettyPrint();">
-<div class="dpl-container">
-
-
-    <aside class="sidebar">
+<div class="doc-container">
+    <aside class="doc-section-dir">
         <ul class="anchor">
             <li class="level-1"><a href="#">按钮</a></li>
                 <li class="level-2"><a href="#size">尺寸</a></li>
@@ -24,24 +22,19 @@
             <li class="level-1"><a href="#group">按钮组</a></li>
                 <li class="level-2"><a href="#Monospaced">等宽</a></li>
                 <li class="level-2"><a href="#Vertical">垂直排列</a></li>
-            <li class="level-1"><a href="#interactive">交互</a></li>
-                <li class="level-2"><a href="#menu">菜单</a></li>
         </ul>
     </aside>
 
-
-
-    <section class="dpl-module">
-        <h3>按钮</h3>
-        <p>按钮样式类<code>.sq-btn</code>，可以为任何标签添加该类来渲染成按钮样式，但还是建议在<code>a</code>、<code>button</code>元素上使用以获得最好效果。</p>
-
-        <h4>示例：</h4>
+    <section class="doc-section">
+        <h3 class="tit1">按钮</h3>
+        <p class="doc-p">按钮样式类<code>.sq-btn</code>，可以为任何标签添加该类来渲染成按钮样式，但还是建议在<code>a</code>、<code>button</code>元素上使用以获得最好效果。</p>
+        <h4 class="tit2">示例：</h4>
         <div class="demo">
             <a href="#" class="sq-btn f-grey">Normal 1</a>
             <div class="sq-btn f-grey"><a href="#">Normal 2</a></div>
             <input type="submit" class="sq-btn f-grey" value="Submit" />
         </div>
-        <h4>HTML 代码：</h4>
+        <h4 class="tit2">代码：</h4>
         <div class="fold-code J_foldCode">
             <div class="toggle">View Source</div>
             <pre class="prettyprint">&lt;a href="#" class="sq-btn f-grey"&gt;Normal 1&lt;/a&gt;
@@ -49,42 +42,33 @@
 &lt;input type="submit" class="sq-btn f-grey" value="Submit" /&gt;</pre>
         </div>
         
-        <div class="module-level2">
-            <h4 id="size">尺寸：</h4>
-            <p>可以为按钮添加<code>.block</code><code>.large</code><code>.small</code><code>.mini</code>尺寸样式，加上默认按钮一共有 5 种尺寸，其中 Block Button 默认充满父层空间。</p>
-            <!--<h4>示例：</h4>-->
+        <div class="doc-subsection">
+            <h4 class="tit2" id="size">尺寸：</h4>
+            <p class="doc-p">可以为按钮添加<code>.block</code><code>.large</code><code>.small</code><code>.mini</code>尺寸样式，加上默认按钮一共有 5 种尺寸，其中 Block Button 默认充满父层空间。</p>
+            <!--<h4 class="tit2">示例：</h4>-->
             <div class="demo">
-                <p><a href="#" class="sq-btn block f-grey">Block Button</a></p>
-                <p><input type="button" class="sq-btn block f-grey" value="块按钮" /></p>
-                <p>
-                    <a href="#" class="sq-btn large f-grey">Large Button</a>
-                    <a href="#" class="sq-btn large f-grey">大型按钮</a>
-                </p>
-                <p>
-                    <div class="sq-btn f-grey"><a href="#">Normal Button</a></div>
-                    <div class="sq-btn f-grey"><a href="#">普通按钮</a></div>
-                </p>
-                <p>
-                    <div class="sq-btn small f-grey"><a href="#">Small Button</a></div>
-                    <div class="sq-btn small f-grey"><a href="#">小型按钮</a></div>
-                </p>
-                <p>
-                    <input type="submit" class="sq-btn mini f-grey" value="Mini Button" />
-                    <input type="submit" class="sq-btn mini f-grey" value="迷你按钮" />
-                </p>
+                <p><input type="button" class="sq-btn block f-grey" value="Block Button 块按钮" /></p>
+                <p><a href="#" class="sq-btn large f-grey">Large Button 大型按钮</a></p>
+                <p><div class="sq-btn f-grey"><a href="#">Normal Button 普通按钮</a></div></p>
+                <p><a href="#" class="sq-btn small f-grey">Small Button 小型按钮</a></p>
+                <p><input type="submit" class="sq-btn mini f-grey" value="Mini Button 迷你按钮" /></p>
             </div>
             <div class="fold-code J_foldCode">
                 <div class="toggle">View Source</div>
                 <pre class="prettyprint">&lt;a href="#" class="sq-btn block f-grey"&gt;Block Button&lt;/a&gt;
+                
 &lt;a href="#" class="sq-btn large f-grey"&gt;Large Button&lt;/a&gt;
+
 &lt;div class="sq-btn f-grey"&gt;&lt;a href="#"&gt;Normal Button&lt;/a&gt;&lt;/div&gt;
+
 &lt;div class="sq-btn small f-grey"&gt;&lt;a href="#"&gt;Small Button&lt;/a&gt;&lt;/div&gt;
+
 &lt;input type="submit" class="sq-btn mini f-grey" value="Mini Button" /&gt;</pre>
             </div>
         
-            <h4 id="shape">形状:</h4>
+            <!--<h4 class="tit2" id="shape">形状:</h4>
             <p class="alert danger">v0.8.25 版本已经移除形状样式。</p>
-            <p>可以为按钮添加<code>.arr-l</code><code>.arr-r</code>箭头形状样式，但不建议对 Fresh、Flat 风格的按钮添加。</p>
+            <p class="doc-p">可以为按钮添加<code>.arr-l</code><code>.arr-r</code>箭头形状样式，但不建议对 Fresh、Flat 风格的按钮添加。</p>
             <div class="demo">
                 <div class="sq-btn f-grey arr-l"><a href="#">Prev</a></div>
                 <div class="sq-btn f-grey arr-r"><a href="#">Next</a></div>
@@ -94,10 +78,10 @@
                 <pre class="prettyprint">
 &lt;div class="sq-btn f-grey"&gt;&lt;a href="#"&gt;Prev&lt;/a&gt;&lt;/div&gt;
 &lt;div class="sq-btn f-grey arr-r"&gt;&lt;a href="#"&gt;Next&lt;/a&gt;&lt;/div&gt;</pre>
-            </div>
+            </div>-->
 
-            <h4 id="UCWeb">UC浏览器特殊按钮</h4>
-            <p>调整<code>.sq-btn</code>的 HTML 并添加<code>.ucweb-anchor</code>类，可以解决 Android 平台下 UC 浏览器链接无法设置的<code>:visited</code>颜色的问题。</p>
+            <h4 class="tit2" id="UCWeb">UC浏览器特殊按钮：</h4>
+            <p class="doc-p">调整<code>.sq-btn</code>的 HTML 并添加<code>.ucweb-anchor</code>类，可以解决 Android 平台下 UC 浏览器链接无法设置的<code>:visited</code>颜色的问题。</p>
             <div class="demo">
                 <div class="sq-btn f-grey ucweb-anchor"><a href="#"></a>UCWeb Fixed</div>
             </div>
@@ -106,194 +90,132 @@
                 <pre class="prettyprint">&lt;div class="sq-btn f-grey ucweb-anchor"&gt;&lt;a href="#"&gt;&lt;/a&gt;UCWeb Fixed&lt;/div&gt;</pre>
             </div>
         </div>
-
     </section>
-    <section class="dpl-module" id="Style">
-        <h3>样式</h3>
-        <p>一共有 3 种风格的按钮样式：Metro、Fresh、Flat。</p>
-        <div class="demo">
-            <table class="button-table">
-                <tr>
-                    <th colspan="2">Metro</th>
-                    <th colspan="2">Fresh</th>
-                    <th colspan="2">Flat</th>
-                </tr>
-                <tr>
-                    <td><code>.m-grey</code></td>
-                    <td><div class="sq-btn m-grey"><a href="#">Button</a></div></td>
-                    <td><code>.f-grey</code></td>
-                    <td><div class="sq-btn f-grey"><a href="#">Button</a></div></td>
-                    <td><code>.fl-grey</code></td>
-                    <td><div class="sq-btn fl-grey"><a href="#">Button</a></div></td>
-                </tr>
-                <tr>
-                    <td><code>.m-grey-dark</code></td>
-                    <td><div class="sq-btn m-grey-dark"><a href="#">Button</a></div></td>
-                    <td><code>.f-grey-dark</code></td>
-                    <td><div class="sq-btn f-grey-dark"><a href="#">Button</a></div></td>
-                    <td><code>.fl-grey-dark</code></td>
-                    <td><div class="sq-btn fl-grey-dark"><a href="#">Button</a></div></td>
-                </tr>
-                <tr>
-                    <td><code>.m-black</code></td>
-                    <td><div class="sq-btn m-black"><a href="#">Button</a></div></td>
-                    <td><code>.f-black</code></td>
-                    <td><div class="sq-btn f-black"><a href="#">Button</a></div></td>
-                    <td><code>.fl-black</code></td>
-                    <td><div class="sq-btn fl-black"><a href="#">Button</a></div></td>
-                </tr>
-                <tr>
-                    <td><code>.m-blue</code></td>
-                    <td><div class="sq-btn m-blue"><a href="#">Button</a></div></td>
-                    <td><code>.f-blue</code></td>
-                    <td><div class="sq-btn f-blue"><a href="#">Button</a></div></td>
-                    <td><code>.fl-blue</code></td>
-                    <td><div class="sq-btn fl-blue"><a href="#">Button</a></div></td>
-                </tr>
-                <tr>
-                    <td><code>.m-green</code></td>
-                    <td><div class="sq-btn m-green"><a href="#">Button</a></div></td>
-                    <td><code>.f-green</code></td>
-                    <td><div class="sq-btn f-green"><a href="#">Button</a></div></td>
-                    <td><code>.fl-green</code></td>
-                    <td><div class="sq-btn fl-green"><a href="#">Button</a></div></td>
-                </tr>
-                <tr>
-                    <td><code>.m-orange</code></td>
-                    <td><div class="sq-btn m-orange"><a href="#">Button</a></div></td>
-                    <td><code>.f-orange</code></td>
-                    <td><div class="sq-btn f-orange"><a href="#">Button</a></div></td>
-                    <td><code>.fl-orange</code></td>
-                    <td><div class="sq-btn fl-orange"><a href="#">Button</a></div></td>
-                </tr>
-                <tr>
-                    <td><code>.m-red</code></td>
-                    <td><div class="sq-btn m-red"><a href="#">Button</a></div></td>
-                    <td><code>.f-red</code></td>
-                    <td><div class="sq-btn f-red"><a href="#">Button</a></div></td>
-                    <td><code>.fl-red</code></td>
-                    <td><div class="sq-btn fl-red"><a href="#">Button</a></div></td>
-                </tr>
-            </table>
-        </div>
+    
+    <section class="doc-section">
+        <h3 class="tit1" id="Style">样式</h3>
+        <p class="doc-p">一共有 3 种风格的按钮样式：Metro、Fresh、Flat。</p>
+        <table class="button-table">
+            <tr>
+                <th colspan="2">Metro</th>
+                <th colspan="2">Fresh</th>
+                <th colspan="2">Flat</th>
+            </tr>
+            <tr>
+                <td><code>.m-grey</code></td>
+                <td><div class="sq-btn m-grey"><a href="#">Button</a></div></td>
+                <td><code>.f-grey</code></td>
+                <td><div class="sq-btn f-grey"><a href="#">Button</a></div></td>
+                <td><code>.fl-grey</code></td>
+                <td><div class="sq-btn fl-grey"><a href="#">Button</a></div></td>
+            </tr>
+            <tr>
+                <td><code>.m-grey-dark</code></td>
+                <td><div class="sq-btn m-grey-dark"><a href="#">Button</a></div></td>
+                <td><code>.f-grey-dark</code></td>
+                <td><div class="sq-btn f-grey-dark"><a href="#">Button</a></div></td>
+                <td><code>.fl-grey-dark</code></td>
+                <td><div class="sq-btn fl-grey-dark"><a href="#">Button</a></div></td>
+            </tr>
+            <tr>
+                <td><code>.m-black</code></td>
+                <td><div class="sq-btn m-black"><a href="#">Button</a></div></td>
+                <td><code>.f-black</code></td>
+                <td><div class="sq-btn f-black"><a href="#">Button</a></div></td>
+                <td><code>.fl-black</code></td>
+                <td><div class="sq-btn fl-black"><a href="#">Button</a></div></td>
+            </tr>
+            <tr>
+                <td><code>.m-blue</code></td>
+                <td><div class="sq-btn m-blue"><a href="#">Button</a></div></td>
+                <td><code>.f-blue</code></td>
+                <td><div class="sq-btn f-blue"><a href="#">Button</a></div></td>
+                <td><code>.fl-blue</code></td>
+                <td><div class="sq-btn fl-blue"><a href="#">Button</a></div></td>
+            </tr>
+            <tr>
+                <td><code>.m-green</code></td>
+                <td><div class="sq-btn m-green"><a href="#">Button</a></div></td>
+                <td><code>.f-green</code></td>
+                <td><div class="sq-btn f-green"><a href="#">Button</a></div></td>
+                <td><code>.fl-green</code></td>
+                <td><div class="sq-btn fl-green"><a href="#">Button</a></div></td>
+            </tr>
+            <tr>
+                <td><code>.m-orange</code></td>
+                <td><div class="sq-btn m-orange"><a href="#">Button</a></div></td>
+                <td><code>.f-orange</code></td>
+                <td><div class="sq-btn f-orange"><a href="#">Button</a></div></td>
+                <td><code>.fl-orange</code></td>
+                <td><div class="sq-btn fl-orange"><a href="#">Button</a></div></td>
+            </tr>
+            <tr>
+                <td><code>.m-red</code></td>
+                <td><div class="sq-btn m-red"><a href="#">Button</a></div></td>
+                <td><code>.f-red</code></td>
+                <td><div class="sq-btn f-red"><a href="#">Button</a></div></td>
+                <td><code>.fl-red</code></td>
+                <td><div class="sq-btn fl-red"><a href="#">Button</a></div></td>
+            </tr>
+        </table>
     </section>
-    <section class="dpl-module" id="group">
-        <h3>按钮组</h3>
-        <p>为多个<code>.sq-btn</code>添加一个<code>.sq-btn-group</code>的父类即可渲染出按钮组，按钮组默认为水平排列，弹性布局。</p>
-        <h4>示例：</h4>
-        <div class="demo">
+    <section class="doc-section">
+        <h3 class="tit1" id="group">按钮组</h3>
+        <p class="doc-p">为多个<code>.sq-btn</code>添加一个<code>.sq-btn-group</code>的父类即可渲染出按钮组，按钮组默认为水平排列，弹性布局。</p>
+        <h4 class="tit2">示例：</h4>
+        <div class="demo w320">
             <div class="sq-btn-group">
-                <div class="sq-btn f-grey ucweb-anchor"><a href="#"></a>Long text button</div>
-                <div class="sq-btn f-grey ucweb-anchor"><a href="#"></a>Button 2</div>
-                <div class="sq-btn f-grey ucweb-anchor"><a href="#"></a>Button 3</div>
+                <a href="#" class="sq-btn f-grey">Long text button</a>
+                <a href="#" class="sq-btn f-grey">Button 2</a>
+                <a href="#" class="sq-btn f-grey">Button 3</a>
             </div>
         </div>
-        <h4>HTML 代码：</h4>
+        <h4 class="tit2">代码：</h4>
         <div class="fold-code J_foldCode">
             <div class="toggle">View Source</div>
-            <pre class="prettyprint">&lt;div class="sq-btn-group"&gt;
-    &lt;div class="sq-btn f-grey ucweb-anchor"&gt;&lt;a href="#"&gt;&lt;/a&gt;Long text button&lt;/div&gt;
-    &lt;div class="sq-btn f-grey ucweb-anchor"&gt;&lt;a href="#"&gt;&lt;/a&gt;Button 2&lt;/div&gt;
-    &lt;div class="sq-btn f-grey ucweb-anchor"&gt;&lt;a href="#"&gt;&lt;/a&gt;Button 3&lt;/div&gt;
-&lt;/div&gt;</pre>
+            <pre class="prettyprint">&lt;ul class="sq-btn-group"&gt;
+    &gt;&lt;a href="#" class="sq-btn f-grey"&gt;Long text button&lt;/a&gt;
+    &gt;&lt;a href="#" class="sq-btn f-grey"&gt;Button 2&lt;/a&gt;
+    &gt;&lt;a href="#" class="sq-btn f-grey"&gt;Button 3&lt;/a&gt;
+&lt;/ul&gt;</pre>
         </div>
         
-        <div class="module-level2">
-            <h4 id="Monospaced">等宽：</h4>
-            <p>想达到各栏等宽效果，可以添加公共类<code>.col2</code>-<code>.col6</code>。</p>
-            <div class="demo">
-                <ul class="sq-btn-group col3">
-                    <li class="sq-btn f-grey ucweb-anchor"><a href="#"></a>Long text button</li>
-                    <li class="sq-btn f-grey ucweb-anchor"><a href="#"></a>Button 2</li>
-                    <li class="sq-btn f-grey ucweb-anchor"><a href="#"></a>Button 3</li>
-                </ul>
+        <div class="doc-subsection">
+            <h4 class="tit2" id="Monospaced">等宽：</h4>
+            <p class="doc-p">想达到各栏等宽效果，可以添加公共类<code>.col2</code>-<code>.col6</code>。</p>
+            <div class="demo w320">
+                <div class="sq-btn-group col3">
+                    <a href="#" class="sq-btn f-grey">Long text button</a>
+                    <a href="#" class="sq-btn f-grey">Button 2</a>
+                    <a href="#" class="sq-btn f-grey">Button 3</a>
+                </div>
             </div>
             <div class="fold-code J_foldCode">
                 <div class="toggle">View Source</div>
                 <pre class="prettyprint">&lt;ul class="sq-btn-group col3"&gt;
-    &lt;li class="sq-btn f-grey ucweb-anchor"&gt;&lt;a href="#"&gt;&lt;/a&gt;Long text button&lt;/li&gt;
-    &lt;li class="sq-btn f-grey ucweb-anchor"&gt;&lt;a href="#"&gt;&lt;/a&gt;Button 2&lt;/li&gt;
-    &lt;li class="sq-btn f-grey ucweb-anchor"&gt;&lt;a href="#"&gt;&lt;/a&gt;Button 3&lt;/li&gt;
+    &gt;&lt;a href="#" class="sq-btn f-grey"&gt;Long text button&lt;/a&gt;
+    &gt;&lt;a href="#" class="sq-btn f-grey"&gt;Button 2&lt;/a&gt;
+    &gt;&lt;a href="#" class="sq-btn f-grey"&gt;Button 3&lt;/a&gt;
 &lt;/ul&gt;</pre>
             </div>
             
-            <h4 id="Vertical">垂直排列：</h4>
-            <p>可以添加<code>.vertical</code>实现垂直按钮组。</p>
-            <div class="demo">
+            <h4 class="tit2" id="Vertical">垂直排列：</h4>
+            <p class="doc-p">可以添加<code>.vertical</code>实现垂直按钮组。</p>
+            <div class="demo w320">
                 <div class="sq-btn-group vertical">
-                    <div class="sq-btn f-grey ucweb-anchor"><a href="#"></a>Button 1</div>
-                    <div class="sq-btn f-grey ucweb-anchor"><a href="#"></a>Button 2</div>
-                    <div class="sq-btn f-grey ucweb-anchor"><a href="#"></a>Button 3</div>
+                    <a href="#" class="sq-btn f-grey">Button 1</a>
+                    <a href="#" class="sq-btn f-grey">Button 2</a>
+                    <a href="#" class="sq-btn f-grey">Button 3</a>
                 </div>
             </div>
             <div class="fold-code J_foldCode">
                 <div class="toggle">View Source</div>
-                <pre class="prettyprint">&lt;div class="sq-btn-group vertical"&gt;
-    &lt;div class="sq-btn f-grey ucweb-anchor"&gt;&lt;a href="#"&gt;&lt;/a&gt;Button 1&lt;/div&gt;
-    &lt;div class="sq-btn f-grey ucweb-anchor"&gt;&lt;a href="#"&gt;&lt;/a&gt;Button 2&lt;/div&gt;
-    &lt;div class="sq-btn f-grey ucweb-anchor"&gt;&lt;a href="#"&gt;&lt;/a&gt;Button 3&lt;/div&gt;
-&lt;/div&gt;</pre>
+                <pre class="prettyprint">&lt;ul class="sq-btn-group vertical"&gt;
+    &gt;&lt;a href="#" class="sq-btn f-grey"&gt;Button 1&lt;/a&gt;
+    &gt;&lt;a href="#" class="sq-btn f-grey"&gt;Button 2&lt;/a&gt;
+    &gt;&lt;a href="#" class="sq-btn f-grey"&gt;Button 3&lt;/a&gt;
+&lt;/ul&gt;</pre>
             </div>
-        </div>
-    </section>
-    <section class="dpl-module" id="interactive">
-        <h3>交互</h3>
-        <p>通过给按钮添加特殊的类来实现多种交互效果：</p>
-        <div class="module-level2">
-            <h4 id="menu">菜单：</h4>
-            <p>为按钮<code>.sq-btn</code>添加<code>.J_buttonMenu</code>类以及对应的<code>.menu</code>即可实现带有菜单交互的按钮。</p>
-            <div class="demo">
-                <div class="sq-btn f-grey J_buttonMenu">
-                    Menu Button 1
-                    <ul class="menu">
-                        <li><a href="#menu1">menu 1</a></li>
-                        <li><a href="#menu2">menu 2</a></li>
-                        <li><a href="#menu3">menu 3</a></li>
-                    </ul>
-                </div>
-            </div>
-            <pre class="prettyprint">&lt;div class="sq-btn f-grey J_buttonMenu"&gt;
-    Menu Button 1
-    &lt;ul class="menu"&gt;
-        &lt;li&gt;&lt;a href="#menu1"&gt;menu 1&lt;/a&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;a href="#menu2"&gt;menu 2&lt;/a&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;a href="#menu3"&gt;menu 3&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;</pre>
-            <style type="text/css">
-                .black-menu .menu{
-                    margin-top:20px; background:rgba(0,0,0,.8); border:none; border-radius:3px;
-                }
-                .black-menu .menu::after{
-                    content:""; position:absolute; top:-20px; right:10px; width:0; height:0; border:10px solid transparent; border-bottom-color:rgba(0,0,0,.8);
-                }
-            </style>
-            <p>可以为菜单定义特殊样式：</p>
-            <div class="demo">
-                <div class="sq-btn f-black black-menu J_buttonMenu">
-                    自定义菜单样式&nbsp;&nbsp;&nbsp;<i class="sq-icon arrow"></i>
-                    <ul class="menu">
-                        <li><a href="#menu1">menu 1</a></li>
-                        <li><a href="#menu2">menu 2</a></li>
-                        <li><a href="#menu3">menu 3</a></li>
-                    </ul>
-                </div>
-            </div>
-            <pre class="prettyprint">.black-menu .menu{
-    margin-top:20px; background:rgba(0,0,0,.8); border:none; border-radius:3px;
-}
-.black-menu .menu::after{
-    content:""; position:absolute; top:-20px; right:10px; width:0; height:0; border:10px solid transparent; border-bottom-color:rgba(0,0,0,.8);
-}</pre>
-            <p></p>
-            <pre class="prettyprint">&lt;div class="sq-btn f-black black-menu J_buttonMenu"&gt;
-    Menu Button 1
-    &lt;ul class="menu"&gt;
-        &lt;li&gt;&lt;a href="#menu1"&gt;menu 1&lt;/a&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;a href="#menu2"&gt;menu 2&lt;/a&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;a href="#menu3"&gt;menu 3&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;</pre>
         </div>
     </section>
     

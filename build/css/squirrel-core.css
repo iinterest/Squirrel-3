@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'fontello';
+  src: url('../font/fontello.woff') format('woff'), url('../font/fontello.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 @charset "UTF-8";
 /**
  * css-reset.css
@@ -149,10 +155,15 @@ body {
   display: block;
   -webkit-box-flex: 1;
 }
+.col2::after,
 .col2 ul::after,
+.col3::after,
 .col3 ul::after,
+.col4::after,
 .col4 ul::after,
+.col5::after,
 .col5 ul::after,
+.col6::after,
 .col6 ul::after {
   content: ' ';
   display: block;
@@ -160,26 +171,36 @@ body {
   clear: both;
 }
 .col2 li,
+.col2 > a,
 .col3 li,
+.col3 > a,
 .col4 li,
+.col4 > a,
 .col5 li,
-.col6 li {
+.col5 > a,
+.col6 li,
+.col5 > a {
   -webkit-box-sizing: border-box;
   float: left;
 }
-.col2 li {
+.col2 li,
+.col2 > a {
   width: 50%;
 }
-.col3 li {
+.col3 li,
+.col3 > a {
   width: 33.3333%;
 }
-.col4 li {
+.col4 li,
+.col4 > a {
   width: 25%;
 }
-.col5 li {
+.col5 li,
+.col5 > a {
   width: 20%;
 }
-.col6 li {
+.col6 li,
+.col6 > a {
   width: 16.6666%;
 }
 .ucweb-anchor {

@@ -14,20 +14,23 @@
  */
 
 $(document).ready(function () {
-    var $iframe = $(".dpl-frame").find("iframe");
-    var $tree = $(".side-nav").find("a");
-    var $li = $(".side-nav").find("li");
+    
+    (function () {
+        var $iframe = $(".doc-iframe").find("iframe");
+        var $tree = $(".side-nav").find("a");
+        var $li = $(".side-nav").find("li");
 
-    $tree.on("click", function (e) {
-        e.preventDefault();
-        var $me = $(this);
-        var src = $me.attr("href");
-        if (src.length) {
-            $li.removeClass("active");
-            $me.parent().addClass("active");
-            $iframe.attr("src", src);
-        }
-    });
+        $tree.on("click", function (e) {
+            e.preventDefault();
+            var $me = $(this);
+            var src = $me.attr("href");
+            if (src.length) {
+                $li.removeClass("active");
+                $me.parent().addClass("active");
+                $iframe.attr("src", src);
+            }
+        });
+    }());
 
     (function foldCode() {
         var $codeWrap = $(".J_foldCode");
@@ -195,6 +198,71 @@ $(document).ready(function () {
                 }
             }
         }
+    }());
+    
+    (function setDir() {
+        var scrollTimer = 0;
+        var scrollDelay = 200;
+        var $dir = $(".doc-section-dir");
+        var $li = $dir.find("li");
+        var $tit = $("h3,h4,h5").filter(function () {
+            return $(this).attr("id");
+        });
+        var y = [];
+        var docH = $("body").height();
+        var winH = $(window).height();
+
+        if ($dir.length === 0) {
+            return;
+        }
+
+        (function init () {
+            $li.eq(0).addClass("active");
+            $tit.each(function () {
+                y.push($(this).offset().top);
+            });
+            trigger();
+        }());
+        
+        function trigger () {
+            function fire () {
+                var scrollTop = window.scrollY;
+                var i;
+                var len = y.length;
+
+                if (scrollTop <= 0) {
+                    $li.removeClass("active");
+                    $li.first().addClass("active");
+                    return;
+                }
+                
+                if (scrollTop >= docH - winH) {
+                    $li.removeClass("active");
+                    $li.last().addClass("active");
+                    return;
+                }
+                
+                for (i = 0; i < len; i++) {
+                    if (scrollTop > y[i] - 100) {
+                        var index = i + 1;
+                        if (!$li.eq(index).hasClass("active")) {
+                            $li.removeClass("active");
+                            $li.eq(index).addClass("active");
+                        }
+                    }
+                }
+            }
+            $(window).on("scroll", function () {
+                // 添加 scroll 事件相应伐值，优化其性能
+                if (!scrollTimer) {
+                    scrollTimer = setTimeout(function () {
+                        fire();
+                        scrollTimer = 0;
+                    }, scrollDelay);
+                }
+            });
+        }
+
     }());
 
 });//jQuery ready end

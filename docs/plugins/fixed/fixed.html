@@ -11,12 +11,12 @@
     <title>Squirrel Fixed</title>
 </head>
 <body onload="prettyPrint();">
-    <div class="dpl-container">
+    <div class="doc-container">
 
-        <aside class="sidebar">
+        <aside class="doc-section-dir">
             <ul class="anchor">
                 <li class="level-1"><a href="#">SQ.Fixed</a></li>
-                <li class="level-2"><a href="#how">如何使用</a></li>
+                <!--<li class="level-2"><a href="#how">如何使用</a></li>-->
                 <li class="level-2"><a href="#params">参数</a></li>
                 <!--<li class="level-2"><a href="#inner-fun">内置方法</a></li>-->
                 <li class="level-2"><a href="#callback">回调函数</a></li>
@@ -24,20 +24,15 @@
             </ul>
         </aside>
 
-        <section class="dpl-module">
-            <h3>SQ.Fixed</h3>
-            <p>SQ.Fixed 是一个固定布局插件，可以动态触发设置元素实现固定布局，例如固定导航、侧边工具栏等。</p>
-            <h4>示例：</h4>
-            <p><a class="demo-btn" href="demo/fixed_demo.html">Fixed Demo</a></p>
-            <h4 id="how">如何使用：</h4>
-            <div class="module-level2">
-            <h5>加载：</h5>
-            <p>初次使用时，可以在定制页面勾选 Fixed 组件，然后下载 Squirrel 代码。</p>
-            <p>如果是在已有工程中新增，可以将 <code>fixed.js</code> 文件加入到工程目录的<code>src/js</code> 文件夹下，Squirrel 框架构建工具会自动进行合并处理。然后加入相应的 HTML 和 JS 代码：</p>
-            <h5>HTML 代码：</h5>
+        <section class="doc-section">
+            <h3 class="tit1">SQ.Fixed</h3>
+            <p class="doc-p">SQ.Fixed 是一个固定布局插件，可以动态触发设置元素实现固定布局，例如固定导航、侧边工具栏等交互。</p>
+            <h4 class="tit2">示例：</h4>
+            <p class="doc-p"><a class="demo-btn" href="demo/fixed_demo.html">Fixed Demo</a></p>
+            <div class="doc-subsection">
+            <h5 class="tit2">代码：</h5>
             <pre class="prettyprint">&lt;a href="#" class="go-top-btn J_fixedGoTop"&gt;&lt;/a&gt;</pre>
-            <p>在给元素添加固定布局时，需要为该元素则添加一个特别勾子类，例如上面的<code>.J_fixedGoTop</code>。</p>
-            <h5>JS 代码：</h5>
+            <p class="doc-p">在给元素添加固定布局时，需要为该元素则添加一个特别勾子类，例如上面的<code>.J_fixedGoTop</code>。</p>
             <pre class="prettyprint">&lt;script type="text/javascript"&gt;
     var fixedButton = new SQ.Fixed({
         DOM_FIXED_ITEM: ".J_fixedGoTop",
@@ -56,7 +51,7 @@
     });
 &lt;/script&gt;</pre>
             </div>
-            <h4 id="params">参数：</h4>
+            <h4  class="tit2" id="params">参数：</h4>
             <table class="params">
                 <thead>
                 <tr>
@@ -94,7 +89,7 @@
                                 <td class="type">
                                     <span class="param-type">array</span>
                                 </td>
-                                <td class="description last">固定位置设置，遵循 [上,右,下,左] 规则，默认为 [0, 0, 0, 0]。</td>
+                                <td class="description last">固定位置设置，遵循 [上,右,下,左] 规则，默认为：[0, 0, "auto", 0]。</td>
                             </tr>
                             <tr>
                                 <td class="name"><code>NUM_TRIGGER_POSITION</code></td>
@@ -138,6 +133,13 @@
                                 </td>
                                 <td class="description last">取消固定布局时回调函数。</td>
                             </tr>
+                            <tr>
+                                <td class="name"><code>refresh</code></td>
+                                <td class="type">
+                                    <span class="param-type">function</span>
+                                </td>
+                                <td class="description last">可以刷新 Fixed 列表（供即时生成的 DOM 使用）。</td>
+                            </tr>
                             </tbody>
                         </table>
                     </td>
@@ -145,13 +147,13 @@
                 </tbody>
             </table>
             
-            <!--<h4 id="inner-fun">内置方法：</h4>
-            <p></p>
-            <p><pre class="prettyprint"></pre></p>-->
+            <!--<h4  class="tit2" id="inner-fun">内置方法：</h4>
+            <p class="doc-p"></p>
+            <p class="doc-p"><pre class="prettyprint"></pre></p>-->
 
-            <h4 id="callback">回调函数：</h4>
-            <p>SQ.Fixed 内置了以下回调函数，可以在触发相应事件时调用：</p>
-            <p><pre class="prettyprint">var fixedButton = new SQ.Fixed({
+            <h4  class="tit2" id="callback">回调函数：</h4>
+            <p class="doc-p">SQ.Fixed 内置了以下回调函数，可以在触发相应事件时调用：</p>
+            <p class="doc-p"><pre class="prettyprint">var fixedButton = new SQ.Fixed({
     DOM_FIXED_ITEM: ".J_fixedGoTop",
     DOM_TRIGGER_TARGET: window,
     NUM_ZINDEX: 31,
@@ -163,7 +165,7 @@
     }
 });</pre></p>
             
-            <h4 id="demo">完整例子：</h4>
+            <h4  class="tit2" id="demo">完整例子：</h4>
             <pre class="prettyprint">&lt;!DOCTYPE HTML&gt;
 &lt;html&gt;
 &lt;head&gt;
@@ -188,11 +190,11 @@
     Title 1
 &lt;/header&gt;
 &lt;div class="fixed-placehold"&gt;&lt;/div&gt;
-&lt;div class="sq-list vertical"&gt;
+&lt;div class="sq-list app"&gt;
     &lt;ul class="J_ajaxWrap"&gt;
         &lt;li&gt;
             &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="http://image.game.uc.cn/2012/12/20/9042425.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
+            &lt;dl class="des"&gt;
                 &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
                 &lt;dd class="row"&gt;32372 人推荐下载&lt;/dd&gt;
                 &lt;dd class="row"&gt;工具软件 | 8.2MB&lt;/dd&gt;
@@ -206,11 +208,11 @@
 &lt;header class="sq-toolbar header J_fixedHeader green"&gt;
     Title 2
 &lt;/header&gt;
-&lt;div class="sq-list vertical"&gt;
+&lt;div class="sq-list app"&gt;
     &lt;ul class="J_ajaxWrap"&gt;
         &lt;li&gt;
             &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="http://image.game.uc.cn/2012/12/20/9042425.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
+            &lt;dl class="des"&gt;
                 &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
                 &lt;dd class="row"&gt;32372 人推荐下载&lt;/dd&gt;
                 &lt;dd class="row"&gt;工具软件 | 8.2MB&lt;/dd&gt;

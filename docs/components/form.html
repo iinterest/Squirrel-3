@@ -8,13 +8,11 @@
     <script type="text/javascript" src="../static/prettify.js"></script>
     <script type="text/javascript" src="../../libs/jquery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../static/dpl-famework.js"></script>
-    <title>Squirrel DPL Form</title>
+    <title>Squirrel Form</title>
 </head>
 <body onload="prettyPrint();">
-<div class="dpl-container">
-
-
-    <aside class="sidebar">
+<div class="doc-container">
+    <aside class="doc-section-dir">
         <ul class="anchor">
             <li class="level-1"><a href="#">表单</a></li>
             <li class="level-1"><a href="#vertical-form">垂直表单</a></li>
@@ -23,14 +21,11 @@
         </ul>
     </aside>
 
-
-
-    <section class="dpl-module">
-        <h3>表单</h3>
-        <p>表单<code>.sq-form</code>是常用的符合触摸操作习惯的表单元素样式。</p>
-
-        <h4>示例：</h4>
-        <div class="demo fl">
+    <section class="doc-section">
+        <h3 class="tit1">表单</h3>
+        <p class="doc-p">表单<code>.sq-form</code>是常用的符合触摸操作习惯的表单元素样式。</p>
+        <h4 class="tit2">示例：</h4>
+        <div class="demo">
             <div class="sq-form">
                 <select>
                     <option value="1">Select 1</option>
@@ -44,7 +39,7 @@
                 <textarea placeholder="Textarea"></textarea>
             </div>
         </div>
-        <div class="demo fl">
+        <div class="demo">
             <div class="sq-form">
                 <label class="checkbox">
                     <input type="checkbox" />
@@ -77,8 +72,8 @@
                 </label>
             </div>
         </div>
-        <div class="clearfix"></div>
-        <h4>HTML 代码：</h4>
+        <!--<div class="clearfix"></div>-->
+        <h4 class="tit2">代码：</h4>
         <div class="fold-code J_foldCode">
             <div class="toggle">View Source</div>
             <pre class="prettyprint">&lt;div class="sq-form"&gt;
@@ -126,9 +121,9 @@
 &lt;/div&gt;</pre>
         </div>
     </section>
-    <section class="dpl-module">
-        <h3 id="vertical-form">垂直表单:</h3>
-        <h4>示例：</h4>
+    <section class="doc-section">
+        <h3 class="tit1" id="vertical-form">垂直表单:</h3>
+        <h4 class="tit2">示例：</h4>
         <div class="demo w320">
             <div class="sq-form vertical">
                 <form action="#sq-form-submit">
@@ -147,7 +142,7 @@
                 </form>
             </div>
         </div>
-        <h4>HTML 代码：</h4>
+        <h4 class="tit2">代码：</h4>
         <div class="fold-code J_foldCode">
             <div class="toggle">View Source</div>
             <pre class="prettyprint">&lt;div class="sq-form vertical"&gt;
@@ -172,9 +167,9 @@
     
     
     
-    <section class="dpl-module">
-        <h3 id="horizontal-form">水平表单:</h3>
-        <h4>示例：</h4>
+    <section class="doc-section">
+        <h3 class="tit1" id="horizontal-form">水平表单:</h3>
+        <h4 class="tit2">示例：</h4>
         <div class="demo">
             <div class="sq-form horizontal">
                 <form action="#sq-form-submit">
@@ -213,7 +208,7 @@
                 </form>
             </div>
         </div>
-        <h4>HTML 代码：</h4>
+        <h4 class="tit2">代码：</h4>
         <div class="fold-code J_foldCode">
             <div class="toggle">View Source</div>
             <pre class="prettyprint">&lt;div class="sq-form horizontal"&gt;
@@ -254,15 +249,11 @@
 &lt;/div&gt;</pre>
         </div>
     </section>
-    
-    
-    
 
-
-    <section class="dpl-module">
-        <h3 id="search-bar">搜索框：</h3>
-        <h4>示例：</h4>
-        <p>简单模式：<code>.simple</code></p>
+    <section class="doc-section">
+        <h3 class="tit1" id="search-bar">搜索框：</h3>
+        <h4 class="tit2">示例：</h4>
+        <p class="doc-p">简单模式：<code>.simple</code></p>
         <div class="demo">
             <div class="sq-search-bar simple">
                 <form>
@@ -290,7 +281,7 @@
     &lt;/form&gt;
 &lt;/div&gt;</pre>
         </div>
-        <p>紧凑模式：<code>.tight</code></p>
+        <p class="doc-p">紧凑模式：<code>.tight</code></p>
         <div class="demo">
             <div class="sq-search-bar tight">
                 <form>

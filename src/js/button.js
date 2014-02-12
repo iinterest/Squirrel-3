@@ -1,15 +1,20 @@
 /**
  * @file Squirrel Button
- * @version 0.1.2
+ * @version 0.2.0
  */
 
 /**
  * @changelog
+ * 0.2.0  * 重写 menu 模式代码，独立 button.js 为插件
  * 0.1.2  * 修复 jshint 问题
  * 0.1.1  + 新增 menu 交互模式
  * 0.0.1  + 新建
  */
-
+/*global
+ $: false,
+ SQ: false,
+ console: false
+ */
 (function ($, window) {
     "use strict";
     /**
@@ -19,14 +24,15 @@
      * @param {object} config 组件配置（下面的参数为配置项，配置会写入属性）
      * @param {string} config.EVE_EVENT_TYPE        触发事件，click 或 mouseover
      * @param {string} config.DOM_TRIGGER_TARGET    被绑定事件的 Dom 元素
-     * @param {string} config.MODE                  交互模式
+     * @param {string} config.MODE                  交互模式，目前只有 menu
+     * @param {string} config.ANIMATE               动画类，例如 .fadeIn
      */
     function Button(config) {
         var me = this;
         var i;
 
         me.config = {
-            TXT_LOADING_TIP : "正在加载请稍后..."     // 正在加载提示
+
         };
 
         for (i in config) {
@@ -43,41 +49,50 @@
     }
     Button.prototype =  {
         construtor: Button,
-        version: "0.1.2",
-        //state: "init",
+        version: "0.2.0",
 
         // 验证参数是否合法
-        _verify : function () {
+        _verify: function () {
             return true;
         },
-        _init : function () {
+        _init: function () {
             var me = this;
             // menu 模式
             if (me.config.MODE === "menu") {
-                me.$triggerTarget.on(me.config.EVE_EVENT_TYPE, function () {
-                    me.menu();
-                });
+                me.menu();
             }
         },
-        // 改变按钮状态
-        setState : function (state) {
+        /**
+         * 
+         * @param state
+         */
+        setState: function (state) {
             var me = this;
-            //me.state = state;
             if (state === "active") {
                 me.$triggerTarget.addClass("active");
             }
             if (state === "init") {
                 me.$triggerTarget.removeClass("active");
             }
-           
         },
-        // 按钮菜单效果
-        menu : function () {
+        menu: function () {
             var me = this;
             var $menuBtns = $(".J_buttonMenu");
-            var $menu = me.$triggerTarget.find(".menu");
-            var $menus = $menuBtns.find(".menu");
+            var $menu = me.$triggerTarget.find(".dropdown-menu");
+            var $menus = $menuBtns.find(".dropdown-menu");
             var $doc = $(document);
+
+            me.$triggerTarget.on(me.config.EVE_EVENT_TYPE, function (e) {
+                _toggle(e);
+            });
+
+            function _toggle() {
+                if (!me.$triggerTarget.hasClass("active")) {
+                    _showMenu();
+                } else {
+                    _hideMenu();
+                }
+            }
             
             function _resetAll() {
                 $menus.hide();
@@ -85,43 +100,31 @@
             }
             function _showMenu() {
                 _resetAll();
+                if (me.config.ANIMATE) {
+                    var animateClassName = me.config.ANIMATE.indexOf(".") === 0 ? me.config.ANIMATE.slice(1) : me.config.ANIMATE;
+                    $menu.addClass("animated " + animateClassName);
+                }
                 $menu.show();
                 me.setState("active");
-                $doc.on("click", function (e) {
-                    var $target = $(e.target);
-                    if (!$target.hasClass("sq-btn") && $target.parents(".sq-btn").length === 0) {
-                        _hideMenu();
-                    }
-                });
+                $doc.on("click", _documentEvent);
             }
             function _hideMenu() {
                 $menu.hide();
                 me.setState("init");
-                $doc.off("click");
+                $doc.off("click", _documentEvent);
             }
-
-            if (!me.$triggerTarget.hasClass("active")) {
-                _showMenu();
-            } else {
-                _hideMenu();
+            function _documentEvent(e) {
+                var $target = $(e.target);
+                if (!$target.hasClass("sq-btn") && $target.parents(".sq-btn").length === 0) {
+                    _hideMenu();
+                }
             }
         },
         // 按钮开关效果
-        toggle : function () {
+        toggle: function () {
             //var me = this;
 
         }
     };
     SQ.Button = Button;
-    
-    // 初始化菜单类型按钮
-    $(".J_buttonMenu").each(function () {
-        var $me = $(this);
-        var button = new SQ.Button({
-            EVE_EVENT_TYPE : "click",
-            DOM_TRIGGER_TARGET : $me,
-            MODE : "menu",
-            CSS_STYLE : ""
-        });
-    });
 }($, window));

@@ -27,11 +27,15 @@
         <article>
             <pre class="prettyprint source"><code>/**
  * @file SQ.Popup 弹窗组件
- * @version 1.0.0
+ * @version 1.0.3
  */
 
 /**
  * @changelog
+ * 1.0.3  * 修复 resize 导致报错的 BUG。
+ * 1.0.2  * _setPopupPos 函数优化
+ * 1.0.1  * 在设置了 ANIMATE 时，_setPopupPos 函数不使用 translate(-50%, -50%) 方法定位，因为会与动画产生冲突。
+ *        * 修复 ANIMATE 设置问题。
  * 1.0.0  * 原 Dialog 组件重构为 Popup 组件。
  */
 
@@ -120,7 +124,7 @@
     }
     Popup.prototype =  {
         construtor: Popup,
-        version: "1.0.0",
+        version: "1.0.3",
         timer : undefined,
         resizeTimer : false,    // resize 
         closed : true,
@@ -135,9 +139,12 @@
          */
         _init: function () {
             var me = this;
-            // 如果页面中没有指定的 Dom 则生成一个插入到文档中
+            me.$win = $(window);
+            me.$doc = $(document);
+            me.$body = $("body");
+            // 如果页面中没有指定的 Dom 则生成一个插入到文档中，避免因 trigger() 触发 Popup 时找不到该 Dom 而报错。
             if ($(me.config.DOM_TRIGGER_TARGET).length === 0) {
-                $("body").append("&lt;div class='" + me.config.DOM_TRIGGER_TARGET + "' style='display:none'>&lt;/div>");
+                me.$body.append("&lt;div class='" + me.config.DOM_TRIGGER_TARGET + "' style='display:none'>&lt;/div>");
             }
             me.$triggerTarget = $(me.config.DOM_TRIGGER_TARGET);    // 触发元素
             me.$parent = $(me.config.DOM_PARENT);                   // 触发元素的父元素
@@ -156,12 +163,12 @@
                     e.preventDefault();
                 }
                 if (me.config.DISPOSABLE) {
-                    SQ.dom.$doc.off(me.config.EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET, bindEvent);
+                    me.$doc.off(me.config.EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET, bindEvent);
                 }
                 me._trigger(e);
             }
             // 绑定在 document 上是为了解决 Ajax 内容绑定问题
-            SQ.dom.$doc.on(me.config.EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET, bindEvent);
+            me.$doc.on(me.config.EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET, bindEvent);
         },
         /**
          * 事件触发
@@ -220,8 +227,9 @@
                 $popupPanel.append($cancelBtn);
             }
 
-            $popupPanel.appendTo(SQ.dom.$body);
-            // 保存关键 Dom
+            $popupPanel.appendTo(me.$body);
+            // 保存 Dom
+            me.$popupPanel = $popupPanel;
             me.$popupContent = $popupContent;
             me.$okBtn = $okBtn;
             me.$cancelBtn = $cancelBtn;
@@ -237,6 +245,7 @@
             var me = this;
             var top;
             var supportBroswer = "chrome";
+            var isAnimate = me.config.ANIMATE;
             var isMiddle = me.config.VERTICAL === "middle" ? true : false;
             var isCenter = me.config.HORIZONTAL === "center" ? true : false;
             var isSupportTransform = SQ.ua.browser.shell === "ucweb" && SQ.ua.browser.version >= 9 || supportBroswer.indexOf(SQ.ua.browser.shell) !== -1;
@@ -244,8 +253,8 @@
             if (me.config.CSS_POSITION === "fixed") {
                 top = "50%";
             } else if (me.config.CSS_POSITION === "absolute") {
-                var winHeight = window.innerHeight || SQ.dom.$win.height();
-                top = SQ.dom.$body.scrollTop() + winHeight / 2;
+                var winHeight = window.innerHeight || me.$win.height();
+                top = me.$body.scrollTop() + winHeight / 2;
             }
             
             if (!me.config.CSS_TOP && !me.config.CSS_LEFT && !me.config.CSS_BOTTOM && !me.config.CSS_RIGHT) {
@@ -254,7 +263,18 @@
                 me.config.CSS_LEFT = 0;
             }
 
-            if (isSupportTransform) {
+            if (me.config.CSS_TOP && me.config.CSS_LEFT && me.config.CSS_BOTTOM && me.config.CSS_RIGHT) {
+                // 当坐标全部设置时，直接定位弹窗不做计算
+                me.$popupPanel.css({
+                    "top": me.config.CSS_TOP,
+                    "left": me.config.CSS_LEFT,
+                    "bottom": me.config.CSS_BOTTOM,
+                    "right": me.config.CSS_RIGHT
+                });
+                return;
+            }
+
+            if (isSupportTransform && !isAnimate) {
                 if (isMiddle && isCenter) {
                     me.$popupPanel.css({
                         "top": top,
@@ -345,7 +365,7 @@
                 me.close();
             });
 
-            SQ.dom.$win.resize(function () {
+            me.$win.resize(function () {
                 me.resize();
             });
         },
@@ -357,7 +377,8 @@
             me._setPopupEvent();
             // 添加动画
             if (me.config.ANIMATE) {
-                me.$popupPanel.addClass("animated " + me.config.ANIMATE.indexOf(".") === 0 ? me.config.ANIMATE.slice(1) : me.config.ANIMATE);
+                var animateClassName = me.config.ANIMATE.indexOf(".") === 0 ? me.config.ANIMATE.slice(1) : me.config.ANIMATE;
+                me.$popupPanel.addClass("animated " + animateClassName);
             }
             if (me.beforeShowFun) {
                 return me.beforeShowFun(e);
@@ -430,8 +451,8 @@
         /** 显示遮罩 */
         mask: function () {
             var me = this;
-            var bodyH = SQ.dom.$body.height();
-            var winH = SQ.dom.$win.height();
+            var bodyH = me.$body.height();
+            var winH = me.$win.height();
             var h = bodyH > winH ? bodyH : winH;
 
             if (me.$mask) {
@@ -443,16 +464,16 @@
             } else {
                 var $mask = $("&lt;div class='mask'>&lt;/div>");
                 $mask.css({
-                    "position" : "absolute",
-                    "top" : 0,
-                    "left" : 0,
-                    "right" : 0,
-                    "width" : "100%",
-                    "height" : h,
-                    "background" : me.config.CSS_MASK_BACKGROUND,
-                    "opacity" : me.config.CSS_MASK_OPACITY,
-                    "z-index" : 999
-                }).appendTo(SQ.dom.$body);
+                    "position": "absolute",
+                    "top": 0,
+                    "left": 0,
+                    "right": 0,
+                    "width": "100%",
+                    "height": h,
+                    "background": me.config.CSS_MASK_BACKGROUND,
+                    "opacity": me.config.CSS_MASK_OPACITY,
+                    "z-index": 999
+                }).appendTo(me.$body);
 
                 if (me.config.LOCK) {
                     $mask.on("touchstart", function (e) {
@@ -481,7 +502,9 @@
         },
         resize: function () {
             var me = this;
-            me._setPopupPos();
+            if (me.$popupPanel) {
+                me._setPopupPos();
+            }
         }
     };
     SQ.Popup = Popup;
@@ -495,13 +518,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Button.html">Button</a></li><li><a href="Dialog.html">Dialog</a></li><li><a href="Fixed.html">Fixed</a></li><li><a href="LazyLoad.html">LazyLoad</a></li><li><a href="LoadMore.html">LoadMore</a></li><li><a href="Popup.html">Popup</a></li><li><a href="Suggest.html">Suggest</a></li><li><a href="Tabs.html">Tabs</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Button.html">Button</a></li><li><a href="Dialog.html">Dialog</a></li><li><a href="Fixed.html">Fixed</a></li><li><a href="LazyLoad.html">LazyLoad</a></li><li><a href="LoadMore.html">LoadMore</a></li><li><a href="Panel.html">Panel</a></li><li><a href="Popup.html">Popup</a></li><li><a href="Suggest.html">Suggest</a></li><li><a href="Tabs.html">Tabs</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Mon Dec 16 2013 17:03:23 GMT+0800 (CST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Feb 11 2014 16:57:39 GMT+0800 (CST)
 </footer>
 
 <script> prettyPrint(); </script>

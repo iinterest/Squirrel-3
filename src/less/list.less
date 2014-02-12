@@ -3,50 +3,49 @@
  * Sq-list
  * 垂直列表
  * @section sq-list
- * @version 1.3.1
- * @tested Android(2.3, 4.1), iOS(6.1.2)
  */
 // @changelog
 // 1.3.2 调整 .trigger-area 的 z-index 值为 11，修复 .extend 中按钮不能被点击的问题。
 // 1.3.1 修改 thumbnails 列表的基本样式。
 // 1.2.1 修改了文件注释。
 // 1.2.0 精简代码，将个性化的设置单独提取成 less 模块，删除了 .horizontal、.col 内置类，转而由 less 模块定义。
-// 1.0.0 新增 .sq-list 类，内置 .vertical、.horizontal、.col。
+// 1.0.0 新增 .sq-list 类，内置 .app、.horizontal、.col。
 .sq-list{
     @icon-w:50px;
     @icon-h:50px;
     @mark-w:30px;
     @mark-h:30px;
-    li{ position:relative; cursor:default;}
+    li{ position:relative; border:1px solid transparent; cursor:default;}
     .icon{
+        width:@icon-w; height:@icon-h;
         i{
-            display:block; position:relative;
-            &::after{ content:""; position:absolute; top:0; left:0;}
+            display:block; position:relative; width:100%; height:100%;
+            &::after{ content:""; position:absolute; top:0; left:0; width:@mark-w; height:@mark-h;}
         }
-        img{ display:block;}
+        img{ display:block; width:100%; height:100%;}
     }
     .trigger-area{ .overspread; z-index:11; cursor:pointer;}
     .row{ max-height:16px; overflow:hidden;}
     .row-ellipsis{ max-height:16px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;}
     
-    // Vertical
-    // 垂直列表
-    // @subsection vertical
-    &.vertical{
-        .icon{
+    // App
+    // 应用列表
+    // @subsection app
+    &.app{
+        /*.icon{
             i{
                 width:@icon-w; height:@icon-h;
-                &::after{ width:@mark-w; height:@mark-h; }
+                &::after{ width:@mark-w; height:@mark-h;}
             }
-            img{ max-width:@icon-w; max-height:@icon-h; }
-        }
-        li{ .display-box; .box-orient(horizontal); padding:10px; border-bottom:1px solid #d7d7d7;}
+            img{ max-width:@icon-w; max-height:@icon-h;}
+        }*/
+        li{ .display-box; .box-orient(horizontal); padding:10px;}
         ul>li:first-of-type{ border-top:none;}
         ul>li:last-of-type{ border-bottom:none;}
-        .description{
+        .des{
             .box-flex(1); margin:0 10px; line-height:1.2em;
-            dt{ min-height:16px; margin-bottom:6px; font-size:@title-font-size; }
-            dd{ min-height:16px; margin-top:4px; font-size:@description-font-size; }
+            dt{ min-height:16px; margin-bottom:6px; font-size:@title-font-size;}
+            dd{ min-height:16px; margin-top:4px; font-size:@description-font-size;}
         }
         .extend{ 
             position:relative; z-index:12;
@@ -59,24 +58,17 @@
     }
     
     &.horizontal{
-        ul{ padding:0 5px; text-align:center;}
-        .icon{
-            width:@icon-w; height:@icon-h; margin:0 auto;
-            i{
-                width:@icon-w; height:@icon-h;
-                &::after{ width:@mark-w; height:@mark-h;}
-            }
-            img{ max-width:@icon-w; max-height:@icon-h;}
-        }
-        .description{
-            dt{ min-height:16px; margin-top:5px; font-size:@content-font-size; }
-            dd{ min-height:16px; margin-top:5px; font-size:@description-font-size; }
+        padding:0 5px; text-align:center;
+        .icon{ margin:0 auto;}
+        .des{
+            dt{ min-height:16px; margin-top:5px; font-size:@content-font-size;}
+            dd{ min-height:16px; margin-top:5px; font-size:@description-font-size;}
         }
         .extend{ margin-top:5px;}
     }
 
     // extend：排行列表
-    &.top10{
+    /*&.top10{
         dt{ position:relative;}
     
         li:nth-child(1) dt,
@@ -101,22 +93,21 @@
         li:nth-child(8) dt::before{ content:"8.";}
         li:nth-child(9) dt::before{ content:"9.";}
         li:nth-child(10) dt::before{ content:"10."; left:-1.6em;}
-    }
+    }*/
     
     &.window{
-        .icon{
+        /*.icon{
             i{
                 width:@icon-w; height:@icon-h;
-                &::after{ width:@mark-w; height:@mark-h; }
+                &::after{ width:@mark-w; height:@mark-h;}
             }
-            img{ max-width:@icon-w; max-height:@icon-h; }
-        }
-        li{ .display-box; .box-orient(horizontal); padding:10px; border-bottom:1px solid #d7d7d7;}
-        li{ height:83px; padding:10px; border-right:1px solid #d7d7d7; border-bottom:1px solid #d7d7d7;}
+            img{ max-width:@icon-w; max-height:@icon-h;}
+        }*/
+        li{ .display-box; .box-orient(horizontal); height:83px; padding:10px; border-right:1px solid #d7d7d7; border-bottom:1px solid #d7d7d7;}
         li:nth-child(even){ border-right:none;}
-        .description{
+        .des{
             .box-flex(1); margin-left:10px; line-height:1.2em;
-            a{ display:block; height:18px; overflow:hidden;}
+            //a{ display:block; overflow:hidden;}
             dt{ max-height:16px; margin-bottom:6px; font-size:@content-font-size;}
             dd{ max-height:16px; margin-top:4px; font-size:@description-font-size;}
         }
@@ -124,7 +115,8 @@
     
     &.thumbnails{
         @thumbnail-space:7px;   // 缩略图容器间距
-        letter-spacing:-4px; // 修正 inline-block 模式下换行带来的空隙问题
+        letter-spacing:-4px;    // 修正 inline-block 模式下换行带来的空隙问题
+        margin-left:@thumbnail-space;
         &.col2,
         &.col3,
         &.col4,
@@ -133,7 +125,6 @@
             li{ float:none; display:inline-block; vertical-align:top;}
             // 为解决高度不一的排版问题，重写 col2-clo6，不使用 float 布局。
         }
-        ul{ padding-left:@thumbnail-space;}
         li{ margin:@thumbnail-space 0; padding-right:@thumbnail-space; letter-spacing:0;}
         img{ display:block; width:100%;}
 

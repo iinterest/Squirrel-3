@@ -4,13 +4,13 @@
         opacity: 0;
     }
 
-    40% {
+    50% {
         transform: perspective(400px) rotateY(-10deg);
     }
 
-    70% {
+    /*70% {
         transform: perspective(400px) rotateY(10deg);
-    }
+    }*/
 
     100% {
         transform: perspective(400px) rotateY(0deg);

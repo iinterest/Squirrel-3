@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link type= "text/css" rel="stylesheet" href="../dist/css/squirrel-min.css" />
+    <link type= "text/css" rel="stylesheet" href="css/squirrel-demo.css?v11" />
+    <title>Squirrel Demo</title>
+</head>
+<body>
+<div class="wrapper">
+    <header class="sq-toolbar header app-music-header">
+        <h2 class="title">Music</h2>
+        <a class="sq-btn J_panelMenu" href="#"><i class="icon-th-list"></i></a>
+        <div class="sq-btn J_buttonMenu" href="#"><i class="icon-th-large"></i>
+            <ul class="dropdown-menu">
+                <li><a href="#menu1">menu 1</a></li>
+                <li><a href="#menu2">menu 2</a></li>
+                <li><a href="#menu3">menu 3</a></li>
+            </ul>
+        </div>
+    </header>
+    <section class="index-music">
+        <div class="sub-nav J_tabs">
+            <ul class="sq-nav-tabs col3">
+                <li>New</li>
+                <li>Popular</li>
+                <li>Album</li>
+            </ul>
+            <div class="sq-tab-content">
+                <ul class="sq-list app music-list J_ajaxWrap"></ul>
+            </div>
+            <div class="sq-tab-content">
+                <ul class="sq-list app music-list J_ajaxWrap"></ul>
+            </div>
+            <div class="sq-tab-content">
+                <ul class="sq-list app music-list J_ajaxWrap"></ul>
+            </div>
+        </div>
+        <a href="#" class="go-top-btn J_fixedGoTop"><i class="icon-right-big up"></i></a>
+    </section>
+</div>
+
+<script id="music-detail" type="text/html">
+    <div class="music-detail">
+        <div class="album-cover">
+            <img src="<%=cover%>" alt="cover"/>
+            <div class="lyric">
+<blockquote><h1><%=name%></h1><%=#lyric%></blockquote>
+            </div>
+        </div>
+        <div class="album-list">
+            <ol>
+                <% for (var i = 0; i < albumList.length; i ++) { %>
+                <li class="active"><a href="#play"><%=albumList[i].name%></a><a class="like" href="#like"><i class="icon-heart-empty"></i></a></li>
+                <% } %>
+            </ol>
+        </div>
+    </div>
+</script>
+<script id="music-pop-list" type="text/html">
+    <% for (var i = 0; i < data.length; i ++) { %>
+    <li>
+        <div class="icon"><img class="J_lazyload" data-img="<%=data[i].cover%>"/></div>
+        <dl class="des">
+            <dt class="row-ellipsis"><%=data[i].name%></dt>
+            <dd><%=data[i].description%></dd>
+        </dl>
+        <div class="extend v-middle"><i class="icon-angle-circled-right"></i></div>
+        <a href="#trigger-area" class="trigger-area J_popupDetail"></a>
+    </li>
+    <% } %>
+</script>
+<script id="music-new-list" type="text/html">
+    <% for (var i = 0; i < data.length; i ++) { %>
+        <li class="sub-title J_fixedNav"><%=data[i].date%></li>
+        <% for (var j = 0; j < data[i].list.length; j ++) { %>
+        <li>
+            <div class="icon"><img class="J_lazyload" data-img="<%=data[i].list[j].cover%>"/></div>
+            <dl class="des">
+                <dt class="row-ellipsis"><%=data[i].list[j].name%></dt>
+                <dd><%=data[i].list[j].description%></dd>
+            </dl>
+            <div class="extend v-middle"><i class="icon-angle-circled-right"></i></div>
+            <a href="#trigger-area" class="trigger-area J_popupDetail"></a>
+        </li>
+        <% } %>
+    <% } %>
+</script>
+
+<script type="text/javascript" src="../libs/zepto/zepto.min.js"></script>
+<!--<script type="text/javascript" src="../dist/js/squirrel-min.js?v11"></script>-->
+<script type="text/javascript" src="../build/js/squirrel.js?v11"></script>
+<script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/template.js"></script>
+<script type="text/javascript" src="js/squirrel-demo.js?v11"></script>
+<script>
+    SQ.load({
+        type: "GET",
+        api: "data/music-pop-json.json",
+        timeout: 5000
+    }).then(function (data) {
+        //console.log(data)
+    }, function () {
+        //console.log("fail");
+    });
+    
+    //console.log(SQ.isString("hello"))
+</script>
+</body>
+</html>

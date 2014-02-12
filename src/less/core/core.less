@@ -17,25 +17,25 @@
 .h-col>*{ display:block; .box-flex(1);}
 
 // 栏
-.col2 ul::after, 
-.col3 ul::after,
-.col4 ul::after,
-.col5 ul::after,
-.col6 ul::after{
+.col2::after, .col2 ul::after, 
+.col3::after, .col3 ul::after,
+.col4::after, .col4 ul::after,
+.col5::after, .col5 ul::after,
+.col6::after, .col6 ul::after{
     content:' '; display:block; height:0; clear:both;
 }
 
-.col2 li,
-.col3 li,
-.col4 li,
-.col5 li,
-.col6 li{ .border-box; float:left;}
+.col2 li, .col2>a,
+.col3 li, .col3>a,
+.col4 li, .col4>a,
+.col5 li, .col5>a,
+.col6 li, .col5>a{ .border-box; float:left;}
 
-.col2 li{ width:50%;}
-.col3 li{ width:33.3333%;}
-.col4 li{ width:25%;}
-.col5 li{ width:20%;}
-.col6 li{ width:16.6666%;}
+.col2 li, .col2>a{ width:50%;}
+.col3 li, .col3>a{ width:33.3333%;}
+.col4 li, .col4>a{ width:25%;}
+.col5 li, .col5>a{ width:20%;}
+.col6 li, .col6>a{ width:16.6666%;}
 
 // 解决 Android 版 UC 浏览器链接点击变色问题
 .ucweb-anchor{
@@ -49,12 +49,3 @@
 }
 
 .hide{ display:none;}
-
-
-
-
-
-
-
-
-

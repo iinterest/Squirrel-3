@@ -8,105 +8,81 @@
     <script type="text/javascript" src="../static/prettify.js"></script>
     <script type="text/javascript" src="../../libs/jquery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../static/dpl-famework.js"></script>
-    <title>Squirrel DPL List</title>
+    <title>Squirrel List</title>
 </head>
 <body onload="prettyPrint();">
-<div class="dpl-container default-theme">
+<div class="doc-container default-theme">
 
-    <aside class="sidebar">
+    <aside class="doc-section-dir">
         <ul class="anchor">
             <li class="level-1"><a href="#">列表</a></li>
-                <li class="level-2"><a href="#vertical-list">垂直列表</a></li>
-                    <li class="level-3"><a href="#text-overflow">文字隐藏</a></li>
+                <li class="level-2"><a href="#app-list">应用列表</a></li>
+                    <li class="level-3"><a href="#text-overflow">超长文字隐藏</a></li>
                     <li class="level-3"><a href="#tcorner-mark">角标</a></li>
-                    <li class="level-3"><a href="#extend">扩展</a></li>
-                    <li class="level-3"><a href="#top-10">排行</a></li>
+                    <li class="level-3"><a href="#extend">按钮</a></li>
                 <li class="level-2"><a href="#Horizontal">水平列表</a></li>
-                    <li class="level-3"><a href="#extend-2">扩展</a></li>
-                <li class="level-2"><a href="#Window">栅格列表</a></li>
+                <li class="level-2"><a href="#Window">窗格列表</a></li>
                 <li class="level-2"><a href="#Thumbnails">缩略图</a></li>
         </ul>
     </aside>
 
-    
-    
-    <section class="dpl-module">
-        <h3>列表</h3>
-        <p>列表<code>.sq-list</code>，适用于制作各种垂直、水平列表。</p>
+    <section class="doc-section">
+        <h3 class="tit1">列表</h3>
+        <p class="doc-p">列表<code>.sq-list</code>，适用于制作各种垂直、水平列表。</p>
     </section>
 
-    
-
-    <section class="dpl-module" id="vertical-list">
-        <h3>垂直列表</h3>
-        <!--<h3>Vertical List</h3>-->
-        <p>垂直列表<code>.vertical</code>，适用于需要垂直排列的列表场景，列表内部使用弹性布局，并根据元素多少、大小自动填满空间。</p>
-        
-        <h4>示例:</h4>
+    <section class="doc-section">
+        <h3 class="tit1" id="app-list">应用列表</h3>
+        <p class="doc-p">应用列表<code>.app</code>，适用于需要垂直排列的列表场景，列表内部使用弹性布局，并根据元素多少、大小自动填满空间。</p>
+        <h4 class="tit2">示例：</h4>
         <div class="demo w480">
-            <div class="sq-list vertical">
-                <ul>
-                    <li>
-                        <div class="icon"><i class="new"><img src="../../dpl/images/sq-icon.png" style="width:120px;"></i></div>
-                        <dl class="description">
-                            <dt>UC Browser</dt>
-                            <dd>UC Browser is the leading mobile internet browser with more than 400 million users across more than 150 countries and regions. This product is currently available on all major operating platforms in 7 different languages.</dd>
-                        </dl>
-                        <a href="#trigger-area" class="trigger-area"></a>
-                    </li>
-                </ul>
-            </div>
+            <ul class="sq-list app">
+                <li>
+                    <div class="icon"><i class="new"><img src="../../dpl/images/sq-icon.png"></i></div>
+                    <dl class="des">
+                        <dt>UC Browser</dt>
+                        <dd>UC Browser is the leading mobile internet browser with more than 400 million users across more than 150 countries and regions. This product is currently available on all major operating platforms in 7 different languages.</dd>
+                    </dl>
+                    <a href="#trigger-area" class="trigger-area"></a>
+                </li>
+            </ul>
         </div>
-        <h4>HTML 代码：</h4>
+        <h4 class="tit2">代码：</h4>
         <div class="fold-code J_foldCode">
             <div class="toggle">View Source</div>
-            <pre class="prettyprint">&lt;div class="sq-list vertical"&gt;
-    &lt;ul&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;img src="../images/sq1.png"&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt&gt;UC Browser&lt;/dt&gt;
-                &lt;dd&gt;UC Browser is the leading mobile internet browser ...&lt;/dd&gt;
-            &lt;/dl&gt;
-            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
-        &lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;</pre>
+            <pre class="prettyprint">&lt;ul class="sq-list app"&gt;
+    &lt;li&gt;
+        &lt;div class="icon"&gt;&lt;img src="../images/sq1.png"&gt;&lt;/div&gt;
+        &lt;dl class="des"&gt;
+            &lt;dt&gt;UC Browser&lt;/dt&gt;
+            &lt;dd&gt;UC Browser is the leading mobile internet browser ...&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</pre>
         </div>
         
-        <div class="module-level2">
-            <h4 id="text-overflow">文字隐藏：</h4>
-            <p>
-                默认情况下文字会自动折行。<br/>
-                为行添加<code>.row</code>：文字单行显示，超出部分隐藏。<br/>
-                为行添加<code>.row-ellipsis</code>：文字单行显示，超出部分显示为省略号。<br/>
+        <div class="doc-subsection">
+            <h4 class="tit2" id="text-overflow">超长文字隐藏：</h4>
+            <p class="doc-p">
+                添加<code>.row</code>：文字单行显示，超出部分隐藏。<br/>
+                添加<code>.row-ellipsis</code>：文字单行显示，超出部分显示为省略号。<br/>
             </p>
             <div class="demo w320">
-                <div class="sq-list vertical">
+                <div class="sq-list app">
                     <ul>
                         <li>
                             <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="description">
-                                <dt>一二三四五六七八九十一二三四五六七八九十</dt>
-                                <dd>32372 人推荐下载</dd>
-                                <dd>工具软件 | 8.2MB</dd>
-                            </dl>
-                            <a href="#trigger-area" class="trigger-area"></a>
-                        </li>
-                        <li>
-                            <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="description">
+                            <dl class="des">
                                 <dt class="row">一二三四五六七八九十一二三四五六七八九十</dt>
-                                <dd class="row">32372 人推荐下载人推荐下载人推荐下载人推荐下载人推荐下载人推荐下载</dd>
                                 <dd>工具软件 | 8.2MB</dd>
                             </dl>
                             <a href="#trigger-area" class="trigger-area"></a>
                         </li>
                         <li>
                             <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="description">
+                            <dl class="des">
                                 <dt class="row-ellipsis">一二三四五六七八九十一二三四五六七八九十</dt>
-                                <!--<dd class="row-ellipsis">32372 人推荐下载人推荐下载人推荐下载人推荐下载人推荐下载人推荐下载</dd>-->
                                 <dd>工具软件 | 8.2MB</dd>
                             </dl>
                             <a href="#trigger-area" class="trigger-area"></a>
@@ -116,53 +92,38 @@
             </div>
             <div class="fold-code J_foldCode">
                 <div class="toggle">View Source</div>
-                <pre class="prettyprint">&lt;div class="sq-list vertical"&gt;
-    &lt;ul&gt;
-        &lt;!--normal--&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt&gt;一二三四五六七八九十一二三四五&lt;/dt&gt;
-                &lt;dd&gt;32372 人推荐下载&lt;/dd&gt;
-                &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
-            &lt;/dl&gt;
-            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
-        &lt;/li&gt;
-        &lt;!--.row--&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt class="row"&gt;一二三四五六七八九十一二三四五&lt;/dt&gt;
-                &lt;dd class="row"&gt;32372 人推荐下载人推荐下载人推荐下载人推荐下载人推荐下载人推荐下载&lt;/dd&gt;
-                &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
-            &lt;/dl&gt;
-            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
-        &lt;/li&gt;
-        &lt;!--.row-ellipsis--&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt class="row-ellipsis"&gt;一二三四五六七八九十一二三四五&lt;/dt&gt;
-                &lt;dd class="row-ellipsis"&gt;32372 人推荐下载人推荐下载人推荐下载人推荐下载人推荐下载人推荐下载&lt;/dd&gt;
-                &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
-            &lt;/dl&gt;
-            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
-        &lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;</pre>
+                <pre class="prettyprint">&lt;ul class="sq-list app"&gt;
+    &lt;!--.row--&gt;
+    &lt;li&gt;
+        &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;dl class="des"&gt;
+            &lt;dt class="row"&gt;一二三四五六七八九十一二三四五&lt;/dt&gt;
+            &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;!--.row-ellipsis--&gt;
+    &lt;li&gt;
+        &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;dl class="des"&gt;
+            &lt;dt class="row-ellipsis"&gt;一二三四五六七八九十一二三四五&lt;/dt&gt;
+            &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</pre>
             </div>
             
-            <h4 id="corner-mark">角标：</h4>
-            <p></p>
+            <h4 class="tit2" id="corner-mark">角标：</h4>
             <style type="text/css">
                 .corner-mark::after{ width:30px; height:30px; background:#ff6600;}
             </style>
             <div class="demo w320">
-                <div class="sq-list vertical">
+                <div class="sq-list app">
                     <ul>
                         <li>
                             <div class="icon"><i class="corner-mark"><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="description">
+                            <dl class="des">
                                 <dt class="row">一二三四五六七八九十一二三四五六七八九十</dt>
                                 <dd>32372 人推荐下载</dd>
                                 <dd>工具软件 | 8.2MB</dd>
@@ -174,35 +135,31 @@
             </div>
             <div class="fold-code J_foldCode">
                 <div class="toggle">View Source</div>
-                <pre class="prettyprint">&lt;style type="text/css"&gt;
-    .corner-mark::after{ width:30px; height:30px; background:#ff6600;}
-&lt;/style&gt;
-&lt;div class="sq-list vertical"&gt;
-    &lt;ul&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;i class="corner-mark"&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt&gt;一二三四五六七八九十一二三四五&lt;/dt&gt;
-                &lt;dd&gt;32372 人推荐下载&lt;/dd&gt;
-                &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
-            &lt;/dl&gt;
-            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
-        &lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;</pre>
+                <pre class="prettyprint">
+&lt;ul class="sq-list app"&gt;
+    &lt;li&gt;
+        &lt;div class="icon"&gt;&lt;i class="corner-mark"&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;dl class="des"&gt;
+            &lt;dt&gt;一二三四五六七八九十一二三四五&lt;/dt&gt;
+            &lt;dd&gt;32372 人推荐下载&lt;/dd&gt;
+            &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</pre>
+                <pre class="prettyprint">.corner-mark::after{ width:30px; height:30px; background:#ff6600;}</pre>
             </div>
-            
-            <h4 id="extend">扩展：</h4>
-            <p>
-                可在列表添加<code>&lt;div class="extend"&gt;&lt;/div&gt;</code>扩展区域，用于展示额外的内容，如：按钮<br/>
-                另外可以添加<code>.v-middle</code>：让元素垂直居中布局（该元素不能设置高度）<br/>
+            <h4 class="tit2" id="extend">按钮：</h4>
+            <p class="doc-p">
+                可在列表的<code>&lt;div class="extend"&gt;&lt;/div&gt;</code>扩展区域按钮<br/>
+                另外可以用<code>.v-middle</code>让元素垂直居中布局（该元素不能设置高度）<br/>
             </p>
             <div class="demo w320">
-                <div class="sq-list vertical">
+                <div class="sq-list app">
                     <ul>
                         <li>
                             <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="description">
+                            <dl class="des">
                                 <dt class="row">UC浏览器9.0不止所见</dt>
                                 <dd class="row">32372 人推荐下载</dd>
                                 <dd class="row">工具软件 | 8.2MB</dd>
@@ -212,7 +169,7 @@
                         </li>
                         <li>
                             <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="description">
+                            <dl class="des">
                                 <dt>UC浏览器9.0不止所见</dt>
                                 <dd>32372 人推荐下载</dd>
                                 <dd>工具软件 | 8.2MB</dd>
@@ -225,7 +182,7 @@
                         </li>
                         <li>
                             <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="description">
+                            <dl class="des">
                                 <dt class="row-ellipsis">UC浏览器9.0不止所见</dt>
                                 <dd class="row-ellipsis">32372 人推荐下载</dd>
                                 <dd>工具软件 | 8.2MB</dd>
@@ -241,61 +198,59 @@
             </div>
             <div class="fold-code J_foldCode">
                 <div class="toggle">View Source</div>
-                <pre class="prettyprint">&lt;div class="sq-list vertical"&gt;
-    &lt;ul&gt;
-        &lt;!-- 常用列表 --&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
-                &lt;dd class="row"&gt;32372 人推荐下载&lt;/dd&gt;
-                &lt;dd class="row"&gt;工具软件 | 8.2MB&lt;/dd&gt;
-            &lt;/dl&gt;
-            &lt;div class="extend v-middle"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#btn"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
-            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
-        &lt;/li&gt;
-        &lt;!-- 多按钮1 --&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt&gt;UC浏览器9.0不止所见&lt;/dt&gt;
-                &lt;dd&gt;32372 人推荐下载&lt;/dd&gt;
-                &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
-            &lt;/dl&gt;
-            &lt;div class="extend"&gt;
-                &lt;div class="sq-btn m-grey block"&gt;&lt;a href="#update-btn"&gt;更新&lt;/a&gt;&lt;/div&gt;
-                &lt;div class="sq-btn m-grey block"&gt;&lt;a href="#ignore-btn"&gt;忽略&lt;/a&gt;&lt;/div&gt;
-            &lt;/div&gt;
-            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
-        &lt;/li&gt;
-        &lt;!-- 多按钮2 --&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt class="row-ellipsis"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
-                &lt;dd class="row-ellipsis"&gt;32372 人推荐下载&lt;/dd&gt;
-                &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
-            &lt;/dl&gt;
-            &lt;div class="extend v-middle"&gt;
-                &lt;div class="sq-btn m-grey"&gt;&lt;a href="#update-btn"&gt;更新&lt;/a&gt;&lt;/div&gt;
-                &lt;div class="sq-btn m-grey"&gt;&lt;a href="#ignore-btn"&gt;忽略&lt;/a&gt;&lt;/div&gt;
-            &lt;/div&gt;
-            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
-        &lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;</pre>
+                <pre class="prettyprint">&lt;ul class="sq-list app"&gt;
+    &lt;!-- 常用列表 --&gt;
+    &lt;li&gt;
+        &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;dl class="des"&gt;
+            &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
+            &lt;dd class="row"&gt;32372 人推荐下载&lt;/dd&gt;
+            &lt;dd class="row"&gt;工具软件 | 8.2MB&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;div class="extend v-middle"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#btn"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;!-- 多按钮1 --&gt;
+    &lt;li&gt;
+        &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;dl class="des"&gt;
+            &lt;dt&gt;UC浏览器9.0不止所见&lt;/dt&gt;
+            &lt;dd&gt;32372 人推荐下载&lt;/dd&gt;
+            &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;div class="extend"&gt;
+            &lt;div class="sq-btn m-grey block"&gt;&lt;a href="#update-btn"&gt;更新&lt;/a&gt;&lt;/div&gt;
+            &lt;div class="sq-btn m-grey block"&gt;&lt;a href="#ignore-btn"&gt;忽略&lt;/a&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;!-- 多按钮2 --&gt;
+    &lt;li&gt;
+        &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;dl class="des"&gt;
+            &lt;dt class="row-ellipsis"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
+            &lt;dd class="row-ellipsis"&gt;32372 人推荐下载&lt;/dd&gt;
+            &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;div class="extend v-middle"&gt;
+            &lt;div class="sq-btn m-grey"&gt;&lt;a href="#update-btn"&gt;更新&lt;/a&gt;&lt;/div&gt;
+            &lt;div class="sq-btn m-grey"&gt;&lt;a href="#ignore-btn"&gt;忽略&lt;/a&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</pre>
             </div>
             
-            <h4 id="top-10">排行：</h4>
-            <p>
+            <!--<h4 class="tit2" id="top-10">排行：</h4>
+            <p class="doc-p">
                 添加<code>.top10</code>可以自动添加 1- 10 的序号。
             </p>
             <div class="demo w320">
-                <div class="sq-list vertical top10">
+                <div class="sq-list app top10">
                     <ul>
                         <li>
                             <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="description">
+                            <dl class="des">
                                 <dt>UC浏览器9.0不止所见</dt>
                                 <dd>32372 人推荐下载</dd>
                                 <dd>工具软件 | 8.2MB</dd>
@@ -305,7 +260,7 @@
                         </li>
                         <li>
                             <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="description">
+                            <dl class="des">
                                 <dt class="row">UC浏览器9.0不止所见</dt>
                                 <dd>32372 人推荐下载</dd>
                                 <dd>工具软件 | 8.2MB</dd>
@@ -315,7 +270,7 @@
                         </li>
                         <li>
                             <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="description">
+                            <dl class="des">
                                 <dt class="row">UC浏览器9.0不止所见</dt>
                                 <dd>32372 人推荐下载</dd>
                                 <dd>工具软件 | 8.2MB</dd>
@@ -329,11 +284,11 @@
             <div class="fold-code J_foldCode">
                 <div class="toggle">View Source</div>
                 <pre class="prettyprint">&lt;!-- Top10 布局 --&gt;
-&lt;div class="sq-list vertical top10"&gt;
+&lt;div class="sq-list app top10"&gt;
     &lt;ul&gt;
         &lt;li&gt;
             &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
+            &lt;dl class="des"&gt;
                 &lt;dt&gt;UC浏览器9.0不止所见&lt;/dt&gt;
                 &lt;dd&gt;32372 人推荐下载&lt;/dd&gt;
                 &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
@@ -343,7 +298,7 @@
         &lt;/li&gt;
         &lt;li&gt;
             &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
+            &lt;dl class="des"&gt;
                 &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
                 &lt;dd&gt;32372 人推荐下载&lt;/dd&gt;
                 &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
@@ -353,7 +308,7 @@
         &lt;/li&gt;
         &lt;li&gt;
             &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
+            &lt;dl class="des"&gt;
                 &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
                 &lt;dd&gt;32372 人推荐下载&lt;/dd&gt;
                 &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
@@ -363,357 +318,166 @@
         &lt;/li&gt;
     &lt;/ul&gt;
 &lt;/div&gt;</pre>
-            </div>
+            </div>-->
         </div>
-    </section>
-    
-    
-    
-    
-    
-
-    <section class="dpl-module" id="Horizontal">
-        <h3>水平列表</h3>
-        <p>水平排列<code>.horizontal</code>，适用于内部元素从左至右水平排列的场景，排列个数可由<code>.col2</code>-<code>.col6</code>控制。</p>
-        <h4>示例：</h4>
-        <div class="demo w320">
-            <div class="sq-list col4 horizontal">
-                <ul>
-                    <li>
-                        <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                        <dl class="description">
-                            <dt>一二三四五六七</dt>
-                        </dl>
-                        <a href="#trigger-area" class="trigger-area"></a>
-                    </li>
-                    <li>
-                        <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                        <dl class="description">
-                            <dt class="row">一二三四五六七</dt>
-                        </dl>
-                        <a href="#trigger-area" class="trigger-area"></a>
-                    </li>
-                    <li>
-                        <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                        <dl class="description">
-                            <dt class="row-ellipsis">一二三四五六七</dt>
-                        </dl>
-                        <a href="#trigger-area" class="trigger-area"></a>
-                    </li>
-                    <li>
-                        <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                        <dl class="description">
-                            <dt class="row">UC浏览器9.0不止所见</dt>
-                        </dl>
-                        <a href="#trigger-area" class="trigger-area"></a>
-                    </li>
-                </ul>
-            </div>
+        <h4 class="tit2" id="Horizontal">水平列表：</h4>
+        <p class="doc-p">水平列表<code>.horizontal</code>，适用于内部元素从左至右水平列表的场景，排列个数可由<code>.col2</code>-<code>.col6</code>控制。</p>
+        <div class="demo w480">
+            <ul class="sq-list horizontal col4">
+                <li>
+                    <div class="icon"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
+                    <dl class="des">
+                        <dt><a href="#app-name">一二三四五六七</a></dt>
+                    </dl>
+                    <div class="extend"><div class="sq-btn m-grey"><a href="#btn">免费下载</a></div></div>
+                </li>
+                <li>
+                    <div class="icon"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
+                    <dl class="des">
+                        <dt><a href="#app-name">一二三四五六七</a></dt>
+                    </dl>
+                    <div class="extend"><div class="sq-btn m-grey"><a href="#btn">免费下载</a></div></div>
+                </li>
+                <li>
+                    <div class="icon"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
+                    <dl class="des">
+                        <dt><a href="#app-name">一二三四五六七</a></dt>
+                    </dl>
+                    <div class="extend"><div class="sq-btn m-grey"><a href="#btn">免费下载</a></div></div>
+                </li>
+                <li>
+                    <div class="icon"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
+                    <dl class="des">
+                        <dt><a href="#app-name">UC浏览器9.0不止所见</a></dt>
+                    </dl>
+                    <div class="extend"><div class="sq-btn m-grey"><a href="#btn">免费下载</a></div></div>
+                </li>
+            </ul>
         </div>
-        
-        <h4>HTML 代码：</h4>
+        <h4 class="tit2">代码：</h4>
         <div class="fold-code J_foldCode">
             <div class="toggle">View Source</div>
-            <pre class="prettyprint">&lt;div class="sq-list col4 horizontal"&gt;
-    &lt;ul&gt;
-        &lt;!--.normal--&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt&gt;一二三四五六七&lt;/dt&gt;
-            &lt;/dl&gt;
-            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
-        &lt;/li&gt;
-        &lt;!--.row--&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt class="row"&gt;一二三四五六七&lt;/dt&gt;
-            &lt;/dl&gt;
-            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
-        &lt;/li&gt;
-        &lt;!--.row-ellipsis--&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt class="row-ellipsis"&gt;一二三四五六七&lt;/dt&gt;
-            &lt;/dl&gt;
-            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
-        &lt;/li&gt;
-        &lt;!--.row--&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
-            &lt;/dl&gt;
-            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
-        &lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;</pre>
+            <pre class="prettyprint">&lt;ul class="sq-list horizontal col4"&gt;
+    &lt;li&gt;
+        &lt;div class="icon"&gt;&lt;a href="#icon"&gt;&lt;i&gt;&lt;img src="../../dpl/images/sq-icon.png"/&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;
+        &lt;dl class="des"&gt;
+            &lt;dt&gt;&lt;a href="#app-name"&gt;一二三四五六七&lt;/a&gt;&lt;/dt&gt;
+        &lt;/dl&gt;
+        &lt;div class="extend"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#btn"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</pre>
         </div>
-        <div class="module-level2">
-            <h4 id="extend-2">扩展：</h4>
-            <p>同样，可以在<code>&lt;div class="extend"&gt;&lt;/div&gt;</code>扩展区域，添加按钮。</p>
-            <h4>示例：</h4>
-            <div class="demo w480">
-                <div class="sq-list col4 horizontal">
-                    <ul>
-                        <li>
-                            <div class="icon"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
-                            <dl class="description">
-                                <dt><a href="#app-name">一二三四五六七</a></dt>
-                            </dl>
-                            <div class="extend"><div class="sq-btn m-grey"><a href="#btn">免费下载</a></div></div>
-                        </li>
-                        <li>
-                            <div class="icon"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
-                            <dl class="description">
-                                <dt><a href="#app-name">一二三四五六七</a></dt>
-                            </dl>
-                            <div class="extend"><div class="sq-btn m-grey"><a href="#btn">免费下载</a></div></div>
-                        </li>
-                        <li>
-                            <div class="icon"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
-                            <dl class="description">
-                                <dt><a href="#app-name">一二三四五六七</a></dt>
-                            </dl>
-                            <div class="extend"><div class="sq-btn m-grey"><a href="#btn">免费下载</a></div></div>
-                        </li>
-                        <li>
-                            <div class="icon"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
-                            <dl class="description">
-                                <dt><a href="#app-name">UC浏览器9.0不止所见</a></dt>
-                            </dl>
-                            <div class="extend"><div class="sq-btn m-grey"><a href="#btn">免费下载</a></div></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <h4>HTML 代码：</h4>
-            <div class="fold-code J_foldCode">
-                <div class="toggle">View Source</div>
-                <pre class="prettyprint">&lt;div class="sq-list col4 horizontal"&gt;
-    &lt;ul&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;a href="#icon"&gt;&lt;i&gt;&lt;img src="../../dpl/images/sq-icon.png"/&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt&gt;&lt;a href="#app-name"&gt;一二三四五六七&lt;/a&gt;&lt;/dt&gt;
-            &lt;/dl&gt;
-            &lt;div class="extend"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#btn"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
-        &lt;/li&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;a href="#icon"&gt;&lt;i&gt;&lt;img src="../../dpl/images/sq-icon.png"/&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt&gt;&lt;a href="#app-name"&gt;一二三四五六七&lt;/a&gt;&lt;/dt&gt;
-            &lt;/dl&gt;
-            &lt;div class="extend"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#btn"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
-        &lt;/li&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;a href="#icon"&gt;&lt;i&gt;&lt;img src="../../dpl/images/sq-icon.png"/&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt&gt;&lt;a href="#app-name"&gt;一二三四五六七&lt;/a&gt;&lt;/dt&gt;
-            &lt;/dl&gt;
-            &lt;div class="extend"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#btn"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
-        &lt;/li&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;a href="#icon"&gt;&lt;i&gt;&lt;img src="../../dpl/images/sq-icon.png"/&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt&gt;&lt;a href="#app-name"&gt;UC浏览器9.0不止所见&lt;/a&gt;&lt;/dt&gt;
-            &lt;/dl&gt;
-            &lt;div class="extend"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#btn"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
-        &lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;</pre>
-            </div>
-        </div>
-        
-    </section>    
-    <section class="dpl-module" id="Window">
-        <h3>栅格列表</h3>
-        <p>栅格列表<code>.window</code>，同时具备水平列表与垂直列的特性。</p>
 
-        <h4>示例：</h4>
+        <h4 class="tit2" id="Window">窗格排列：</h4>
+        <p class="doc-p">窗格列表<code>.window</code>，同时具备水平列表与垂直列的特性。</p>
         <div class="demo w320">
-            <div class="sq-list col2 window">
-                <ul>
-                    <li>
-                        <div class="icon v-middle"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
-                        <dl class="description">
-                            <dt class="row"><a href="#tit">UC浏览器9.0不止所见</a></dt>
-                            <dd class="row">工具 8.2MB</dd>
-                            <dd><div class="sq-btn small m-grey ucweb-anchor"><a href="#btn"></a>免费</div></dd>
-                        </dl>
-                    </li>
-                    <li>
-                        <div class="icon v-middle"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
-                        <dl class="description">
-                            <dt class="row"><a href="#tit">UC浏览器9.0不止所见</a></dt>
-                            <dd class="row">工具 8.2MB</dd>
-                            <dd><div class="sq-btn small m-grey ucweb-anchor"><a href="#btn"></a>免费</div></dd>
-                        </dl>
-                    </li>
-                    <li>
-                        <div class="icon v-middle"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
-                        <dl class="description">
-                            <dt class="row"><a href="#tit">UC浏览器9.0不止所见</a></dt>
-                            <dd class="row">工具 8.2MB</dd>
-                            <dd><div class="sq-btn small m-grey ucweb-anchor"><a href="#btn"></a>免费</div></dd>
-                        </dl>
-                    </li>
-                    <li>
-                        <div class="icon v-middle"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
-                        <dl class="description">
-                            <dt class="row"><a href="#tit">UC浏览器9.0不止所见</a></dt>
-                            <dd class="row">工具 8.2MB</dd>
-                            <dd><div class="sq-btn small m-grey ucweb-anchor"><a href="#btn"></a>免费</div></dd>
-                        </dl>
-                    </li>
-                </ul>
-            </div>
+            <ul class="sq-list window col2">
+                <li>
+                    <div class="icon v-middle"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
+                    <dl class="des">
+                        <dt class="row"><a href="#tit">UC浏览器9.0不止所见</a></dt>
+                        <dd class="row">工具 8.2MB</dd>
+                        <dd><a href="#btn" class="sq-btn small m-grey">免费</a></dd>
+                    </dl>
+                </li>
+                <li>
+                    <div class="icon v-middle"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
+                    <dl class="des">
+                        <dt class="row"><a href="#tit">UC浏览器9.0不止所见</a></dt>
+                        <dd class="row">工具 8.2MB</dd>
+                        <dd><a href="#btn" class="sq-btn small m-grey">免费</a></dd>
+                    </dl>
+                </li>
+                <li>
+                    <div class="icon v-middle"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
+                    <dl class="des">
+                        <dt class="row"><a href="#tit">UC浏览器9.0不止所见</a></dt>
+                        <dd class="row">工具 8.2MB</dd>
+                        <dd><a href="#btn" class="sq-btn small m-grey">免费</a></dd>
+                    </dl>
+                </li>
+                <li>
+                    <div class="icon v-middle"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
+                    <dl class="des">
+                        <dt class="row"><a href="#tit">UC浏览器9.0不止所见</a></dt>
+                        <dd class="row">工具 8.2MB</dd>
+                        <dd><a href="#btn" class="sq-btn small m-grey">免费</a></dd>
+                    </dl>
+                </li>
+            </ul>
         </div>
-        <h4>HTML 代码：</h4>
+        <h4 class="tit2">代码：</h4>
         <div class="fold-code J_foldCode">
             <div class="toggle">View Source</div>
-            <pre class="prettyprint">&lt;div class="sq-list col2 window"&gt;
-    &lt;ul&gt;
-        &lt;li&gt;
-            &lt;div class="icon v-middle"&gt;&lt;a href="#icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt class="row"&gt;&lt;a href="#tit"&gt;UC浏览器9.0不止所见&lt;/a&gt;&lt;/dt&gt;
-                &lt;dd class="row"&gt;工具 8.2MB&lt;/dd&gt;
-                &lt;dd&gt;&lt;div class="sq-btn small m-grey ucweb-anchor"&gt;&lt;a href="#btn"&gt;&lt;/a&gt;免费&lt;/div&gt;&lt;/dd&gt;
-            &lt;/dl&gt;
-        &lt;/li&gt;
-        &lt;li&gt;
-            &lt;div class="icon v-middle"&gt;&lt;a href="#icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt class="row"&gt;&lt;a href="#tit"&gt;UC浏览器9.0不止所见&lt;/a&gt;&lt;/dt&gt;
-                &lt;dd class="row"&gt;工具 8.2MB&lt;/dd&gt;
-                &lt;dd&gt;&lt;div class="sq-btn small m-grey ucweb-anchor"&gt;&lt;a href="#btn"&gt;&lt;/a&gt;免费&lt;/div&gt;&lt;/dd&gt;
-            &lt;/dl&gt;
-        &lt;/li&gt;
-        &lt;li&gt;
-            &lt;div class="icon v-middle"&gt;&lt;a href="#icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt class="row"&gt;&lt;a href="#tit"&gt;UC浏览器9.0不止所见&lt;/a&gt;&lt;/dt&gt;
-                &lt;dd class="row"&gt;工具 8.2MB&lt;/dd&gt;
-                &lt;dd&gt;&lt;div class="sq-btn small m-grey ucweb-anchor"&gt;&lt;a href="#btn"&gt;&lt;/a&gt;免费&lt;/div&gt;&lt;/dd&gt;
-            &lt;/dl&gt;
-        &lt;/li&gt;
-        &lt;li&gt;
-            &lt;div class="icon v-middle"&gt;&lt;a href="#icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;
-            &lt;dl class="description"&gt;
-                &lt;dt class="row"&gt;&lt;a href="#tit"&gt;UC浏览器9.0不止所见&lt;/a&gt;&lt;/dt&gt;
-                &lt;dd class="row"&gt;工具 8.2MB&lt;/dd&gt;
-                &lt;dd&gt;&lt;div class="sq-btn small m-grey ucweb-anchor"&gt;&lt;a href="#btn"&gt;&lt;/a&gt;免费&lt;/div&gt;&lt;/dd&gt;
-            &lt;/dl&gt;
-        &lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;</pre>
+            <pre class="prettyprint">&lt;ul class="sq-list window col2"&gt;
+    &lt;li&gt;
+        &lt;div class="icon v-middle"&gt;&lt;a href="#icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;
+        &lt;dl class="des"&gt;
+            &lt;dt class="row"&gt;&lt;a href="#tit"&gt;UC浏览器9.0不止所见&lt;/a&gt;&lt;/dt&gt;
+            &lt;dd class="row"&gt;工具 8.2MB&lt;/dd&gt;
+            &lt;dd&gt;&lt;a href="#btn" class="sq-btn small m-grey"&gt;免费&lt;/a&gt;&lt;/dd&gt;
+        &lt;/dl&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</pre>
         </div>
-
     </section>
-    
-    
-    
-    
-    <section class="dpl-module" id="Thumbnails">
-        <h3>缩略图</h3>
-        <p>缩略图列表<code>.thumbnails</code>，适用于展示图片列表。</p>
-        
-        <h4>示例：</h4>
-        <div class="demo w320">
-            <div class="sq-list col3 thumbnails">
-                <ul>
-                    <li>
-                        <div class="content">
-                            <a href="#screenshot"><img src="../../dpl/images/sq-screenshot.png" /></a>
-                            <div class="caption">
-                                <h3 class="title">图片标题</h3>
-                                <p>描述文字，描述文字描述文字</p>
-                            </div>
-                            <div class="extend">
-                                <div class="sq-btn small m-grey ucweb-anchor"><a href="#btn"></a>免费下载</div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="content">
-                            <a href="#screenshot"><img src="../../dpl/images/sq-screenshot.png" /></a>
-                            <div class="caption">
-                                <h3 class="title">图片标题</h3>
-                                <p>描述文字，描述文字</p>
-                            </div>
-                            <div class="extend">
-                                <div class="sq-btn small m-grey ucweb-anchor"><a href="#btn"></a>免费下载</div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="content">
-                            <a href="#screenshot"><img src="../../dpl/images/sq-screenshot.png" /></a>
-                            <div class="caption">
-                                <h3 class="title">图片标题</h3>
-                                <p>描述文字</p>
-                            </div>
-                            <div class="extend">
-                                <div class="sq-btn small m-grey ucweb-anchor"><a href="#btn"></a>免费下载</div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <p></p>
-        
 
-        <h4>HTML 代码：</h4>
+    <section class="doc-section">
+        <h3 class="tit1" id="Thumbnails">缩略图</h3>
+        <p class="doc-p">缩略图列表<code>.thumbnails</code>，适用于展示图片列表。</p>
+        <h4 class="tit2">示例：</h4>
+        <div class="demo w320">
+            <ul class="sq-list col3 thumbnails">
+                <li>
+                    <div class="content">
+                        <a href="#screenshot"><img src="../../dpl/images/sq-screenshot.png" /></a>
+                        <div class="caption">
+                            <h3 class="title">图片标题</h3>
+                            <p>描述文字，描述文字描述文字</p>
+                        </div>
+                        <div class="extend"><a href="#btn" class="sq-btn small m-grey">免费</a></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="content">
+                        <a href="#screenshot"><img src="../../dpl/images/sq-screenshot.png" /></a>
+                        <div class="caption">
+                            <h3 class="title">图片标题</h3>
+                            <p>描述文字，描述文字</p>
+                        </div>
+                        <div class="extend"><a href="#btn" class="sq-btn small m-grey">免费</a></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="content">
+                        <a href="#screenshot"><img src="../../dpl/images/sq-screenshot.png" /></a>
+                        <div class="caption">
+                            <h3 class="title">图片标题</h3>
+                            <p>描述文字</p>
+                        </div>
+                        <div class="extend"><a href="#btn" class="sq-btn small m-grey">免费</a></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <h4 class="tit2">代码：</h4>
         <div class="fold-code J_foldCode">
             <div class="toggle">View Source</div>
-            <pre class="prettyprint">&lt;div class="sq-list col3 thumbnails"&gt;
-    &lt;ul&gt;
-        &lt;li&gt;
-            &lt;div class="content"&gt;
-                &lt;a href="#screenshot"&gt;&lt;img src="../../dpl/images/sq-screenshot.png" /&gt;&lt;/a&gt;
-                &lt;div class="caption"&gt;
-                    &lt;h3 class="title"&gt;图片标题&lt;/h3&gt;
-                    &lt;p&gt;描述文字，描述文字描述文字&lt;/p&gt;
-                &lt;/div&gt;
-                &lt;div class="extend"&gt;
-                    &lt;div class="sq-btn small m-grey ucweb-anchor"&gt;&lt;a href="#btn"&gt;&lt;/a&gt;免费下载&lt;/div&gt;
-                &lt;/div&gt;
+            <pre class="prettyprint">&lt;ul class="sq-list col3 thumbnails"&gt;
+    &lt;li&gt;
+        &lt;div class="content"&gt;
+            &lt;a href="#screenshot"&gt;&lt;img src="../../dpl/images/sq-screenshot.png" /&gt;&lt;/a&gt;
+            &lt;div class="caption"&gt;
+                &lt;h3 class="title"&gt;图片标题&lt;/h3&gt;
+                &lt;p&gt;描述文字，描述文字描述文字&lt;/p&gt;
             &lt;/div&gt;
-        &lt;/li&gt;
-        &lt;li&gt;
-            &lt;div class="content"&gt;
-                &lt;a href="#screenshot"&gt;&lt;img src="../../dpl/images/sq-screenshot.png" /&gt;&lt;/a&gt;
-                &lt;div class="caption"&gt;
-                    &lt;h3 class="title"&gt;图片标题&lt;/h3&gt;
-                    &lt;p&gt;描述文字，描述文字&lt;/p&gt;
-                &lt;/div&gt;
-                &lt;div class="extend"&gt;
-                    &lt;div class="sq-btn small m-grey ucweb-anchor"&gt;&lt;a href="#btn"&gt;&lt;/a&gt;免费下载&lt;/div&gt;
-                &lt;/div&gt;
-            &lt;/div&gt;
-        &lt;/li&gt;
-        &lt;li&gt;
-            &lt;div class="content"&gt;
-                &lt;a href="#screenshot"&gt;&lt;img src="../../dpl/images/sq-screenshot.png" /&gt;&lt;/a&gt;
-                &lt;div class="caption"&gt;
-                    &lt;h3 class="title"&gt;图片标题&lt;/h3&gt;
-                    &lt;p&gt;描述文字&lt;/p&gt;
-                &lt;/div&gt;
-                &lt;div class="extend"&gt;
-                    &lt;div class="sq-btn small m-grey ucweb-anchor"&gt;&lt;a href="#btn"&gt;&lt;/a&gt;免费下载&lt;/div&gt;
-                &lt;/div&gt;
-            &lt;/div&gt;
-        &lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;</pre>
+            &lt;div class="extend"&gt;&lt;a href="#btn" class="sq-btn small m-grey"&gt;免费&lt;/a&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</pre>
         </div>
-
     </section>
-
 </div>
 </body>
 </html>
