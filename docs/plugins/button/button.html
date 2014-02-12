@@ -15,12 +15,11 @@
     </style>
 </head>
 <body onload="prettyPrint();">
-<div class="dpl-container default-theme">
+<div class="doc-container default-theme">
 
-    <aside class="sidebar">
+    <aside class="doc-section-dir">
         <ul class="anchor">
             <li class="level-1"><a href="#">SQ.Button</a></li>
-            <li class="level-2"><a href="#how">如何使用</a></li>
             <li class="level-2"><a href="#params">参数</a></li><!--
             <li class="level-2"><a href="#inner-doc">内部文档对象</a></li>
             <li class="level-2"><a href="#inner-data">内部数据</a></li>
@@ -29,10 +28,10 @@
         </ul>
     </aside>
 
-    <section class="dpl-module" id="searchbar">
-        <h3>SQ.Button</h3>
-        <p>SQ.Button 是按钮的交互插件，通过给按钮添加特殊的类来实现多种交互效果。</p>
-        <h4>示例：</h4>
+    <section class="doc-section" id="searchbar">
+        <h3 class="tit1">SQ.Button</h3>
+        <p class="doc-p">SQ.Button 是按钮的交互插件，通过给按钮添加特殊的类来实现多种交互效果。</p>
+        <h4 class="tit2">示例：</h4>
         <div class="demo w480">
             <div class="sq-btn f-grey J_buttonMenu">
                 Menu Button 1
@@ -43,14 +42,8 @@
                 </ul>
             </div>
         </div>
-        <!--<h4>更多示例：</h4>
-        <p><a class="demo-btn" href="demo/button_demo.html">Button Demo</a></p>-->
-        <h4 id="how">如何使用：</h4>
-        <div class="module-level2">
-        <h5>加载：</h5>
-        <p>初次使用时，可以在定制页面勾选 Button 组件，然后下载 Squirrel 代码。</p>
-        <p>如果是在已有工程中新增，可以将 <code>button.js</code>、<code>button.less</code> 文件分别加入到工程目录的<code>src/js</code>、<code>src/less</code> 文件夹下，Squirrel 框架构建工具会自动进行合并处理。然后加入相应的 HTML 和 JS 代码：</p>
-        <h5>HTML 代码：</h5>
+        <div class="doc-subsection">
+            <h5 class="tit2">代码：</h5>
         <pre class="prettyprint">&lt;div class="sq-btn f-grey J_buttonMenu"&gt;
     Menu Button 1
     &lt;ul class="dropdown-menu"&gt;
@@ -59,7 +52,6 @@
         &lt;li&gt;&lt;a href="#menu3"&gt;menu 3&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
 &lt;/div&gt;</pre>
-        <h5>JS 代码：</h5>
         <pre class="prettyprint">var menuButton = new SQ.Button({
     MODE: "menu",
     EVE_EVENT_TYPE: "click",
@@ -67,7 +59,7 @@
     ANIMATE: ".fadeIn quick"
 });</pre>
         </div>
-        <h4 id="params">参数</h4>
+        <h4 class="tit2" id="params">参数：</h4>
         <table class="params">
             <thead>
             <tr>

@@ -49,7 +49,6 @@
         DOM_AJAX_WRAP: ".J_ajaxWrap",
         CSS_STATE_BAR: ".music-list-loadmore",
         NUM_SCROLL_MAX_PAGE: 2,
-        DATA_TYPE: "html",
         loaded: function (data, $ajaxWrap, index) {
             var html;
             if (index === 0) {

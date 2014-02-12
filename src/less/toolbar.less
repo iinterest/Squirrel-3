@@ -34,13 +34,13 @@
         ul{ .display-box; .box-pack(justify);}
         li{ position:relative; .box-flex(1); height:@height-set; padding:0 5px;}
         a{ .border-box; display:block; height:@height-set; overflow:hidden;}
-        .active{}
-        .badge{ position:absolute; top:-2px; right:-2px; padding:0 4px; max-width:21px; height:15px; background:#f60; .rounded-corners; font-size:@badge-font-size; line-height:15px; color:#fff; overflow:hidden; z-index:1;}
+        .badge{ position:absolute; top:-2px; right:-2px; padding:0 4px; max-width:21px; height:15px; .rounded-corners; font-size:@badge-font-size; line-height:15px; color:#fff; overflow:hidden; z-index:1;}
     }
     // Pagebar
     // 分页栏
     // @subsection Pagebar
     &.pagebar:extend(.sq-toolbar.header all){
-        .pages{ position:absolute; .overspread(0,80px,0,80px); font-size:@content-font-size; text-align:center;}
+        .pages{ position:absolute; .overspread(0,80px,0,80px); font-size:@content-font-size; text-align:center; line-height:@height-set;}
+        .disable{ visibility:hidden;}
     }
 }

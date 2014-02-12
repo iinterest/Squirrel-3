@@ -13,9 +13,9 @@
     <title>Squirrel DPL SearchBar</title>
 </head>
 <body onload="prettyPrint();">
-<div class="dpl-container default-theme">
+<div class="doc-container default-theme">
 
-    <!--<aside class="sidebar">
+    <!--<aside class="doc-section-dir">
         <ul class="anchor">
             <li class="level-1"><a href="#">基础列表</a></li>
                 <li class="level-2"><a href="#vertical-list">垂直列表</a></li>
@@ -31,10 +31,10 @@
     </aside>-->
 
     
-    <section class="dpl-module" id="apkx-searchbar">
-        <h3>多交互搜索框</h3>
-        <p>多交互搜索框包含按钮变换、搜索联想词交互效果，目前 Android 抢先版正在使用。</p>
-        <h4>示例：</h4>
+    <section class="doc-section" id="apkx-searchbar">
+        <h3 class="tit1">多交互搜索框</h3>
+        <p class="doc-p">多交互搜索框包含按钮变换、搜索联想词交互效果，目前 Android 抢先版正在使用。</p>
+        <h4 class="tit2">示例：</h4>
         <div class="demo w320">
             <header class="dpl-searchbar J_dplSearchBar">
                 <div class="fake">
@@ -66,9 +66,9 @@
                 <div class="suggest-panel J_suggest_2"></div>
             </header>
         </div>
-        <h4>如何使用：</h4>
-        <p>将<code>dpl-searchbar.less</code>文件加入到工程目录的<code>src/less</code> 文件夹下，框架构建工具会自动进行合并处理。然后加入相应的 HTML 和 JS 代码：（注意：该组件依赖 <code>SQ.Suggest</code> 插件）</p>
-        <h4>HTML 代码：</h4>
+        <h4 class="tit2">如何使用：</h4>
+        <p class="doc-p">将<code>dpl-searchbar.less</code>文件加入到工程目录的<code>src/less</code> 文件夹下，框架构建工具会自动进行合并处理。然后加入相应的 HTML 和 JS 代码：（注意：该组件依赖 <code>SQ.Suggest</code> 插件）</p>
+        <h4 class="tit2">代码：</h4>
         <div class="fold-code J_foldCode">
             <div class="toggle">View Source</div>
             <pre class="prettyprint">&lt;header class="dpl-searchbar J_dplSearchBar"&gt;
@@ -101,7 +101,7 @@
     &lt;div class="suggest-panel J_suggest_2"&gt;&lt;/div&gt;
 &lt;/header&gt;</pre>
         </div>
-        <h4>JS 代码：</h4>
+        <h4 class="tit2">JS 代码：</h4>
         <div class="fold-code J_foldCode">
             <div class="toggle">View Source</div>
             <pre class="prettyprint">(function searchBar() {

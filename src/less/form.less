@@ -8,8 +8,6 @@
  * @tested Android(2.3, 4.1), iOS(6.1.2)
  */
 .sq-form{
-	margin-bottom:20px;
-	
 	label, input, textarea,
 	button, select{ font-size:14px; line-height:20px;}
 	label{ display:block; margin-bottom:5px;}
@@ -53,7 +51,6 @@
 		min-width:20px; padding:0 20px 0 20px;
 		input[type="radio"],
 		input[type="checkbox"] {float:left; margin-left:-20px;}
-
 		&.inline { display:inline-block; padding-top:5px;}
 	}
 
@@ -61,7 +58,6 @@
         dl{ margin-bottom:5px;}
         dt{ padding-bottom:5px; line-height:20px;}
         dd{ .display-box;}
-
         input[type="text"],
         textarea{ display:block; .box-flex(1);}
     }
@@ -75,18 +71,15 @@
 
 .sq-search-bar{
 	.border-box; .display-box; .box-align(center); position:relative; height:40px;
-	
 	form{ .display-box; .box-pack(justify); width:100%;}
 	input[type="text"],
 	input[type="search"]{ .border-box; width:100%; padding:4px 35px 4px 6px; height:28px; border:none; outline:none;}
-
 	.search-input{ position:relative; .box-flex(1);}
 	.clear{
 		display:none; position:absolute; top:0; right:0; width:30px; height:28px; font-size:16px; cursor:pointer;
-
-		&::after{ content:"×"; position:absolute; top:5px; left:6px; width:18px; height:18px; background:#ccc; border-radius:15px; text-align:center; line-height:16px; color:#fff; }
+		&::after{ content:"×"; position:absolute; top:5px; left:6px; width:18px; height:18px; background:#ccc; border-radius:15px; text-align:center; line-height:16px; color:#fff;}
 	}
-	
+    .sq-btn{ min-height:30px;}
 	&.simple{
 		line-height:0;
 		.search-input{ border:1px solid #ccc; border-radius:2px;}

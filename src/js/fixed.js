@@ -31,7 +31,7 @@
      * @param {string} config.ANIMATE               动画类，默认值：undefined
      * @param {function} config.fixedIn             设置固定布局时回调函数。
      * @param {function} config.fixedOut            取消固定布局时回调函数。
-     * @param {function} config.refresh             可以刷新 Fixed 列表。
+     * @param {function} config.refresh             可以刷新 Fixed 列表（供即时生成的 DOM 使用）。
      * @example var fixedButton = new SQ.Fixed({
                 DOM_FIXED_ITEM: ".J_fixed",
                 DOM_TRIGGER_TARGET: window,

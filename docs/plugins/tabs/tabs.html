@@ -15,12 +15,11 @@
     </style>
 </head>
 <body onload="prettyPrint();">
-<div class="dpl-container default-theme">
+<div class="doc-container default-theme">
 
-    <aside class="sidebar">
+    <aside class="doc-section-dir">
         <ul class="anchor">
             <li class="level-1"><a href="#">SQ.Tabs</a></li>
-            <li class="level-2"><a href="#how">如何使用</a></li>
             <li class="level-2"><a href="#params">参数</a></li>
             <li class="level-2"><a href="#inner-doc">内部文档对象</a></li>
             <li class="level-2"><a href="#inner-data">内部数据</a></li>
@@ -29,10 +28,10 @@
         </ul>
     </aside>
 
-    <section class="dpl-module" id="searchbar">
-        <h3>SQ.Tabs</h3>
-        <p>SQ.Tabs 是选项卡插件。</p>
-        <h4>示例：</h4>
+    <section class="doc-section" id="searchbar">
+        <h3 class="tit1">SQ.Tabs</h3>
+        <p class="doc-p">SQ.Tabs 是选项卡插件。</p>
+        <h4 class="tit2">示例：</h4>
         <div class="demo w480">
             <div class="demo-tabs J_tabs">
                 <ul class="sq-nav-tabs col3">
@@ -41,24 +40,20 @@
                     <li>tab 3</li>
                 </ul>
                 <div class="sq-tab-content">
-                    <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum.</p>
+                    <p class="doc-p">Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum.</p>
                 </div>
                 <div class="sq-tab-content">
-                    <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat.</p>
+                    <p class="doc-p">Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat.</p>
                 </div>
                 <div class="sq-tab-content">
-                    <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum.</p>
+                    <p class="doc-p">Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum.</p>
                 </div>
             </div>
         </div>
-        <h4>更多示例：</h4>
-        <p><a class="demo-btn" href="demo/tabs_demo.html">Tabs Demo</a></p>
-        <h4 id="how">如何使用：</h4>
-        <div class="module-level2">
-        <h5>加载：</h5>
-        <p>初次使用时，可以在定制页面勾选 Tabs 组件，然后下载 Squirrel 代码。</p>
-        <p>如果是在已有工程中新增，可以将 <code>tabs.js</code>、<code>tabs.less</code> 文件分别加入到工程目录的<code>src/js</code>、<code>src/less</code> 文件夹下，Squirrel 框架构建工具会自动进行合并处理。然后加入相应的 HTML 和 JS 代码：</p>
-        <h5>HTML 代码：</h5>
+        <h4 class="tit2">更多示例：</h4>
+        <p class="doc-p"><a class="demo-btn" href="demo/tabs_demo.html">Tabs Demo</a></p>
+        <div class="doc-subsection">
+        <h5 class="tit2">代码：</h5>
         <pre class="prettyprint">&lt;div class="J_tabs"&gt;
     &lt;ul class="sq-nav-tabs col3"&gt;
         &lt;li&gt;tab 1&lt;/li&gt;
@@ -75,19 +70,18 @@
         &lt;p&gt;Duis cursus ...&lt;/p&gt;
     &lt;/div&gt;
 &lt;/div&gt;</pre>
-        <h5>JS 代码：</h5>
         <pre class="prettyprint">var tabs = new SQ.Tabs({
-    EVE_EVENT_TYPE : "mouseover",
-    DOM_TRIGGER_TARGET : ".J_tabs",
-    DOM_TABS : ".sq-nav-tabs>li",
-    DOM_PANELS : ".sq-tab-content",
-    NUM_ACTIVE : 0,
-    show : function () {
+    EVE_EVENT_TYPE: "mouseover",
+    DOM_TRIGGER_TARGET: ".J_tabs",
+    DOM_TABS: ".sq-nav-tabs>li",
+    DOM_PANELS: ".sq-tab-content",
+    NUM_ACTIVE: 0,
+    show: function () {
 
     }
 });</pre>
         </div>
-        <h4 id="params">参数</h4>
+        <h4 class="tit2" id="params">参数</h4>
         <table class="params">
             <thead>
             <tr>
@@ -160,7 +154,7 @@
                             <td class="type">
                                 <span class="param-type">string</span>
                             </td>
-                            <td class="description last">自定义高亮样式名称，默认为 active</td>
+                            <td class="description last">自定义高亮样式名称，默认为 .active</td>
                         </tr>
                         <tr>
                             <td class="name"><code>CSS_LOADING_TIP</code></td>
@@ -200,44 +194,49 @@
                         <tr>
                             <td class="name"><code>LOCAL_DATA</code></td>
                             <td class="type">
-                                string
+                                <span class="param-type">string</span>
                             </td>
-                            <td class="description last">Ajax 数据 loaclstorage 开关，默认为 false</td>
+                            <td class="description last">XHR 数据 loaclstorage 开关，默认为 false</td>
                         </tr>
                         <tr>
                             <td class="name"><code>NUM_EXPIRES</code></td>
                             <td class="type">
-                                number
+                                <span class="param-type">number</span>
                             </td>
-                            <td class="description last">Ajax 数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟</td>
+                            <td class="description last">XHR 数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟</td>
                         </tr>
                         <tr>
-                            <td class="name"><code>trigger</code></td>
+                            <td class="name"><code>trigger($tabs, $panels, tabIndex)</code></td>
                             <td class="type">
                                 <span class="param-type">function</span>
                             </td>
                             <td class="description last">触发选项卡切换回调函数</td>
                         </tr>
                         <tr>
-                            <td class="name"><code>show</code></td>
+                            <td class="name"><code>show($tabs, $panels, tabIndex)</code></td>
                             <td class="type">
                                 <span class="param-type">function</span>
                             </td>
                             <td class="description last">显示选项卡时回调函数</td>
                         </tr>
                         <tr>
-                            <td class="name"><code>beforeLoad</code></td>
+                            <td class="name"><code>beforeLoad($activePanels, tabIndex)</code></td>
                             <td class="type">
                                 <span class="param-type">function</span>
                             </td>
-                            <td class="description last">异步加载前回调函数</td>
+                            <td class="description last">异步加载前回调函数，当设定了该回调函数时，必须返回
+                                true 才能继续执行，异步加载事件，可中断异步加载事件。
+                                参数：$activePanels 是当前激活的面板
+                            </td>
                         </tr>
                         <tr>
-                            <td class="name"><code>loaded</code></td>
+                            <td class="name"><code>loaded(data, $activePanels, tabIndex)</code></td>
                             <td class="type">
                                 <span class="param-type">function</span>
                             </td>
-                            <td class="description last">异步加载成功回调函数</td>
+                            <td class="description last">异步加载成功回调函数，参数：data 是异步加载返回数据
+                                参数：$activePanels 是当前激活的面板
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -245,40 +244,40 @@
             </tr>
             </tbody>
         </table>
-        <h4 id="inner-doc">内部文档对象：</h4>
-        <p>SQ.Tabs 内封装了以下 jQuery(zepto) 对象，可以在回调函数中直接使用：</p>
-        <p><pre class="prettyprint">var me = this;
-me.$triggerTarget           //输入框
-me.$tabs    //联想词显示面板
-me.$panel        //清空输入框按钮
-me.$activeTab    //联想词显示面板
-me.$activePanel    //联想词显示面板</pre></p>
-        <h4 id="inner-data">内部数据：</h4>
-        <p><pre class="prettyprint">var me = this;
-me.activeIndex    //联想词显示面板</pre></p>
-        <h4 id="callback">回调函数：</h4>
-        <p>SQ.Suggest 内置了以下回调函数，可以在触发相应事件时调用：</p>
+        <h4 class="tit2" id="inner-doc">内部文档对象：</h4>
+        <p class="doc-p">SQ.Tabs 内封装了以下 jQuery(zepto) 对象，可以在回调函数中直接使用：</p>
+        <p class="doc-p"><pre class="prettyprint">var me = this;
+me.$triggerTarget       //触发对象
+me.$tabs                //选项卡对象
+me.$panel               //面板对象
+me.$activeTab           //当前激活的选项卡
+me.$activePanel         //当前激活面板</pre></p>
+        <h4 class="tit2" id="inner-data">内部数据：</h4>
+        <p class="doc-p"><pre class="prettyprint">var me = this;
+me.activeIndex    //激活序号</pre></p>
+        <h4 class="tit2" id="callback">回调函数：</h4>
+        <p class="doc-p">SQ.Suggest 内置了以下回调函数，可以在触发相应事件时调用：</p>
             
             <pre class="prettyprint">var tabs = new SQ.Tabs({
-    EVE_EVENT_TYPE : "mouseover",
-    DOM_TRIGGER_TARGET : ".J_tabs",
-    DOM_TABS : ".sq-nav-tabs>li",
-    DOM_PANELS : ".sq-tab-content",
-    trigger : function (ds) {
+    EVE_EVENT_TYPE: "mouseover",
+    DOM_TRIGGER_TARGET: ".J_tabs",
+    DOM_TABS: ".sq-nav-tabs>li",
+    DOM_PANELS: ".sq-tab-content",
+    trigger: function ($tabs, $panels, tabIndex) {
         // 触发选项卡切换回调函数
     },
-    show : function (ds) {
+    show: function ($tabs, $panels, tabIndex) {
         // 显示选项卡时回调函数
     },
-    beforeLoad : function (ds) {
+    beforeLoad: function ($activePanels, tabIndex) {
         // 异步加载前回调函数
     },
-    loaded : function (ds) {
+    loaded: function (data, $activePanels, tabIndex) {
         // 异步加载成功回调函
     }
 });</pre>
 
-        <h4 id="demo">完整例子：</h4>
+        <h4 class="tit2" id="demo">完整例子：</h4>
         <pre class="prettyprint">&lt;!DOCTYPE HTML&gt;
 &lt;html&gt;
 &lt;head&gt;
@@ -311,11 +310,11 @@ me.activeIndex    //联想词显示面板</pre></p>
 &lt;script type="text/javascript"&gt;
     $(document).ready(function () {
         var tabs = new SQ.Tabs({
-            EVE_EVENT_TYPE : "mouseover",
-            DOM_TRIGGER_TARGET : ".J_tabs",
-            DOM_TABS : ".sq-nav-tabs>li",
-            DOM_PANELS : ".sq-tab-content",
-            NUM_ACTIVE : 0
+            EVE_EVENT_TYPE: "mouseover",
+            DOM_TRIGGER_TARGET: ".J_tabs",
+            DOM_TABS: ".sq-nav-tabs>li",
+            DOM_PANELS: ".sq-tab-content",
+            NUM_ACTIVE: 0
         });
     });
 &lt;/script&gt;
@@ -328,11 +327,11 @@ me.activeIndex    //联想词显示面板</pre></p>
 <script type="text/javascript" src="../../../src/js/tabs.js"></script>
 <script type="text/javascript">
     var tabs = new SQ.Tabs({
-        EVE_EVENT_TYPE : "mouseover",
-        DOM_TRIGGER_TARGET : ".J_tabs",
-        DOM_TABS : ".sq-nav-tabs>li",
-        DOM_PANELS : ".sq-tab-content",
-        NUM_ACTIVE : 0
+        EVE_EVENT_TYPE: "mouseover",
+        DOM_TRIGGER_TARGET: ".J_tabs",
+        DOM_TABS: ".sq-nav-tabs>li",
+        DOM_PANELS: ".sq-tab-content",
+        NUM_ACTIVE: 0
     });
 </script>
 </body>

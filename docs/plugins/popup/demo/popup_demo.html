@@ -49,7 +49,7 @@
                 beforeShow: function () {
                     var me = this;
                     console.log("beforeShow");
-                    me.$popupContent.append('<p>全屏窗口</p>');
+                    me.$popupContent.append('<p class="doc-p">全屏窗口</p>');
                     return true;
                 },
                 show: function () {
@@ -99,7 +99,7 @@
                 NUM_CLOSE_TIME: 2000,
                 beforeShow: function () {
                     var me = this;
-                    me.$popupContent.append('<p>2秒后自动关闭</p>');
+                    me.$popupContent.append('<p class="doc-p">2秒后自动关闭</p>');
                     return true;
                 }
             });
@@ -115,7 +115,7 @@
                 MASK: true,
                 beforeShow: function () {
                     var me = this;
-                    me.$popupContent.append('<p>定位到右上角</p>');
+                    me.$popupContent.append('<p class="doc-p">定位到右上角</p>');
                     return true;
                 }
             });

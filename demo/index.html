@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <header class="sq-toolbar header">
+    <header class="sq-toolbar header app-music-header">
         <h2 class="title">Music</h2>
         <a class="sq-btn J_panelMenu" href="#"><i class="icon-th-list"></i></a>
         <div class="sq-btn J_buttonMenu" href="#"><i class="icon-th-large"></i>
@@ -28,13 +28,13 @@
                 <li>Album</li>
             </ul>
             <div class="sq-tab-content">
-                <ul class="sq-list vertical music-list J_ajaxWrap"></ul>
+                <ul class="sq-list app music-list J_ajaxWrap"></ul>
             </div>
             <div class="sq-tab-content">
-                <ul class="sq-list vertical music-list J_ajaxWrap"></ul>
+                <ul class="sq-list app music-list J_ajaxWrap"></ul>
             </div>
             <div class="sq-tab-content">
-                <ul class="sq-list vertical music-list J_ajaxWrap"></ul>
+                <ul class="sq-list app music-list J_ajaxWrap"></ul>
             </div>
         </div>
         <a href="#" class="go-top-btn J_fixedGoTop"><i class="icon-right-big up"></i></a>
@@ -62,7 +62,7 @@
     <% for (var i = 0; i < data.length; i ++) { %>
     <li>
         <div class="icon"><img class="J_lazyload" data-img="<%=data[i].cover%>"/></div>
-        <dl class="description">
+        <dl class="des">
             <dt class="row-ellipsis"><%=data[i].name%></dt>
             <dd><%=data[i].description%></dd>
         </dl>
@@ -77,7 +77,7 @@
         <% for (var j = 0; j < data[i].list.length; j ++) { %>
         <li>
             <div class="icon"><img class="J_lazyload" data-img="<%=data[i].list[j].cover%>"/></div>
-            <dl class="description">
+            <dl class="des">
                 <dt class="row-ellipsis"><%=data[i].list[j].name%></dt>
                 <dd><%=data[i].list[j].description%></dd>
             </dl>

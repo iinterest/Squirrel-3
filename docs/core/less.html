@@ -9,13 +9,12 @@
     <script type="text/javascript" src="../../libs/jquery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../../build/js/squirrel.js"></script>
     <script type="text/javascript" src="../static/dpl-famework.js"></script>
-    <title>Squirrel DPL LESS</title>
+    <title>Squirrel LESS</title>
 </head>
 <body onload="prettyPrint();">
-<div class="dpl-container">
+<div class="doc-container">
 
-
-    <aside class="sidebar">
+    <aside class="doc-section-dir">
         <ul class="anchor">
             <li class="level-1"><a href="#core">LESS</a></li>
             <!--<li class="level-1"><a href="#dom">SQ.dom</a></li>
@@ -25,49 +24,43 @@
         </ul>
     </aside>
 
-    <section class="dpl-module" id="core">
-        <h3>LESS 混合</h3>
-        <h4>什么是『混合』：</h4>
+    <section class="doc-section" id="core">
+        <h3 class="tit1">LESS 混合</h3>
+        <h4 class="tit2">什么是『混合』：</h4>
         <blockquote>混合（Mixins）是 LESS 中的一种特殊方法，它可以将一个定义好的 class A 轻松的引入到另一个 class B 中，从而简单实现 class B 继承 class A 中的所有属性；还可以带参数地调用，就像使用函数一样。—— lesscss.net</blockquote>
-        <h4>混合样式：</h4>
-        <p>Squirrel 的混合样式存放在 base.less 文件中，在浏览器兼容性方面，默认只支持 Webkit 内核，如果需要支持其它内核浏览器可以到<a href="../../customize/customize.html" target="_top">『定制』</a>页面进行定制操作。</p>
-        <h4>文字尺寸设置：</h4>
-        <p></p>
+        <h4 class="tit2">混合样式：</h4>
+        <p class="doc-p">Squirrel 的混合样式存放在 base.less 文件中，在浏览器兼容性方面，默认只支持 Webkit 内核，如果需要支持其它内核浏览器可以到<a href="../../customize/customize.html" target="_top">『定制』</a>页面进行定制操作。</p>
+        <h4 class="tit2">文字尺寸设置：</h4>
+        <p class="doc-p"></p>
         <pre class="prettyprint">@head-font-size:18px;
 @title-font-size:16px;
 @content-font-size:14px;
 @description-font-size:12px;
 @badge-font-size:10px;</pre>
-        <h4>盒模型：</h4>
-        <div class="module-level2">
+        <h4 class="tit2">盒模型：</h4>
+        <div class="doc-subsection">
             <h5>.border-box()</h5>
-            <p></p>
             <pre class="prettyprint">.demo {.border-box;}</pre>
             <h5>.display-box()</h5>
-            <p></p>
             <pre class="prettyprint">.demo {.display-box();}</pre>
             <h5>.box-orient()</h5>
-            <p></p>
             <pre class="prettyprint">.demo {.box-orient();}</pre>
             <h5>.box-pack()</h5>
-            <p></p>
             <pre class="prettyprint">.demo {.box-pack;}</pre>
             <h5>.box-align()</h5>
-            <p></p>
             <pre class="prettyprint">.demo {.box-align;}</pre>
             <h5>.box-flex()</h5>
-            <p></p>
             <pre class="prettyprint">.demo {.box-flex;}</pre>
         </div>
-        <h4>圆角：</h4>
+        <h4 class="tit2">圆角：</h4>
         <pre class="prettyprint">.demo {.rounded-corners();}</pre>
-        <h4>阴影：</h4>
+        <h4 class="tit2">阴影：</h4>
         <pre class="prettyprint">.demo {.shadow();}</pre>
-        <h4>变形：</h4>
+        <h4 class="tit2">变形：</h4>
         <pre class="prettyprint">.demo {.transition();}</pre>
-        <h4>绝对布局平铺：</h4>
+        <h4 class="tit2">绝对布局平铺：</h4>
         <pre class="prettyprint">.demo {.overspread (@top: 0, @right: 0, @bottom: 0, @left: 0);}</pre>
-        <h4>形状：</h4>
+        <h4 class="tit2">形状：</h4>
         <pre class="prettyprint">.demo1 {.sq-arr-up (@size, @color)}
 .demo2 {.sq-arr-right (30px, #d7d7d7)}
 .demo3 {.sq-arr-down (@size, @color)}

@@ -1,6 +1,10 @@
-.sq-toolbar.header{ padding-left:0; padding-right:0; background-color:#1cb88e; color:#fff;}
-.sq-toolbar.header .sq-btn{ width:60px; height:100%; color:#007048; line-height:36px;}
-.sq-toolbar.header i[class^="icon-"]{ font-size:1.7em;}
+/*.sq-toolbar.header{ padding-left:0; padding-right:0; background-color:#1cb88e; color:#fff;}*/
+/*.sq-toolbar.header .sq-btn{ width:60px; height:100%; color:#007048; line-height:36px;}*/
+/*.sq-toolbar.header i[class^="icon-"]{ font-size:1.7em;}*/
+
+.app-music-header{ background-color:#1cb88e; color:#fff;}
+.app-music-header .sq-btn{ width:60px; height:100%; color:#007048; line-height:36px;}
+.app-music-header i[class^="icon-"]{ font-size:1.7em;}
 
 .dropdown-menu{ right:4px;}
 .sq-nav-tabs{ background:#fff;}
@@ -11,7 +15,7 @@
 
 .music-list li{ border-bottom-color:#eee;}
 .music-list .icon{ width:75px; height:75px; background:#f9f6f1;}
-.music-list .description dd{ max-height:4em; color:#999; overflow:hidden;}
+.music-list .des dd{ max-height:4em; color:#999; overflow:hidden;}
 .music-list .extend{ font-size:1.7em; color:#c0bdb6;}
 .music-list li.sub-title{ padding:5px 10px; background:#f9f6f1; color:#999;}
 

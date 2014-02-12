@@ -11,12 +11,11 @@
     <title>Squirrel TouchSlip</title>
 </head>
 <body onload="prettyPrint();">
-    <div class="dpl-container">
+    <div class="doc-container">
 
-        <aside class="sidebar">
+        <aside class="doc-section-dir">
             <ul class="anchor">
                 <li class="level-1"><a href="#">SQ.Touchslip</a></li>
-                <li class="level-2"><a href="#how">如何使用</a></li>
                 <li class="level-2"><a href="#params">参数</a></li>
                 <li class="level-2"><a href="#inner-fun">内置方法</a></li>
                 <li class="level-2"><a href="#callback">回调函数</a></li>
@@ -24,17 +23,13 @@
             </ul>
         </aside>
 
-        <section class="dpl-module">
-            <h3>SQ.TouchSlip</h3>
-            <p>SQ.TouchSlip 是一个触摸滑动插件，可以实现区域滑动、图片滑动等效果。</p>
-            <h4>示例：</h4>
-            <p><a class="demo-btn" href="demo/touchslip_demo.html">Touchslip Demo</a></p>
-            <h4>如何使用：</h4>
-            <div class="module-level2">
-            <h5>加载：</h5>
-            <p>初次使用时，可以在定制页面勾选 Touchslip 组件，然后下载 Squirrel 代码。</p>
-            <p>如果是在已有工程中新增，可以将 <code>touchslip.js</code>、<code>touchslip.less</code> 文件分别加入到工程目录的<code>src/js</code>、<code>src/less</code> 文件夹下，Squirrel 框架构建工具会自动进行合并处理。然后加入相应的 HTML 和 JS 代码：</p>
-            <h5>HTML 代码：</h5>
+        <section class="doc-section">
+            <h3 class="tit1">SQ.TouchSlip</h3>
+            <p class="doc-p">SQ.TouchSlip 是一个触摸滑动插件，可以实现区域滑动、图片滑动等效果。</p>
+            <h4 class="tit2">示例：</h4>
+            <p class="doc-p"><a class="demo-btn" href="demo/touchslip_demo.html">Touchslip Demo</a></p>
+            <div class="doc-subsection">
+            <h5 class="tit2">代码：</h5>
         <pre class="prettyprint">&lt;div class="doc-demo"&gt;
     &lt;div class="touch-img-slider"&gt;
         &lt;ul class="J_imgSlider"&gt;
@@ -47,7 +42,6 @@
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;</pre>
-            <h5>JS 代码：</h5>
         <pre class="prettyprint">(function imgSlider() {
     // 图片画廊，横向滑动的图片
     var $imgSlider = $(".touch-img-slider").find("ul");
@@ -71,7 +65,7 @@
     });
 }());</pre>
             </div>
-            <h4 id="params">参数</h4>
+            <h4 class="tit2" id="params">参数：</h4>
             <table class="params">
                 <thead>
                 <tr>
@@ -176,7 +170,7 @@
 
 
 
-            <!--<p>实例化 SQ.TouchSlip</p>
+            <!--<p class="doc-p">实例化 SQ.TouchSlip</p>
             <pre class="prettyprint">var slider = SQ.TouchSlip("px", $gallery[0], {
     direction: "x",
     perfect: true,  // 完美模式
@@ -188,9 +182,9 @@
     up_range: 60,   // 下拉更新
     moveFun: update     // 移动回调函数
 });</pre>-->
-            <h4 id="inner-fun">内置方法：</h4>
+            <h4 class="tit2" id="inner-fun">内置方法：</h4>
             <pre class="prettyprint">SQ.TouchSlip.refresh();</pre>
-            <h4 id="callback">回调函数：</h4>
+            <h4 class="tit2" id="callback">回调函数：</h4>
             <pre class="prettyprint">var BoxScroll = SQ.TouchSlip({
     MODE : "px",
     DOM_TRIGGER_TARGET : ".touch-box-scroll ul",

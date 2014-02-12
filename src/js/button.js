@@ -75,9 +75,6 @@
                 me.$triggerTarget.removeClass("active");
             }
         },
-        /**
-         * 
-         */
         menu: function () {
             var me = this;
             var $menuBtns = $(".J_buttonMenu");

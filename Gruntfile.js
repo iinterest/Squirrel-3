@@ -86,7 +86,7 @@ module.exports = function (grunt) {
         watch: {
             less: {
                 files: [
-                    "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/*.less",
+                    "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/**/*.less",
                     "<%= pkg.dirs.base %>/<%= pkg.dirs.less_src %>/animate/**/*.css"
                 ],
                 tasks: ["concat:animate", "autoprefixer", "less", "cssmin", "copy"]

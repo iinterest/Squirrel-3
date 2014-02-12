@@ -521,9 +521,6 @@ SQ.util = {
                 me.$triggerTarget.removeClass("active");
             }
         },
-        /**
-         * 
-         */
         menu: function () {
             var me = this;
             var $menuBtns = $(".J_buttonMenu");
@@ -610,7 +607,7 @@ SQ.util = {
      * @param {string} config.ANIMATE               动画类，默认值：undefined
      * @param {function} config.fixedIn             设置固定布局时回调函数。
      * @param {function} config.fixedOut            取消固定布局时回调函数。
-     * @param {function} config.refresh             可以刷新 Fixed 列表。
+     * @param {function} config.refresh             可以刷新 Fixed 列表（供即时生成的 DOM 使用）。
      * @example var fixedButton = new SQ.Fixed({
                 DOM_FIXED_ITEM: ".J_fixed",
                 DOM_TRIGGER_TARGET: window,
@@ -1030,11 +1027,12 @@ SQ.util = {
 }($, window));
 /**
  * @file SQ.LoadMore 加载更多组件
- * @version 1.4.1
+ * @version 1.4.2
  */
 
 /**
  * @changelog
+ * 1.4.2  * 修复 _spliceApi 函数对 api 的拼装错误。
  * 1.4.1  * 为 loaded、scrollEnd 回调函数增加 index 参数。
  * 1.4.0  * 重写 loadMore 插件，支持在一个页面里生成多个实例。
  * 1.3.0  * 删除 render 回调函数。
@@ -1103,10 +1101,10 @@ SQ.util = {
      * @param {object | boolen} config.RESTFUL      当设为 true 时，程序会自动将 API 中的 ":page" 段替换为页码 (self.page)，
      *                                              也可以设置为 hash 列表，程序会遍历替换所有值。
      * @param {number} config.XHR_TIMEOUT           设置 XHR 超时时间，默认为 5000 ms
-     * @param {function} config.loading             加载阶段回调函数，index
-     * @param {function} config.loaded              加载完成回调函数
-     * @param {function} config.loadError           加载失败回调函数
-     * @param {function} config.scrollEnd           滑动加载事件完成回调函数
+     * @param {function} config.loading             加载阶段回调函数，返回参数：index(序号)
+     * @param {function} config.loaded              加载完成回调函数，返回参数：data(XHR 数据), $ajaxWrap(当前 DOM 容器), index
+     * @param {function} config.loadError           加载失败回调函数，返回参数：index
+     * @param {function} config.scrollEnd           滑动加载事件完成回调函数，返回参数：index
      * @example var appList = new SQ.LoadMore({
             EVE_EVENT_TYPE: "scroll",
             DOM_AJAX_WRAP: ".J_ajaxWrap",
@@ -1374,7 +1372,7 @@ SQ.util = {
                 self.$stateTxt.text(me.config.TXT_LOADED_ERROR);
                 self.$stateBar.removeClass("loading");
                 if (me.loadErrorFun) {
-                    me.loadErrorFun();
+                    me.loadErrorFun(self.index);
                 }
                 break;
             }
@@ -1497,12 +1495,11 @@ SQ.util = {
             var connector = self.api.indexOf("?") === -1 ? "?" : "&";
             var api;
             var j;
-
             if (me.config.RESTFUL) {
                 api = self.api.replace(":page", self.page);
                 for (j in me.config.RESTFUL) {
                     if (me.config.RESTFUL.hasOwnProperty(j)) {
-                        api = self.api.replace(j, me.config.RESTFUL[j]);
+                        api = api.replace(j, me.config.RESTFUL[j]);
                     }
                 }
             } else {

@@ -11,12 +11,12 @@
     <title>Squirrel Popup</title>
 </head>
 <body onload="prettyPrint();">
-    <div class="dpl-container">
+    <div class="doc-container">
 
-        <aside class="sidebar">
+        <aside class="doc-section-dir">
             <ul class="anchor">
                 <li class="level-1"><a href="#">SQ.Popup</a></li>
-                <li class="level-2"><a href="#how">如何使用</a></li>
+                <!--<li class="level-2"><a href="#how">如何使用</a></li>-->
                 <li class="level-2"><a href="#params">参数</a></li>
                 <li class="level-2"><a href="#inner-doc">内部文档对象</a></li>
                 <!--<li class="level-2"><a href="#inner-data">内部数据</a></li>-->
@@ -25,19 +25,14 @@
             </ul>
         </aside>
 
-        <section class="dpl-module">
-            <h3>SQ.Popup</h3>
-            <p>SQ.Popup 是一个弹出窗口组件（原 SQ.dialog），可以灵活的定制窗口样式并在弹窗中显示各种内容。</p>
-            <h4>示例：</h4>
-            <p><a class="demo-btn" href="demo/popup_demo.html">Popup Demo</a></p>
-            <h4 id="how">如何使用：</h4>
-            <div class="module-level2">
-            <h5>加载：</h5>
-            <p>初次使用时，可以在定制页面勾选 Popup 组件，然后下载 Squirrel 代码。</p>
-            <p>如果是在已有工程中新增，可以将 <code>popup.js</code>、<code>popup.less</code> 文件分别加入到工程目录的<code>src/js</code>、<code>src/less</code> 文件夹下，Squirrel 框架构建工具会自动进行合并处理。然后加入相应的 HTML 和 JS 代码：</p>
-            <h5>HTML 代码：</h5>
+        <section class="doc-section">
+            <h3 class="tit1">SQ.Popup</h3>
+            <p class="doc-p">SQ.Popup 是一个弹出窗口组件（原 SQ.dialog），可以灵活的定制窗口样式并在弹窗中显示各种内容。</p>
+            <h4 class="tit2">示例：</h4>
+            <p class="doc-p"><a class="demo-btn" href="demo/popup_demo.html">Popup Demo</a></p>
+            <div class="doc-subsection">
+            <h5 class="tit2">代码：</h5>
             <pre class="prettyprint">&lt;div class="J_popupDemo"&gt;Show Popup&lt;/div&gt;</pre>
-            <h5>JS 代码：</h5>
             <pre class="prettyprint">var popupDemo = new SQ.Popup({
     DOM_TRIGGER_TARGET: ".J_popupDemo",
     CSS_CLASS: ".popup-demo",
@@ -53,7 +48,7 @@
     }
 });</pre>
             </div>
-            <h4 id="params">参数：</h4>
+            <h4 class="tit2"id="params">参数：</h4>
             <table class="params">
             <thead>
             <tr>
@@ -324,17 +319,17 @@
             </tbody>
             </table>
             
-            <h4 id="inner-doc">内部文档对象：</h4>
-            <p>SQ.Popup 内封装了以下 jQuery(zepto) 对象，可以在回调函数中直接使用：</p>
-            <p><pre class="prettyprint">var me = this;
+            <h4 class="tit2"id="inner-doc">内部文档对象：</h4>
+            <p class="doc-p">SQ.Popup 内封装了以下 jQuery(zepto) 对象，可以在回调函数中直接使用：</p>
+            <p class="doc-p"><pre class="prettyprint">var me = this;
 me.$popupPanel     // 弹窗对象
 me.$popupContent   // 弹窗内容显示区，异步加载时可将内容填充至该区域。
 me.$okBtn          // 确定按钮
 me.$cancelBtn      // 取消按钮
 me.$close          // 关闭按钮</pre></p>
-            <!--<h4 id="inner-data">内部数据：</h4>-->
-            <h4 id="callback">回调函数：</h4>
-            <p>SQ.Popup 内置了以下回调函数，可以在触发相应事件时调用：</p>
+            <!--<h4 class="tit2"id="inner-data">内部数据：</h4>-->
+            <h4 class="tit2"id="callback">回调函数：</h4>
+            <p class="doc-p">SQ.Popup 内置了以下回调函数，可以在触发相应事件时调用：</p>
             
             <pre class="prettyprint">var popupDemo = new SQ.Popup({
     DOM_TRIGGER_TARGET: ".J_popupDemo",
@@ -364,7 +359,7 @@ me.$close          // 关闭按钮</pre></p>
     }
 });</pre>
 
-        <h4 id="demo">完整例子：</h4>
+        <h4 class="tit2"id="demo">完整例子：</h4>
         <pre class="prettyprint">&lt;!DOCTYPE HTML&gt;
 &lt;html&gt;
 &lt;head&gt;
