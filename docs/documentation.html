@@ -13,18 +13,23 @@
     </style>
 </head>
 <body>
+<!--[if lt IE 9]>
+<style type="text/css">.wrapper{display:none;}</style>
+<div class="old-broswer">您的浏览器版本已过时，推荐使用最新的<a href="https://www.google.com/intl/zh-CN/chrome/browser/" target="_blank" class="broswer-suggest">Chrom 浏览器</a>以获得最佳浏览体验！</div>
+<![endif]-->
 <div class="wrapper">
     <header id="fw-header">
         <nav class="top-nav">
-            <h1 class="logo">Squirrel</h1>
+            <h1 class="logo"><a href="../index.html">Squirrel</a></h1>
             <ul>
                 <li><a href="../index.html">首页</a></li>
                 <li class="active"><a href="../docs/documentation.html">文档</a></li>
                 <li><a href="../dpl/dpl.html">模式库</a></li>
-                <li><a href="../customize/customize.html">定制</a></li>
+                <!--<li><a href="../customize/customize.html">定制</a></li>-->
+                <li class="construct">定制</li>
                 <li class="construct">开发</li>
             </ul>
-            <div class="warning">请使用 Webkit 内核浏览器以获得最佳浏览体验！</div>
+            <div class="warning">请使用<a href="http://zh.wikipedia.org/wiki/WebKit" target="_blank" class="broswer-suggest">Webkit 内核浏览器</a>以获得最佳浏览体验！</div>
         </nav>
     </header>
     <nav class="side-nav">
@@ -35,12 +40,12 @@
         </ul>
         <h3><i class="fa fa-gears"></i>核心<!--<em>Core</em>--></h3>
         <ul>
-            <li><a href="core/less.html">LESS 混合<em>Mixins</em></a></li>
-            <li><a href="core/core.html">核心方法<em>SQ.core</em></a></li>
+            <li><a href="core/less.html">LESS</a></li>
+            <li><a href="core/core.html">核心方法</a></li>
         </ul>
         <h3><i class="fa fa-tasks"></i>组件<!--<em>Components</em>--></h3>
         <ul>
-            <li><a href="components/toolbar.html">工具栏<em>Toolbar</em></a></li>
+            <li><a href="components/bars.html">工具栏<em>Bars</em></a></li>
             <li><a href="components/list.html">列表<em>List</em></a></li>
             <li><a href="components/button.html">按钮<em>Button</em></a></li>
             <li><a href="components/form.html">表单<em>Form</em></a></li>

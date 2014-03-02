@@ -58,21 +58,28 @@ $(document).ready(function () {
         var $next = $slider.find(".next");
         var step = 200;
         var max = step * ($sliderBox.find("li").length - 5) * -1;
+        var animating = false;
         
         $next.on("click", function () {
-            if (parseInt($sliderBox.css("left"), 10) === max) {
+            if (parseInt($sliderBox.css("left"), 10) === max || animating) {
                 return;
             }
+            animating = true;
             $sliderBox.animate({
                 left: "-=" + step
+            }, function () {
+                animating = false;
             });
         });
         $prev.on("click", function () {
-            if (parseInt($sliderBox.css("left"), 10) === 0) {
+            if (parseInt($sliderBox.css("left"), 10) === 0 || animating) {
                 return;
             }
+            animating = true;
             $sliderBox.animate({
                 left: "+=" + step
+            }, function () {
+                animating = false;
             });
         });
     }());
@@ -84,8 +91,8 @@ $(document).ready(function () {
         $animateList.click(function () {
             var $me = $(this);
             var animateStyle = $me.attr("data-test");
-            $animateList.removeClass("f-green");
-            $me.addClass("f-green");
+            $animateList.removeClass("mt-green");
+            $me.addClass("mt-green");
             $demo.removeClass().addClass("animated " + animateStyle);
         });
 

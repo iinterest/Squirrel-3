@@ -11,6 +11,7 @@
     <style type="text/css">
         .wrapper{ max-width:500px; padding:40px 10px 10px;}
         .J_scrollLoadWrap{ border-top:1px solid #d7d7d7;}
+        .list-item{ border-bottom:1px solid #d7d7d7;}
     </style>
 </head>
 <body>
@@ -23,30 +24,25 @@
                 <li>tab 3</li>
             </ul>
             <div class="sq-tab-content">
-                <div class="sq-list vertical">
-                    <ul class="J_tabLoadWrap">
-                        <li>
-                            <div class="icon"><i><img src="../../../static/images/sq-icon.png"/></i></div>
-                            <dl class="description">
-                                <dt class="row">UC浏览器9.0不止所见</dt>
-                                <dd class="row">32372 人推荐下载</dd>
-                                <dd class="row">工具软件 | 8.2MB</dd>
-                            </dl>
-                            <div class="extend v-middle"><div class="sq-btn m-grey"><a href="#">免费下载</a></div></div>
-                            <a href="#trigger-area" class="trigger-area"></a>
-                        </li>
-                    </ul>
-                </div>
+                <ul class="sq-list media J_tabLoadWrap">
+                    <li class="list-item">
+                        <div class="icon"><i><img src="../../../static/images/sq-icon.png"/></i></div>
+                        <dl class="des">
+                            <dt class="row">UC浏览器9.0不止所见</dt>
+                            <dd class="row">32372 人推荐下载</dd>
+                            <dd class="row">工具软件 | 8.2MB</dd>
+                        </dl>
+                        <div class="extend v-middle"><div class="sq-btn mt-grey"><a href="#">免费下载</a></div></div>
+                        <a href="#trigger-area" class="trigger-area"></a>
+                    </li>
+                </ul>
             </div>
             <div class="sq-tab-content">
-                <div class="sq-list vertical">
-                    <ul class="J_tabLoadWrap"></ul>
-                </div>
+                <ul class="sq-list media J_tabLoadWrap"></ul>
             </div>
             <div class="sq-tab-content">
-                <div class="sq-list vertical">
-                    <ul class="J_tabLoadWrap"></ul>
-                </div>
+                <p>不加载数据</p>
+                <ul class="sq-list media J_tabLoadWrap"></ul>
             </div>
         </div>
     </div>
@@ -60,7 +56,7 @@
         function renderPanelContent(ds, $panel) {
             var hasLoadTab = $panel.find(".J_hasLoadTab").length > 0 ? true : false;
             // 选项卡异步加载
-            if (!hasLoadTab && !SQ.core.isNull(ds)) {
+            if (!hasLoadTab && !SQ.isNull(ds)) {
                 var $tabLoadWrap = $panel.find(".J_tabLoadWrap");
                 $tabLoadWrap.addClass("J_hasLoadTab").append(ds.data);
             }

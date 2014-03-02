@@ -158,53 +158,54 @@ imglazyload.refresh();  // 刷新延迟加载元素列表
     &lt;meta charset="utf-8" /&gt;
     &lt;meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" /&gt;
     &lt;title&gt;Squirrel Lazyload&lt;/title&gt;
-    &lt;link type= "text/css" rel="stylesheet" href="../../build/css/squirrel.css" /&gt;
+    &lt;link type= "text/css" rel="stylesheet" href="../../../../build/css/squirrel.css" /&gt;
+    &lt;style type="text/css"&gt;
+        .demo-list .list-item{ border-bottom:1px solid #ddd;}
+    &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;div class="wrapper"&gt;
-    &lt;ul class="sq-list app rock-app-list J_ajaxWrap"&gt;
-        ......
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;i&gt;&lt;img class="J_lazyload" src="../../../static/images/sq-icon.png" data-img="http://image.game.uc.cn/2013/4/17/9112852.jpg"/&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;ul class="sq-list media J_ajaxWrap demo-list"&gt;
+        &lt;li class="list-item"&gt;
+            &lt;div class="icon"&gt;&lt;i&gt;&lt;img class="J_lazyload" src="" data-img="http://image.game.uc.cn/2012/12/20/9042425.png"/&gt;&lt;/i&gt;&lt;/div&gt;
             &lt;dl class="des"&gt;
                 &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
                 &lt;dd class="row"&gt;32372 人推荐下载&lt;/dd&gt;
                 &lt;dd class="row"&gt;工具软件 | 8.2MB&lt;/dd&gt;
             &lt;/dl&gt;
-            &lt;div class="extend v-middle"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;div class="extend v-middle"&gt;&lt;div class="sq-btn mt-grey"&gt;&lt;a href="#"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
         &lt;/li&gt;
-        ......
+        ...
     &lt;/ul&gt;
 &lt;/div&gt;
-&lt;script type="text/javascript" src="../../libs/zepto/zepto.min.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src="../../build/js/squirrel.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="../../../../libs/zepto/zepto.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="../../../../build/js/squirrel.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript"&gt;
-    var imglazyload = new SQ.LazyLoad({
-        DOM_LAZY_ITEMS: ".J_lazyload",
-        DOM_LAZY_PARENT: ".sq-list .icon",
-        CSS_PLACEHOLDER: ".default-icon",
-        IMG_PLACEHOLDER: "../../../static/images/sq-icon.png",
-        ANIMATE: ".fadeIn",
-        NUM_THRESHOLD: 250
-    });
+    $(document).ready(function () {
+        var imglazyload = new SQ.LazyLoad({
+            DOM_LAZY_ITEMS: ".J_lazyload",
+            DOM_LAZY_PARENT: ".sq-list .icon",
+            CSS_PLACEHOLDER: ".default-icon",
+            IMG_PLACEHOLDER: "../../../static/images/sq-icon.png",
+            ANIMATE: ".fadeIn",
+            NUM_THRESHOLD: 350
+        });
 
-    // 可以与 loadmore 插件组合使用
-    var appList = new SQ.LoadMore({
-        EVE_EVENT_TYPE: "scroll",
-        DOM_TRIGGER_TARGET: window,
-        DOM_AJAX_BOX: ".J_ajaxWrap",
-        DOM_STATE_BOX: ".J_scrollLoadMore",
-        CSS_INIT_STYLE: "sq-loadMore-btn",
-        DATA_TYPE: "html",
-        loaded: function () {
-            var me = this;
-            imglazyload.refresh();
-        },
-        scrollEnd: function () {
-            var me = this;
-            me.$stateBox.addClass("sq-loadMore-clickState");
-            imglazyload.refresh();
-        }
+        var appList = new SQ.LoadMore({
+            API: "data/list.json",
+            EVE_EVENT_TYPE: "scroll",
+            DOM_TRIGGER_TARGET: window,
+            DOM_AJAX_WRAP: ".J_ajaxWrap",
+            CSS_STATE_BAR: ".sq-loadMore-btn",
+            NUM_SCROLL_MAX_PAGE: 999,
+            loaded: function (data, $ajaxWrap, index) {
+                $ajaxWrap.append(data.data);
+                if (imglazyload) {
+                    imglazyload.refresh();
+                }
+            }
+        });
     });
 &lt;/script&gt;
 &lt;/body&gt;

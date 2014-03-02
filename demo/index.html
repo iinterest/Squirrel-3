@@ -8,11 +8,12 @@
     <title>Squirrel Demo</title>
 </head>
 <body>
+<!--<input type="button" class="test" value="Test">-->
 <div class="wrapper">
-    <header class="sq-toolbar header app-music-header">
+    <header class="sq-bars nav app-music-header">
         <h2 class="title">Music</h2>
-        <a class="sq-btn J_panelMenu" href="#"><i class="icon-th-list"></i></a>
-        <div class="sq-btn J_buttonMenu" href="#"><i class="icon-th-large"></i>
+        <a class="sq-btn J_panelMenu" href="#"><i class="sq-icon icon-th-list"></i></a>
+        <div class="sq-btn J_buttonMenu" href="#"><i class="sq-icon icon-th-large"></i>
             <ul class="dropdown-menu">
                 <li><a href="#menu1">menu 1</a></li>
                 <li><a href="#menu2">menu 2</a></li>
@@ -21,6 +22,15 @@
         </div>
     </header>
     <section class="index-music">
+        <header class="sq-bars nav sub-nav">
+            <div class="extend">
+                <menu class="sq-btn-group col3">
+                    <a href="#" class="sq-btn flat-green active">Name</a>
+                    <a href="#" class="sq-btn flat-green">Date</a>
+                    <a href="#" class="sq-btn flat-green">Featured</a>
+                </menu>
+            </div>
+        </header>
         <div class="sub-nav J_tabs">
             <ul class="sq-nav-tabs col3">
                 <li>New</li>
@@ -28,16 +38,16 @@
                 <li>Album</li>
             </ul>
             <div class="sq-tab-content">
-                <ul class="sq-list app music-list J_ajaxWrap"></ul>
+                <ul class="sq-list media music-list J_ajaxWrap"></ul>
             </div>
             <div class="sq-tab-content">
-                <ul class="sq-list app music-list J_ajaxWrap"></ul>
+                <ul class="sq-list media music-list J_ajaxWrap"></ul>
             </div>
             <div class="sq-tab-content">
-                <ul class="sq-list app music-list J_ajaxWrap"></ul>
+                <ul class="sq-list media music-list J_ajaxWrap"></ul>
             </div>
         </div>
-        <a href="#" class="go-top-btn J_fixedGoTop"><i class="icon-right-big up"></i></a>
+        <a href="#" class="go-top-btn J_fixedGoTop"><i class="sq-icon icon-right-big up"></i></a>
     </section>
 </div>
 
@@ -52,7 +62,7 @@
         <div class="album-list">
             <ol>
                 <% for (var i = 0; i < albumList.length; i ++) { %>
-                <li class="active"><a href="#play"><%=albumList[i].name%></a><a class="like" href="#like"><i class="icon-heart-empty"></i></a></li>
+                <li class="active"><a href="#play"><%=albumList[i].name%></a><a class="like" href="#like"><i class="sq-icon icon-heart-empty"></i></a></li>
                 <% } %>
             </ol>
         </div>
@@ -60,13 +70,13 @@
 </script>
 <script id="music-pop-list" type="text/html">
     <% for (var i = 0; i < data.length; i ++) { %>
-    <li>
+    <li class="list-item">
         <div class="icon"><img class="J_lazyload" data-img="<%=data[i].cover%>"/></div>
         <dl class="des">
             <dt class="row-ellipsis"><%=data[i].name%></dt>
             <dd><%=data[i].description%></dd>
         </dl>
-        <div class="extend v-middle"><i class="icon-angle-circled-right"></i></div>
+        <div class="extend v-middle"><i class="sq-icon icon-angle-circled-right"></i></div>
         <a href="#trigger-area" class="trigger-area J_popupDetail"></a>
     </li>
     <% } %>
@@ -75,20 +85,21 @@
     <% for (var i = 0; i < data.length; i ++) { %>
         <li class="sub-title J_fixedNav"><%=data[i].date%></li>
         <% for (var j = 0; j < data[i].list.length; j ++) { %>
-        <li>
+        <li class="list-item">
             <div class="icon"><img class="J_lazyload" data-img="<%=data[i].list[j].cover%>"/></div>
             <dl class="des">
                 <dt class="row-ellipsis"><%=data[i].list[j].name%></dt>
                 <dd><%=data[i].list[j].description%></dd>
             </dl>
-            <div class="extend v-middle"><i class="icon-angle-circled-right"></i></div>
+            <div class="extend v-middle"><i class="sq-icon icon-angle-circled-right"></i></div>
             <a href="#trigger-area" class="trigger-area J_popupDetail"></a>
         </li>
         <% } %>
     <% } %>
 </script>
 
-<script type="text/javascript" src="../libs/zepto/zepto.min.js"></script>
+<!--<script type="text/javascript" src="../libs/zepto/zepto.min.js"></script>-->
+<script type="text/javascript" src="../libs/jquery/jquery-2.0.0.min.js"></script>
 <!--<script type="text/javascript" src="../dist/js/squirrel-min.js?v11"></script>-->
 <script type="text/javascript" src="../build/js/squirrel.js?v11"></script>
 <script type="text/javascript" src="js/page.js"></script>
@@ -105,7 +116,7 @@
         //console.log("fail");
     });
     
-    //console.log(SQ.isString("hello"))
+    $(".test").button();
 </script>
 </body>
 </html>

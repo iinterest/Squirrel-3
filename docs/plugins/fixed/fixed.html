@@ -174,64 +174,85 @@
     &lt;title&gt;Squirrel Fixed&lt;/title&gt;
     &lt;link type= "text/css" rel="stylesheet" href="../../../../build/css/squirrel.css" /&gt;
     &lt;style type="text/css"&gt;
+        .demo-go-back{ display:inline-block; position:fixed; width:120px; height:30px; left:50%; margin-left:-60px; background:#38c483; border-bottom:3px solid #299c5d; color:#fff; line-height:30px; text-align:center; z-index:999;}
+        .default-icon{ position:relative; background:url("../../../static/images/sq-icon.png") no-repeat; background-size:50px;}
+        .demo-list .list-item{ border-bottom:1px solid #ddd;}
         .fixed{ position:fixed!important; top:0; left:0; right:0; z-index:30;}
         .fixed + .fixed-placehold{ height:44px;}
-        .gray{ background:#ddd;}
-        .green{ background:#38c483;}
-        .orange{ background:#ff6600;}
+        .c1{ background:#dff0d8; color:#3c763d;}
+        .c2{ background:#d9edf7; color:#31708f;}
+        .c3{ background:#fcf8e3; color:#8a6d3b;}
         .go-top-btn{ display:none; width:50px; height:50px; background:#38c483; border-radius:30px; text-align:center; line-height:50px; color:#fff; position:fixed; bottom:20px; right:10px; z-index:99;}
     &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 
+&lt;a href="../fixed.html" class="demo-go-back"&gt;返回&lt;/a&gt;
 &lt;a href="#" class="go-top-btn J_fixedGoTop"&gt;Top&lt;/a&gt;
 &lt;div class="wrapper"&gt;
-&lt;header class="sq-toolbar header fixed gray"&gt;
+&lt;header class="sq-bars nav fixed c1"&gt;
     Title 1
 &lt;/header&gt;
 &lt;div class="fixed-placehold"&gt;&lt;/div&gt;
-&lt;div class="sq-list app"&gt;
-    &lt;ul class="J_ajaxWrap"&gt;
-        &lt;li&gt;
+&lt;div&gt;
+    &lt;ul class="sq-list media demo-list J_ajaxWrap"&gt;
+        &lt;li class="list-item"&gt;
             &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="http://image.game.uc.cn/2012/12/20/9042425.png"/&gt;&lt;/i&gt;&lt;/div&gt;
             &lt;dl class="des"&gt;
                 &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
                 &lt;dd class="row"&gt;32372 人推荐下载&lt;/dd&gt;
                 &lt;dd class="row"&gt;工具软件 | 8.2MB&lt;/dd&gt;
             &lt;/dl&gt;
-            &lt;div class="extend v-middle"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;div class="extend v-middle"&gt;&lt;a class="sq-btn mt-grey" href="#"&gt;免费下载&lt;/a&gt;&lt;/div&gt;
             &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
         &lt;/li&gt;
-        ......
     &lt;/ul&gt;
 &lt;/div&gt;
-&lt;header class="sq-toolbar header J_fixedHeader green"&gt;
+&lt;header class="sq-bars nav J_fixedHeader c2"&gt;
     Title 2
 &lt;/header&gt;
-&lt;div class="sq-list app"&gt;
-    &lt;ul class="J_ajaxWrap"&gt;
-        &lt;li&gt;
+&lt;div&gt;
+    &lt;ul class="sq-list media demo-list J_ajaxWrap"&gt;
+        &lt;li class="list-item"&gt;
             &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="http://image.game.uc.cn/2012/12/20/9042425.png"/&gt;&lt;/i&gt;&lt;/div&gt;
             &lt;dl class="des"&gt;
                 &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
                 &lt;dd class="row"&gt;32372 人推荐下载&lt;/dd&gt;
                 &lt;dd class="row"&gt;工具软件 | 8.2MB&lt;/dd&gt;
             &lt;/dl&gt;
-            &lt;div class="extend v-middle"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;div class="extend v-middle"&gt;&lt;a class="sq-btn mt-grey" href="#"&gt;免费下载&lt;/a&gt;&lt;/div&gt;
             &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
         &lt;/li&gt;
-        ......
     &lt;/ul&gt;
 &lt;/div&gt;
+&lt;header class="sq-bars nav J_fixedHeader c3"&gt;
+    Title 3
+&lt;/header&gt;
+&lt;div&gt;
+    &lt;ul class="sq-list media demo-list J_ajaxWrap"&gt;
+        &lt;li class="list-item"&gt;
+            &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="http://image.game.uc.cn/2013/2/1/9060536.jpg"/&gt;&lt;/i&gt;&lt;/div&gt;
+            &lt;dl class="des"&gt;
+                &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
+                &lt;dd class="row"&gt;32372 人推荐下载&lt;/dd&gt;
+                &lt;dd class="row"&gt;工具软件 | 8.2MB&lt;/dd&gt;
+            &lt;/dl&gt;
+            &lt;div class="extend v-middle"&gt;&lt;a class="sq-btn mt-grey" href="#"&gt;免费下载&lt;/a&gt;&lt;/div&gt;
+            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="loadMore J_scrollLoadMore" data-api="data/list.json"&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;script type="text/javascript" src="../../../../libs/zepto/zepto.min.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="../../../../build/js/squirrel.js"&gt;&lt;/script&gt;
+&lt;!--&lt;script type="text/javascript" src="../../../../libs/conzole.js"&gt;&lt;/script&gt;--&gt;
 &lt;script type="text/javascript"&gt;
     $(document).ready(function () {
         var fixedHeader = new SQ.Fixed({
             DOM_FIXED_ITEM: ".J_fixedHeader",
             DOM_TRIGGER_TARGET: window,
-            NUM_ZINDEX: 99,
+            NUM_ZINDEX: 100,
             PLACEHOLD: true
         });
 
@@ -241,14 +262,16 @@
             ARRY_FIXED_POSITION: ["auto", 10, 20, "auto"],
             NUM_TRIGGER_POSITION: 300,
             ANIMATE: "",
-            NUM_ZINDEX: 31,
+            NUM_ZINDEX: 102,
             fixedIn: function () {
                 var me = this;
                 me.$fixedItems.show();
+                console.log("fixedIn");
             },
             fixedOut: function () {
                 var me = this;
                 me.$fixedItems.hide();
+                console.log("fixedOut");
             }
         });
     });

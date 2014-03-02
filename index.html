@@ -11,18 +11,23 @@
     <title>Squirrel 前端开发框架</title>
 </head>
 <body>
+<!--[if lt IE 9]>
+<style type="text/css">.wrapper{display:none;}</style>
+<div class="old-broswer">您的浏览器版本已过时，推荐使用最新的<a href="https://www.google.com/intl/zh-CN/chrome/browser/" target="_blank" class="broswer-suggest">Chrom 浏览器</a>以获得最佳浏览体验！</div>
+<![endif]-->
 <div class="wrapper">
     <header id="fw-header">
         <nav class="top-nav">
-            <h1 class="logo">Squirrel</h1>
+            <h1 class="logo"><a href="index.html">Squirrel</a></h1>
             <ul>
                 <li class="active"><a href="index.html">首页</a></li>
                 <li><a href="docs/documentation.html">文档</a></li>
                 <li><a href="dpl/dpl.html">模式库</a></li>
-                <li><a href="customize/customize.html">定制</a></li>
+                <!--<li><a href="customize/customize.html">定制</a></li>-->
+                <li class="construct">定制</li>
                 <li class="construct">开发</li>
             </ul>
-            <div class="warning">请使用 Webkit 内核浏览器以获得最佳浏览体验！</div>
+            <div class="warning">请使用<a href="http://zh.wikipedia.org/wiki/WebKit" target="_blank" class="broswer-suggest">Webkit 内核浏览器</a>以获得最佳浏览体验！</div>
         </nav>
     </header>
     <div class="banner">
@@ -32,8 +37,8 @@
             <a class="fw-btn download-btn red" href="https://github.com/iinterest/Squirrel-3/releases" target="_blank">下载 Squirrel</a>
             <a class="fw-btn doc-btn orange" href="docs/documentation.html">使用指南</a>
             <ul class="version">
-                <li>最新版本：0.9.0</li>
-                <li>更新时间：2014-2-12</li>
+                <li>最新版本：v0.9.1</li>
+                <li>更新时间：2014-2-26</li>
                 <li><a href="docs/changelog.html" target="_top">更新说明</a></li>
             </ul>
         </div>

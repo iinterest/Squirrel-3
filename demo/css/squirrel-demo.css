@@ -13,13 +13,16 @@
     content:""; position:absolute; top:-20px; right:10px; width:0; height:0; border:10px solid transparent; border-bottom-color:rgba(0,0,0,.8);
 }*/
 
-.music-list li{ border-bottom-color:#eee;}
+.music-list .list-item{ border-bottom:1px solid #eee;}
 .music-list .icon{ width:75px; height:75px; background:#f9f6f1;}
 .music-list .des dd{ max-height:4em; color:#999; overflow:hidden;}
 .music-list .extend{ font-size:1.7em; color:#c0bdb6;}
 .music-list li.sub-title{ padding:5px 10px; background:#f9f6f1; color:#999;}
 
+.sub-nav{} 
 .sub-nav li.active{ border-bottom-color:#1cb88e}
+.sq-btn.flat-green{ color:#1cb88e; border:1px solid #1cb88e;}
+.sq-btn.flat-green.active{ background:#1cb88e; color:#fff;}
 
 #detail-template{ display:none;}
 .popup-detail{ overflow:hidden;}

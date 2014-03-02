@@ -5,479 +5,448 @@
     <link type="text/css" rel="stylesheet" href="../../build/css/squirrel.css" />
     <link type="text/css" rel="stylesheet" href="../static/dpl-famework.css" />
     <link type="text/css" rel="stylesheet" href="../static/prettify.css" />
+    <link type="text/css" rel="stylesheet" href="../../dpl/themes/iOS7/theme-ios7.css" />
     <script type="text/javascript" src="../static/prettify.js"></script>
     <script type="text/javascript" src="../../libs/jquery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../static/dpl-famework.js"></script>
     <title>Squirrel List</title>
 </head>
 <body onload="prettyPrint();">
-<div class="doc-container default-theme">
+<div class="doc-container theme-ios7">
 
     <aside class="doc-section-dir">
         <ul class="anchor">
             <li class="level-1"><a href="#">列表</a></li>
-                <li class="level-2"><a href="#app-list">应用列表</a></li>
-                    <li class="level-3"><a href="#text-overflow">超长文字隐藏</a></li>
-                    <li class="level-3"><a href="#tcorner-mark">角标</a></li>
-                    <li class="level-3"><a href="#extend">按钮</a></li>
-                <li class="level-2"><a href="#Horizontal">水平列表</a></li>
-                <li class="level-2"><a href="#Window">窗格列表</a></li>
-                <li class="level-2"><a href="#Thumbnails">缩略图</a></li>
+            <li class="level-2"><a href="#list-group">分组列表</a></li>
+            <li class="level-2"><a href="#media-list">媒体列表</a></li>
+            <li class="level-3"><a href="#text-overflow">文本隐藏</a></li>
+            <li class="level-3"><a href="#example">复杂的案例</a></li>
+            <li class="level-3"><a href="#extend">媒体列表扩展</a></li>
+            <li class="level-2"><a href="#Tile">平铺列表</a></li>
         </ul>
     </aside>
 
     <section class="doc-section">
         <h3 class="tit1">列表</h3>
-        <p class="doc-p">列表<code>.sq-list</code>，适用于制作各种垂直、水平列表。</p>
+        <p class="doc-p">列表<code>.sq-list</code>，列表组是灵活又强大的组件，不仅仅用于显示简单的成列表的元素，还用于复杂的定制的内容。</p>
+        <p class="doc-p alert wran">注意：CSS 组件默认是没有颜色、形状等样式的，下列示例引用的是主题库中的 iOS7 主题。</p>
+        <h4 class="tit2">示例：</h4>
+        <div class="demo w320">
+            <ul class="sq-list text">
+                <li class="list-item">Checkmark</li>
+                <li class="list-item">Disclosure indicator</li>
+                <li class="list-item">Detail Disclosure button</li>
+                <li class="list-item">Row reorder</li>
+                <li class="list-item">Row insert</li>
+            </ul>
+            <p class="doc-p">带有链接及徽章的列表：</p>
+            <div class="sq-list text">
+                <a class="list-item" href="#list"><b class="badge">10</b>Audiobooks</a></li>
+                <a class="list-item" href="#list"><b class="badge">26</b>Tones</a></li>
+                <a class="list-item" href="#list"><b class="badge"></b>Genius</a></li>
+                <a class="list-item" href="#list"><b class="badge"></b>Purchased</a></li>
+                <a class="list-item" href="#list"><b class="badge"></b>Downloads</a></li>
+            </div>
+        </div>
+        <h4 class="tit2">代码：</h4>
+        <div class="fold-code J_foldCode">
+            <div class="toggle">View Source</div>
+            <pre class="prettyprint">//Example 1:
+&lt;ul class="sq-list text"&gt;
+    &lt;li class="list-item"&gt;Checkmark&lt;/li&gt;
+    &lt;li class="list-item"&gt;Disclosure indicator&lt;/li&gt;
+    &lt;li class="list-item"&gt;Detail Disclosure button&lt;/li&gt;
+    &lt;li class="list-item"&gt;Row reorder&lt;/li&gt;
+    &lt;li class="list-item"&gt;Row insert&lt;/li&gt;
+&lt;/ul&gt;
+
+//Example 2:
+&lt;div class="sq-list text"&gt;
+    &lt;a class="list-item" href="#list"&gt;&lt;b class="badge"&gt;10&lt;/b&gt;Audiobooks&lt;/a&gt;&lt;/li&gt;
+    &lt;a class="list-item" href="#list"&gt;&lt;b class="badge"&gt;26&lt;/b&gt;Tones&lt;/a&gt;&lt;/li&gt;
+    &lt;a class="list-item" href="#list"&gt;&lt;b class="badge"&gt;&lt;/b&gt;Genius&lt;/a&gt;&lt;/li&gt;
+    &lt;a class="list-item" href="#list"&gt;&lt;b class="badge"&gt;&lt;/b&gt;Purchased&lt;/a&gt;&lt;/li&gt;
+    &lt;a class="list-item" href="#list"&gt;&lt;b class="badge"&gt;&lt;/b&gt;Downloads&lt;/a&gt;&lt;/li&gt;
+&lt;/div&gt;</pre>
+        </div>
     </section>
 
     <section class="doc-section">
-        <h3 class="tit1" id="app-list">应用列表</h3>
-        <p class="doc-p">应用列表<code>.app</code>，适用于需要垂直排列的列表场景，列表内部使用弹性布局，并根据元素多少、大小自动填满空间。</p>
+        <h3 class="tit1" id="list-group">分组列表</h3>
+        <p class="doc-p">添加类名为<code>.group-hd</code>的列表项即可实现分组列表样式：</p>
+        <h4 class="tit2">示例：</h4>
+        <div class="demo w320">
+            <ul class="sq-list text">
+                <li class="group-hd">Single Control</li>
+                <li class="list-item">Checkmark</li>
+                <li class="list-item">Disclosure indicator</li>
+                <li class="list-item">Detail Disclosure button</li>
+                <li class="group-hd">Row Control</li>
+                <li class="list-item">Row reorder</li>
+                <li class="list-item">Row insert</li>
+            </ul>
+        </div>
+        <h4 class="tit2">代码：</h4>
+        <div class="fold-code J_foldCode">
+            <div class="toggle">View Source</div>
+            <pre class="prettyprint">&lt;ul class="sq-list text"&gt;
+    &lt;li class="group-hd"&gt;Single Control&lt;/li&gt;
+    &lt;li class="list-item"&gt;Checkmark&lt;/li&gt;
+    &lt;li class="list-item"&gt;Disclosure indicator&lt;/li&gt;
+    &lt;li class="list-item"&gt;Detail Disclosure button&lt;/li&gt;
+    &lt;li class="group-hd"&gt;Row Control&lt;/li&gt;
+    &lt;li class="list-item"&gt;Row reorder&lt;/li&gt;
+    &lt;li class="list-item"&gt;Row insert&lt;/li&gt;
+&lt;/ul&gt;</pre>
+        </div>
+    </section>
+
+    <section class="doc-section">
+        <h3 class="tit1" id="media-list">媒体列表</h3>
+        <p class="doc-p">媒体列表<code>.media</code>，默认为左侧图片和右侧文本的组件，并且可以添加多种控件，适用于各种复杂的布局场景。</p>
         <h4 class="tit2">示例：</h4>
         <div class="demo w480">
-            <ul class="sq-list app">
-                <li>
-                    <div class="icon"><i class="new"><img src="../../dpl/images/sq-icon.png"></i></div>
-                    <dl class="des">
-                        <dt>UC Browser</dt>
-                        <dd>UC Browser is the leading mobile internet browser with more than 400 million users across more than 150 countries and regions. This product is currently available on all major operating platforms in 7 different languages.</dd>
-                    </dl>
-                    <a href="#trigger-area" class="trigger-area"></a>
+            <ul class="sq-list media text">
+                <li class="list-item">
+                    <a class="icon" href="#media"><img src="../../dpl/images/sq-icon.png" /></a>
+                    <div class="des">
+                        <h4 class="tit">UC Browser</h4>
+                        <p>UC Browser is the leading mobile internet browser with more than 400 million users across more than 150 countries and regions. </p>
+                    </div>
+                </li>
+                <li class="list-item">
+                    <a class="icon" href="#media"><img src="../../dpl/images/sq-icon.png" /></a>
+                    <div class="des">
+                        <h4 class="tit">UC Browser</h4>
+                        <p>UC Browser is the leading mobile internet browser with more than 400 million users across more than 150 countries and regions. </p>
+                    </div>
+                </li>
+                <li class="list-item">
+                    <a class="icon" href="#media"><img src="../../dpl/images/sq-icon.png" /></a>
+                    <div class="des">
+                        <h4 class="tit">UC Browser</h4>
+                        <p>UC Browser is the leading mobile internet browser with more than 400 million users across more than 150 countries and regions. </p>
+                    </div>
                 </li>
             </ul>
         </div>
         <h4 class="tit2">代码：</h4>
         <div class="fold-code J_foldCode">
             <div class="toggle">View Source</div>
-            <pre class="prettyprint">&lt;ul class="sq-list app"&gt;
-    &lt;li&gt;
-        &lt;div class="icon"&gt;&lt;img src="../images/sq1.png"&gt;&lt;/div&gt;
-        &lt;dl class="des"&gt;
-            &lt;dt&gt;UC Browser&lt;/dt&gt;
-            &lt;dd&gt;UC Browser is the leading mobile internet browser ...&lt;/dd&gt;
-        &lt;/dl&gt;
-        &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
+            <pre class="prettyprint">&lt;ul class="sq-list media text"&gt;
+    &lt;li class="list-item"&gt;
+        &lt;a class="icon"&gt;&lt;img src="../../dpl/images/sq-icon.png" /&gt;&lt;/a&gt;
+        &lt;div class="des"&gt;
+            &lt;h4 class="tit"&gt;UC Browser&lt;/h4&gt;
+            &lt;p&gt;UC Browser is the leading mobile internet browser with more than 400 million users across more than 150 countries and regions. &lt;/p&gt;
+        &lt;/div&gt;
     &lt;/li&gt;
 &lt;/ul&gt;</pre>
         </div>
         
         <div class="doc-subsection">
-            <h4 class="tit2" id="text-overflow">超长文字隐藏：</h4>
+            <h4 class="tit2" id="text-overflow">文本隐藏：</h4>
             <p class="doc-p">
                 添加<code>.row</code>：文字单行显示，超出部分隐藏。<br/>
                 添加<code>.row-ellipsis</code>：文字单行显示，超出部分显示为省略号。<br/>
             </p>
+            <p class="doc-p alert wran">这是个通用类，在<code>.sq-list</code>组件中任意地方都可以使用。</p>
+            <h4 class="tit2">示例：</h4>
             <div class="demo w320">
-                <div class="sq-list app">
-                    <ul>
-                        <li>
-                            <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="des">
-                                <dt class="row">一二三四五六七八九十一二三四五六七八九十</dt>
-                                <dd>工具软件 | 8.2MB</dd>
-                            </dl>
-                            <a href="#trigger-area" class="trigger-area"></a>
-                        </li>
-                        <li>
-                            <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="des">
-                                <dt class="row-ellipsis">一二三四五六七八九十一二三四五六七八九十</dt>
-                                <dd>工具软件 | 8.2MB</dd>
-                            </dl>
-                            <a href="#trigger-area" class="trigger-area"></a>
-                        </li>
-                    </ul>
-                </div>
+                <ul class="sq-list media">
+                    <li class="list-item">
+                        <a class="icon" href="#media"><img src="../../dpl/images/sq-icon.png" /></a>
+                        <div class="des">
+                            <h4 class="tit row">Media heading 媒体列表标题（超长部分隐藏）</h4>
+                            <p class="row">UC Browser is the leading mobile internet browser with more than 400 million users across more than 150 countries and regions. </p>
+                        </div>
+                    </li>
+                    <li class="list-item">
+                        <a class="icon" href="#media"><img src="../../dpl/images/sq-icon.png" /></a>
+                        <div class="des">
+                            <h4 class="tit row-ellipsis">Media heading 媒体列表标题（超长部分隐藏）</h4>
+                            <p class="row-ellipsis">UC Browser is the leading mobile internet browser with more than 400 million users across more than 150 countries and regions. </p>
+                        </div>
+                    </li>
+                </ul>
             </div>
+            <h4 class="tit2">代码：</h4>
             <div class="fold-code J_foldCode">
                 <div class="toggle">View Source</div>
-                <pre class="prettyprint">&lt;ul class="sq-list app"&gt;
-    &lt;!--.row--&gt;
-    &lt;li&gt;
-        &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-        &lt;dl class="des"&gt;
-            &lt;dt class="row"&gt;一二三四五六七八九十一二三四五&lt;/dt&gt;
-            &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
-        &lt;/dl&gt;
-        &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
+                <pre class="prettyprint">&lt;ul class="sq-list media"&gt;
+    &lt;li class="list-item"&gt;
+        &lt;a class="icon" href="#media"&gt;&lt;img src="../../dpl/images/sq-icon.png" /&gt;&lt;/a&gt;
+        &lt;div class="des"&gt;
+            &lt;h4 class="tit row"&gt;Media heading 媒体列表标题（超长部分隐藏）&lt;/h4&gt;
+            &lt;p class="row"&gt;UC Browser is the leading mobile internet browser with more than 400 million users across more than 150 countries and regions. &lt;/p&gt;
+        &lt;/div&gt;
     &lt;/li&gt;
-    &lt;!--.row-ellipsis--&gt;
-    &lt;li&gt;
-        &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;li class="list-item"&gt;
+        &lt;a class="icon" href="#media"&gt;&lt;img src="../../dpl/images/sq-icon.png" /&gt;&lt;/a&gt;
+        &lt;div class="des"&gt;
+            &lt;h4 class="tit row-ellipsis"&gt;Media heading 媒体列表标题（超长部分隐藏）&lt;/h4&gt;
+            &lt;p class="row-ellipsis"&gt;UC Browser is the leading mobile internet browser with more than 400 million users across more than 150 countries and regions. &lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</pre>
+            </div>
+
+            <h4 class="tit2" id="example">复杂的案例（应用列表）：</h4>
+            <p class="doc-p">在示例中展示了更为复杂的媒体列表的排版，还包括『角标』<code>&lt;i class="hot"&gt;...&lt;/i&gt;</code>、『区域点击』<code>&lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;</code>的使用。</p>
+            <h4 class="tit2">示例：</h4>
+            <div class="demo w320">
+                <ul class="sq-list media app-list">
+                    <li class="list-item">
+                        <a class="icon" href="#media"><i class="hot"><img src="../../dpl/images/sq-icon.png" /></i></a>
+                        <dl class="des">
+                            <dt class="tit row-ellipsis">RunKeeper - GPS Track Running Walking Cycling</dt>
+                            <dd>version 4.1, 26.5 MB</dd>
+                            <dd>What's New</dd>
+                        </dl>
+                        <a href="#trigger-area" class="trigger-area"></a>
+                    </li>
+                </ul>
+            </div>
+            <h4 class="tit2">代码：</h4>
+            <div class="fold-code J_foldCode">
+                <div class="toggle">View Source</div>
+                <pre class="prettyprint">&lt;ul class="sq-list media"&gt;
+    &lt;li class="list-item"&gt;
+        &lt;a class="icon" href="#media"&gt;&lt;i class="hot"&gt;&lt;img src="../../dpl/images/sq-icon.png" /&gt;&lt;/i&gt;&lt;/a&gt;
         &lt;dl class="des"&gt;
-            &lt;dt class="row-ellipsis"&gt;一二三四五六七八九十一二三四五&lt;/dt&gt;
-            &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
+            &lt;dt class="row-ellipsis"&gt;RunKeeper - GPS Track Running Walking Cycling&lt;/dt&gt;
+            &lt;dd&gt;version 4.1, 26.5 MB&lt;/dd&gt;
+            &lt;dd&gt;What's New&lt;/dd&gt;
         &lt;/dl&gt;
         &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
     &lt;/li&gt;
 &lt;/ul&gt;</pre>
             </div>
-            
-            <h4 class="tit2" id="corner-mark">角标：</h4>
-            <style type="text/css">
-                .corner-mark::after{ width:30px; height:30px; background:#ff6600;}
-            </style>
+            <h4 class="tit2" id="extend">媒体列表扩展：</h4>
+            <p class="doc-p">可以为媒体列表的增加扩展容器<code>&lt;div class="extend"&gt;&lt;/div&gt;</code>用以显示额外的控件或元素，例如按钮、装饰 icon 等。</p>
+            <h4 class="tit2">示例：</h4>
             <div class="demo w320">
-                <div class="sq-list app">
-                    <ul>
-                        <li>
-                            <div class="icon"><i class="corner-mark"><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="des">
-                                <dt class="row">一二三四五六七八九十一二三四五六七八九十</dt>
-                                <dd>32372 人推荐下载</dd>
-                                <dd>工具软件 | 8.2MB</dd>
-                            </dl>
-                            <a href="#trigger-area" class="trigger-area"></a>
-                        </li>
-                    </ul>
-                </div>
+                <ul class="sq-list media app-list">
+                    <li class="list-item">
+                        <a class="icon" href="#media"><i class="hot"><img src="../../dpl/images/sq-icon.png" /></i></a>
+                        <dl class="des">
+                            <dt class="tit row-ellipsis"><a href="#RunKeeper">RunKeeper - GPS Track Running Walking Cycling</a></dt>
+                            <dd>Sport</dd>
+                            <dd>27832 People like it</dd>
+                        </dl>
+                        <div class="extend v-middle"><a class="sq-btn flat-blue" href="#btn">Free</a></div>
+                    </li>
+                    <li class="list-item v-middle">
+                        <a class="icon" href="#media"><img src="../../dpl/images/sq-icon.png" /></a>
+                        <dl class="des">
+                            <a class="tit row-ellipsis" href="#RunKeeper">RunKeeper - GPS Track Running Walking Cycling</a>
+                            <dd>version 4.1, 26.5 MB</dd>
+                            <dd>What`s New</dd>
+                        </dl>
+                        <div class="extend">
+                            <a class="sq-btn flat-blue block">Update</a>
+                            <a class="sq-btn flat-blue block">Ignore</a>
+                        </div>
+                    </li>
+                    <li class="list-item v-middle">
+                        <a class="icon" href="#media"><img src="../../dpl/images/sq-icon.png" /></a>
+                        <dl class="des">
+                            <dt class="tit row-ellipsis">RunKeeper - GPS Track Running Walking Cycling</dt>
+                            <dd class="row">GPS Track Running Walking Cycling</dd>
+                        </dl>
+                        <div class="extend v-middle"><i class="sq-icon icon-right-open"></i></div>
+                        <a href="#trigger-area" class="trigger-area"></a>
+                    </li>
+                </ul>
             </div>
+            <p class="doc-p">列表中的第二、三项，通过使用<code>.v-middle</code>让项目内的元素垂直居中布局。</p>
+            <p class="doc-p alert wran">注意：示例中<code>.app-list</code>、<code>.rec-list</code>是一个与业务相关的类，它来自 iOS7 主题，并不是媒体列表默认含有的类。</p>
+            <h4 class="tit2">代码：</h4>
             <div class="fold-code J_foldCode">
                 <div class="toggle">View Source</div>
-                <pre class="prettyprint">
-&lt;ul class="sq-list app"&gt;
-    &lt;li&gt;
-        &lt;div class="icon"&gt;&lt;i class="corner-mark"&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
+                <pre class="prettyprint">&lt;ul class="sq-list media app-list"&gt;
+    &lt;li class="list-item"&gt;
+        &lt;a class="icon" href="#media"&gt;&lt;i class="hot"&gt;&lt;img src="../../dpl/images/sq-icon.png" /&gt;&lt;/i&gt;&lt;/a&gt;
         &lt;dl class="des"&gt;
-            &lt;dt&gt;一二三四五六七八九十一二三四五&lt;/dt&gt;
-            &lt;dd&gt;32372 人推荐下载&lt;/dd&gt;
-            &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
+            &lt;dt class="tit row-ellipsis"&gt;&lt;a href="#RunKeeper"&gt;RunKeeper - GPS Track Running Walking Cycling&lt;/a&gt;&lt;/dt&gt;
+            &lt;dd&gt;Sport&lt;/dd&gt;
+            &lt;dd&gt;27832 People like it&lt;/dd&gt;
         &lt;/dl&gt;
-        &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
+        &lt;div class="extend v-middle"&gt;&lt;a class="sq-btn flat-blue" href="#btn"&gt;Free&lt;/a&gt;&lt;/div&gt;
     &lt;/li&gt;
-&lt;/ul&gt;</pre>
-                <pre class="prettyprint">.corner-mark::after{ width:30px; height:30px; background:#ff6600;}</pre>
-            </div>
-            <h4 class="tit2" id="extend">按钮：</h4>
-            <p class="doc-p">
-                可在列表的<code>&lt;div class="extend"&gt;&lt;/div&gt;</code>扩展区域按钮<br/>
-                另外可以用<code>.v-middle</code>让元素垂直居中布局（该元素不能设置高度）<br/>
-            </p>
-            <div class="demo w320">
-                <div class="sq-list app">
-                    <ul>
-                        <li>
-                            <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="des">
-                                <dt class="row">UC浏览器9.0不止所见</dt>
-                                <dd class="row">32372 人推荐下载</dd>
-                                <dd class="row">工具软件 | 8.2MB</dd>
-                            </dl>
-                            <div class="extend v-middle"><div class="sq-btn m-grey ucweb-anchor"><a href="#btn"></a>免费下载</div></div>
-                            <a href="#trigger-area" class="trigger-area"></a>
-                        </li>
-                        <li>
-                            <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="des">
-                                <dt>UC浏览器9.0不止所见</dt>
-                                <dd>32372 人推荐下载</dd>
-                                <dd>工具软件 | 8.2MB</dd>
-                            </dl>
-                            <div class="extend">
-                                <div class="sq-btn m-grey block"><a href="#update-btn">更新</a></div>
-                                <div class="sq-btn m-grey block"><a href="#ignore-btn">忽略</a></div>
-                            </div>
-                            <a href="#trigger-area" class="trigger-area"></a>
-                        </li>
-                        <li>
-                            <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="des">
-                                <dt class="row-ellipsis">UC浏览器9.0不止所见</dt>
-                                <dd class="row-ellipsis">32372 人推荐下载</dd>
-                                <dd>工具软件 | 8.2MB</dd>
-                            </dl>
-                            <div class="extend v-middle">
-                                <div class="sq-btn m-grey"><a href="#update-btn">更新</a></div>
-                                <div class="sq-btn m-grey"><a href="#ignore-btn">忽略</a></div>
-                            </div>
-                            <a href="#trigger-area" class="trigger-area"></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="fold-code J_foldCode">
-                <div class="toggle">View Source</div>
-                <pre class="prettyprint">&lt;ul class="sq-list app"&gt;
-    &lt;!-- 常用列表 --&gt;
-    &lt;li&gt;
-        &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;li class="list-item v-middle"&gt;
+        &lt;a class="icon" href="#media"&gt;&lt;img src="../../dpl/images/sq-icon.png" /&gt;&lt;/a&gt;
         &lt;dl class="des"&gt;
-            &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
-            &lt;dd class="row"&gt;32372 人推荐下载&lt;/dd&gt;
-            &lt;dd class="row"&gt;工具软件 | 8.2MB&lt;/dd&gt;
-        &lt;/dl&gt;
-        &lt;div class="extend v-middle"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#btn"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
-        &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
-    &lt;/li&gt;
-    &lt;!-- 多按钮1 --&gt;
-    &lt;li&gt;
-        &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-        &lt;dl class="des"&gt;
-            &lt;dt&gt;UC浏览器9.0不止所见&lt;/dt&gt;
-            &lt;dd&gt;32372 人推荐下载&lt;/dd&gt;
-            &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
+            &lt;a class="tit row-ellipsis" href="#RunKeeper"&gt;RunKeeper - GPS Track Running Walking Cycling&lt;/a&gt;
+            &lt;dd&gt;version 4.1, 26.5 MB&lt;/dd&gt;
+            &lt;dd&gt;Whats New&lt;/dd&gt;
         &lt;/dl&gt;
         &lt;div class="extend"&gt;
-            &lt;div class="sq-btn m-grey block"&gt;&lt;a href="#update-btn"&gt;更新&lt;/a&gt;&lt;/div&gt;
-            &lt;div class="sq-btn m-grey block"&gt;&lt;a href="#ignore-btn"&gt;忽略&lt;/a&gt;&lt;/div&gt;
+            &lt;a class="sq-btn flat-blue block"&gt;Update&lt;/a&gt;
+            &lt;a class="sq-btn flat-blue block"&gt;Ignore&lt;/a&gt;
         &lt;/div&gt;
-        &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
     &lt;/li&gt;
-    &lt;!-- 多按钮2 --&gt;
-    &lt;li&gt;
-        &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;li class="list-item v-middle"&gt;
+        &lt;a class="icon" href="#media"&gt;&lt;img src="../../dpl/images/sq-icon.png" /&gt;&lt;/a&gt;
         &lt;dl class="des"&gt;
-            &lt;dt class="row-ellipsis"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
-            &lt;dd class="row-ellipsis"&gt;32372 人推荐下载&lt;/dd&gt;
-            &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
+            &lt;dt class="tit row-ellipsis"&gt;RunKeeper - GPS Track Running Walking Cycling&lt;/dt&gt;
+            &lt;dd class="row"&gt;GPS Track Running Walking Cycling&lt;/dd&gt;
         &lt;/dl&gt;
-        &lt;div class="extend v-middle"&gt;
-            &lt;div class="sq-btn m-grey"&gt;&lt;a href="#update-btn"&gt;更新&lt;/a&gt;&lt;/div&gt;
-            &lt;div class="sq-btn m-grey"&gt;&lt;a href="#ignore-btn"&gt;忽略&lt;/a&gt;&lt;/div&gt;
-        &lt;/div&gt;
+        &lt;div class="extend v-middle"&gt;&lt;i class="sq-icon icon-right-open"&gt;&lt;/i&gt;&lt;/div&gt;
         &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
     &lt;/li&gt;
 &lt;/ul&gt;</pre>
             </div>
-            
-            <!--<h4 class="tit2" id="top-10">排行：</h4>
-            <p class="doc-p">
-                添加<code>.top10</code>可以自动添加 1- 10 的序号。
-            </p>
-            <div class="demo w320">
-                <div class="sq-list app top10">
-                    <ul>
-                        <li>
-                            <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="des">
-                                <dt>UC浏览器9.0不止所见</dt>
-                                <dd>32372 人推荐下载</dd>
-                                <dd>工具软件 | 8.2MB</dd>
-                            </dl>
-                            <div class="extend v-middle"><div class="sq-btn m-grey"><a href="#btn">免费下载</a></div></div>
-                            <a href="#trigger-area" class="trigger-area"></a>
-                        </li>
-                        <li>
-                            <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="des">
-                                <dt class="row">UC浏览器9.0不止所见</dt>
-                                <dd>32372 人推荐下载</dd>
-                                <dd>工具软件 | 8.2MB</dd>
-                            </dl>
-                            <div class="extend v-middle"><div class="sq-btn m-grey"><a href="#btn">免费下载</a></div></div>
-                            <a href="#trigger-area" class="trigger-area"></a>
-                        </li>
-                        <li>
-                            <div class="icon"><i><img src="../../dpl/images/sq-icon.png"/></i></div>
-                            <dl class="des">
-                                <dt class="row">UC浏览器9.0不止所见</dt>
-                                <dd>32372 人推荐下载</dd>
-                                <dd>工具软件 | 8.2MB</dd>
-                            </dl>
-                            <div class="extend v-middle"><div class="sq-btn m-grey"><a href="#btn">免费下载</a></div></div>
-                            <a href="#trigger-area" class="trigger-area"></a>
-                        </li>
-                    </ul>
-                </div>
+            <p class="doc-p">排列个数可由<code>.col2</code>-<code>.col6</code>控制。</p>
+            <div class="demo w480">
+                <ul class="sq-list media rec-list col2">
+                    <li class="list-item">
+                        <a href="#icon" class="icon"><img src="../../dpl/images/sq-icon.png"/></a>
+                        <div class="des">
+                            <a href="#runkeeper" class="tit row-ellipsis">RunKeeper - GPS Track Running Walking Cycling</a>
+                            <div class="row">GPS Track Running Walking Cycling</div>
+                            <a href="#btn" class="sq-btn flat-blue">Free</a>
+                        </div>
+                    </li>
+                    <li class="list-item">
+                        <a href="#icon" class="icon"><img src="../../dpl/images/sq-icon.png"/></a>
+                        <div class="des">
+                            <a href="#runkeeper" class="tit row-ellipsis">RunKeeper - GPS Track Running Walking Cycling</a>
+                            <div class="row">GPS Track Running Walking Cycling</div>
+                            <a href="#btn" class="sq-btn flat-blue">Free</a>
+                        </div>
+                    </li>
+                    <li class="list-item">
+                        <a href="#icon" class="icon"><img src="../../dpl/images/sq-icon.png"/></a>
+                        <div class="des">
+                            <a href="#runkeeper" class="tit row-ellipsis">RunKeeper - GPS Track Running Walking Cycling</a>
+                            <div class="row">GPS Track Running Walking Cycling</div>
+                            <a href="#btn" class="sq-btn flat-blue">Free</a>
+                        </div>
+                    </li>
+                    <li class="list-item">
+                        <a href="#icon" class="icon"><img src="../../dpl/images/sq-icon.png"/></a>
+                        <div class="des">
+                            <a href="#runkeeper" class="tit row-ellipsis">RunKeeper - GPS Track Running Walking Cycling</a>
+                            <div class="row">GPS Track Running Walking Cycling</div>
+                            <a href="#btn" class="sq-btn flat-blue">Free</a>
+                        </div>
+                    </li>
+                </ul>
             </div>
+            <h4 class="tit2">代码：</h4>
             <div class="fold-code J_foldCode">
                 <div class="toggle">View Source</div>
-                <pre class="prettyprint">&lt;!-- Top10 布局 --&gt;
-&lt;div class="sq-list app top10"&gt;
-    &lt;ul&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="des"&gt;
-                &lt;dt&gt;UC浏览器9.0不止所见&lt;/dt&gt;
-                &lt;dd&gt;32372 人推荐下载&lt;/dd&gt;
-                &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
-            &lt;/dl&gt;
-            &lt;div class="extend v-middle"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#btn"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
-            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
-        &lt;/li&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="des"&gt;
-                &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
-                &lt;dd&gt;32372 人推荐下载&lt;/dd&gt;
-                &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
-            &lt;/dl&gt;
-            &lt;div class="extend v-middle"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#btn"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
-            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
-        &lt;/li&gt;
-        &lt;li&gt;
-            &lt;div class="icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/div&gt;
-            &lt;dl class="des"&gt;
-                &lt;dt class="row"&gt;UC浏览器9.0不止所见&lt;/dt&gt;
-                &lt;dd&gt;32372 人推荐下载&lt;/dd&gt;
-                &lt;dd&gt;工具软件 | 8.2MB&lt;/dd&gt;
-            &lt;/dl&gt;
-            &lt;div class="extend v-middle"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#btn"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
-            &lt;a href="#trigger-area" class="trigger-area"&gt;&lt;/a&gt;
-        &lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;</pre>
-            </div>-->
-        </div>
-        <h4 class="tit2" id="Horizontal">水平列表：</h4>
-        <p class="doc-p">水平列表<code>.horizontal</code>，适用于内部元素从左至右水平列表的场景，排列个数可由<code>.col2</code>-<code>.col6</code>控制。</p>
-        <div class="demo w480">
-            <ul class="sq-list horizontal col4">
-                <li>
-                    <div class="icon"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
-                    <dl class="des">
-                        <dt><a href="#app-name">一二三四五六七</a></dt>
-                    </dl>
-                    <div class="extend"><div class="sq-btn m-grey"><a href="#btn">免费下载</a></div></div>
-                </li>
-                <li>
-                    <div class="icon"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
-                    <dl class="des">
-                        <dt><a href="#app-name">一二三四五六七</a></dt>
-                    </dl>
-                    <div class="extend"><div class="sq-btn m-grey"><a href="#btn">免费下载</a></div></div>
-                </li>
-                <li>
-                    <div class="icon"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
-                    <dl class="des">
-                        <dt><a href="#app-name">一二三四五六七</a></dt>
-                    </dl>
-                    <div class="extend"><div class="sq-btn m-grey"><a href="#btn">免费下载</a></div></div>
-                </li>
-                <li>
-                    <div class="icon"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
-                    <dl class="des">
-                        <dt><a href="#app-name">UC浏览器9.0不止所见</a></dt>
-                    </dl>
-                    <div class="extend"><div class="sq-btn m-grey"><a href="#btn">免费下载</a></div></div>
-                </li>
-            </ul>
-        </div>
-        <h4 class="tit2">代码：</h4>
-        <div class="fold-code J_foldCode">
-            <div class="toggle">View Source</div>
-            <pre class="prettyprint">&lt;ul class="sq-list horizontal col4"&gt;
-    &lt;li&gt;
-        &lt;div class="icon"&gt;&lt;a href="#icon"&gt;&lt;i&gt;&lt;img src="../../dpl/images/sq-icon.png"/&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;
-        &lt;dl class="des"&gt;
-            &lt;dt&gt;&lt;a href="#app-name"&gt;一二三四五六七&lt;/a&gt;&lt;/dt&gt;
-        &lt;/dl&gt;
-        &lt;div class="extend"&gt;&lt;div class="sq-btn m-grey"&gt;&lt;a href="#btn"&gt;免费下载&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
-    &lt;/li&gt;
+                <pre class="prettyprint">&lt;ul class="sq-list media rec-list col2"&gt;
+   &lt;li class="list-item"&gt;
+       &lt;a href="#icon" class="icon"&gt;&lt;img src="../../dpl/images/sq-icon.png"/&gt;&lt;/a&gt;
+       &lt;div class="des"&gt;
+           &lt;a href="#runkeeper" class="tit row-ellipsis"&gt;RunKeeper - GPS Track Running Walking Cycling&lt;/a&gt;
+           &lt;div class="row"&gt;GPS Track Running Walking Cycling&lt;/div&gt;
+           &lt;a href="#btn" class="sq-btn flat-blue"&gt;Free&lt;/a&gt;
+       &lt;/div&gt;
+   &lt;/li&gt;
+   &lt;li class="list-item"&gt;
+       &lt;a href="#icon" class="icon"&gt;&lt;img src="../../dpl/images/sq-icon.png"/&gt;&lt;/a&gt;
+       &lt;div class="des"&gt;
+           &lt;a href="#runkeeper" class="tit row-ellipsis"&gt;RunKeeper - GPS Track Running Walking Cycling&lt;/a&gt;
+           &lt;div class="row"&gt;GPS Track Running Walking Cycling&lt;/div&gt;
+           &lt;a href="#btn" class="sq-btn flat-blue"&gt;Free&lt;/a&gt;
+       &lt;/div&gt;
+   &lt;/li&gt;
+   &lt;/li&gt;
 &lt;/ul&gt;</pre>
-        </div>
-
-        <h4 class="tit2" id="Window">窗格排列：</h4>
-        <p class="doc-p">窗格列表<code>.window</code>，同时具备水平列表与垂直列的特性。</p>
-        <div class="demo w320">
-            <ul class="sq-list window col2">
-                <li>
-                    <div class="icon v-middle"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
-                    <dl class="des">
-                        <dt class="row"><a href="#tit">UC浏览器9.0不止所见</a></dt>
-                        <dd class="row">工具 8.2MB</dd>
-                        <dd><a href="#btn" class="sq-btn small m-grey">免费</a></dd>
-                    </dl>
-                </li>
-                <li>
-                    <div class="icon v-middle"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
-                    <dl class="des">
-                        <dt class="row"><a href="#tit">UC浏览器9.0不止所见</a></dt>
-                        <dd class="row">工具 8.2MB</dd>
-                        <dd><a href="#btn" class="sq-btn small m-grey">免费</a></dd>
-                    </dl>
-                </li>
-                <li>
-                    <div class="icon v-middle"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
-                    <dl class="des">
-                        <dt class="row"><a href="#tit">UC浏览器9.0不止所见</a></dt>
-                        <dd class="row">工具 8.2MB</dd>
-                        <dd><a href="#btn" class="sq-btn small m-grey">免费</a></dd>
-                    </dl>
-                </li>
-                <li>
-                    <div class="icon v-middle"><a href="#icon"><i><img src="../../dpl/images/sq-icon.png"/></i></a></div>
-                    <dl class="des">
-                        <dt class="row"><a href="#tit">UC浏览器9.0不止所见</a></dt>
-                        <dd class="row">工具 8.2MB</dd>
-                        <dd><a href="#btn" class="sq-btn small m-grey">免费</a></dd>
-                    </dl>
-                </li>
-            </ul>
-        </div>
-        <h4 class="tit2">代码：</h4>
-        <div class="fold-code J_foldCode">
-            <div class="toggle">View Source</div>
-            <pre class="prettyprint">&lt;ul class="sq-list window col2"&gt;
-    &lt;li&gt;
-        &lt;div class="icon v-middle"&gt;&lt;a href="#icon"&gt;&lt;i&gt;&lt;img src="../_images/sq1.png"/&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;
-        &lt;dl class="des"&gt;
-            &lt;dt class="row"&gt;&lt;a href="#tit"&gt;UC浏览器9.0不止所见&lt;/a&gt;&lt;/dt&gt;
-            &lt;dd class="row"&gt;工具 8.2MB&lt;/dd&gt;
-            &lt;dd&gt;&lt;a href="#btn" class="sq-btn small m-grey"&gt;免费&lt;/a&gt;&lt;/dd&gt;
-        &lt;/dl&gt;
-    &lt;/li&gt;
-&lt;/ul&gt;</pre>
+           </div>
         </div>
     </section>
 
     <section class="doc-section">
-        <h3 class="tit1" id="Thumbnails">缩略图</h3>
-        <p class="doc-p">缩略图列表<code>.thumbnails</code>，适用于展示图片列表。</p>
+        <h3 class="tit1" id="Tile">平铺列表</h3>
+        <p class="doc-p">平铺列表<code>.tile</code>，默认为上图片和下文本的组件，排列个数可由<code>.col2</code>-<code>.col6</code>控制。</p>
         <h4 class="tit2">示例：</h4>
-        <div class="demo w320">
-            <ul class="sq-list col3 thumbnails">
-                <li>
-                    <div class="content">
-                        <a href="#screenshot"><img src="../../dpl/images/sq-screenshot.png" /></a>
-                        <div class="caption">
-                            <h3 class="title">图片标题</h3>
-                            <p>描述文字，描述文字描述文字</p>
-                        </div>
-                        <div class="extend"><a href="#btn" class="sq-btn small m-grey">免费</a></div>
-                    </div>
+        <div class="demo w480">
+            <ul class="sq-list tile col4">
+                <li class="list-item">
+                    <a href="#icon" class="icon"><img src="../../dpl/images/sq-icon.png"/></a>
+                    <a href="#app-name" class="tit">Pocket Expense</a>
+                    <a href="#btn" class="sq-btn flat-blue">Free</a>
                 </li>
-                <li>
-                    <div class="content">
-                        <a href="#screenshot"><img src="../../dpl/images/sq-screenshot.png" /></a>
-                        <div class="caption">
-                            <h3 class="title">图片标题</h3>
-                            <p>描述文字，描述文字</p>
-                        </div>
-                        <div class="extend"><a href="#btn" class="sq-btn small m-grey">免费</a></div>
-                    </div>
+                <li class="list-item">
+                    <a href="#icon" class="icon"><img src="../../dpl/images/sq-icon.png"/></a>
+                    <a href="#app-name" class="tit row-ellipsis">Feedly Expense</a>
+                    <a href="#btn" class="sq-btn flat-blue">Free</a>
                 </li>
-                <li>
-                    <div class="content">
-                        <a href="#screenshot"><img src="../../dpl/images/sq-screenshot.png" /></a>
-                        <div class="caption">
-                            <h3 class="title">图片标题</h3>
-                            <p>描述文字</p>
-                        </div>
-                        <div class="extend"><a href="#btn" class="sq-btn small m-grey">免费</a></div>
-                    </div>
+                <li class="list-item">
+                    <a href="#icon" class="icon"><img src="../../dpl/images/sq-icon.png"/></a>
+                    <a href="#app-name" class="tit">Uber</a>
+                    <a href="#btn" class="sq-btn flat-blue">Free</a>
+                </li>
+                <li class="list-item">
+                    <a href="#icon" class="icon"><img src="../../dpl/images/sq-icon.png"/></a>
+                    <a href="#app-name" class="tit">UC浏览器9.5</a>
+                    <a href="#btn" class="sq-btn flat-blue">免费</a>
                 </li>
             </ul>
         </div>
-
+        <div class="demo w480">
+            <ul class="sq-list tile col3 thumbnails-lsit">
+                <li class="list-item">
+                    <a href="#screenshot" class="screenshot"><img src="../../dpl/images/sq-screenshot.png" /></a>
+                    <a href="#app-name" class="tit">Pocket Expense</a>
+                    <a href="#btn" class="sq-btn flat-blue">Free</a>
+                </li>
+                <li class="list-item">
+                    <a href="#screenshot" class="screenshot"><img src="../../dpl/images/sq-screenshot.png" /></a>
+                    <a href="#app-name" class="tit">Pocket Expense</a>
+                    <a href="#btn" class="sq-btn flat-blue">Free</a>
+                </li>
+                <li class="list-item">
+                    <a href="#screenshot" class="screenshot"><img src="../../dpl/images/sq-screenshot.png" /></a>
+                    <a href="#app-name" class="tit">Pocket Expense</a>
+                    <a href="#btn" class="sq-btn flat-blue">Free</a>
+                </li>
+            </ul>
+        </div>
+        <p class="doc-p alert wran">注意：示例中<code>.thumbnails-list</code>是一个与业务相关的类，它来自 iOS7 主题，并不是媒体列表默认含有的类。</p>
         <h4 class="tit2">代码：</h4>
         <div class="fold-code J_foldCode">
             <div class="toggle">View Source</div>
-            <pre class="prettyprint">&lt;ul class="sq-list col3 thumbnails"&gt;
-    &lt;li&gt;
-        &lt;div class="content"&gt;
-            &lt;a href="#screenshot"&gt;&lt;img src="../../dpl/images/sq-screenshot.png" /&gt;&lt;/a&gt;
-            &lt;div class="caption"&gt;
-                &lt;h3 class="title"&gt;图片标题&lt;/h3&gt;
-                &lt;p&gt;描述文字，描述文字描述文字&lt;/p&gt;
-            &lt;/div&gt;
-            &lt;div class="extend"&gt;&lt;a href="#btn" class="sq-btn small m-grey"&gt;免费&lt;/a&gt;&lt;/div&gt;
-        &lt;/div&gt;
+            <pre class="prettyprint">//Example 1:
+&lt;ul class="sq-list tile col4"&gt;
+    &lt;li class="list-item"&gt;
+        &lt;a href="#icon" class="icon"&gt;&lt;img src="../../dpl/images/sq-icon.png"/&gt;&lt;/a&gt;
+        &lt;a href="#app-name" class="tit"&gt;Pocket Expense&lt;/a&gt;
+        &lt;a href="#btn" class="sq-btn flat-blue"&gt;Free&lt;/a&gt;
     &lt;/li&gt;
-&lt;/ul&gt;</pre>
+    &lt;li class="list-item"&gt;
+        &lt;a href="#icon" class="icon"&gt;&lt;img src="../../dpl/images/sq-icon.png"/&gt;&lt;/a&gt;
+        &lt;a href="#app-name" class="tit row-ellipsis"&gt;Feedly Expense&lt;/a&gt;
+        &lt;a href="#btn" class="sq-btn flat-blue"&gt;Free&lt;/a&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+
+//Example 2:
+&lt;ul class="sq-list tile col3 thumbnails-lsit"&gt;
+    &lt;li class="list-item"&gt;
+        &lt;a href="#screenshot" class="screenshot"&gt;&lt;img src="../../dpl/images/sq-screenshot.png" /&gt;&lt;/a&gt;
+        &lt;a href="#app-name" class="tit"&gt;Pocket Expense&lt;/a&gt;
+        &lt;a href="#btn" class="sq-btn flat-blue"&gt;Free&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class="list-item"&gt;
+        &lt;a href="#screenshot" class="screenshot"&gt;&lt;img src="../../dpl/images/sq-screenshot.png" /&gt;&lt;/a&gt;
+        &lt;a href="#app-name" class="tit"&gt;Pocket Expense&lt;/a&gt;
+        &lt;a href="#btn" class="sq-btn flat-blue"&gt;Free&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class="list-item"&gt;
+        &lt;a href="#screenshot" class="screenshot"&gt;&lt;img src="../../dpl/images/sq-screenshot.png" /&gt;&lt;/a&gt;
+        &lt;a href="#app-name" class="tit"&gt;Pocket Expense&lt;/a&gt;
+        &lt;a href="#btn" class="sq-btn flat-blue"&gt;Free&lt;/a&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+</pre>
         </div>
     </section>
+
 </div>
 </body>
 </html>

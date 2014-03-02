@@ -148,7 +148,7 @@ SQ.load = function (param) {
  */
 SQ.store = {
     /**
-     * Cookie 操作
+     * Cookie
      * @example
      * Sq.cookie.set("name", "value");  // 设置
      * Sq.cookie.get("name");           // 读取
@@ -224,6 +224,9 @@ SQ.store = {
             document.cookie = key + "=" + cval + "; expires=" + exp.toGMTString();
         }
     },
+    /**
+     * localStorage
+     */
     localStorage: {
         hasLoaclStorage: (function () {
             if( ("localStorage" in window) && window.localStorage !== null ) {
@@ -234,35 +237,40 @@ SQ.store = {
         get: function (key, expires) {
             var me = this;
             var now = new Date().getTime();
+            var localData;
+            var time;
+            var dataStore;
+            
             if (!key || !me.hasLoaclStorage) {
                 return;
             }
-            var localDatas = localStorage.getItem(key);
-            if (!localDatas) {
-                return;
-            }
-            localDatas = localDatas.split("@");
-            if (expires === undefined) {
-                return localDatas[1];
-            }
-            // 填写了 expires 过期时间
-            var inEffect = parseInt(expires, 10) * 1000 * 60 > (now - parseInt(localDatas[0], 10));
-            if (inEffect) {
-                //console.log("在有效期内，读取数据");
-                return localDatas[1];
-            } else {
-                //console.log("数据已过期，请重新读取");
-                return false;
+
+            localData = JSON.parse(localStorage.getItem(key));
+
+            if (localData) {
+                time = localData.time;
+                dataStore = localData.dataStore;
+
+                // 填写了 expires 过期时间
+                if (expires) {
+                    dataStore = parseInt(expires, 10) * 1000 * 60 > (now - parseInt(time, 10)) ? dataStore : false;
+                }
+                return dataStore;
             }
         },
         set: function (key, value) {
             var me = this;
+            var ds = {};
             var now = new Date().getTime();
             if (!key || !value || !me.hasLoaclStorage) {
                 return;
             }
-            var strValue = now + "@" + JSON.stringify(value);   // 为数据添加时间戳
-            localStorage.setItem(key, strValue);
+
+            ds.dataStore = value;
+            ds.time = now;
+            ds = JSON.stringify(ds);
+
+            localStorage.setItem(key, ds);
         },
         del: function (key) {
             var me = this;

@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link type= "text/css" rel="stylesheet" href="../../../build/css/squirrel.css" />
-    <link type= "text/css" rel="stylesheet" href="suggest.css" />
+    <link type="text/css" rel="stylesheet" href="../../../dpl/themes/iOS7/theme-ios7.css" />
     <!--common-->
     <link type="text/css" rel="stylesheet" href="../../static/dpl-famework.css" />
     <link type="text/css" rel="stylesheet" href="../../static/prettify.css" />
@@ -16,7 +16,7 @@
     </style>
 </head>
 <body onload="prettyPrint();">
-<div class="doc-container default-theme">
+<div class="doc-container theme-ios7">
 
     <aside class="doc-section-dir">
         <ul class="anchor">
@@ -33,37 +33,27 @@
         <p class="doc-p">SQ.suggest 是搜索框的增强插件，能为输入框建立搜索联想词的提示交互。</p>
         <h4 class="tit2">示例：</h4>
         <div class="demo w320">
-            <header class="dpl-searchbar">
-                <form action="search.html">
-                    <div class="sq-search-bar simple">
-                        <div class="search-input">
-                            <input type="text" class="J_searchInput" placeholder="请输入搜索内容" />
-                            <div class="clear J_clearInput"></div>
-                        </div>
-                        <div class="search-btn">
-                            <input type="submit" class="sq-btn f-grey" value="搜索" />
-                        </div>
+            <form action="#search">
+                <header class="sq-bars search theme-ios7-search">
+                    <div class="label sq-icon icon-search">
+                        <input type="text" class="J_searchInput" placeholder="请输入搜索内容" />
+                        <div class="clear J_clearInput"></div>
                     </div>
-                </form>
-                <div class="suggest-panel J_suggest"></div>
-            </header>
+                    <div class="suggest-panel J_suggest"></div>
+                </header>
+            </form>
         </div>
         <div class="doc-subsection">
         <h5 class="tit2">代码：</h5>
-        <pre class="prettyprint">&lt;header class="dpl-searchbar"&gt;
-    &lt;form action="search.html"&gt;
-        &lt;div class="sq-search-bar simple"&gt;
-            &lt;div class="search-input"&gt;
-                &lt;input type="text" class="J_searchInput" placeholder="请输入搜索内容" /&gt;
-                &lt;div class="clear J_clearInput"&gt;&lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class="search-btn"&gt;
-                &lt;input type="submit" class="sq-btn f-grey" value="搜索" /&gt;
-            &lt;/div&gt;
+        <pre class="prettyprint">&lt;form action="#search"&gt;
+    &lt;header class="sq-bars search"&gt;
+        &lt;div class="label sq-icon icon-search"&gt;
+            &lt;input type="text" class="J_searchInput" placeholder="请输入搜索内容" /&gt;
+            &lt;div class="clear J_clearInput"&gt;&lt;/div&gt;
         &lt;/div&gt;
-    &lt;/form&gt;
-    &lt;div class="suggest-panel J_suggest"&gt;&lt;/div&gt;
-&lt;/header&gt;</pre>
+        &lt;div class="suggest-panel J_suggest"&gt;&lt;/div&gt;
+    &lt;/header&gt;
+&lt;/form&gt;</pre>
         <pre class="prettyprint">var suggest = new SQ.Suggest({
         DOM_INPUT : ".J_searchInput",
         DOM_CLEAR_BTN : ".J_clearInput",
@@ -203,20 +193,15 @@ me.$clearBtn        //清空输入框按钮</pre></p>
 &lt;/head&gt;
 &lt;body&gt;
 &lt;div class="wrapper"&gt;
-    &lt;header class="dpl-searchbar"&gt;
-        &lt;form action="search.html"&gt;
-            &lt;div class="sq-search-bar simple"&gt;
-                &lt;div class="search-input"&gt;
-                    &lt;input type="text" class="J_searchInput" placeholder="请输入搜索内容" /&gt;
-                    &lt;div class="clear J_clearInput"&gt;&lt;/div&gt;
-                &lt;/div&gt;
-                &lt;div class="search-btn"&gt;
-                    &lt;input type="submit" class="sq-btn f-grey" value="搜索" /&gt;
-                &lt;/div&gt;
+    &lt;form action="#search"&gt;
+        &lt;header class="sq-bars search"&gt;
+            &lt;div class="label sq-icon icon-search"&gt;
+                &lt;input type="text" class="J_searchInput" placeholder="请输入搜索内容" /&gt;
+                &lt;div class="clear J_clearInput"&gt;&lt;/div&gt;
             &lt;/div&gt;
-        &lt;/form&gt;
-        &lt;div class="suggest-panel J_suggest"&gt;&lt;/div&gt;
-    &lt;/header&gt;
+            &lt;div class="suggest-panel J_suggest"&gt;&lt;/div&gt;
+        &lt;/header&gt;
+    &lt;/form&gt;
 &lt;/div&gt;
 &lt;script type="text/javascript" src="../../libs/zepto/zepto.min.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="../../release/js/squirrel.js"&gt;&lt;/script&gt;

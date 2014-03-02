@@ -4,6 +4,31 @@
   font-weight: normal;
   font-style: normal;
 }
+/*
+
+// 圆角
+.rounded-corners (@radius: 3px){
+    border-radius: @radius;
+    //-webkit-border-radius: @radius;
+    //-moz-border-radius: @radius;
+}
+
+//阴影
+.shadow (@param){
+    -webkit-box-shadow: @arguments;
+    //-moz-box-shadow: @arguments;
+    //box-shadow: inset @arguments ;
+}
+
+
+//变形
+.transition (@param){
+    -webkit-transition: @arguments;
+    //-moz-transition: @arguments;
+    //-o-transition: @arguments;
+    //transition: @arguments;
+}
+*/
 @charset "UTF-8";
 /**
  * css-reset.css

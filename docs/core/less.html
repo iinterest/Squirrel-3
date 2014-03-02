@@ -16,55 +16,177 @@
 
     <aside class="doc-section-dir">
         <ul class="anchor">
-            <li class="level-1"><a href="#core">LESS</a></li>
-            <!--<li class="level-1"><a href="#dom">SQ.dom</a></li>
-            <li class="level-1"><a href="#store">SQ.store</a></li>
-            <li class="level-1"><a href="#ua">SQ.ua</a></li>
-            <li class="level-1"><a href="#util">SQ.util</a></li>-->
+            <li class="level-1"><a href="#less">LESS</a></li>
+            <li class="level-3"><a href="#font-size">文字尺寸设置</a></li>
+            <li class="level-1"><a href="#mixins">混合样式</a></li>
+            <li class="level-3"><a href="#box-module">盒模型</a></li>
+            <li class="level-3"><a href="#tool">效率工具</a></li>
         </ul>
     </aside>
 
-    <section class="doc-section" id="core">
-        <h3 class="tit1">LESS 混合</h3>
-        <h4 class="tit2">什么是『混合』：</h4>
-        <blockquote>混合（Mixins）是 LESS 中的一种特殊方法，它可以将一个定义好的 class A 轻松的引入到另一个 class B 中，从而简单实现 class B 继承 class A 中的所有属性；还可以带参数地调用，就像使用函数一样。—— lesscss.net</blockquote>
-        <h4 class="tit2">混合样式：</h4>
-        <p class="doc-p">Squirrel 的混合样式存放在 base.less 文件中，在浏览器兼容性方面，默认只支持 Webkit 内核，如果需要支持其它内核浏览器可以到<a href="../../customize/customize.html" target="_top">『定制』</a>页面进行定制操作。</p>
-        <h4 class="tit2">文字尺寸设置：</h4>
+    <section class="doc-section">
+        <h3 class="tit1">LESS</h3>
+        <p class="doc-p">Squirrel 的样式是基于 LESS 进行开发，您可以对<code>src/less/base.less</code>做一些自定义的设置来满足项目需求。</p>
+        
+        <h4 class="tit2" id="font-size">文字尺寸设置：</h4>
         <p class="doc-p"></p>
-        <pre class="prettyprint">@head-font-size:18px;
+        <pre class="prettyprint">// 大标题
+@head-font-size:18px;
+
+// 标题
 @title-font-size:16px;
+
+// 内容
 @content-font-size:14px;
+
+// 描述
 @description-font-size:12px;
+
+// 徽章
 @badge-font-size:10px;</pre>
-        <h4 class="tit2">盒模型：</h4>
-        <div class="doc-subsection">
-            <h5>.border-box()</h5>
-            <pre class="prettyprint">.demo {.border-box;}</pre>
-            <h5>.display-box()</h5>
-            <pre class="prettyprint">.demo {.display-box();}</pre>
-            <h5>.box-orient()</h5>
-            <pre class="prettyprint">.demo {.box-orient();}</pre>
-            <h5>.box-pack()</h5>
-            <pre class="prettyprint">.demo {.box-pack;}</pre>
-            <h5>.box-align()</h5>
-            <pre class="prettyprint">.demo {.box-align;}</pre>
-            <h5>.box-flex()</h5>
-            <pre class="prettyprint">.demo {.box-flex;}</pre>
-        </div>
-        <h4 class="tit2">圆角：</h4>
-        <pre class="prettyprint">.demo {.rounded-corners();}</pre>
-        <h4 class="tit2">阴影：</h4>
+    </section>
+    <section class="doc-section">
+        <h3 class="tit1" id="mixins">混合样式</h3>
+        <p class="doc-p">框架内置了很多实用的『混合样式』，方便您在开发时调用。</p>
+        <blockquote class="suggestion">混合（Mixins）是 LESS 中的一种特殊方法，它可以将一个定义好的 class A 轻松的引入到另一个 class B 中，从而简单实现 class B 继承 class A 中的所有属性；还可以带参数地调用，就像使用函数一样。<p class="be-from">—— lesscss.net</p></blockquote>
+        <h4 class="tit2" id="box-module">盒模型：</h4>
+        <p class="doc-p">因为盒模型大多属性需要添加浏览器前缀才能运行，所以使用下列盒模型混合样式时可以非常方便的添加浏览器前缀，默认情况下只包含<code>-webkit-</code>前缀。</p>
+        <h5>.border-box</h5>
+        <!--<p class="doc-p"><code>.border-box</code>将<code>box-sizing</code>设置为<code>border-box</code>;</p>-->
+        <pre class="prettyprint">/* less */
+.box { .border-box;}     
+
+/* 输出 */
+.box {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;    /* 可以添加多个浏览器前缀支持 */
+    ...
+    box-sizing: border-box;
+}</pre>
+        <h5>.display-box</h5>
+        <pre class="prettyprint">/* less */
+.box { .display-box;}     
+
+/* 输出 */
+.box {
+    display: -webkit-box;
+    display: box;
+}</pre>
+        <h5>.box-orient(@param)</h5>
+        <pre class="prettyprint">/** 
+ * .box-orient
+ * 设置子元素水平或垂直的排列方式
+ * @param: horizontal | vertical | inherit 
+ */
+
+/* less */
+.box { .box-orient(horizontal);}     
+
+/* 输出 */
+.box {
+    -webkit-box-orient: horizontal;
+    box-orient: horizontal;
+}</pre>
+        <h5>.box-align(@param)</h5>
+        <pre class="prettyprint">/** 
+ * .box-align
+ * 设置子元素垂直方向的排列方式
+ * @param: start | end | center | baseline | stretch
+ */
+
+/* less */
+.box { .box-align(start);}
+
+/* 输出 */
+.box {
+    -webkit-box-align: center;
+    box-align: center;
+}</pre>
+        <h5>.box-pack(@param)</h5>
+        <pre class="prettyprint">/** 
+ * .box-pack
+ * 设置子元素水平方向的排列方式
+ * @param: start | end | center | justify
+ */
+
+/* less */
+.box { .box-pack(start);}
+
+/* 输出 */
+.box {
+    -webkit-box-pack: center;
+    box-pack: center;
+}</pre>
+        <h5>.box-flex(@param)</h5>
+        <pre class="prettyprint">/** 
+ * .box-flex
+ * 设置元素可伸缩性的比例
+ * @param: {number}
+ */
+
+/* less */
+.box { .box-flex(1);}
+
+/* 输出 */
+.box {
+    -webkit-box-flex: 1;
+    box-flex: 1;
+}</pre>
+        
+        <h4 class="tit2" id="tool">效率工具：</h4>
+        <!--<h5>圆角：</h5>
+        <pre class="prettyprint">/**
+ * .rounded-corners(@radius);
+ * 圆角设置，默认为 3px 的圆角，通过 @radius 参数来自定义圆角半径。
+ */
+
+// less
+.demo { .rounded-corners(5px);}
+
+/* 输出 */
+.demo {
+    border-radius: 5px;
+}</pre>
+        <h5>阴影：</h5>
         <pre class="prettyprint">.demo {.shadow();}</pre>
-        <h4 class="tit2">变形：</h4>
-        <pre class="prettyprint">.demo {.transition();}</pre>
-        <h4 class="tit2">绝对布局平铺：</h4>
-        <pre class="prettyprint">.demo {.overspread (@top: 0, @right: 0, @bottom: 0, @left: 0);}</pre>
-        <h4 class="tit2">形状：</h4>
-        <pre class="prettyprint">.demo1 {.sq-arr-up (@size, @color)}
-.demo2 {.sq-arr-right (30px, #d7d7d7)}
-.demo3 {.sq-arr-down (@size, @color)}
-.demo4 {.sq-arr-left (@size, @color)}</pre>
+        <h5>变形：</h5>
+        <pre class="prettyprint">.demo {.transition();}</pre>-->
+        <h5>平铺布局：</h5>
+        <!--<h5>.overspread(@top, @right, @bottom, @left)</h5>-->
+        <pre class="prettyprint">/** 
+ * .overspread
+ * 设置绝对布局，并且定义元素的坐标值
+ * @param: @top, @right, @bottom, @left
+ */
+
+/* less */
+.demo { .overspread (10px,10px,10px,10px);}
+
+/* 输出 */
+.demo {
+    position:absolute;
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+}</pre>
+        <h5>小箭头：</h5>
+        <pre class="prettyprint">/** 
+ * .sq-arr-up, .sq-arr-right, .sq-arr-down, .sq-arr-left
+ * 生成 border 三角形
+ * @param: @size, @color
+ */
+
+/* less */
+.demo {.sq-arr-up (30px, #d7d7d7)}
+
+/* 输出 */
+.demo {
+    width:0;
+    height:0; 
+    border:30px solid transparent; 
+    border-bottom-color:#d7d7d7;
+}</pre>
     </section>
 
 </div>

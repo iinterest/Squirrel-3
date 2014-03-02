@@ -4,31 +4,14 @@
  * 通用图标
  * @section sq-icon
  */
-/*@font-face {
-    font-family: 'fontello';
-    src: url('../font/fontello.woff') format('woff'),
-    url('../font/fontello.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}*/
-/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
-/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
-/*
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  @font-face {
-    font-family: 'fontello';
-    src: url('../font/fontello.svg?28268679#fontello') format('svg');
-  }
-}
-*/
-i[class^="icon-"]{ 
-    vertical-align:middle;
+
+.sq-icon{
     &.up::before{ -webkit-transform:rotate(-90deg);}
     &.down::before{ -webkit-transform:rotate(90deg);}
-    //&.down-left::before{ -webkit-transform:rotate(135deg);}
     &.left::before{ -webkit-transform:rotate(180deg);}
+    //&.down-left::before{ -webkit-transform:rotate(135deg);}
 }
-[class^="icon-"]:before, [class*=" icon-"]:before {
+.sq-icon::before{
     font-family: "fontello";
     font-style: normal;
     font-weight: normal;

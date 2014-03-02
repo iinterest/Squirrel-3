@@ -43,20 +43,21 @@ blockquote{ margin:20px 0; padding-left:20px; border-left:4px solid #d7d7d7; fon
 
 #fw-header{ position:fixed; top:0; width:100%; min-width:1100px; height:50px; background:rgba(0,0,0,.75); z-index:12;}
     #fw-header .top-nav{ padding-left:20px; line-height:50px; overflow:hidden;}
-    #fw-header .logo{ float:left; height:50px; padding:0 50px 0 50px; background:url("images/squirrel-logo.png") 8px 8px no-repeat; background-size:30px; font-size:22px; font-weight:100; letter-spacing:1px; text-shadow:0 -1px 1px #252d38; color:#fff; cursor:default;}
+    #fw-header .logo{ position:relative; float:left; width:180px; height:50px; background:url("images/squirrel-logo.png") 8px 8px no-repeat; background-size:30px; font-size:22px; font-weight:100; letter-spacing:1px; text-shadow:0 -1px 1px #252d38; color:#fff; cursor:default;}
+    #fw-header .logo a{ position:absolute; top:0; left:0; right:0; bottom:0; display:block; padding-left:50px; color:#fff;}
     #fw-header .top-nav ul{ float:left; overflow:hidden;}
     #fw-header .top-nav li{ position:relative; float:left; min-width:70px; height:47px; padding:0 15px; text-align:center; }
-    #fw-header .top-nav a{ position:absolute; top:0; left:0; right:0; bottom:0; color:#fff;}
+    #fw-header .top-nav li a{ position:absolute; top:0; left:0; right:0; bottom:0; color:#fff;}
     #fw-header .top-nav li:hover{ background:rgba(36,156,100,1); border-bottom:3px solid #38c483;}
     #fw-header .top-nav .active{ background:rgba(36,156,100,.8); border-bottom:3px solid #38c483;}
     #fw-header .top-nav .construct{ cursor:default; color:#555;}
     #fw-header .top-nav .construct:hover{ background:none; border-bottom:none;}
     #fw-header .warning{ float:right; padding:0 5px; margin:10px 10px; background:#ff6600; color:#fff; line-height:30px; border-radius:3px;}
-
+    .broswer-suggest{ padding:0 4px; color:#fff; text-decoration:underline;}
 /*Banner*/
 .banner{ position:relative; height:400px; padding:30px 0; border-bottom:1px solid #eee; background:#1b7769; font-weight:100; background:-webkit-gradient(linear, left top, right bottom, color-stop(0%, #26aa78), color-stop(90%, #0b2b52));}
     .banner h1{ position:relative; width:540px; margin:0 auto 20px; font-size:104px; font-weight:100; letter-spacing:1px;}
-    .banner sup{ position:absolute; top:10px; right:20px; font-size:16px; color:#eee;}
+    .banner sup{ position:absolute; top:10px; right:10px; font-size:16px; color:#eee;}
     .banner p{ font-size:40px; margin-bottom:20px;}
     .banner-bg{ position:absolute; top:0; left:0; bottom:0; right:0; background:url("images/gplaypattern.png"); overflow:hidden; opacity:.5;}
     .banner .introduce{ position:relative; top:40px; max-width:1400px; margin:0 auto; padding-bottom:60px; z-index:10; text-align:center; color:#eee;}
@@ -90,21 +91,23 @@ blockquote{ margin:20px 0; padding-left:20px; border-left:4px solid #d7d7d7; fon
     .features-list .html5{ line-height:225px;}
     .features-list .system{ line-height:200px;}
     .features-list .media{ line-height:240px;}
-    .features-list .cmd,
-    .features-list .less,
-    .features-list .open{ line-height:165px; font-size:3em; cursor:default; font-family:"Helvetica Neue", HelveticaNeue, "Helvetica-Neue", Helvetica, "微软雅黑", "\u5FAE\u8F6F\u96C5\u9ED1";}
+    .features-list .cmd .fa,
+    .features-list .less .fa,
+    .features-list .open .fa{ line-height:165px; font-size:3.5em; cursor:default; font-family:"Helvetica Neue", HelveticaNeue, "Helvetica-Neue", Helvetica, "微软雅黑", "\u5FAE\u8F6F\u96C5\u9ED1";}
+    .features-list .less .fa{ font-size:2.5em;}
+    /*.features-list .cmd .fa{ font-family:"Helvetica Neue", HelveticaNeue, "Helvetica-Neue", Helvetica, "微软雅黑", "\u5FAE\u8F6F\u96C5\u9ED1";}*/
     .features-list .dashed{ position:absolute; top:81px; left:15px; height:1px; width:130px; border-top:5px dashed #249f73;}
-    .features-list .dashed::after{ content:""; position:absolute; top:-4px; left:50px; width:40px; height:8px; background:#fff;}
+    .features-list .dashed::after{ content:""; position:absolute; top:-5px; left:50px; width:40px; height:10px; background:#fff;}
     .features-list .introduc{}
     .features-list .introduc h3{ margin:20px 0; font-size:22px; text-align:center; color:#fff; display:none;}
     .features-list .introduc p{ padding:10px 5px 0; text-indent:2em; font-size:15px; line-height:1.5; text-align:justify; color:#555;}
     .features-buttons .prev,
-    .features-buttons .next{ position:absolute; top:50%; left:-70px; width:80px; height:80px; margin-top:-60px; cursor:pointer; border-left:4px solid #d7d7d7; border-bottom:4px solid #d7d7d7; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg);}
-    .features-buttons .next{ left:auto; right:-70px; -webkit-transform: rotate(225deg); -moz-transform: rotate(225deg);}
+    .features-buttons .next{ position:absolute; top:50%; left:-70px; width:80px; height:80px; margin-top:-60px; cursor:pointer; border-left:4px solid #d7d7d7; border-bottom:4px solid #d7d7d7; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg);  -ms-transform: rotate(45deg);}
+    .features-buttons .next{ left:auto; right:-70px; -webkit-transform: rotate(225deg); -moz-transform: rotate(225deg); -ms-transform: rotate(225deg);}
     .features-buttons .prev:hover,
     .features-buttons .next:hover{ border-left-color:#555; border-bottom-color:#555;}
     /*font icon*/
-    .features-list .fa{ background:-webkit-gradient(linear, 0% 25%, 0% 100%, from(#249f73), to(#0c2e53)); color:transparent; -webkit-background-clip:text;}
+    .features-list .fa{ /*background:-webkit-gradient(linear, 0% 25%, 0% 100%, from(#249f73), to(#0c2e53)); color:transparent; -webkit-background-clip:text;*/ color:#249f73;}
     .features-list .fa-html5{ font-size:6.5em;}
     .features-list .fa-android,
     .features-list .fa-apple,
@@ -186,9 +189,10 @@ blockquote{ margin:20px 0; padding-left:20px; border-left:4px solid #d7d7d7; fon
 .doc-section .doc-p{ margin:20px 0; font-size:16px; line-height:1.4; color:#555;}
 .doc-section .demo-btn{ display:inline-block; min-width:200px; height:40px; background:#38c483; border-bottom:5px solid #299c5d; border-radius:2px; font-size:22px; color:#fff; text-align:center; line-height:40px;}
 .doc-section .demo{ max-width:500px; margin:20px 0;}
-.doc-section .demo p{ margin-bottom:15px;}
+.doc-section .demo>p{ margin-bottom:15px;}
 .doc-section .demo.w240{ max-width:240px;}
 .doc-section .demo.w320{ max-width:320px;}
+.doc-section .demo.w480{ max-width:480px;}
 .doc-section .demo.w640{ max-width:640px;}
 .doc-subsection{ margin:20px 0;}
 
@@ -201,10 +205,15 @@ blockquote{ margin:20px 0; padding-left:20px; border-left:4px solid #d7d7d7; fon
 .doc-section-dir .components ul{ padding:5px;}
 .doc-section-dir .components li{ position:relative; height:35px; padding:0 14px; border-bottom:1px solid #eee; border-top:1px solid #fff; border-left:4px solid #eee; line-height:36px; text-indent:14px;}
 .doc-section-dir .components li.tit{ text-indent:0; font-weight:bold;}
+.doc-section-dir .anchor .level-3{ margin-left:1em; border-left:1px solid #eee;}
 .cm-content .doc-section-dir{ top:80px; right:38px;}
 
 .guide-list{ padding-left:20px;}
 .guide-list li{ margin:.5em 0; font-size:16px; color:#555; list-style:decimal;}
+.suggestion{ max-width:600px; padding-left:2em;}
+.suggestion li{ margin:.5em 0 .5em .5em; font-size:16px; color:#555; list-style:disc;}
+.suggestion .be-from{ margin-top:.5em; text-align:right; color:#999;}
+.suggestion .be-from::before{ content:"—— ";}
 
 /* customize */
 .select-list{ display:inline-block; vertical-align:top; width:33%;}
@@ -254,7 +263,7 @@ blockquote{ margin:20px 0; padding-left:20px; border-left:4px solid #d7d7d7; fon
 #treecontainer .iScroll::-webkit-scrollbar-thumb:vertical,
 #treecontainer .iScroll::-webkit-scrollbar-thumb:vertical{height:50px;background-color:rgba(0,0,0,0.06);-webkit-border-radius:4px}
 
-.button-table{ width:100%; border:1px solid #d7d7d7;}
+.button-table{ width:400px; border:1px solid #d7d7d7;}
 .button-table tr{ border-top:1px solid #d7d7d7;}
 .button-table th{ border:1px solid #aaa; border-top-left-radius:3px; border-top-right-radius:3px; font-size:14px; line-height:30px; text-align:center; text-shadow:0 1px 1px #fff; overflow:hidden; background:#e5e5e5;}
 .button-table td{ min-width:120px; padding:5px 0; border-right:1px solid #d7d7d7; text-align:center;}
@@ -385,3 +394,6 @@ blockquote{ margin:20px 0; padding-left:20px; border-left:4px solid #d7d7d7; fon
 .preview .c1{ background:#38c483;}
 .preview .c2{ background:#46bfbd;}
 .preview .c3{ background:#e2863c;}
+
+.old-broswer{ padding:100px 20px; font-size:1.5em; text-align:center;}
+.old-broswer .broswer-suggest{ color:#38c483;}
