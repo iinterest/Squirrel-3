@@ -1,29 +1,27 @@
 {
     "name": "squirrel",
-    "version": "0.9.1",
+    "version": "0.9.2",
     "description": "移动前端开发框架，提供简单、快速的 Web 开发体验。",
-    "dirs": {
-        "base": ".",
-        "js_src": "src/js",
-        "js_build": "build/js",
-        "js_dist": "dist/js",
-        "less_src": "src/less",
-        "css_build": "build/css",
-        "css_dist": "dist/css"
+    "homepage": "http://hisquirrel.com",
+    "author": "iinterest",
+    "license": {
+        "type": "MIT",
+        "url": "https://github.com/iinterest/Squirrel-3/blob/master/LICENSE.md"
     },
     "devDependencies": {
-        "grunt-contrib-less": "~0.8.3",
-        "grunt-contrib-concat": "~0.3.0",
-        "grunt-contrib-uglify": "~0.2.7",
-        "grunt-contrib-cssmin": "~0.7.0",
+        "grunt": "~0.4.2",
+        "grunt-autoprefixer": "~0.5.0",
         "grunt-contrib-clean": "~0.5.0",
+        "grunt-contrib-copy": "~0.5.0",
+        "grunt-contrib-concat": "~0.3.0",
+        "grunt-contrib-cssmin": "~0.7.0",
+        "grunt-contrib-less": "~0.10.0",
+        "grunt-contrib-uglify": "~0.4.0",
         "grunt-contrib-watch": "~0.5.3",
+        "grunt-cmd-concat": "~0.2.7",
+        "grunt-cmd-transport": "~0.4.1",
         "grunt-jsdoc": "~0.4.2",
         "grunt-open": "~0.2.2",
-        "grunt-notify": "~0.2.16",
-        "grunt-contrib-copy": "~0.4.1",
-        "grunt-autoprefixer": "~0.5.0",
-        "grunt-cmd-transport": "~0.4.1",
-        "grunt-cmd-concat": "~0.2.7"
+        "grunt-sed": "~0.1.1"
     }
 }

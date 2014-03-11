@@ -1,9 +1,6 @@
-@import "base";
-/**
- * Sq-list
- * 列表
- * @section sq-list
- */
+//** Sq-list
+//** 列表
+
 //========================================
 // @changelog
 // 1.4.0 根据 iOS 人机交互指南重构列表。
@@ -13,10 +10,8 @@
 // 1.2.0 精简代码，将个性化的设置单独提取成 less 模块，删除了 .horizontal、.col 内置类，转而由 less 模块定义。
 // 1.0.0 新增 .sq-list 类，内置 .app、.horizontal、.col。
 //========================================
+
 .sq-list{
-    @magic-line-height:1.428571429;
-    @icon-w:60px;
-    @icon-h:60px;
     //========================================
     // 基类
     //========================================
@@ -26,7 +21,7 @@
         .badge{ float:right;}
     }
     .icon{
-        display:block; width:@icon-w; height:@icon-h;
+        display:block; width:@default-icon-width; height:@default-icon-height;
         i{ display:block; position:relative;}
         img{ display:block; width:100%; height:100%;}
     }

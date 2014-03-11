@@ -151,7 +151,7 @@
     }
     LoadMore.prototype = {
         construtor: LoadMore,
-        version: "1.4.1",
+        version: "1.4.2",
         /**
          * 验证
          * @returns {boolean}

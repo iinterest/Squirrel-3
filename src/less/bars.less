@@ -1,9 +1,6 @@
-@import "base";
-/**
- * sq-bars
- * 用于告知用户其所在位置的情境信息，以及帮助用户浏览或执行操作的控件，包含导航栏、工具栏、选项栏等。
- * @section sq-bars
- */
+//** sq-bars
+//** 用于告知用户其所在位置的情境信息，以及帮助用户浏览或执行操作的控件，包含导航栏、工具栏、选项栏等。
+
 //========================================
 // @changelog
 // 1.4.0 根据 iOS 人机交互指南重构条栏。
@@ -15,10 +12,9 @@
 // 1.1.0 精简代码，将个性化的设置单独提取成 less 模块，删除了 .sub-nav、.footer 内置类，转而由 less 模块定义。
 // 1.0.0 新增 .sq-toolbar 类，内置 .header、.nav、.sub-nav、.footer。
 // ========================================
+
 .sq-bars{
-    @normal-height:44px;
-    @full-height:54px;
-    height:@normal-height;
+    height:@bar-normal-height;
     //========================================
     // Tool bar
     // 工具栏，能实现在不同信息层级结构之间的导航
@@ -44,8 +40,8 @@
     //========================================
     &.nav:extend(.sq-bars.toolbar all){
         .title,
-        .extend{ position:absolute; .overspread(0,20%,0,20%); height:@normal-height;}
-        .title{ font-size:@head-font-size; line-height:@normal-height; text-align:center; overflow:hidden;}
+        .extend{ position:absolute; .overspread(0,20%,0,20%); height:@bar-normal-height;}
+        .title{ font-size:@head-font-size; line-height:@bar-normal-height; text-align:center; overflow:hidden;}
         // 扩展区域
         .extend{
             .display-box; .box-align(center); .box-pack(justify);
@@ -61,7 +57,7 @@
     // 继承自工具栏
     //========================================
     &.pagination:extend(.sq-bars.toolbar all){
-        .pages{ position:absolute; .overspread(0,80px,0,80px); font-size:@content-font-size; text-align:center; line-height:@normal-height;}
+        .pages{ position:absolute; .overspread(0,80px,0,80px); font-size:@content-font-size; text-align:center; line-height:@bar-normal-height;}
         .disable{ visibility:hidden;}
     }
 
@@ -71,13 +67,13 @@
     // 选项栏
     //========================================
     &.nav-tabs{
-        text-align:center; font-size:@content-font-size; line-height:@normal-height;
+        text-align:center; font-size:@content-font-size; line-height:@bar-normal-height;
         ul{ .display-box; .box-pack(justify);}
-        li{ position:relative; .box-flex(1); height:@normal-height; padding:0 5px;}
-        a{ .border-box; display:block; height:@normal-height; overflow:hidden;}
+        li{ position:relative; .box-flex(1); height:@bar-normal-height; padding:0 5px;}
+        a{ .border-box; display:block; height:@bar-normal-height; overflow:hidden;}
 
         &.icons{
-            height:@full-height; line-height:1; font-size:12px;
+            height:@bar-full-height; line-height:1; font-size:12px;
             ul{ padding-top:7px;}
             a,li{ height:auto;}
             .sq-icon{ display:block; position:relative; font-size:2.4em;}

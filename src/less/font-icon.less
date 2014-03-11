@@ -1,9 +1,13 @@
-@import "base";
-/**
- * Sq-icon
- * 通用图标
- * @section sq-icon
- */
+//** sq-icon
+//** 通用图标
+
+@font-face {
+    font-family: 'fontello';
+    src:url('@{icon-font-path}@{icon-font-name}.woff') format('woff'),
+        url('@{icon-font-path}@{icon-font-name}.ttf') format('truetype');
+    font-weight:normal;
+    font-style:normal;
+}
 
 .sq-icon{
     &.up::before{ -webkit-transform:rotate(-90deg);}

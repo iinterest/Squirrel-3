@@ -87,59 +87,6 @@ var SQ = {
     }
 };
 /**
- * @file SQ.load
- * @version 0.5.0
- */
-/*global
- SQ: false,
- $: false
- */
-SQ.load = function (param) {
-    var api;
-    var type;
-    var timeout;
-    var state = "pending";
-    var promise = {
-        state: function () {
-            return state;
-        },
-        then: function (done, fail) {
-            if (SQ.isFunction(done)) {
-                promise.done = done;
-            }
-            if (SQ.isFunction(fail)) {
-                promise.fail = fail;
-            }
-        }
-    };
-    var showLoading = function () {
-        console.log("showLoading")
-    };
-
-    if (SQ.isObject(param)) {
-        type = param.type || "GET";
-        api = param.api;
-        timeout = param.timeout || 5000;
-    }
-
-    if (api) {
-        showLoading();
-        $.ajax({
-            type: type,
-            url: api,
-            timeout: timeout,
-            success: function (data) {
-                promise.done(data);
-            },
-            error: function () {
-                promise.fail();
-            }
-        });
-    }
-
-    return promise;
-};
-/**
  * @file SQ.store
  * @version 1.1.0
  */
@@ -1186,7 +1133,7 @@ SQ.util = {
     }
     LoadMore.prototype = {
         construtor: LoadMore,
-        version: "1.4.1",
+        version: "1.4.2",
         /**
          * 验证
          * @returns {boolean}
