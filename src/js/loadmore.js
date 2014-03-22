@@ -1,10 +1,11 @@
 /**
- * @file SQ.LoadMore 加载更多组件
- * @version 1.4.2
+ * @file SQ.LoadMore 加载更多插件
+ * @version 1.5.0
  */
 
 /**
  * @changelog
+ * 1.5.0  * 重写插件，调用方式改为 $. 链式调用。
  * 1.4.2  * 修复 _spliceApi 函数对 api 的拼装错误。
  * 1.4.1  * 为 loaded、scrollEnd 回调函数增加 index 参数。
  * 1.4.0  * 重写 loadMore 插件，支持在一个页面里生成多个实例。
@@ -38,25 +39,24 @@
  * 1.0.2  + 添加 _verify 方法，用于验证参数是否合法。
  * 1.0.1  + 配置内置的 config 设置。
  */
-
 /*global
  $: false,
  SQ: false,
- console: false
+ console: false,
+ jQuery: false
  */
-
-(function ($, window) {
+;(function ($) {
     "use strict";
     /**
      * @name LoadMore
-     * @classdesc 应用列表加载更多组件，支持点击加载和滑动加载两种方式，支持由滑动加载自动转为点击加载，依赖 jQuery 或 Zepto 库。
+     * @classdesc 应用列表加载更多插件，支持点击加载和滑动加载两种方式，支持由滑动加载自动转为点击加载，依赖 jQuery 或 Zepto 库。
      * @constructor
-     * @param {object} config                       组件配置（下面的参数为配置项，配置会写入属性）
-     * @param {string} config.EVE_EVENT_TYPE        绑定事件设置
+     * @param {object} config                       插件配置（下面的参数为配置项，配置会写入属性）
+     * @param {string} config.EVE_EVENT_TYPE        绑定事件设置，默认为 "scroll"
      * @param {string | array} config.API API       接口地址，可以是字符串，或者是数组 [url, url, url]
      * @param {string} config.DOM_TRIGGER_TARGET    被绑定事件的 Dom 元素，默认为 window
      * @param {string} config.DOM_AJAX_WRAP         数据展示 Dom 元素
-     * @param {string} config.CSS_STATE_BAR         初始状态展示样式，例如 .state-bar
+     * @param {string} config.CSS_STATE_BAR         初始状态展示样式，默认为 .sq-loadmore-state
      * @param {string} config.NUM_LOAD_POSITION     滑动加载位置，默认值：0.5
      * @param {number} config.NUM_START_PAGE_INDEX  起始页面序号，默认值：0
      * @param {number} config.NUM_SCROLL_MAX_PAGE   最大滑动加载页数，默认值：3
@@ -68,90 +68,94 @@
      * @param {string} config.TXT_LOADED_ERROR      XHR 加载错误或超时提示，默认值："加载错误，请重试"
      * @param {string} config.TXT_UNKNOWN_ERROR     通过 XHR 接收到的数据无法识别，默认值："未知错误，请重试"
      * @param {string} config.MODE                  插件模式，默认为 simple，当模式为 simple 时插件会自动判断并更新运行状态，
-     *                                              在 simple 模式下 XHR 的返回值必须遵循以下 json 格式：{ code:int, data:object} 
+     *                                              在 simple 模式下 XHR 的返回值必须遵循以下 json 格式：{ code:int, data:object}
      * @param {boolen} config.LOCAL_DATA            数据 loaclstorage 开关，默认为 false
      * @param {number} config.NUM_EXPIRES           数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟
      * @param {object | boolen} config.RESTFUL      当设为 true 时，程序会自动将 API 中的 ":page" 段替换为页码 (self.page)，
      *                                              也可以设置为 hash 列表，程序会遍历替换所有值。
      * @param {number} config.XHR_TIMEOUT           设置 XHR 超时时间，默认为 5000 ms
-     * @param {function} config.loading             加载阶段回调函数，返回参数：index(序号)
-     * @param {function} config.loaded              加载完成回调函数，返回参数：data(XHR 数据), $ajaxWrap(当前 DOM 容器), index
-     * @param {function} config.loadError           加载失败回调函数，返回参数：index
-     * @param {function} config.scrollEnd           滑动加载事件完成回调函数，返回参数：index
-     * @example var appList = new SQ.LoadMore({
-            EVE_EVENT_TYPE: "scroll",
-            DOM_AJAX_WRAP: ".J_ajaxWrap",
-            DOM_STATE_BOX: ".J_scrollLoadMore",
-            CSS_STATE_BAR: ".loadMore-btn",
-            NUM_SCROLL_MAX_PAGE: 3,
-            DATA_TYPE: "json",
-            loaded: function (data, $ajaxWrap, index) {
-                // data 为 XHR 返回数据，通常为 JSON 格式
-            }
-        });
-     */
-    function LoadMore(config) {
-        var me = this;
-        var i;
-
-        me.config = {
-            API: "",                                 // API 接口
-            NUM_START_PAGE_INDEX: 0,                 // 起始页面序号
-            NUM_LOAD_POSITION: 0.5,                  // 滑动加载位置（0.5 表示页面滑动到 50% 的位置开始加载，该值会递增）
-            NUM_SCROLL_MAX_PAGE: 3,                  // 最大滑动加载次数
-            TXT_LOADING_TIP: "正在加载请稍后...",     // 正在加载提示
-            TXT_INIT_TIP: "滑动加载更多内容",         // 初始提示文字
-            TXT_CLICK_TIP: "点击加载更多",            // 触发点击交互提示文字
-            TXT_LOADED_ERROR: "加载失败，请点击重试", // Ajax 加载错误或超时提示
-            NUM_SUCCESS_CODE: 200,
-            NUM_NO_MORE_CODE: 900,
-            MODE: "simple",
-            XHR_METHOD: "POST",
-            XHR_TIMEOUT: 5000,
-            LOCAL_DATA: false,
-            NUM_EXPIRES: 15
-        };
-
-        for (i in config) {
-            if (config.hasOwnProperty(i)) {
-                me.config[i] = config[i];
-            }
-        }
-        
-        me.$win = $(window);
-        me.$triggerTarget = $(me.config.DOM_TRIGGER_TARGET) || me.$win;     // 触发元素
-        me.$ajaxWrap = $(me.config.DOM_AJAX_WRAP);                          // 数据展示元素
-        me.maxPage = me.config.NUM_SCROLL_MAX_PAGE + me.config.NUM_START_PAGE_INDEX;
-        me.initStyle = me.config.CSS_STATE_BAR.indexOf(".") === 0 ? me.config.CSS_STATE_BAR.slice(1) : me.config.CSS_STATE_BAR;
-        me.scrollTimer = 0;                                                 // 滑动事件计时器
-        me.scrollDelay = 200;                                               // 滑动事件触发伐值
-        me.loadMores = [];                                                  // 存储多个 self 对象
-
-        me.beforeLoadFun = me.config.beforeLoad;
-        me.loadingFun = me.config.loading;
-        me.loadFun = me.config.loaded;
-        me.loadErrorFun = me.config.loadError;
-        me.scrollEndFun = me.config.scrollEnd;
-
-        me.$ajaxWrap.each(function (index) {
-            var self = {};
-            self.$ajaxWrap = $(this);
-            self.$stateBar = $('<div class="sq-loadMore-state"><i class="state-icon"></i><span class="state-txt"></span></div>');
-            self.$stateTxt = self.$stateBar.find(".state-txt");
-            self.index = index;
-            self.page = me.config.NUM_START_PAGE_INDEX;
-            self.api = SQ.isArray(me.config.API) ? me.config.API[index] : me.config.API;
-            self.firstClickInit = true;
-
-            if (me._verify(self)) {
-                me._init(self);
-            }
-            me.loadMores.push(self);
-        });
+     * @param {function} config.loading(index)                  加载阶段回调函数，返回参数：index(序号)
+     * @param {function} config.loaded(data,$element,index)     加载完成回调函数，返回参数：data(XHR 数据), $element(当前 DOM 容器), index(序号)
+     * @param {function} config.loadError(index)                加载失败回调函数，返回参数：index(序号)
+     * @param {function} config.scrollEnd(index)                滑动加载事件完成回调函数，返回参数：index(序号)
+     * @example $(".J_ajaxWrap").loadmore({
+    API: "data/:id/:page/list.json",
+    RESTFUL: {
+        ":id": appid
+    },
+    EVE_EVENT_TYPE: "scroll",
+    NUM_SCROLL_MAX_PAGE: 3,
+    XHR_TIMEOUT: 10000,
+    LOCAL_DATA: true,
+    loaded: function (data, $element, index) {
+        $element.append(data.data);
     }
+});
+     */
+    var scope = "sq-loadmore";
+    var defaults = {
+        API: "",                                 // API 接口
+        CSS_STATE_BAR: ".sq-loadmore-state",
+        EVE_EVENT_TYPE: "scroll",
+        NUM_START_PAGE_INDEX: 0,                 // 起始页面序号
+        NUM_LOAD_POSITION: 0.5,                  // 滑动加载位置（0.5 表示页面滑动到 50% 的位置开始加载，该值会递增）
+        NUM_SCROLL_MAX_PAGE: 3,                  // 最大滑动加载次数
+        NUM_SUCCESS_CODE: 200,
+        NUM_NO_MORE_CODE: 900,
+        NUM_EXPIRES: 15,
+        TXT_LOADING_TIP: "正在加载请稍后...",     // 正在加载提示
+        TXT_INIT_TIP: "滑动加载更多内容",         // 初始提示文字
+        TXT_CLICK_TIP: "点击加载更多",            // 触发点击交互提示文字
+        TXT_LOADED_ERROR: "加载失败，请点击重试",  // Ajax 加载错误或超时提示
+        MODE: "simple",
+        XHR_METHOD: "POST",
+        XHR_TIMEOUT: 5000,
+        LOCAL_DATA: false
+    };
+
+    function LoadMore ( element, options ) {
+        this.element = element;
+        this.settings = $.extend( {}, defaults, options );
+        this._defaults = defaults;
+        this.init();
+    }
+
     LoadMore.prototype = {
-        construtor: LoadMore,
-        version: "1.4.2",
+        construtor: "LoadMore",
+        scrollTimer: 0,     // 滑动计时器
+        scrollDelay: 200,   // 滑动阀值
+        init: function () {
+            var me = this;
+            
+            me.$win = $(window);
+            me.$triggerTarget = me.$win;                                        // 触发元素
+            me.$element = $(me.element);                                        // 数据展示元素
+            me.maxPage = me.settings.NUM_SCROLL_MAX_PAGE + me.settings.NUM_START_PAGE_INDEX;
+            me.initStyle = me.settings.CSS_STATE_BAR.indexOf(".") === 0 ? me.settings.CSS_STATE_BAR.slice(1) : me.settings.CSS_STATE_BAR;
+            me.loadMores = [];                                                  // 存储多个 self 对象
+
+            me.beforeLoadFun = me.settings.beforeLoad;
+            me.loadingFun = me.settings.loading;
+            me.loadFun = me.settings.loaded;
+            me.loadErrorFun = me.settings.loadError;
+            me.scrollEndFun = me.settings.scrollEnd;
+
+            me.$element.each(function (index) {
+                var self = {};
+                self.$element = $(this);
+                self.$stateBar = $('<div class="sq-loadMore-state"><i class="state-icon"></i><span class="state-txt"></span></div>');
+                self.$stateTxt = self.$stateBar.find(".state-txt");
+                self.index = index;
+                self.page = me.settings.NUM_START_PAGE_INDEX;
+                self.api = SQ.isArray(me.settings.API) ? me.settings.API[index] : me.settings.API;
+                self.firstClickInit = true;
+
+                if (me._verify(self)) {
+                    me._init(self);
+                }
+                me.loadMores.push(self);
+            });
+        },
         /**
          * 验证
          * @returns {boolean}
@@ -160,7 +164,7 @@
         _verify: function (self) {
             var me = this;
             // Dom 验证，触发元素、数据展示元素、状态展示元素必须都存在
-            if (me.$triggerTarget.length === 0 || self.$ajaxWrap.length === 0) {
+            if (me.$triggerTarget.length === 0 || self.$element.length === 0) {
                 console.warn("SQ.loadmore: Self[" + self.index + "]缺少 Dom 元素");
                 return false;
             }
@@ -177,33 +181,32 @@
          */
         _init: function (self) {
             var me = this;
-            var contentHeight = me._getHeight(document.querySelector("body")) || $("body").height();
-            var winHeight = window.innerHeight || $(window).height();
-            
-            if (self.currentEventType && self.currentEventType !== me.config.EVE_EVENT_TYPE) {
-                // 当 currentEventType 有值且不为初始值时，一般是滑动事件转为点击事件，滑动事件会被解绑，而点击时间不会解绑，
+            var winHeight = window.innerHeight || me.$win.height();
+
+            if (self.currentEventType && self.currentEventType !== me.settings.EVE_EVENT_TYPE) {
+                // 当 currentEventType 有值且不为初始值时，一般是滑动事件转为点击事件，滑动事件会被解绑，而点击事件不会解绑，
                 // 所以这里直接返回，不执行初始化操作。
                 return;
             }
-            
+
             self.currentState = "none";                         // 设置当前状态
-            self.currentEventType = me.config.EVE_EVENT_TYPE;   // 临时存储事件类型，以供 _changeState 判断使用。
+            self.currentEventType = me.settings.EVE_EVENT_TYPE;   // 临时存储事件类型，以供 _changeState 判断使用。
             self.$stateBar.addClass(me.initStyle);
-            self.$stateTxt.text(me.config.TXT_INIT_TIP);
-            self.$ajaxWrap.css({"min-height":winHeight - 40}).after(self.$stateBar);
-            
+            self.$stateTxt.text(me.settings.TXT_INIT_TIP);
+            self.$element.css({"min-height":winHeight - 40}).after(self.$stateBar);
+
             if (self.index === 0) {
                 self.active = true;
             }
-            
+
             /*if (contentHeight < winHeight) {
-                me._changeEvent("click", self);
-                self.$stateTxt.text(me.config.TXT_CLICK_TIP);
-            }*/
+             me._changeEvent("click", self);
+             self.$stateTxt.text(me.settings.TXT_CLICK_TIP);
+             }*/
 
             if (self.active) {
                 me._reset(self);
-                me._bind(me.config.EVE_EVENT_TYPE, self);
+                me._bind(me.settings.EVE_EVENT_TYPE, self);
             }
         },
         /**
@@ -216,7 +219,10 @@
             // 为了能够解除事件绑定，不能使用匿名函数，但传入函数字面量又不能直接传参，
             // 所以使用了一个特殊的返回函数 _trigger 赋值给 _bindHandle，这样就可以解绑。
             me._bindHandle = me._trigger(self);
-            me.$triggerTarget.on(eventType, me._bindHandle);
+            me.$triggerTarget.on(eventType + ".sq.loadmore", me._bindHandle);
+            /*me.$triggerTarget.on("scroll.sq.loadmore", function () {
+                me._trigger(self);
+            });*/
         },
         /**
          * 触发事件
@@ -230,7 +236,7 @@
             return function () {
                 var isLoading = self.$stateBar.hasClass("loading");
                 var isNoMore = self.$stateBar.hasClass("no-more");
-
+                
                 if (isLoading || isNoMore) {
                     return;
                 }
@@ -270,9 +276,9 @@
             var me = this;
             var contentHeight = me._getHeight(document.querySelector("body")) || $("body").height();
             var winHeight = window.innerHeight || $(window).height();
-            me.triggerHeight = (contentHeight - winHeight) * (me.config.NUM_LOAD_POSITION);
-            if (me.config.NUM_LOAD_POSITION < 0.8) {
-                me.config.NUM_LOAD_POSITION += 0.15555;
+            me.triggerHeight = (contentHeight - winHeight) * (me.settings.NUM_LOAD_POSITION);
+            if (me.settings.NUM_LOAD_POSITION < 0.8) {
+                me.settings.NUM_LOAD_POSITION += 0.15555;
             }
         },
         /**
@@ -282,7 +288,8 @@
          */
         _changeEvent: function (eventType, self) {
             var me = this;
-            me.$triggerTarget.off("scroll", me._bindHandle);
+            me.$triggerTarget.off("scroll.sq.loadmore", me._bindHandle);
+            //me.$triggerTarget.off("scroll.sq.loadmore");
             self.currentEventType = eventType;
             if (eventType === "click") {
                 me.$triggerTarget = self.$stateBar;                 // 变更触发目标，并将加载触发方式更改为 click
@@ -310,7 +317,7 @@
             // 状态判断
             switch (state) {
             case "loading":         //正在加载阶段，添加 loading 标识，更新提示文字
-                self.$stateTxt.text(me.config.TXT_LOADING_TIP);
+                self.$stateTxt.text(me.settings.TXT_LOADING_TIP);
                 self.$stateBar.removeClass("loading").addClass("loading").show();     // 使用 CSS 特殊值技巧
                 if (me.loadingFun) {
                     me.loadingFun(self.index);
@@ -322,16 +329,16 @@
                     self.currentState = undefined;
                 }
                 if (self.currentEventType === "scroll") {
-                    self.$stateTxt.text(me.config.TXT_INIT_TIP);
+                    self.$stateTxt.text(me.settings.TXT_INIT_TIP);
                 }
                 if (self.currentEventType === "click") {
-                    self.$stateTxt.text(me.config.TXT_CLICK_TIP);
+                    self.$stateTxt.text(me.settings.TXT_CLICK_TIP);
                 }
                 self.page += 1;
                 break;
             case "scrollEnd":       //滑动加载次数已达到上限
                 me._changeEvent("click", self);
-                self.$stateTxt.text(me.config.TXT_CLICK_TIP);
+                self.$stateTxt.text(me.settings.TXT_CLICK_TIP);
                 if (me.scrollEndFun) {
                     me.scrollEndFun(self.index);
                 }
@@ -342,7 +349,7 @@
             case "loadError":     // 加载错误提示
                 self.currentState = "loadError";
                 me._changeEvent("click", self);
-                self.$stateTxt.text(me.config.TXT_LOADED_ERROR);
+                self.$stateTxt.text(me.settings.TXT_LOADED_ERROR);
                 self.$stateBar.removeClass("loading");
                 if (me.loadErrorFun) {
                     me.loadErrorFun(self.index);
@@ -366,8 +373,8 @@
                 }
             }
             // 是否启用本地缓存
-            if (me.config.LOCAL_DATA) {
-                var localData = SQ.store.localStorage.get(api, me.config.NUM_EXPIRES);
+            if (me.settings.LOCAL_DATA) {
+                var localData = SQ.store.localStorage.get(api, me.settings.NUM_EXPIRES);
                 localData = SQ.isString(localData) ? $.parseJSON(localData) : localData;
                 if (localData) {
                     me._loadedResult(localData, self);
@@ -381,12 +388,12 @@
                 me.xhr.abort();
             }
             me.xhr = $.ajax({
-                type: me.config.XHR_METHOD,
+                type: me.settings.XHR_METHOD,
                 url: api,
-                timeout: me.config.XHR_TIMEOUT,
+                timeout: me.settings.XHR_TIMEOUT,
                 success: function (data) {
                     me._loadedResult(data, self);
-                    if (me.config.LOCAL_DATA) {
+                    if (me.settings.LOCAL_DATA) {
                         SQ.store.localStorage.set(api, data);
                     }
                 },
@@ -411,13 +418,13 @@
             jsonData = SQ.isString(data) ? $.parseJSON(data) : data;
             // 简单模式
             // 会自动判断并更新运行状态，前提是数据格式必须要符合要求
-            if (me.config.MODE === "simple") {
+            if (me.settings.MODE === "simple") {
                 code = parseInt(jsonData.code, 10);
                 switch (code) {
-                case me.config.NUM_SUCCESS_CODE:   //成功加载
+                case me.settings.NUM_SUCCESS_CODE:   //成功加载
                     me._changeState("success", self);
                     break;
-                case me.config.NUM_NO_MORE_CODE:   //无下页数据
+                case me.settings.NUM_NO_MORE_CODE:   //无下页数据
                     me._changeState("noMore", self);
                     break;
                 default:
@@ -426,7 +433,7 @@
                 }
             }
             if (me.loadFun) {
-                me.loadFun(jsonData, self.$ajaxWrap, self.index);
+                me.loadFun(jsonData, self.$element, self.index);
             }
             me._reset(self);
         },
@@ -439,7 +446,7 @@
             }
             me.loadMores[index].active = true;
             me.$triggerTarget.off("scroll", me._bindHandle);
-            me.$triggerTarget = $(me.config.DOM_TRIGGER_TARGET) || me.$win;
+            me.$triggerTarget = $(me.settings.DOM_TRIGGER_TARGET) || me.$win;
             me._init(me.loadMores[index]);
         },
         /**
@@ -468,11 +475,11 @@
             var connector = self.api.indexOf("?") === -1 ? "?" : "&";
             var api;
             var j;
-            if (me.config.RESTFUL) {
+            if (me.settings.RESTFUL) {
                 api = self.api.replace(":page", self.page);
-                for (j in me.config.RESTFUL) {
-                    if (me.config.RESTFUL.hasOwnProperty(j)) {
-                        api = api.replace(j, me.config.RESTFUL[j]);
+                for (j in me.settings.RESTFUL) {
+                    if (me.settings.RESTFUL.hasOwnProperty(j)) {
+                        api = api.replace(j, me.settings.RESTFUL[j]);
                     }
                 }
             } else {
@@ -481,5 +488,29 @@
             return api;
         }
     };
-    SQ.LoadMore = LoadMore;
-}($, window));
+
+    $.fn.loadmore = function ( options ) {
+        var isZepto = typeof Zepto !== "undefined" ? true : false;
+        var isJQuery = typeof jQuery !== "undefined" ? true : false;
+        var plugin;
+
+        options = options || {};
+        options.selector = this.selector;
+
+        this.each(function() {
+            if (isJQuery) {
+                if ( !$.data( this, scope ) ) {
+                    $.data( this, scope, new LoadMore( this, options ) );
+                }
+            } else if (isZepto) {
+                if (!$(this).data(scope)) {
+                    plugin = new LoadMore( this, options );
+                    $(this).data(scope, "initialized");
+                }
+            }
+        });
+        // chain jQuery functions
+        return this;
+    };
+
+})($);

@@ -1,10 +1,11 @@
 /**
- * @file Squirrel Fixed
- * @version 1.0.0
+ * @file SQ.Fixed 悬停插件
+ * @version 1.5.0
  */
 
 /**
  * @changelog
+ * 1.5.0  * 重写插件，调用方式改为 $. 链式调用。
  * 1.0.0  + 新增 refresh 方法，可以刷新 Fixed 列表；
  *        * 更改 ARRY_FIXED_POSITION 默认值，修正 fixed 元素高度时会占据全屏的 bug；
  *        * 修正 triggerPosTop 没有将 scrollY 的值计算在内的 bug。
@@ -14,125 +15,67 @@
 /*global
  $: false,
  SQ: false,
- console: false
+ console: false,
+ jQuery: false
  */
-(function ($, window) {
+;(function ($) {
     "use strict";
     /**
      * @name Fixed
      * @classdesc 元素固定定位
      * @constructor
-     * @param {object} config 组件配置（下面的参数为配置项，配置会写入属性）
-     * @param {string} config.DOM_FIXED_ITEM        需要添加固定定位的元素。
-     * @param {array} config.ARRY_FIXED_POSITION    固定位置设置，遵循 [上,右,下,左] 规则，默认为：[0, 0, "auto", 0]。
-     * @param {number} config.NUM_TRIGGER_POSITION  设置 fixed 激活位置，当有该值时以该值为准，没有则以元素当前位置为准。
-     * @param {number} config.NUM_ZINDEX            z-index 值设置，默认为 99。
-     * @param {boolen} config.PLACEHOLD             是否设置占位 DOM，默认为 false。
+     * @param {object} config 插件配置（下面的参数为配置项，配置会写入属性）
+     * @param {array} config.ARRY_FIXED_POSITION    固定位置设置，遵循 [上,右,下,左] 规则，默认为：[0, 0, "auto", 0]
+     * @param {number} config.NUM_TRIGGER_POSITION  设置 fixed 激活位置，当有该值时以该值为准，没有则以元素当前位置为准
+     * @param {number} config.NUM_ZINDEX            z-index 值设置，默认为 101
+     * @param {boolen} config.PLACEHOLD             是否设置占位 DOM，默认为 false
      * @param {string} config.ANIMATE               动画类，默认值：undefined
-     * @param {function} config.fixedIn             设置固定布局时回调函数。
-     * @param {function} config.fixedOut            取消固定布局时回调函数。
-     * @param {function} config.refresh             可以刷新 Fixed 列表（供即时生成的 DOM 使用）。
-     * @example var fixedButton = new SQ.Fixed({
-                DOM_FIXED_ITEM: ".J_fixed",
-                DOM_TRIGGER_TARGET: window,
-                EVE_EVENT_TYPE: "scroll",
-                ARRY_FIXED_POSITION: ["auto", "auto", 20, 10],
-                PLACEHOLD: true
-            });
+     * @param {function} config.fixedIn             设置固定布局时回调函数
+     * @param {function} config.fixedOut            取消固定布局时回调函数
+     * @example $(".J_fixedHeader").fixed({
+    PLACEHOLD: true
+});
      */
-    function Fixed(config) {
-        var me = this;
-        var i;
 
-        me.config = {
-            ARRY_FIXED_POSITION: [0, 0, "auto", 0],
-            NUM_ZINDEX: 101,                            // .sq-header 的 z-index 值为 100
-            PLACEHOLD: false
-        };
+    var scope = "sq-fixed";     // data-* 后缀
+    var defaults = {
+        ARRY_FIXED_POSITION: [0, 0, "auto", 0],
+        NUM_ZINDEX: 101,                            // .sq-header 的 z-index 值为 100
+        PLACEHOLD: false
+    };
 
-        for (i in config) {
-            if (config.hasOwnProperty(i)) {
-                me.config[i] = config[i];
-            }
-        }
-
-        me.fixedIn = me.config.fixedIn;
-        me.fixedOut = me.config.fixedOut;
-        me.$fixedItems = $(me.config.DOM_FIXED_ITEM);
-        me.fixedItemAry = [];
-
-        if (me._verify()) {
-            me._init();
-        }
+    function Fixed ( element, options ) {
+        this.element = element;
+        this.settings = $.extend( {}, defaults, options );
+        this._defaults = defaults;
+        this.init();
     }
 
     Fixed.prototype = {
-        construtor: Fixed,
-        version: "1.0.0",
+        construtor: "Fixed",
         scrollTimer: 0,     // 滑动计时器
         scrollDelay: 150,   // 滑动阀值
-        refresh: function () {
+        init: function () {
             var me = this;
-            var $allItems = $(me.config.DOM_FIXED_ITEM);
-            me.$fixedItems = $allItems.not(".init");
-            me._init();
+            var initializedIndex = $("[data-" + scope + "]").length;
+            me.$element = $(me.element);
+            me.fixedInFun = me.settings.fixedIn;
+            me.fixedOutFun = me.settings.fixedOut;
 
-            $(me.fixedItemAry).each(function (index) {
-                var $self = $(this);
-                if ($self.hasClass("init")) {
-                    me._trigger(me.fixedItemAry[index]);
-                }
-            });
-
-            /*if (!me.fixedItemAry.length) {
-                me.$fixedItems = $(me.config.DOM_FIXED_ITEM);
-                me._init();
-                console.log("init", me.fixedItemAry);
-            } else {
-                console.log("refresh", me.fixedItemAry);
-                $(me.fixedItemAry).each(function (index) {
-                    var self = this;
-                    console.log(self.init)
-                    if (self.init) {
-                        me._trigger(me.fixedItemAry[index]);
-                    }
-                });
-            }*/
-        },
-        /**
-         * 验证参数是否合法
-         * @returns {boolean}
-         * @private
-         */
-        _verify: function () {
-            var me = this;
-            if (me.$fixedItems.length === 0) {
-                //console.warn("SQ.fixed: 缺少 fixed DOM 元素");
-                return;
-            }
-            return true;
-        },
-        /**
-         * 初始化
-         * @private
-         */
-        _init: function () {
-            var me = this;
-            var oldIndex = $(".init").length;
-            me.$fixedItems.each(function (index) {
+            me.$element.each(function (index) {
                 var fixedItem = {
-                    id: "fixId" + (index + oldIndex),   // 
+                    id: scope + (index + initializedIndex),     // 用于定位 fixed 元素
                     self: this,
                     $self: $(this),
-                    fixed: false                        // 标记是否处在 fixed 状态，用于之后的判断
+                    fixed: false                                // 标记是否处在 fixed 状态，用于之后的判断
                 };
-                fixedItem.$self.addClass("init");
+
                 // 确定 fixed 激活位置，当有 NUM_TRIGGER_POSITION 值时以该值为准，没有则以元素当前位置为准
-                if (me.config.NUM_TRIGGER_POSITION && SQ.isNumber(me.config.NUM_TRIGGER_POSITION)) {
-                    fixedItem.triggerPosTop = me.config.NUM_TRIGGER_POSITION;
+                if (me.settings.NUM_TRIGGER_POSITION && SQ.isNumber(me.settings.NUM_TRIGGER_POSITION)) {
+                    fixedItem.triggerPosTop = me.settings.NUM_TRIGGER_POSITION;
                 } else {
                     // 设置占位 DOM
-                    if (me.config.PLACEHOLD) {
+                    if (me.settings.PLACEHOLD) {
                         me._setPlaceholder(fixedItem);
                     }
                     // 获取元素位置 top 值
@@ -149,7 +92,6 @@
                 }
                 // 触发绑定
                 me._trigger(fixedItem);
-                me.fixedItemAry.push(fixedItem);
             });
         },
         /**
@@ -217,7 +159,7 @@
                     });
                 }
             }
-            
+
             if (window.requestAnimationFrame) {
                 window.requestAnimationFrame(advancedWatchEvent);
             } else {
@@ -226,7 +168,7 @@
         },
         _setFixed: function (fixedItem) {
             var me = this;
-            var posCss = me.config.ARRY_FIXED_POSITION;
+            var posCss = me.settings.ARRY_FIXED_POSITION;
             var $placeholderDom = $("#" + fixedItem.id);
 
             fixedItem.$self.css({
@@ -235,38 +177,62 @@
                 "right": posCss[1],
                 "bottom": posCss[2],
                 "left": posCss[3],
-                "z-index": me.config.NUM_ZINDEX
+                "z-index": me.settings.NUM_ZINDEX
             });
             fixedItem.fixed = true;
 
-            if (me.config.PLACEHOLD && $placeholderDom.length) {
+            if (me.settings.PLACEHOLD && $placeholderDom.length) {
                 $placeholderDom.show();
             }
 
-            if (me.config.ANIMATE) {
-                var animateClassName = me.config.ANIMATE.indexOf(".") === 0 ? me.config.ANIMATE.slice(1) : me.config.ANIMATE;
+            if (me.settings.ANIMATE) {
+                var animateClassName = me.settings.ANIMATE.indexOf(".") === 0 ? me.settings.ANIMATE.slice(1) : me.settings.ANIMATE;
                 fixedItem.$self.addClass("animated " + animateClassName);
             }
-            
-            if (me.fixedIn) {
-                me.fixedIn();
+
+            if (me.fixedInFun) {
+                me.fixedInFun();
             }
         },
         _removeFixed: function (fixedItem) {
             var me = this;
             var $placeholderDom = $("#" + fixedItem.id);
-            
+
             fixedItem.$self.attr("style", "");
             fixedItem.fixed = false;
 
-            if (me.config.PLACEHOLD && $placeholderDom.length) {
+            if (me.settings.PLACEHOLD && $placeholderDom.length) {
                 $placeholderDom.hide();
             }
 
-            if (me.fixedOut) {
-                me.fixedOut();
+            if (me.fixedOutFun) {
+                me.fixedOutFun();
             }
         }
     };
-    SQ.Fixed = Fixed;
-}($, window));
+
+    $.fn.fixed = function ( options ) {
+        var isZepto = typeof Zepto !== "undefined" ? true : false;
+        var isJQuery = typeof jQuery !== "undefined" ? true : false;
+        var plugin;
+
+        options = options || {};
+        options.selector = this.selector;
+
+        this.each(function() {
+            if (isJQuery) {
+                if ( !$.data( this, scope ) ) {
+                    $.data( this, scope, new Fixed( this, options ) );
+                }
+            } else if (isZepto) {
+                if (!$(this).data(scope)) {
+                    plugin = new Fixed( this, options );
+                    $(this).data(scope, "initialized");
+                }
+            }
+        });
+        // chain jQuery functions
+        return this;
+    };
+
+})($);

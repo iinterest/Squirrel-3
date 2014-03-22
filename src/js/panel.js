@@ -1,10 +1,11 @@
 /**
- * @file SQ.Panel 滑动面板组件
- * @version 0.5.0
+ * @file SQ.Panel 滑动面板插件
+ * @version 1.0.0
  */
 
 /**
  * @changelog
+ * 1.0.0  * 重写插件，调用方式改为 $. 链式调用。
  * 0.5.0  * 完成左侧滑动面板功能
  * 0.0.1  * 新建。
  */
@@ -12,60 +13,86 @@
 /*global
  $: false,
  SQ: false,
- console: false
+ console: false,
+ jQuery: false
  */
-
-(function ($, window) {
+;(function ($) {
     "use strict";
     /**
      * @name Panel
-     * @classdesc 侧滑面板。
+     * @classdesc 内容延迟加载
      * @constructor
-     * @param {object} config 组件配置（下面的参数为配置项，配置会写入属性）
-     * @param {string} config.EVE_EVENT_TYPE        绑定事件设置，默认值为：click。
-     * @param {string} config.DOM_TRIGGER_TARGET    被绑定事件的 Dom 元素。
-     * @param {string} config.DIRECTION             面板出现方向。
-     * @param {string} config.DISPLAY               面板展现方式，有 overlay、push 两种方式，默认为 overlay。
-     * @param {string} config.CSS_WIDTH             面板宽度，DIRECTION 设置为 left、right 时使用。
-     * @param {string} config.CSS_HEIGHT            面板高度，DIRECTION 设置为 top、bottom 时使用。
-     */
-    function Panel(config) {
-        var me = this;
-        var i;
-
-        me.config = {
-            EVE_EVENT_TYPE: "click",
-            DISPLAY: "overlay",
-            DIRECTION: "left",
-            CSS_WIDTH: 300,
-            CLOSE_BTN: true,
-            TXT_CLOSE_VAL: "×"
-        };
-
-        for (i in config) {
-            if (config.hasOwnProperty(i)) {
-                me.config[i] = config[i];
-            }
-        }
-        
-        me.$triggerTarget = $(me.config.DOM_TRIGGER_TARGET);    // 触发元素
-        me.$wrapper = $(me.config.DOM_WRAPPER);
-
-        me.beforeShowFun = me.config.beforeShow;
-        me.showFun = me.config.show;
-        me.closeFun = me.config.close;
-        me.resizeFun = me.config.resize;
-
-        if (me._verify()) {
-            me._init();
-        }
+     * @param {object} config 插件配置（下面的参数为配置项，配置会写入属性）
+     * @param {string} config.EVE_EVENT_TYPE        触发方式，默认为：click
+     * @param {string} config.DISPLAY               显示模式，默认为：overlay，可选 push
+     * @param {string} config.DOM_WRAPPER           页面包装节点，当 DISPLAY 设置为 push 时，该节点会应用动画
+     * @param {string} config.DIRECTION             出现方向，默认为：left
+     * @param {number} config.CSS_WIDTH             面板宽度
+     * @param {string} config.CLOSE_BTN             是否显示关闭按钮
+     * @param {string} config.TXT_CLOSE_VAL         关闭按钮显示文字，默认为："×"
+     * @param {function} config.beforeShow          打开面板前回调函数，该函数必须返回为 true 才能继续执行 show 函数
+     * @param {function} config.show                打开面板时回调函数
+     * @param {function} config.close               关闭面板时回调函数
+     * @param {function} config.resize              resize 回调函数
+     * @example $(".J_panelMenu").panel({
+    CSS_CLASS: ".panel-menu",
+    CSS_WIDTH: 240,
+    beforeShow: function () {
+        console.log("beforeShow");
+        return true;
+    },
+    show: function () {
+        console.log("show");
     }
-    Panel.prototype =  {
-        construtor: Panel,
-        version: "0.5.1",
-        resizeTimer : false,    // resize 
-        closed : true,
+});
+     */
 
+    var scope = "sq-panel";
+    var defaults = {
+        EVE_EVENT_TYPE: "click",
+        DISPLAY: "overlay",
+        DIRECTION: "left",
+        CSS_WIDTH: 300,
+        CLOSE_BTN: true,
+        TXT_CLOSE_VAL: "×"
+    };
+
+    function Panel ( element, options ) {
+        this.element = element;
+        this.settings = $.extend( {}, defaults, options );
+        this._defaults = defaults;
+        this.init();
+    }
+
+    Panel.prototype = {
+        construtor: "Panel",
+        resizeTimer : false,
+        closed : true,
+        init: function () {
+            var me = this;
+            var css = "@-webkit-keyframes showPanel {0% {-webkit-transform: translateX(-"+ me.settings.CSS_WIDTH +"px);} 100% {-webkit-transform: translateX(0);}}" +
+                "@-webkit-keyframes hidePanel{0% {-webkit-transform: translateX(0);}100% {-webkit-transform: translateX(-"+ me.settings.CSS_WIDTH +"px);}}";
+            if (me.settings.DISPLAY === "push") {
+                css += "@-webkit-keyframes hideWrap {0% {-webkit-transform: translateX(0);}100% {-webkit-transform: translateX("+ me.settings.CSS_WIDTH +"px);}}" +
+                    "@-webkit-keyframes showWrap {0% {-webkit-transform: translateX("+ me.settings.CSS_WIDTH +"px);}100% {-webkit-transform: translateX(0);}}";
+            }
+
+            me.$win = $(window);
+            me.$doc = $(document);
+            me.$body = $("body");
+            me.$element = $(me.element);                // 触发元素
+            me.$wrapper = $(me.settings.DOM_WRAPPER);
+
+            me.beforeShowFun = me.settings.beforeShow;
+            me.showFun = me.settings.show;
+            me.closeFun = me.settings.close;
+            me.resizeFun = me.settings.resize;
+
+            if (me._verify()) {
+                me._bind();
+                me.$body.append("<style>" + css + "</style>");
+            }
+        },
         /**
          * 验证
          * @returns {boolean}
@@ -74,31 +101,11 @@
         _verify: function () {
             var me = this;
             // Dom 验证，触发元素、数据展示元素、状态展示元素必须都存在
-            if (me.$triggerTarget.length === 0 || me.$wrapper.length === 0) {
+            if (me.$element.length === 0 || me.$wrapper.length === 0) {
                 console.warn("SQ.panel: 缺少 Dom 元素");
                 return false;
             }
             return true;
-        },
-        /**
-         * 初始化
-         * @private
-         */
-        _init: function () {
-            var me = this;
-            var css = "@-webkit-keyframes showPanel {0% {-webkit-transform: translateX(-"+ me.config.CSS_WIDTH +"px);} 100% {-webkit-transform: translateX(0);}}" +
-                "@-webkit-keyframes hidePanel{0% {-webkit-transform: translateX(0);}100% {-webkit-transform: translateX(-"+ me.config.CSS_WIDTH +"px);}}";
-            me.$win = $(window);
-            me.$doc = $(document);
-            me.$body = $("body");
-            me._bind();
-
-            if (me.config.DISPLAY === "push") {
-                css += "@-webkit-keyframes hideWrap {0% {-webkit-transform: translateX(0);}100% {-webkit-transform: translateX("+ me.config.CSS_WIDTH +"px);}}" +
-                    "@-webkit-keyframes showWrap {0% {-webkit-transform: translateX("+ me.config.CSS_WIDTH +"px);}100% {-webkit-transform: translateX(0);}}";
-            }
-
-            me.$body.append("<style>" + css + "</style>");
         },
         /**
          * 事件绑定方法
@@ -107,12 +114,11 @@
          */
         _bind: function () {
             var me = this;
-            function bindEvent(e) {
+            // 绑定在 document 上是为了解决 Ajax 内容绑定问题
+            me.$doc.on(me.settings.EVE_EVENT_TYPE + ".sq.panel", me.settings.selector, function (e) {
                 e.preventDefault();
                 me.show(e);
-            }
-            // 绑定在 document 上是为了解决 Ajax 内容绑定问题
-            me.$doc.on(me.config.EVE_EVENT_TYPE, me.config.DOM_TRIGGER_TARGET, bindEvent);
+            });
         },
         /**
          * 新建滑动面板对象
@@ -125,27 +131,27 @@
             // 初始化
             var $panel = $("<div class='sq-panel'></div>");
             var $panelContent = $("<div class='content'></div>");
-            var $close = $("<div class='close-btn'>" + me.config.TXT_CLOSE_VAL + "</div>");
+            var $close = $("<div class='close-btn'>" + me.settings.TXT_CLOSE_VAL + "</div>");
 
             // 设置样式
-            if (me.config.DIRECTION === "left" || me.config.DIRECTION === "right") {
+            if (me.settings.DIRECTION === "left" || me.settings.DIRECTION === "right") {
                 $panel.css({
                     "position": "absolute",
                     "display": "none",
                     "top": 0,
                     "bottom": 0,
-                    "width": me.config.CSS_WIDTH,
+                    "width": me.settings.CSS_WIDTH,
                     "z-index": 1000
                 });
             }
 
-            if (me.config.CSS_CLASS) {
-                $panel.addClass(me.config.CSS_CLASS.indexOf(".") === 0 ? me.config.CSS_CLASS.slice(1) : me.config.CSS_CLASS);
+            if (me.settings.CSS_CLASS) {
+                $panel.addClass(me.settings.CSS_CLASS.indexOf(".") === 0 ? me.settings.CSS_CLASS.slice(1) : me.settings.CSS_CLASS);
             }
             // 装载内容
             $panel.append($panelContent);
             // 设置显示按钮
-            if (me.config.CLOSE_BTN) {
+            if (me.settings.CLOSE_BTN) {
                 $panel.append($close);
             }
 
@@ -177,7 +183,6 @@
             me.$panel.on("mousewheel", function (e) {
                 e.preventDefault();
             });
-            
             me.$close.on("click", function () {
                 me.close();
             });
@@ -187,7 +192,7 @@
             });
         },
         /**
-         * 
+         *
          * @param e
          * @returns {*}
          * @private
@@ -270,7 +275,7 @@
                 $mask.on("mousewheel", function (e) {
                     e.preventDefault();
                 });
-                
+
                 me.$mask = $mask;
             }
         },
@@ -298,5 +303,29 @@
             me.$panel = null;
         }
     };
-    SQ.Panel = Panel;
-}($, window));
+
+    $.fn.panel = function ( options ) {
+        var isZepto = typeof Zepto !== "undefined" ? true : false;
+        var isJQuery = typeof jQuery !== "undefined" ? true : false;
+        var plugin;
+
+        options = options || {};
+        options.selector = this.selector;
+
+        this.each(function() {
+            if (isJQuery) {
+                if ( !$.data( this, scope ) ) {
+                    $.data( this, scope, new Panel( this, options ) );
+                }
+            } else if (isZepto) {
+                if (!$(this).data(scope)) {
+                    plugin = new Panel( this, options );
+                    $(this).data(scope, "initialized");
+                }
+            }
+        });
+        // chain jQuery functions
+        return this;
+    };
+
+})($);

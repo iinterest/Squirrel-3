@@ -1,12 +1,13 @@
 /**
- * @file Squirrel Tabs
- * @version 0.7.5
+ * @file SQ.Tab 选项卡插件
+ * @version 1.0.0
  */
 
 /**
  * @changelog
+ * 1.0.0  * 重写插件，调用方式改为 $. 链式调用。
  * 0.7.5  * 修改类名，新增 beforeLoad 、loaded 回调函数的传参。
- * 0.7.4  * 解决 localStorage 问题，API_URL 兼容 ["","test.json",""] 这种写法；
+ * 0.7.4  * 解决 localStorage 问题，API 兼容 ["","test.json",""] 这种写法；
  *        * CSS_LOADING_TIP 兼容 ".demo" 和 "demo" 写法。
  * 0.7.3  * 修复 reload 按钮多次绑定问题。
  * 0.7.2  * 修复初始化时，me.$loadingTip 无法找到的问题。
@@ -14,7 +15,7 @@
  * 0.7.0  + 添加对 localStorage 支持，通过将 LOCAL_DATA 设置为 true 开启，通过 NUM_EXPIRES 来设置过期时间（单位：分钟）。
  * 0.6.1  * 屏蔽 click 默认动作，新增自定义 CSS_HIGHLIGHT 属性。
  * 0.6.0  * 重写 Tabs 插件，使 Tabs 插件能够在同一页面多次实例化。
- * 0.5.6  * 修改组件名称为 Tabs。
+ * 0.5.6  * 修改插件名称为 Tabs。
  * 0.5.1  * 完成选项卡基本功能。
  * 0.0.1  + 新建。
  */
@@ -23,19 +24,18 @@
  SQ: false,
  console: false
  */
-(function ($, window) {
+;(function ($) {
     "use strict";
     /**
-     * @name Tabs
-     * @classdesc 选项卡交互组件
+     * @name Tab
+     * @classdesc 选项卡插件
      * @constructor
-     * @param {object} config                                           组件配置（下面的参数为配置项，配置会写入属性）
+     * @param {object} config                                           插件配置（下面的参数为配置项，配置会写入属性）
      * @param {string} config.EVE_EVENT_TYPE                            触发事件，click 或 mouseover
-     * @param {string} config.DOM_TRIGGER_TARGET                        被绑定事件的 Dom 元素
      * @param {string} config.DOM_TABS                                  标签 Dom 元素
      * @param {string} config.DOM_PANELS                                面板 Dom 元素
-     * @param {string} config.API_URL                                   API 接口① 字符串形式
-     * @param {array}  config.API_URL                                   API 接口② 数组形式，数组中各项对应各个选项卡
+     * @param {string} config.API                                       API 接口① 字符串形式
+     * @param {array}  config.API                                       API 接口② 数组形式，数组中各项对应各个选项卡
      * @param {string} config.CSS_HIGHLIGHT                             自定义高亮样式名称，默认为 .active
      * @param {string} config.CSS_LOADING_TIP                           loading 提示样式
      * @param {string} config.TXT_LOADING_TIP                           loading 提示文字
@@ -44,85 +44,73 @@
      * @param {boolean} config.CLEAR_PANEL                              切换选项卡时是否自动清理面板数据
      * @param {string} config.LOCAL_DATA                                XHR 数据 loaclstorage 开关，默认为 false
      * @param {number} config.NUM_EXPIRES                               XHR 数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟
-     * @param {function} config.trigger($tabs, $panels, tabIndex)       触发选项卡切换回调函数
-     * @param {function} config.show($tabs, $panels, tabIndex)          显示选项卡时回调函数
-     * @param {function} config.beforeLoad($activePanels, tabIndex)     异步加载前回调函数，当设定了该回调函数时，必须返回
+     * @param {function} config.trigger($tabs,$panels,tabIndex)         触发选项卡切换回调函数
+     * @param {function} config.show($tabs,$panels,tabIndex)            显示选项卡时回调函数
+     * @param {function} config.beforeLoad($activePanels,tabIndex)      异步加载前回调函数，当设定了该回调函数时，必须返回
      *                                                                  true 才能继续执行，异步加载事件，可中断异步加载事件。
      *                                                                  参数：$activePanels 是当前激活的面板
-     * @param {function} config.loaded(data, $activePanels, tabIndex)   异步加载成功回调函数，参数：data 是异步加载返回数据
+     * @param {function} config.loaded(data,$activePanels,tabIndex)     异步加载成功回调函数，参数：data 是异步加载返回数据
      *                                                                  参数：$activePanels 是当前激活的面板
-     * @example var tabs = new SQ.Tabs({
-            EVE_EVENT_TYPE: "mouseover",
-            DOM_TRIGGER_TARGET: ".J_tabs",
-            DOM_TABS: ".tabs>li",
-            DOM_PANELS: ".panels",
-            API_URL: ["../data/content1.json", "../data/content2.json", "../data/content3.json"],
-            CSS_LOADING_TIP: ".tab-loading-tip",
-            NUM_ACTIVE: 0,
-            trigger: function () {
-            
-            },
-            show: function () {
+     * @example $(".J_tabs").tab({
+    API: ["data/content1.json", "data/content2.json", ""],
+    DOM_TABS: ".sq-nav-tabs>li",
+    DOM_PANELS: ".sq-tab-content",
+    CSS_LOADING_TIP: ".tab-loading-tip",
+    show: function ($tabs, $panels, tabIndex) {
 
-            },
-            beforeLoad: function () {
+    },
+    loaded: function (data, $activePanels) {
 
-            },
-            loaded: function (data) {
-
-            }
-        });
-     */
-    function Tabs(config) {
-        var me = this;
-        var i;
-
-        me.config = {
-            CSS_HIGHLIGHT: ".active",
-            NUM_ACTIVE : 0,
-            NUM_XHR_TIMEER : 5000,
-            TXT_LOADING_TIP : "正在加载请稍后...",     // 正在加载提示
-            CLEAR_PANEL : false,
-            LOCAL_DATA : false,
-            NUM_EXPIRES : 15
-        };
-
-        for (i in config) {
-            if (config.hasOwnProperty(i)) {
-                me.config[i] = config[i];
-            }
-        }
-        
-        me.CSS_HIGHLIGHT = me.config.CSS_HIGHLIGHT.indexOf(".") === 0 ? me.config.CSS_HIGHLIGHT.slice(1) : me.config.CSS_HIGHLIGHT;
-        if (me.config.CSS_LOADING_TIP) {
-            me.CSS_LOADING_TIP = me.config.CSS_LOADING_TIP.indexOf(".") === 0 ? me.config.CSS_LOADING_TIP.slice(1) : me.config.CSS_LOADING_TIP;
-        }
-
-        me.$triggerTarget = $(me.config.DOM_TRIGGER_TARGET);        // 目标元素
-        me.tabsLen = me.$triggerTarget.length;
-        me.triggerFun = me.config.trigger;
-        me.showFun = me.config.show;
-        me.beforeLoadFun = me.config.beforeLoad;
-        me.loadFun = me.config.loaded;
-
-        me.$triggerTarget.each(function () {
-            var $tabMould = $(this);
-            var $tabs = $tabMould.find(me.config.DOM_TABS);
-            var $panels = $tabMould.find(me.config.DOM_PANELS);
-            if (me._verify()) {
-                me._init($tabMould, $tabs, $panels);
-            }
-        });
     }
-    Tabs.prototype = {
-        construtor: Tabs,
-        version: "0.7.5",
+});
+     */
+    var scope = "sq-tab";
+    var defaults = {
+        EVE_EVENT_TYPE: "click",
+        CSS_HIGHLIGHT: ".active",
+        CLEAR_PANEL : false,
+        NUM_ACTIVE : 0,
+        NUM_XHR_TIMEER : 5000,
+        TXT_LOADING_TIP : "正在加载请稍后...",     // 正在加载提示
+        LOCAL_DATA : false,
+        NUM_EXPIRES : 15
+    };
+
+    function Tab ( element, options ) {
+        this.element = element;
+        this.settings = $.extend( {}, defaults, options );
+        this._defaults = defaults;
+        this.init();
+    }
+
+    Tab.prototype = {
+        construtor: "Tab",
         needLoadContent : false,    // 选项卡内容是否需要异步加载
-        /**
-         * 验证参数是否合法
-         * @returns {boolean}
-         * @private
-         */
+        init: function () {
+            var me = this;
+            
+            if (me.settings.CSS_LOADING_TIP) {
+                me.CSS_LOADING_TIP = me.settings.CSS_LOADING_TIP.indexOf(".") === 0 ? me.settings.CSS_LOADING_TIP.slice(1) : me.settings.CSS_LOADING_TIP;
+            }
+            me.CSS_HIGHLIGHT = me.settings.CSS_HIGHLIGHT.indexOf(".") === 0 ? me.settings.CSS_HIGHLIGHT.slice(1) : me.settings.CSS_HIGHLIGHT;
+
+            me.$element = $(me.element);        // 目标元素
+            me.tabsLen = me.$element.length;
+
+            me.triggerFun = me.settings.trigger;
+            me.showFun = me.settings.show;
+            me.beforeLoadFun = me.settings.beforeLoad;
+            me.loadFun = me.settings.loaded;
+
+            me.$element.each(function () {
+                var $tabMould = $(this);
+                var $tabs = $tabMould.find(me.settings.DOM_TABS);
+                var $panels = $tabMould.find(me.settings.DOM_PANELS);
+                if (me._verify()) {
+                    me._init($tabMould, $tabs, $panels);
+                }
+            });
+        },
         _verify: function () {
             return true;
         },
@@ -135,7 +123,7 @@
                 i++;
             });
             // 判断是否需要生成异步加载提示语
-            if (me.config.API_URL && (SQ.isString(me.config.API_URL) || SQ.isArray(me.config.API_URL))) {
+            if (me.settings.API && (SQ.isString(me.settings.API) || SQ.isArray(me.settings.API))) {
                 me.$loadingTip = $("<div class='sq-tabs-loading-tip'></div>");
                 if (me.CSS_LOADING_TIP) {
                     me.$loadingTip.addClass(me.CSS_LOADING_TIP);
@@ -146,15 +134,15 @@
                         "line-height" : "60px"
                     });
                 }
-                me.$loadingTip.text(me.config.TXT_LOADING_TIP);
+                me.$loadingTip.text(me.settings.TXT_LOADING_TIP);
                 me.needLoadContent = true;
             }
             // 初始化高亮
-            if (me.config.NUM_ACTIVE !== undefined) {
-                me.show($tabs, $panels, me.config.NUM_ACTIVE);
+            if (me.settings.NUM_ACTIVE !== undefined) {
+                me.show($tabs, $panels, me.settings.NUM_ACTIVE);
             }
             // 绑定事件
-            $tabs.on(me.config.EVE_EVENT_TYPE, function (e) {
+            $tabs.on(me.settings.EVE_EVENT_TYPE + ".sq.tab", function (e) {
                 var $tab = $(this);
                 e.preventDefault();
                 me._trigger($tabMould, $tabs, $panels, $tab);
@@ -205,13 +193,13 @@
             if (me.showFun) {
                 me.showFun($tabs, $panels, tabIndex);
             }
-            if (me.config.API_URL) {
+            if (me.settings.API) {
                 me._load($activePanels, tabIndex);
             }
         },
         _load: function ($activePanels, tabIndex) {
             var me = this;
-            var api = me.config.API_URL;
+            var api = me.settings.API;
             var $currentLoadTip = $activePanels.find(".sq-tabs-loading-tip");
             var hasLoadingTip = $currentLoadTip.length > 0 ? true : false;
             var hasLoaded = $activePanels.hasClass("hasLoaded");
@@ -227,12 +215,12 @@
                 }
             }
             // 是否清空面板
-            if (me.config.CLEAR_PANEL) {
+            if (me.settings.CLEAR_PANEL) {
                 me._cleanPanel($activePanels);
             }
             // 是否启用本地缓存
-            if (me.config.LOCAL_DATA) {
-                var localData = SQ.store.localStorage.get(api, me.config.NUM_EXPIRES);
+            if (me.settings.LOCAL_DATA) {
+                var localData = SQ.store.localStorage.get(api, me.settings.NUM_EXPIRES);
                 localData = SQ.isString(localData) ? $.parseJSON(localData) : localData;
                 if (localData) {
                     $activePanels.addClass("hasLoaded");
@@ -243,8 +231,8 @@
                 }
             }
             // 开始 XHR 流程
-            if (SQ.isArray(me.config.API_URL)) {
-                api = me.config.API_URL[tabIndex];
+            if (SQ.isArray(me.settings.API)) {
+                api = me.settings.API[tabIndex];
             }
             if (!api || api.length === 0) {
                 return;
@@ -264,11 +252,11 @@
                 type : "POST",
                 url : api,
                 dataType : "json",
-                timeout : me.config.NUM_XHR_TIMEER,
+                timeout : me.settings.NUM_XHR_TIMEER,
                 success : function (data) {
                     $currentLoadTip.hide();
                     $activePanels.addClass("hasLoaded");    // 为已经加载过的面板添加 .hasLoaded 标记
-                    if (me.config.LOCAL_DATA) {
+                    if (me.settings.LOCAL_DATA) {
                         SQ.store.localStorage.set(api, data);
                     }
                     if (me.loadFun) {
@@ -294,5 +282,28 @@
             });
         }
     };
-    SQ.Tabs = Tabs;
-}($, window));
+
+    $.fn.tab = function ( options ) {
+        var isZepto = typeof Zepto !== "undefined" ? true : false;
+        var isJQuery = typeof jQuery !== "undefined" ? true : false;
+        var plugin;
+
+        options = options || {};
+        options.selector = this.selector;
+
+        this.each(function() {
+            if (isJQuery) {
+                if ( !$.data( this, scope ) ) {
+                    $.data( this, scope, new Tab( this, options ) );
+                }
+            } else if (isZepto) {
+                if (!$(this).data(scope)) {
+                    plugin = new Tab( this, options );
+                    $(this).data(scope, "initialized");
+                }
+            }
+        });
+        // chain jQuery functions
+        return this;
+    };
+})($);

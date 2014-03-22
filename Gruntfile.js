@@ -88,7 +88,7 @@ module.exports = function (grunt) {
             dist: {
                 src: "src/js/**/*.js",
                 options: {
-                    destination: "docs/jsdoc"
+                    destination: "../Squirrel-Doc/docs/jsdoc"
                 }
             }
         },
@@ -106,23 +106,25 @@ module.exports = function (grunt) {
             buildToDoc: {
                 expand: true,
                 src: "build/**",
-                dest: "../Squirrel-Doc/"
+                dest: "../Squirrel-Doc/docs/latest/"
             },
-            /*distToPT: {
+            distToDoc: {
                 expand: true,
-                src: "dist*//**",
-                dest: "../Project-Template/"
+                src: "dist/**",
+                dest: "../Squirrel-Doc/docs/latest/"
             },
-            src_cmdToPT: {
-                expand: true,
-                src: "src_cmd*//**",
-                dest: "../Project-Template/"
-            },*/
-            docTplToDoc: {
+            tplIndexToDoc: {
                 expand: true,
                 flatten: true,
                 src: "doc_tpl/index.html",
                 dest: "../Squirrel-Doc/",
+                filter: "isFile"
+            },
+            tplDocumentationToDoc: {
+                expand: true,
+                flatten: true,
+                src: "doc_tpl/documentation.html",
+                dest: "../Squirrel-Doc/docs/",
                 filter: "isFile"
             }
         },
@@ -147,6 +149,16 @@ module.exports = function (grunt) {
                 path: "../Squirrel-Doc/index.html",
                 pattern: "%UPDATE%",
                 replacement: "<%= grunt.template.today('yyyy-mm-dd') %>"
+            },
+            indexClearCache: {
+                path: "../Squirrel-Doc/index.html",
+                pattern: "%DATE%",
+                replacement: "<%= grunt.template.today('yyyymmddhh') %>"
+            },
+            docClearCache: {
+                path: "../Squirrel-Doc/docs/documentation.html",
+                pattern: "%DATE%",
+                replacement: "<%= grunt.template.today('yyyymmddhh') %>"
             }
         }
     });
