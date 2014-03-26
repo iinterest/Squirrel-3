@@ -1,7 +1,7 @@
 /*!
  * Squirrel's Gruntfile
  * http://hisquirrel.com
- * Copyright 2013-2014 Twitter, Inc.
+ * Copyright 2013-2014
  * Licensed under MIT (https://github.com/iinterest/Squirrel-3/blob/master/LICENSE.md)
  */
 module.exports = function (grunt) {
@@ -81,7 +81,7 @@ module.exports = function (grunt) {
                     "src/js/*.js",
                     "src/js/core/*.js"
                 ],
-                tasks: ["concat", "uglify", "copy", "sed"]
+                tasks: ["concat:concatCore", "concat:concatPlugins", "uglify", "copy", "sed"]
             }
         },
         jsdoc: {
@@ -175,10 +175,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-sed");
     // 构建工程
     grunt.registerTask("build", ["clean", "concat", "autoprefixer", "less", "uglify", "cssmin", "copy", "sed"]);
-    
+    // 构建文档
+    grunt.registerTask("doc", ["copy", "sed"]);
+
     // 监视文件变化自动构建
     // grunt watch
-    
+
     // 生成 JSDoc 文档
     // grunt jsdoc
 };
