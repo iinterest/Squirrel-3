@@ -1810,11 +1810,12 @@ SQ.util = {
 })($);
 /**
  * @file SQ.Popup 弹窗插件
- * @version 1.5.0
+ * @version 1.5.1
  */
 
 /**
  * @changelog
+ * 1.5.1  * 为 ucweb 9.7 事件优化做兼容。
  * 1.5.0  * 重写插件，调用方式改为 $. 链式调用。
  * 1.0.3  * 修复 resize 导致报错的 BUG。
  * 1.0.2  * _setPopupPos 函数优化
@@ -2127,7 +2128,8 @@ SQ.util = {
             // 锁定操作
             if (me.settings.LOCK) {
                 // 优化 Android 下 UCweb 浏览器触摸操作，减少滑动误操作
-                if (SQ.ua.os.name === "android" && SQ.ua.browser.shell === "ucweb" && SQ.ua.browser.version >= 9) {
+                // Ucweb 9.7 以后对 click 事件做了优化，取消 touchstart 默认操作会导致点击事件失效
+                if (SQ.ua.os.name === "android" && SQ.ua.browser.shell === "ucweb" && SQ.ua.browser.version >= 9 && SQ.ua.browser.version < 9.7) {
                     me.$popupPanel.on("touchstart", function (e) {
                         e.preventDefault();
                     });
