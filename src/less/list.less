@@ -17,24 +17,29 @@
     //========================================
     .group-hd,
     .list-item{
-        display:block; .border-box; position:relative; padding:10px 15px; line-height:@magic-line-height;
-        .badge{ float:right;}
+        display:block; .border-box; position:relative; padding:10px 10px 9px; line-height:@magic-line-height;
+        .badge{ border-radius:10px; padding:0 6px;}
     }
+    .list-item + .group-hd{ margin-top:-1px;}
     .icon{
-        display:block; width:@default-icon-width; height:@default-icon-height;
-        i{ display:block; position:relative;}
+        display:block; position:relative; width:@default-icon-width; height:@default-icon-height;
         img{ display:block; width:100%; height:100%;}
+        .badge{ position:absolute; top:-5px; left:-5px; color:#fff;}
     }
     .trigger-area{ .overspread; z-index:11; cursor:pointer;}
-    .row{ display:block; max-height:1.4em; overflow:hidden;}
-    .row-ellipsis{ display:block; max-height:1.4em; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;}
+    .row{ display:block; max-height:1.3em; overflow:hidden;}
+    .row-ellipsis{ display:block; max-height:1.3em; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;}
 
 
     //========================================
     // Text
     // 文字列表，通常只包含文字、徽章或少量控件
     //========================================
-    &.text{}
+    &.text{
+        .list-item{ padding-top:12px; padding-bottom:11px;}
+        .sq-icon{ vertical-align:middle; margin-right:.5rem;}
+        .badge{ float:right;}
+    }
 
 
     //========================================
@@ -45,7 +50,8 @@
         .list-item{ .display-box; .box-orient(horizontal);}
         .des{
             .box-flex(1); margin:0 10px; line-height:@magic-line-height;
-            .tit{ font-size:@title-font-size; font-weight:700;}
+            .tit{ margin-bottom:.3em; font-size:@title-font-size; font-weight:700;}
+            .ctx{ margin-bottom:3px; font-size:@content-font-size; line-height:1.2;}
             .sq-btn{ margin-top:5px;}
         }
         .extend{
@@ -53,6 +59,12 @@
             .sq-btn + .sq-btn{ margin-left:0; margin-top:5px;}
         }
         .v-middle{ .display-box; .box-align(center);}
+        &.col2,
+        &.col3,
+        &.col4{
+            .tit{ margin-bottom:.1em;}
+            .list-item{ padding:10px 0 10px 10px;}
+        }
     }
 
 
@@ -62,6 +74,12 @@
     //========================================
     &.tile{
         letter-spacing:-4px;
+        
+        .list-item{ float:left; padding:10px 5px; text-align:center; letter-spacing:0;}
+        .icon{ margin:0 auto;}
+        .tit{ display:block; margin:5px 0;}
+        .sq-btn{ line-height:1;}
+        
         &.col2,
         &.col3,
         &.col4,
@@ -70,10 +88,6 @@
             .list-item{ float:none; display:inline-block; vertical-align:top;}
             // 为解决高度不一的排版问题，重写 col2-clo6，不使用 float 布局。
         }
-        .list-item{ float:left; text-align:center; letter-spacing:0;}
-        .icon{ margin:0 auto;}
-        .tit{ display:block; margin:5px 0;}
-        .sq-btn{ line-height:1;}
     }
 
     /*&.thumbnails{

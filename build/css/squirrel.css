@@ -1,6 +1,7 @@
 @charset "UTF-8";
 html {
   color: #333333;
+  font-size: 14px;
   background: #fff;
 }
 body,
@@ -572,7 +573,7 @@ body {
   -webkit-box-align: center;
   -webkit-box-pack: justify;
   padding: 0 4px;
-  font-size: 14px;
+  font-size: 0.9rem;
   z-index: 100;
 }
 .sq-bars.toolbar .col,
@@ -618,7 +619,7 @@ body {
   height: 44px;
 }
 .sq-bars.nav .title {
-  font-size: 18px;
+  font-size: 1.2rem;
   line-height: 44px;
   text-align: center;
   overflow: hidden;
@@ -637,7 +638,7 @@ body {
   right: 80px;
   bottom: 0;
   left: 80px;
-  font-size: 14px;
+  font-size: 0.9rem;
   text-align: center;
   line-height: 44px;
 }
@@ -646,7 +647,7 @@ body {
 }
 .sq-bars.nav-tabs {
   text-align: center;
-  font-size: 14px;
+  font-size: 0.9rem;
   line-height: 44px;
 }
 .sq-bars.nav-tabs ul {
@@ -693,7 +694,7 @@ body {
   padding: 0 4px;
   height: 15px;
   border-radius: 999px;
-  font-size: 10px;
+  font-size: 0.7rem;
   line-height: 15px;
   color: #fff;
   overflow: hidden;
@@ -993,6 +994,7 @@ button.sq-btn.block {
   -webkit-transform: rotate(180deg);
 }
 .sq-icon::before {
+  font-size: 1.2em;
   font-family: "fontello";
   font-style: normal;
   font-weight: normal;
@@ -1002,19 +1004,11 @@ button.sq-btn.block {
   width: 1em;
   margin-right: .2em;
   text-align: center;
-  /* opacity: .8;*/
   /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
   /* fix buttons height, for twitter bootstrap */
   line-height: 1em;
-  /* Animation center compensation - margins should be symmetric */
-  /* remove if not needed */
-  margin-left: .2em;
-  /* you can be more comfortable with increased icons size */
-  /* font-size: 120%;*/
-  /* Uncomment for 3D effect */
-  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3);*/
 }
 .icon-music:before {
   content: '\e825';
@@ -1427,26 +1421,33 @@ button.sq-btn.block {
   display: block;
   -webkit-box-sizing: border-box;
   position: relative;
-  padding: 10px 15px;
+  padding: 10px 10px 9px;
   line-height: 1.42857143;
 }
 .sq-list .group-hd .badge,
 .sq-list .list-item .badge {
-  float: right;
+  border-radius: 10px;
+  padding: 0 6px;
+}
+.sq-list .list-item + .group-hd {
+  margin-top: -1px;
 }
 .sq-list .icon {
   display: block;
+  position: relative;
   width: 60px;
   height: 60px;
-}
-.sq-list .icon i {
-  display: block;
-  position: relative;
 }
 .sq-list .icon img {
   display: block;
   width: 100%;
   height: 100%;
+}
+.sq-list .icon .badge {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  color: #fff;
 }
 .sq-list .trigger-area {
   position: absolute;
@@ -1459,15 +1460,26 @@ button.sq-btn.block {
 }
 .sq-list .row {
   display: block;
-  max-height: 1.4em;
+  max-height: 1.3em;
   overflow: hidden;
 }
 .sq-list .row-ellipsis {
   display: block;
-  max-height: 1.4em;
+  max-height: 1.3em;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+.sq-list.text .list-item {
+  padding-top: 12px;
+  padding-bottom: 11px;
+}
+.sq-list.text .sq-icon {
+  vertical-align: middle;
+  margin-right: .5rem;
+}
+.sq-list.text .badge {
+  float: right;
 }
 .sq-list.media .list-item {
   display: -webkit-box;
@@ -1479,8 +1491,14 @@ button.sq-btn.block {
   line-height: 1.42857143;
 }
 .sq-list.media .des .tit {
-  font-size: 16px;
+  margin-bottom: .3em;
+  font-size: 1.1rem;
   font-weight: 700;
+}
+.sq-list.media .des .ctx {
+  margin-bottom: 3px;
+  font-size: 0.9rem;
+  line-height: 1.2;
 }
 .sq-list.media .des .sq-btn {
   margin-top: 5px;
@@ -1498,20 +1516,22 @@ button.sq-btn.block {
   display: -webkit-box;
   -webkit-box-align: center;
 }
+.sq-list.media.col2 .tit,
+.sq-list.media.col3 .tit,
+.sq-list.media.col4 .tit {
+  margin-bottom: .1em;
+}
+.sq-list.media.col2 .list-item,
+.sq-list.media.col3 .list-item,
+.sq-list.media.col4 .list-item {
+  padding: 10px 0 10px 10px;
+}
 .sq-list.tile {
   letter-spacing: -4px;
 }
-.sq-list.tile.col2 .list-item,
-.sq-list.tile.col3 .list-item,
-.sq-list.tile.col4 .list-item,
-.sq-list.tile.col5 .list-item,
-.sq-list.tile.col6 .list-item {
-  float: none;
-  display: inline-block;
-  vertical-align: top;
-}
 .sq-list.tile .list-item {
   float: left;
+  padding: 10px 5px;
   text-align: center;
   letter-spacing: 0;
 }
@@ -1524,6 +1544,15 @@ button.sq-btn.block {
 }
 .sq-list.tile .sq-btn {
   line-height: 1;
+}
+.sq-list.tile.col2 .list-item,
+.sq-list.tile.col3 .list-item,
+.sq-list.tile.col4 .list-item,
+.sq-list.tile.col5 .list-item,
+.sq-list.tile.col6 .list-item {
+  float: none;
+  display: inline-block;
+  vertical-align: top;
 }
 .sq-loadMore-state {
   position: relative;
@@ -1723,4 +1752,37 @@ button.sq-btn.block {
 }
 .sq-tabs-loading-tip .reload > p {
   margin-bottom: .8em;
+}
+html {
+  font-size: 16px;
+}
+a {
+  color: #333;
+}
+.sq-list .icon .badge {
+  background: #e34541;
+}
+.sq-list.text .list-item {
+  border-bottom: 1px solid #c8c7cc;
+}
+.sq-list.text .badge {
+  background: #c8c7cc;
+  color: #fff;
+}
+.sq-list.text .group-hd {
+  background: #efeff4;
+  border-bottom-color: #c8c7cc;
+}
+.sq-list.media .list-item {
+  border-bottom: 1px solid #c8c7cc;
+}
+.sq-list.media.col2 .list-item,
+.sq-list.media.col3 .list-item,
+.sq-list.media.col4 .list-item {
+  border-right: 1px solid #c8c7cc;
+}
+.sq-list.media.col2 .list-item:nth-child(even),
+.sq-list.media.col3 .list-item:nth-child(even),
+.sq-list.media.col4 .list-item:nth-child(even) {
+  border-right: none;
 }
