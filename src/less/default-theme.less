@@ -1,0 +1,32 @@
+//** Default Theme
+
+//** variables Setting
+@theme-font-size:16px;
+
+//** base color
+@theme-bc-grey:#c8c7cc;
+
+//** Global
+html{ font-size:@theme-font-size;}
+a{ color:#333;}
+
+//** sq-list
+.sq-list{
+    .icon{
+        .badge{ background:#e34541;}
+    }
+    &.text{
+        .list-item{ border-bottom:1px solid @theme-bc-grey;}
+        .badge{ background:@theme-bc-grey; color:#fff;}
+        .group-hd{ background:#efeff4; border-bottom-color:@theme-bc-grey;}
+    }
+    &.media{
+        .list-item{ border-bottom:1px solid @theme-bc-grey;}
+        &.col2,
+        &.col3,
+        &.col4{
+            .list-item{ border-right:1px solid @theme-bc-grey;}
+            .list-item:nth-child(even){ border-right:none;}
+        }
+    }
+}
