@@ -95,12 +95,12 @@ module.exports = function (grunt) {
         copy: {
             fontToDist: {
                 expand: true,
-                src: "fonts/**",
+                src: "fonts/*",
                 dest: "dist"
             },
             fontToBuild: {
                 expand: true,
-                src: "fonts/**",
+                src: "fonts/*",
                 dest: "build"
             },
             buildToDoc: {
