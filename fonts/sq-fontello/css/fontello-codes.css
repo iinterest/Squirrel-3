@@ -1,47 +1,3 @@
-//** sq-icon
-//** 通用图标
-
-@font-face {
-    font-family: "fontello";
-    src:url("@{icon-font-path}@{icon-font-name}.woff") format("woff"),
-        url("@{icon-font-path}@{icon-font-name}.ttf") format("truetype");
-    font-weight:normal;
-    font-style:normal;
-}
-
-/*.sq-icon{
-    &.up::before{ -webkit-transform:rotate(-90deg);}
-    &.down::before{ -webkit-transform:rotate(90deg);}
-    &.left::before{ -webkit-transform:rotate(180deg);}
-    &.down-left::before{ -webkit-transform:rotate(135deg);}
-}*/
-
-.sq-icon{
-    &::before{
-        font-family: "fontello";
-        font-style: normal;
-        font-weight: normal;
-        speak: none;
-
-        display:inline-block;
-        text-decoration:inherit;
-        min-width:.5rem;
-        margin-right:.5rem;
-        text-align:center;
-
-        /* For safety - reset parent styles, that can break glyph codes*/
-        font-variant:normal;
-        text-transform:none;
-
-        /* fix buttons height, for twitter bootstrap */
-        line-height:1em;
-    }
-    
-    &.x2::before{ font-size:1.26rem;}   //** 适合在导航栏中显示
-    &.x3::before{ font-size:2.1rem;}    //** 适合在导航栏 icons 模式下显示
-    &.x4::before{ font-size:5rem;}
-    &.x5::before{ font-size:7rem;}
-}
 
 .icon-music:before { content: '\e800'; } /* '' */
 .icon-camera:before { content: '\e808'; } /* '' */
@@ -189,7 +145,7 @@
 .icon-food:before { content: '\e891'; } /* '' */
 .icon-eraser:before { content: '\e892'; } /* '' */
 .icon-puzzle:before { content: '\e893'; } /* '' */
-.icon-user:before { content: '\e809'; } /* '' */
-.icon-users:before { content: '\e897'; } /* '' */
+.icon-user-1:before { content: '\e809'; } /* '' */
+.icon-users-1:before { content: '\e897'; } /* '' */
 .icon-user-add:before { content: '\e898'; } /* '' */
 .icon-clock:before { content: '\e84c'; } /* '' */
