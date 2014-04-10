@@ -20,7 +20,7 @@
     // 工具栏，能实现在不同信息层级结构之间的导航
     //========================================
     &.toolbar{
-        position:relative; .display-box; .box-align(center); .box-pack(justify); padding:0 4px; font-size:@content-font-size; z-index:100;
+        position:relative; .display-box; .box-align(center); .box-pack(justify); padding:0 4px; z-index:100;
         // 分栏
         .col{ .display-box;}
         // 对齐方式
@@ -59,6 +59,7 @@
     &.pagination:extend(.sq-bars.toolbar all){
         .pages{ position:absolute; .overspread(0,80px,0,80px); font-size:@content-font-size; text-align:center; line-height:@bar-normal-height;}
         .disable{ visibility:hidden;}
+        select{ min-height:28px;}
     }
 
 
@@ -67,16 +68,19 @@
     // 选项栏
     //========================================
     &.nav-tabs{
-        text-align:center; font-size:@content-font-size; line-height:@bar-normal-height;
-        ul{ .display-box; .box-pack(justify);}
-        li{ position:relative; .box-flex(1); height:@bar-normal-height; padding:0 5px;}
-        a{ .border-box; display:block; height:@bar-normal-height; overflow:hidden;}
+        .display-box; .box-pack(justify); .box-align(center); text-align:center; font-size:@content-font-size; line-height:@bar-normal-height; 
+        //ul{ .display-box; .box-pack(justify);}
+        //li{ position:relative; .box-flex(1); height:@bar-normal-height; padding:0 5px;}
+        a{ display:block; .border-box; .box-flex(1); position:relative; height:@bar-normal-height;}
 
         &.icons{
             height:@bar-full-height; line-height:1; font-size:12px;
             ul{ padding-top:7px;}
             a,li{ height:auto;}
-            .sq-icon{ display:block; position:relative; font-size:2.4em;}
+            .sq-icon{
+                display:block; position:relative;
+                &::before{ margin-right:0;}
+            }
             .badge{ left:60%; right:auto;}
         }
 
@@ -102,7 +106,7 @@
             position:relative; .box-flex(1); background:#fff;
             &.icon-search{
                 padding:0 5px 0 24px;
-                &::before{ position:absolute; top:7px; left:4px; content:'\e80c';}
+                &::before{ position:absolute; top:7px; left:4px; content:'\e801';}
             }
         }
         .clear{

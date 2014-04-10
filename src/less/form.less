@@ -2,14 +2,12 @@
 //** 表单元素
 
 .sq-form{
-    @base-font-size: 16px;
-    
     //========================================
     // Base Style
     // 基础样式
     //========================================
     
-    padding:10px; font-size:@base-font-size;
+    padding:10px; font-size:@form-base-font-size;
     .clearfix();
 
     select,
@@ -64,7 +62,7 @@
         &.inline{ display:inline-block; float:left;}
     }
     .help-block{ display:block; margin-top:-5px; margin-bottom:10px; color:#737373;}
-    .sq-btn{ min-width:50px; min-height:34px; margin:0; font-size:@base-font-size - 1; line-height:@magic-line-height;}
+    //.sq-btn{ min-width:50px; min-height:34px; margin:0; /*font-size:@base-font-size - 1;*/ line-height:@magic-line-height;}
     .space{ margin-top:20px;}
     
     // 行内表单布局
