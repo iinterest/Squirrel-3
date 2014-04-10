@@ -141,24 +141,20 @@ module.exports = function (grunt) {
         },
         sed: {
             versionNumber: {
-                path: "../Squirrel-Doc/index.html",
+                path: [
+                    "../Squirrel-Doc/index.html",
+                    "../Squirrel-Doc/docs/documentation.html"
+                ],
                 pattern: "%VERSION%",
                 replacement: "<%= pkg.version %>"
             },
             update: {
-                path: "../Squirrel-Doc/index.html",
+                path: [
+                    "../Squirrel-Doc/index.html",
+                    "../Squirrel-Doc/docs/documentation.html"
+                ],
                 pattern: "%UPDATE%",
                 replacement: "<%= grunt.template.today('yyyy-mm-dd') %>"
-            },
-            indexClearCache: {
-                path: "../Squirrel-Doc/index.html",
-                pattern: "%DATE%",
-                replacement: "<%= grunt.template.today('yyyymmddhh') %>"
-            },
-            docClearCache: {
-                path: "../Squirrel-Doc/docs/documentation.html",
-                pattern: "%DATE%",
-                replacement: "<%= grunt.template.today('yyyymmddhh') %>"
             }
         }
     });
