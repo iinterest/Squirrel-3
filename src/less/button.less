@@ -75,7 +75,9 @@
 //========================================
 .sq-btn-group{
     .display-box; .box-orient(horizontal);
-    .active{ z-index:1;} // 保证激活项目在最上层显示
+    .active{ z-index:1;
+        &+.sq-btn{ border-left-color:transparent;}
+    } // 保证激活项目在最上层显示
     // 默认为水平布局
 	.sq-btn{
 	    display:block; .box-flex(1); margin-left:-1px; border-radius:0;

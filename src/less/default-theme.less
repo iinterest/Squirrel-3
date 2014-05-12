@@ -17,21 +17,29 @@ a{ color:#333;}
     &.pagination,
     &.toolbar{ background:#f9f9f9;}
 
-    .badge{ background:#e34541;}
+    //.badge{ background:#e34541;}
+}
+
+.badge{
+    &.red{ background:#e34541; color:#fff;}
+    &.blue{ background:#009bd8; color:#fff;}
+    &.green{ background:#6eb82c; color:#fff;}
+    &.grey{ background:#a9a7a7; color:#fff;}
+    &.black{ background:#444; color:#fff;}
+    &.orange{ background:#faa800; color:#fff;}
 }
 
 //** sq-list
 .sq-list{
+    .list-item{ border-bottom:1px solid @theme-bc-grey;}
     .icon{
-        .badge{ background:#e34541;}
+        //.badge{ background:#e34541;}
     }
     &.text{
-        .list-item{ border-bottom:1px solid @theme-bc-grey;}
-        .badge{ background:@theme-bc-grey; color:#fff;}
+        //.badge{ background:@theme-bc-grey; color:#fff;}
         .group-hd{ background:#efeff4; border-bottom-color:@theme-bc-grey;}
     }
     &.media{
-        .list-item{ border-bottom:1px solid @theme-bc-grey;}
         &.col2,
         &.col3,
         &.col4{

@@ -2,7 +2,7 @@
 //** Loadmore 插件样式
 
 .sq-loadMore-state{ 
-    position:relative; height:40px; line-height:40px; background:#d7d7d7; color:@default-font-color; text-align:center; cursor:pointer; overflow:hidden;
+    position:relative; height:40px; line-height:40px; color:@default-font-color; text-align:center; cursor:pointer; overflow:hidden;
     .state-icon{ 
         display:inline-block;
         &::before{ font-family:"fontello"; font-style:normal; font-weight:normal; speak:none;}
@@ -10,23 +10,20 @@
     .state-txt{ padding:0 8px;}
     &.error{}
     &.click{
-        .state-icon{ -webkit-transform:rotate(90deg);}
-        .state-icon::before{ content:'\e834';}
+        .state-icon::before{ content:'\e85b';}
     }
     &.no-more{}
     &.loading{
         .state-icon{ position:relative; top:-1px; -webkit-animation: spin 2s infinite linear;}
-        .state-icon::before{ content:'\e812';}
+        .state-icon::before{ content:'\e85c';}
     }
 }
 
-@-webkit-keyframes spin {
+/*@-webkit-keyframes spin {
     0% {
         -webkit-transform: rotate(0deg);
     }
     100% {
         -webkit-transform: rotate(359deg);
     }
-}
-
-/*.sq-loadMore-clickState::before{ content:""; display:inline-block; width:10px; height:10px; margin-right:5px; background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAaCAMAAABvn+dxAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRFd3d3AAAADlogTAAAAAJ0Uk5T/wDltzBKAAAAU0lEQVR42tySAQrAIAwDL///9KRstSe+YEWxXkMwILkVtQ6yNgjXlSpBeCmCBKm/XibdMRV7vDXDihhn0Bh2sOOB0+SSuI8/JY4Ti0YJr7/kEWAAa1MBS66ah5oAAAAASUVORK5CYII=") no-repeat; background-size:contain;}*/
+}*/

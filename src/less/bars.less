@@ -40,14 +40,19 @@
     //========================================
     &.nav:extend(.sq-bars.toolbar all){
         .title,
-        .extend{ position:absolute; .overspread(0,20%,0,20%); height:@bar-normal-height;}
+        .extend{ .box-flex(1); height:@bar-normal-height; margin:0 .5rem;}
         .title{ font-size:@head-font-size; line-height:@bar-normal-height; text-align:center; overflow:hidden;}
         // 扩展区域
         .extend{
             .display-box; .box-align(center); .box-pack(justify);
             .sq-btn-group{ width:100%;}
         }
-        
+        .sq-btn{ 
+            // 防止只有 .sq-icon 的按钮因为宽度不等导致 .title、.extend 无法居中显示
+            min-width:40px;
+            &+.title,
+            &+.extend{ margin:0 1rem;}
+        }
     }
 
 
@@ -58,7 +63,7 @@
     //========================================
     &.pagination:extend(.sq-bars.toolbar all){
         .pages{ position:absolute; .overspread(0,80px,0,80px); font-size:@content-font-size; text-align:center; line-height:@bar-normal-height;}
-        .disable{ visibility:hidden;}
+        .disable{ pointer-events:none; opacity:.4; cursor:not-allowed;}
         select{ min-height:28px;}
     }
 
@@ -69,8 +74,6 @@
     //========================================
     &.nav-tabs{
         .display-box; .box-pack(justify); .box-align(center); text-align:center; font-size:@content-font-size; line-height:@bar-normal-height; 
-        //ul{ .display-box; .box-pack(justify);}
-        //li{ position:relative; .box-flex(1); height:@bar-normal-height; padding:0 5px;}
         a{ display:block; .border-box; .box-flex(1); position:relative; height:@bar-normal-height;}
 
         &.icons{
@@ -81,12 +84,11 @@
                 display:block; position:relative;
                 &::before{ margin-right:0;}
             }
-            .badge{ left:60%; right:auto;}
+            .sq-badge{ left:60%; right:auto;}
         }
 
-        .badge{
-            position:absolute; top:-2px; right:10%; padding:0 4px; height:15px; border-radius:999px; font-size:@badge-font-size; line-height:15px; color:#fff; overflow:hidden; z-index:1;
-            &:empty{ display:none;}
+        .sq-badge{
+            position:absolute; top:-2px; right:10%; padding:0 4px; height:15px; border-radius:999px; line-height:15px; z-index:1;
         }
     }
 
