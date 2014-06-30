@@ -773,11 +773,12 @@ SQ.util = {
 })($);
 /**
  * @file SQ.LazyLoad 延迟加载插件 
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 /**
  * @changelog
+ * 1.0.1  * 增加验证提示，调整了 init 函数。
  * 1.0.0  * 重写插件，调用方式改为 $. 链式调用。
  * 0.8.1  * 新增 ANIMATE 设置。
  * 0.8.0  * 重写 lazylaod 插件，提高整体性能。
@@ -836,34 +837,25 @@ SQ.util = {
             var me = this;
             me.$element = $(me.element);
             me.elementClassName = me.settings.selector.slice(1);   // ".style-name" => "style-name"
-
-            me._bindLazyEvent();
-            me._trigger();
-            me._loadImg();
+            
+            if (me._verify()) {
+                me._bindLazyEvent();
+                me._trigger();
+                me._loadImg();
+            }
         },
-        /**
-         * 刷新延迟加载元素，可以在外部调用。
-         */
-        /*refresh: function () {
-            var me = this;
-            me.$element = $(me.element);
-            me._bindLazyEvent();
-            me._loadImg();
-        },*/
         /**
          * 验证参数是否合法
          * @returns {boolean}
          * @private
          */
-        /*_verify: function () {
+        _verify: function () {
+            /*if (!this.$element.length) {
+                console.warn("SQ.lazyload: "+ this.settings.selector +"下未找到");
+                return false;
+            }*/
             return true;
         },
-        _init: function () {
-            var me = this;
-            me._bindLazyEvent();
-            me._trigger();
-            me._loadImg();
-        },*/
         _bindLazyEvent: function () {
             var me = this;
             // 为延迟加载元素绑定一次性执行事件
@@ -871,14 +863,16 @@ SQ.util = {
                 var img = this;
                 var $img = $(img);
                 var src = $img.attr("data-img");
-                // 添加动画
-                if (me.settings.ANIMATE) {
-                    var animateClassName = me.settings.ANIMATE.indexOf(".") === 0 ? me.settings.ANIMATE.slice(1) : me.settings.ANIMATE;
-                    $img.addClass("animated " + animateClassName);
-                }
                 // 替换 src 操作
                 if (src) {
-                    $img.attr("src", src).removeAttr("data-img").removeClass(me.elementClassName);
+                    $img.addClass("unvisible").attr("src", src).removeAttr("data-img").removeClass(me.elementClassName);
+                    $img.on("load", function () {
+                        // 添加动画
+                        if (me.settings.ANIMATE) {
+                            var animateClassName = me.settings.ANIMATE.indexOf(".") === 0 ? me.settings.ANIMATE.slice(1) : me.settings.ANIMATE;
+                            $img.addClass("animated " + animateClassName).removeClass("unvisible");
+                        }
+                    });
                     $img.on("error", function () {
                         if (me.settings.IMG_PLACEHOLDER) {
                             $(this).attr("src", me.settings.IMG_PLACEHOLDER).off("error");
@@ -923,6 +917,7 @@ SQ.util = {
             var me = this;
             me.$element.each(function (index, item) {
                 var $img = $(item);
+                // 设置占位图
                 if (me.settings.IMG_PLACEHOLDER && $img.hasClass(me.elementClassName)) {
                     $img.attr("src", me.settings.IMG_PLACEHOLDER);
                     $img.on("error", function () {
@@ -944,6 +939,10 @@ SQ.util = {
         options = options || {};
         options.selector = this.selector;
 
+        if (!this.length) {
+            console.warn("SQ.lazyload: 未找到"+ this.selector +"元素");
+        }
+
         this.each(function() {
             if (isJQuery) {
                 if ( !$.data( this, scope ) ) {
@@ -963,11 +962,12 @@ SQ.util = {
 })($);
 /**
  * @file SQ.LoadMore 加载更多插件
- * @version 1.5.0
+ * @version 1.6.0
  */
 
 /**
  * @changelog
+ * 1.6.0  * 现在可以记录一个页面中多个实例的运行状态，方便配合 Tab.js 使用。
  * 1.5.0  * 重写插件，调用方式改为 $. 链式调用。
  * 1.4.2  * 修复 _spliceApi 函数对 api 的拼装错误。
  * 1.4.1  * 为 loaded、scrollEnd 回调函数增加 index 参数。
@@ -994,7 +994,7 @@ SQ.util = {
  * 1.1.0  + 新增 DATATYPE 属性，用于定义 json 数据中 data 字段的数据类型；
  *          新增回调函数 render、loading、loaded、scrollEnd；
  *        - 删除了 scrollEnd 事件中 addClass("click-state") 操作，改为在 scrollEnd 回调函数中执行。
- * 1.0.6  - 精简注释；修改 _refresh 名称为 _reset。
+ * 1.0.6  - 精简注释；修改 _refresh 名称为 _setNewTriggerPoint。
  * 1.0.5  * 修复 _verify 方法因为找不到 DOM 元素而保存导致 js 无法继续执行的问题。
  * 1.0.4  + 添加 _refresh 方法，用于计算并存储文档高度和触发高度，该方法会在完成 XHR 加载后刷新，
  *          减少 _getHeight 取值，优化性能。
@@ -1016,9 +1016,7 @@ SQ.util = {
      * @constructor
      * @param {object} config                       插件配置（下面的参数为配置项，配置会写入属性）
      * @param {string} config.EVE_EVENT_TYPE        绑定事件设置，默认为 "scroll"
-     * @param {string | array} config.API API       接口地址，可以是字符串，或者是数组 [url, url, url]
-     * @param {string} config.DOM_TRIGGER_TARGET    被绑定事件的 Dom 元素，默认为 window
-     * @param {string} config.DOM_AJAX_WRAP         数据展示 Dom 元素
+     * @param {string} config.API API               接口地址
      * @param {string} config.CSS_STATE_BAR         初始状态展示样式，默认为 .sq-loadmore-state
      * @param {string} config.NUM_LOAD_POSITION     滑动加载位置，默认值：0.5
      * @param {number} config.NUM_START_PAGE_INDEX  起始页面序号，默认值：0
@@ -1056,6 +1054,7 @@ SQ.util = {
 });
      */
     var scope = "sq-loadmore";
+    var initIndex = 0;
     var defaults = {
         API: "",                                 // API 接口
         CSS_STATE_BAR: ".sq-loadmore-state",
@@ -1089,13 +1088,16 @@ SQ.util = {
         scrollDelay: 200,   // 滑动阀值
         init: function () {
             var me = this;
-            
+            var self = {};
+            var index = initIndex;
+            var winHeight = window.innerHeight || $(window).height();
+            var oldState = me._reload();
+
             me.$win = $(window);
             me.$triggerTarget = me.$win;                                        // 触发元素
             me.$element = $(me.element);                                        // 数据展示元素
             me.maxPage = me.settings.NUM_SCROLL_MAX_PAGE + me.settings.NUM_START_PAGE_INDEX;
             me.initStyle = me.settings.CSS_STATE_BAR.indexOf(".") === 0 ? me.settings.CSS_STATE_BAR.slice(1) : me.settings.CSS_STATE_BAR;
-            me.loadMores = [];                                                  // 存储多个 self 对象
 
             me.beforeLoadFun = me.settings.beforeLoad;
             me.loadingFun = me.settings.loading;
@@ -1103,21 +1105,61 @@ SQ.util = {
             me.loadErrorFun = me.settings.loadError;
             me.scrollEndFun = me.settings.scrollEnd;
 
-            me.$element.each(function (index) {
-                var self = {};
-                self.$element = $(this);
+            self.$element = me.$element;
+
+            if (oldState.isReload) {
+                // 重载状态，获取已有的状态栏
+                self.$stateBar = oldState.$stateBar;
+                self.$stateTxt = self.$stateBar.find(".state-txt");
+            } else {
+                // 初次实例化，创建新的状态栏
                 self.$stateBar = $('<div class="sq-loadMore-state"><i class="state-icon"></i><span class="state-txt"></span></div>');
                 self.$stateTxt = self.$stateBar.find(".state-txt");
-                self.index = index;
-                self.page = me.settings.NUM_START_PAGE_INDEX;
-                self.api = SQ.isArray(me.settings.API) ? me.settings.API[index] : me.settings.API;
-                self.firstClickInit = true;
+                self.$stateBar.addClass(me.initStyle);
+                self.$stateTxt.text(me.settings.TXT_INIT_TIP);
+                self.$element.css({"min-height": winHeight - 40}).after(self.$stateBar);
+            }
 
-                if (me._verify(self)) {
-                    me._init(self);
-                }
-                me.loadMores.push(self);
-            });
+            self.api = me.settings.API;
+            self.index = index;
+            self.page = oldState.page || me.settings.NUM_START_PAGE_INDEX;
+            self.currentState = oldState.page || "none";                                     // 设置当前状态
+            self.currentEventType = oldState.event || me.settings.EVE_EVENT_TYPE;     // 临时存储事件类型，以供 _changeState 判断使用。
+
+            if (self.currentEventType === "click") {
+                me._changeEvent("click", self);
+            }
+            if (oldState.top > 0) {
+                $("body").scrollTop(oldState.top);
+            }
+
+            if (me._verify(self)) {
+                me._setNewTriggerPoint(self);
+                me._bind(self.currentEventType, self);
+            }
+        },
+        /**
+         * 重新加载
+         * @returns {obj} state 状态对象
+         * @private
+         */
+        _reload: function () {
+            var me = this;
+            var $loadmoreDom = $(me.settings.selector);
+            var state = {};
+            // 清除事件绑定
+            $(window).off("scroll.sq");
+            // 如果目标对象已经实例化过，就提取运行状态
+            if ($loadmoreDom.data(scope)) {
+                var $stateBar = $loadmoreDom.next(".sq-loadMore-state");
+                state.isReload = true;
+                state.page = $stateBar.data("page");
+                state.event = $stateBar.data("event");
+                state.top = parseInt($stateBar.data("top"), 10);
+                state.currentState = $stateBar.data("currentState");
+                state.$stateBar = $stateBar;
+            }
+            return state;
         },
         /**
          * 验证
@@ -1139,53 +1181,18 @@ SQ.util = {
             return true;
         },
         /**
-         * 初始化
-         * @private
-         */
-        _init: function (self) {
-            var me = this;
-            var winHeight = window.innerHeight || me.$win.height();
-
-            if (self.currentEventType && self.currentEventType !== me.settings.EVE_EVENT_TYPE) {
-                // 当 currentEventType 有值且不为初始值时，一般是滑动事件转为点击事件，滑动事件会被解绑，而点击事件不会解绑，
-                // 所以这里直接返回，不执行初始化操作。
-                return;
-            }
-
-            self.currentState = "none";                         // 设置当前状态
-            self.currentEventType = me.settings.EVE_EVENT_TYPE;   // 临时存储事件类型，以供 _changeState 判断使用。
-            self.$stateBar.addClass(me.initStyle);
-            self.$stateTxt.text(me.settings.TXT_INIT_TIP);
-            self.$element.css({"min-height":winHeight - 40}).after(self.$stateBar);
-
-            if (self.index === 0) {
-                self.active = true;
-            }
-
-            /*if (contentHeight < winHeight) {
-             me._changeEvent("click", self);
-             self.$stateTxt.text(me.settings.TXT_CLICK_TIP);
-             }*/
-
-            if (self.active) {
-                me._reset(self);
-                me._bind(me.settings.EVE_EVENT_TYPE, self);
-            }
-        },
-        /**
          * 事件绑定
          * @param {string} eventType
          * @private
          */
         _bind: function (eventType, self) {
             var me = this;
-            // 为了能够解除事件绑定，不能使用匿名函数，但传入函数字面量又不能直接传参，
-            // 所以使用了一个特殊的返回函数 _trigger 赋值给 _bindHandle，这样就可以解绑。
-            me._bindHandle = me._trigger(self);
-            me.$triggerTarget.on(eventType + ".sq.loadmore", me._bindHandle);
-            /*me.$triggerTarget.on("scroll.sq.loadmore", function () {
+            me.$triggerTarget.on(eventType + ".sq.loadmore" + self.id, function () {
                 me._trigger(self);
-            });*/
+            });
+            me.$win.on("scroll.sq.loadmore.setTop", function () {
+                me._setTopPosition(self);
+            });
         },
         /**
          * 触发事件
@@ -1196,42 +1203,34 @@ SQ.util = {
          */
         _trigger: function (self) {
             var me = this;
-            return function () {
-                var isLoading = self.$stateBar.hasClass("loading");
-                var isNoMore = self.$stateBar.hasClass("no-more");
-                
-                if (isLoading || isNoMore) {
-                    return;
+            var isLoading = self.$stateBar.hasClass("loading");
+            var isNoMore = self.$stateBar.hasClass("no-more");
+
+            if (isLoading || isNoMore) {
+                return;
+            }
+            if (self.currentEventType === "scroll") {
+                if (self.page < me.maxPage && !me.scrollTimer) {
+                    // 添加 scroll 事件相应伐值，优化其性能
+                    me.scrollTimer = setTimeout(function () {
+                        if (me.$triggerTarget.scrollTop() >= me.triggerHeight && !isLoading && !isNoMore) {
+                            me._load(me._spliceApi(self), self);
+                        }
+                        me.scrollTimer = 0;
+                    }, me.scrollDelay);
                 }
-                if (self.currentEventType === "scroll") {
-                    if (self.page < me.maxPage && !me.scrollTimer) {
-                        // 添加 scroll 事件相应伐值，优化其性能
-                        me.scrollTimer = setTimeout(function () {
-                            if (me.$triggerTarget.scrollTop() >= me.triggerHeight && !isLoading && !isNoMore) {
-                                me._load(me._spliceApi(self), self);
-                            }
-                            me.scrollTimer = 0;
-                        }, me.scrollDelay);
-                    }
-                    if (self.page === me.maxPage) {
-                        me._changeState("scrollEnd", self);
-                    }
-                } else if (self.currentEventType === "click") {
-                    // 在有滑动转变为点击事件时，会执行 _bind 方法，在该方法中 _trigger 会预先赋值给 _bindHandle，
-                    // 此时 _trigger 会被执行一次，所以设定了一个 firstClickInit 属性，用于判断是初始化还是用户点击。
-                    if (self.firstClickInit) {
-                        self.firstClickInit = false;
-                        return;
-                    }
-                    me._load(me._spliceApi(self), self);
+                if (self.page === me.maxPage) {
+                    me._changeState("scrollEnd", self);
                 }
-            };
+            } else if (self.currentEventType === "click") {
+                me._load(me._spliceApi(self), self);
+            }
         },
         /**
          * 重置计算参数
          * @private
          */
-        _reset: function (self) {
+        _setNewTriggerPoint: function (self) {
             if (self.currentEventType === "click") {
                 // 当为点击事件时，不用计算页面高度等数值。
                 return;
@@ -1251,12 +1250,11 @@ SQ.util = {
          */
         _changeEvent: function (eventType, self) {
             var me = this;
-            me.$triggerTarget.off("scroll.sq.loadmore", me._bindHandle);
-            //me.$triggerTarget.off("scroll.sq.loadmore");
+            me.$triggerTarget.off("scroll.sq.loadmore" + self.id);
             self.currentEventType = eventType;
+            self.$stateBar.data("event", eventType);                // 记录事件状态
             if (eventType === "click") {
                 me.$triggerTarget = self.$stateBar;                 // 变更触发目标，并将加载触发方式更改为 click
-                self.firstClickInit = false;
                 me._bind(eventType, self);                          // 重新绑定
                 self.$stateBar.addClass("click").show();
             } else if (eventType === "scroll") {
@@ -1277,6 +1275,7 @@ SQ.util = {
                 return;
             }
             self.currentState = state;
+            self.$stateBar.data("currentState", state);
             // 状态判断
             switch (state) {
             case "loading":         //正在加载阶段，添加 loading 标识，更新提示文字
@@ -1298,6 +1297,7 @@ SQ.util = {
                     self.$stateTxt.text(me.settings.TXT_CLICK_TIP);
                 }
                 self.page += 1;
+                self.$stateBar.data("page", self.page);
                 break;
             case "scrollEnd":       //滑动加载次数已达到上限
                 me._changeEvent("click", self);
@@ -1398,19 +1398,7 @@ SQ.util = {
             if (me.loadFun) {
                 me.loadFun(jsonData, self.$element, self.index);
             }
-            me._reset(self);
-        },
-        active: function (index) {
-            var me = this;
-            var len = me.loadMores.length;
-            var i;
-            for (i = 0; i < len; i++) {
-                me.loadMores[i].active = false;
-            }
-            me.loadMores[index].active = true;
-            me.$triggerTarget.off("scroll", me._bindHandle);
-            me.$triggerTarget = $(me.settings.DOM_TRIGGER_TARGET) || me.$win;
-            me._init(me.loadMores[index]);
+            me._setNewTriggerPoint(self);
         },
         /**
          * 计算页面高度
@@ -1449,19 +1437,26 @@ SQ.util = {
                 api = self.api + connector + "page=" + self.page;
             }
             return api;
+        },
+        _setTopPosition: function (self) {
+            self.$stateBar.data("top", $("body").scrollTop());
         }
     };
 
     $.fn.loadmore = function ( options ) {
-        var isZepto = typeof Zepto !== "undefined" ? true : false;
-        var isJQuery = typeof jQuery !== "undefined" ? true : false;
+        //var isZepto = typeof Zepto !== "undefined" ? true : false;
+        //var isJQuery = typeof jQuery !== "undefined" ? true : false;
         var plugin;
 
         options = options || {};
         options.selector = this.selector;
+        
+        if (!this.length) {
+            console.warn("SQ.loadmore: 未找到"+ this.selector +"元素");
+        }
 
         this.each(function() {
-            if (isJQuery) {
+            /*if (isJQuery) {
                 if ( !$.data( this, scope ) ) {
                     $.data( this, scope, new LoadMore( this, options ) );
                 }
@@ -1470,7 +1465,9 @@ SQ.util = {
                     plugin = new LoadMore( this, options );
                     $(this).data(scope, "initialized");
                 }
-            }
+            }*/
+            plugin = new LoadMore( this, options );
+            $(this).data(scope, "initialized");
         });
         // chain jQuery functions
         return this;
@@ -1484,6 +1481,7 @@ SQ.util = {
 
 /**
  * @changelog
+ * 1.0.1  * 为 ucweb 9.7 事件优化做兼容，增加 selector Dom 验证。
  * 1.0.0  * 重写插件，调用方式改为 $. 链式调用。
  * 0.5.0  * 完成左侧滑动面板功能
  * 0.0.1  * 新建。
@@ -1506,11 +1504,11 @@ SQ.util = {
      * @param {string} config.DISPLAY               显示模式，默认为：overlay，可选 push
      * @param {string} config.DOM_WRAPPER           页面包装节点，当 DISPLAY 设置为 push 时，该节点会应用动画
      * @param {string} config.DIRECTION             出现方向，默认为：left
-     * @param {number} config.CSS_WIDTH             面板宽度
-     * @param {string} config.CLOSE_BTN             是否显示关闭按钮
+     * @param {number} config.CSS_WIDTH             面板宽度，默认为：300px
+     * @param {string} config.CLOSE_BTN             是否显示关闭按钮，默认为：false
      * @param {string} config.TXT_CLOSE_VAL         关闭按钮显示文字，默认为："×"
      * @param {function} config.beforeShow          打开面板前回调函数，该函数必须返回为 true 才能继续执行 show 函数
-     * @param {function} config.show                打开面板时回调函数
+     * @param {function} config.show($activePanel)  打开面板时回调函数
      * @param {function} config.close               关闭面板时回调函数
      * @param {function} config.resize              resize 回调函数
      * @example $(".J_panelMenu").panel({
@@ -1532,7 +1530,7 @@ SQ.util = {
         DISPLAY: "overlay",
         DIRECTION: "left",
         CSS_WIDTH: 300,
-        CLOSE_BTN: true,
+        CLOSE_BTN: false,
         TXT_CLOSE_VAL: "×"
     };
 
@@ -1545,8 +1543,8 @@ SQ.util = {
 
     Panel.prototype = {
         construtor: "Panel",
-        resizeTimer : false,
-        closed : true,
+        resizeTimer: false,
+        closed: true,
         init: function () {
             var me = this;
             var css = "@-webkit-keyframes showPanel {0% {-webkit-transform: translateX(-"+ me.settings.CSS_WIDTH +"px);} 100% {-webkit-transform: translateX(0);}}" +
@@ -1646,11 +1644,11 @@ SQ.util = {
          * 设置滑动面板事件
          * @private
          */
-        _setPanelEvent : function () {
+        _setPanelEvent: function () {
             var me = this;
             // 锁定操作 
             // 优化 Android 下 UCweb 浏览器触摸操作，减少滑动误操作
-            if (SQ.ua.os.name === "android" && SQ.ua.browser.shell === "ucweb" && SQ.ua.browser.version >= 9) {
+            if (SQ.ua.os.name === "android" && SQ.ua.browser.shell === "ucweb" && SQ.ua.browser.version >= 9 && SQ.ua.browser.version < 9.7) {
                 me.$panel.on("touchstart", function (e) {
                     e.preventDefault();
                 });
@@ -1709,7 +1707,7 @@ SQ.util = {
             me.closed = false;
             // 执行回调函数。
             if (me.showFun) {
-                me.showFun(e);
+                me.showFun(me.$panel);
             }
 
             me.$panel.show();
@@ -1723,8 +1721,8 @@ SQ.util = {
 
             if (me.$mask) {
                 me.$mask.css({
-                    "width" : "100%",
-                    "height" : h
+                    "width": "100%",
+                    "height": h
                 });
                 me.$mask.show();
             } else {
@@ -1743,7 +1741,8 @@ SQ.util = {
                 $mask.on("touchstart", function (e) {
                     e.preventDefault();
                     // 当屏蔽 touchstart 事件后其它浏览器不能响应 click 事件，所以注册一个关闭方法。
-                    if (SQ.ua.browser.shell !== "ucweb") {
+                    // ucweb 9.7 也不能响应 click 事件。
+                    if (SQ.ua.browser.shell !== "ucweb" || SQ.ua.browser.version >= 9.7) {
                         me.close();
                     }
                 });
@@ -1790,6 +1789,10 @@ SQ.util = {
 
         options = options || {};
         options.selector = this.selector;
+
+        if (!this.length) {
+            console.warn("SQ.panel: 未找到"+ this.selector +"元素");
+        }
 
         this.each(function() {
             if (isJQuery) {
@@ -2606,11 +2609,12 @@ SQ.util = {
 })($);
 /**
  * @file SQ.Tab 选项卡插件
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 /**
  * @changelog
+ * 1.0.1  * 添加 _verify 验证 DOM 的提示。
  * 1.0.0  * 重写插件，调用方式改为 $. 链式调用。
  * 0.7.5  * 修改类名，新增 beforeLoad 、loaded 回调函数的传参。
  * 0.7.4  * 解决 localStorage 问题，API 兼容 ["","test.json",""] 这种写法；
@@ -2652,11 +2656,11 @@ SQ.util = {
      * @param {number} config.NUM_EXPIRES                               XHR 数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟
      * @param {function} config.trigger($tabs,$panels,tabIndex)         触发选项卡切换回调函数
      * @param {function} config.show($tabs,$panels,tabIndex)            显示选项卡时回调函数
-     * @param {function} config.beforeLoad($activePanels,tabIndex)      异步加载前回调函数，当设定了该回调函数时，必须返回
+     * @param {function} config.beforeLoad($activePanel,tabIndex)      异步加载前回调函数，当设定了该回调函数时，必须返回
      *                                                                  true 才能继续执行，异步加载事件，可中断异步加载事件。
-     *                                                                  参数：$activePanels 是当前激活的面板
-     * @param {function} config.loaded(data,$activePanels,tabIndex)     异步加载成功回调函数，参数：data 是异步加载返回数据
-     *                                                                  参数：$activePanels 是当前激活的面板
+     *                                                                  参数：$activePanel 是当前激活的面板
+     * @param {function} config.loaded(data,$activePanel,tabIndex)     异步加载成功回调函数，参数：data 是异步加载返回数据
+     *                                                                  参数：$activePanel 是当前激活的面板
      * @example $(".J_tabs").tab({
     API: ["data/content1.json", "data/content2.json", ""],
     DOM_TABS: ".sq-nav-tabs>li",
@@ -2665,7 +2669,7 @@ SQ.util = {
     show: function ($tabs, $panels, tabIndex) {
 
     },
-    loaded: function (data, $activePanels) {
+    loaded: function (data, $activePanel) {
 
     }
 });
@@ -2712,12 +2716,20 @@ SQ.util = {
                 var $tabMould = $(this);
                 var $tabs = $tabMould.find(me.settings.DOM_TABS);
                 var $panels = $tabMould.find(me.settings.DOM_PANELS);
-                if (me._verify()) {
+                if (me._verify($tabs, $panels)) {
                     me._init($tabMould, $tabs, $panels);
                 }
             });
         },
-        _verify: function () {
+        _verify: function ($tabs, $panels) {
+            if (!$tabs.length) {
+                console.warn("SQ.tab: 参数 DOM_TABS 错误，"+ this.settings.selector +"下未找到"+ this.settings.DOM_TABS +"元素");
+                return false;
+            }
+            if (!$panels.length) {
+                console.warn("SQ.tab: 参数 DOM_PANELS 错误，"+ this.settings.selector +"下未找到"+ this.settings.DOM_PANELS +"元素");
+                return false;
+            }
             return true;
         },
         _init: function ($tabMould, $tabs, $panels) {
@@ -2765,7 +2777,7 @@ SQ.util = {
          */
         _trigger: function ($tabMould, $tabs, $panels, $tab) {
             var me = this;
-            var tabIndex = $tab.attr("data-tabIndex");
+            var tabIndex = parseInt($tab.attr("data-tabIndex"), 10);
             var isCurrentActive = $tab.hasClass(me.CSS_HIGHLIGHT);
 
             if (isCurrentActive) {
@@ -2777,8 +2789,8 @@ SQ.util = {
                 me.triggerFun($tabs, $panels, tabIndex);
             }
         },
-        _cleanPanel: function ($activePanels) {
-            $activePanels.empty();
+        _cleanPanel: function ($activePanel) {
+            $activePanel.empty();
         },
         /**
          * 显示目标选项卡，可以在外部调用该方法
@@ -2789,26 +2801,26 @@ SQ.util = {
         show: function ($tabs, $panels, tabIndex) {
             var me = this;
             var $activeTab = $tabs.eq(tabIndex);
-            var $activePanels = $panels.eq(tabIndex);
+            var $activePanel = $panels.eq(tabIndex);
 
             $tabs.removeClass(me.CSS_HIGHLIGHT);
             $panels.removeClass(me.CSS_HIGHLIGHT);
             $activeTab.addClass(me.CSS_HIGHLIGHT);
-            $activePanels.addClass(me.CSS_HIGHLIGHT);
+            $activePanel.addClass(me.CSS_HIGHLIGHT);
 
             if (me.showFun) {
                 me.showFun($tabs, $panels, tabIndex);
             }
             if (me.settings.API) {
-                me._load($activePanels, tabIndex);
+                me._load($activePanel, tabIndex);
             }
         },
-        _load: function ($activePanels, tabIndex) {
+        _load: function ($activePanel, tabIndex) {
             var me = this;
             var api = me.settings.API;
-            var $currentLoadTip = $activePanels.find(".sq-tabs-loading-tip");
+            var $currentLoadTip = $activePanel.find(".sq-tabs-loading-tip");
             var hasLoadingTip = $currentLoadTip.length > 0 ? true : false;
-            var hasLoaded = $activePanels.hasClass("hasLoaded");
+            var hasLoaded = $activePanel.hasClass("hasLoaded");
 
             if (hasLoaded) {
                 return;
@@ -2816,22 +2828,22 @@ SQ.util = {
             // 如果设置了 beforeLoadFun 回调函数，则 beforeLoadFun 必须返回 true 才能继续向下执行，
             // 用于人为中断 _load 事件。
             if (me.beforeLoadFun) {
-                if (!me.beforeLoadFun($activePanels, tabIndex)) {
+                if (!me.beforeLoadFun($activePanel, tabIndex)) {
                     return;
                 }
             }
             // 是否清空面板
             if (me.settings.CLEAR_PANEL) {
-                me._cleanPanel($activePanels);
+                me._cleanPanel($activePanel);
             }
             // 是否启用本地缓存
             if (me.settings.LOCAL_DATA) {
                 var localData = SQ.store.localStorage.get(api, me.settings.NUM_EXPIRES);
                 localData = SQ.isString(localData) ? $.parseJSON(localData) : localData;
                 if (localData) {
-                    $activePanels.addClass("hasLoaded");
+                    $activePanel.addClass("hasLoaded");
                     if (me.loadFun) {
-                        me.loadFun(JSON.parse(localData), $activePanels, tabIndex);
+                        me.loadFun(JSON.parse(localData), $activePanel, tabIndex);
                     }
                     return;
                 }
@@ -2850,8 +2862,8 @@ SQ.util = {
             if (hasLoadingTip) {
                 $currentLoadTip.show();
             } else {
-                $activePanels.append(me.$loadingTip);
-                $currentLoadTip = $activePanels.find(".sq-tabs-loading-tip");
+                $activePanel.append(me.$loadingTip);
+                $currentLoadTip = $activePanel.find(".sq-tabs-loading-tip");
                 $currentLoadTip.show();
             }
             me.xhr = $.ajax({
@@ -2861,30 +2873,30 @@ SQ.util = {
                 timeout : me.settings.NUM_XHR_TIMEER,
                 success : function (data) {
                     $currentLoadTip.hide();
-                    $activePanels.addClass("hasLoaded");    // 为已经加载过的面板添加 .hasLoaded 标记
+                    $activePanel.addClass("hasLoaded");    // 为已经加载过的面板添加 .hasLoaded 标记
                     if (me.settings.LOCAL_DATA) {
                         SQ.store.localStorage.set(api, data);
                     }
                     if (me.loadFun) {
-                        me.loadFun(data, $activePanels, tabIndex);
+                        me.loadFun(data, $activePanel, tabIndex);
                     }
                 },
                 error : function () {
-                    me._showReloadTips($activePanels, tabIndex);
+                    me._showReloadTips($activePanel, tabIndex);
                 }
             });
         },
-        _showReloadTips: function ($activePanels, tabIndex) {
+        _showReloadTips: function ($activePanel, tabIndex) {
             var me = this;
-            var $tip = $activePanels.find(".sq-tabs-loading-tip");
+            var $tip = $activePanel.find(".sq-tabs-loading-tip");
             $tip.show().empty();
             var reloadHTML = "<div class='reload'>" +
                 "<p>抱歉，加载失败，请重试</p>" +
                 "<div class='sq-btn f-grey J_reload'>重新加载</div>" +
                 "</div>";
             $tip.append(reloadHTML);
-            $activePanels.find(".J_reload").off("click").on("click", function () {
-                me._load($activePanels, tabIndex);
+            $activePanel.find(".J_reload").off("click").on("click", function () {
+                me._load($activePanel, tabIndex);
             });
         }
     };
@@ -2896,6 +2908,10 @@ SQ.util = {
 
         options = options || {};
         options.selector = this.selector;
+
+        if (!this.length) {
+            console.warn("SQ.tab: 未找到"+ this.selector +"元素");
+        }
 
         this.each(function() {
             if (isJQuery) {

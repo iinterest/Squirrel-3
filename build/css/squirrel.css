@@ -1,7 +1,7 @@
 @charset "UTF-8";
 html {
   color: #333333;
-  font-size: 14px;
+  font-size: 13px;
   background: #fff;
 }
 body,
@@ -312,7 +312,7 @@ body {
   margin: 0 .5rem;
 }
 .sq-bars.nav .title {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   line-height: 44px;
   text-align: center;
   overflow: hidden;
@@ -1057,16 +1057,16 @@ button.sq-btn.block {
   line-height: 1em;
 }
 .sq-icon.x2::before {
-  font-size: 1.26rem;
+  font-size: 1.35rem;
 }
 .sq-icon.x3::before {
-  font-size: 2.1rem;
+  font-size: 1.8rem;
 }
 .sq-icon.x4::before {
-  font-size: 5rem;
+  font-size: 3rem;
 }
 .sq-icon.x5::before {
-  font-size: 7rem;
+  font-size: 5rem;
 }
 .icon-group .sq-icon::before {
   margin-right: .1em;
@@ -1956,15 +1956,14 @@ button.sq-btn.block {
 .sq-list.media .des {
   -webkit-box-flex: 1;
   margin: 0 10px;
-  line-height: 1.42857143;
 }
 .sq-list.media .des .tit {
-  margin-bottom: .3em;
+  margin-bottom: 4px;
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: normal;
 }
 .sq-list.media .des .ctx {
-  margin-bottom: 3px;
+  margin-bottom: 4px;
   font-size: 1rem;
   line-height: 1.2;
 }
@@ -1983,11 +1982,7 @@ button.sq-btn.block {
 .sq-list.media .v-middle {
   display: -webkit-box;
   -webkit-box-align: center;
-}
-.sq-list.media.col2 .tit,
-.sq-list.media.col3 .tit,
-.sq-list.media.col4 .tit {
-  margin-bottom: .1em;
+  line-height: 1;
 }
 .sq-list.media.col2 .list-item,
 .sq-list.media.col3 .list-item,
@@ -2018,6 +2013,7 @@ button.sq-btn.block {
   float: none;
   display: inline-block;
   vertical-align: top;
+  border-bottom: none;
 }
 .sq-loadMore-state {
   position: relative;
@@ -2250,16 +2246,16 @@ a {
   color: #fff;
 }
 .sq-list .list-item {
-  border-bottom: 1px solid #c8c7cc;
+  border-bottom: 1px solid #e5e5e5;
 }
 .sq-list.text .group-hd {
   background: #efeff4;
-  border-bottom-color: #c8c7cc;
+  border-bottom-color: #e5e5e5;
 }
 .sq-list.media.col2 .list-item,
 .sq-list.media.col3 .list-item,
 .sq-list.media.col4 .list-item {
-  border-right: 1px solid #c8c7cc;
+  border-right: 1px solid #e5e5e5;
 }
 .sq-list.media.col2 .list-item:nth-child(even),
 .sq-list.media.col3 .list-item:nth-child(even),
