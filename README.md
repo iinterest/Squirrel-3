@@ -2,7 +2,7 @@
 
 ## 一、简介
 
-Squirrle 是一款移动前端开发框架，提供简单、快速的 Web 开发体验。
+Squirrle 是一款移动 Web 前端开发框架，提供简单、快速的 Web 开发体验。
 
 ## 二、特性
 
@@ -20,47 +20,55 @@ Squirrle 是一款移动前端开发框架，提供简单、快速的 Web 开发
 
 Squirrel 支持两种安装方式：
 
-1. 下载 Squirrle 3 开发包，开发包分为『正式版』和『开发版』；『正式版』里面包含已经编译好的 CSS、Javascript 文件和图片文件；『开发版』则额外包含文档和源码，目录结构：
+1. 直接下载 Squirrle 3 代码包  
+	代码包分为『开发版』和『压缩版』；『开发版』包含完整的项目结构与源码；而『压缩版』则是更适合用于实际生产的代码，下面是『压缩版』目录结构：
 
 		Squirrel/
-  		├── css/
-  		│   ├── squirrel.css
-  		│   ├── squirrel.min.css
-  		├── js/
-  		│   ├── squirrel.js
-  		│   ├── squirrel.min.js
-  		└── images/
-    	│   ├── sq-icon@2x.png
-    	└── index.html
+  			├── css/
+  			│   ├── squirrel.css
+  			│   ├── squirrel.min.css
+  			├── js/
+  			│   ├── squirrel.js
+  			│   ├── squirrel.min.js
+  			├── fonts/
+    		│   ├── sq-fontello.ttf
+    		│   ├── sq-fontello.woff
+    		└── index.html
 
 2. 使用 NPM 安装 Squirrle 3 工程套件  
-	完整的 Squirrle 3 工程套件包括框架代码、单元测试和自动化构建工具，是一套完整的前端开发、测试、发布解决方案（工程套件需要 NodeJS、npm 和 Grunt 支持，请自行配置），套件目录结构：
+	Squirrle 3 工程套件是一套完整移动 Web 开发方案，它集成了 Squirrel 框架代码并提供自动化构建工具，按照约定的目录进行开发，需要自行配置，套件目录结构：
 
 
 		Squirrel-pt/
-  		├── app/ (应用目录)
-  		│   ├── dist/ (构建代码)
-  		│   │   ├── css/
-  		│   │   ├── js/
-		│   │   ├── images/	
-  		│   ├── src/ (源码)
-  		│   │   ├── less/
-  		│   │   ├── js/
-  		│   ├── index.html
-  		├── libs/ (第三方 JS 类库)
-  		│   ├── zepto/
-  		│   │   ├── zepto-1.0.min.js
-  		├── test/ (单元测试)
-  		├── tools/ (自动化构建工具)
-  		│   ├── grunt/
-    	└── index.html
+  			├── dist/
+  			│   ├── css/
+  			│   │	├── squirrel.min.css
+  			│   │	├── project-name.min.css
+  			│   ├── js/
+  			│   │	├── squirrel.min.js
+  			│   │	├── project-name.min.js
+			│   ├── images/	
+			│   ├── fonts/
+			│   │	├── sq-fontello.ttf
+  			│   │	├── sq-fontello.woff
+  			├── src/  (源码)
+  			│   ├── sq-less/ (框架源码)
+  			│   ├── sq-js/   (框架源码)
+  			│   ├── less/    (项目源码)
+  			│   ├── js/      (项目源码)
+  			├── libs/ (依赖库)
+  			│   ├── zepto.min.js
+  			├── .jshintrc
+  			├── Gruntfile.js
+  			├── package.json
+    		└── index.html
 
 	
-	可以手动下载 Squirrle 3 工程套件包 Project-Template（15MB），或者通过 npm 命令安装：
+	NPM 安装命令：
 	
 		npm install squirrel-pt
 	
-	下载完成后需要对 package.json 进行配置。
+	进入 squirrel-pt 目录，下载完成后需要对 package.json 进行配置。
 
 ### 2、使用
 
