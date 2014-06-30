@@ -1,10 +1,11 @@
 /**
  * @file SQ.LazyLoad 延迟加载插件 
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 /**
  * @changelog
+ * 1.0.1  * 增加验证提示，调整了 init 函数。
  * 1.0.0  * 重写插件，调用方式改为 $. 链式调用。
  * 0.8.1  * 新增 ANIMATE 设置。
  * 0.8.0  * 重写 lazylaod 插件，提高整体性能。
@@ -63,34 +64,25 @@
             var me = this;
             me.$element = $(me.element);
             me.elementClassName = me.settings.selector.slice(1);   // ".style-name" => "style-name"
-
-            me._bindLazyEvent();
-            me._trigger();
-            me._loadImg();
+            
+            if (me._verify()) {
+                me._bindLazyEvent();
+                me._trigger();
+                me._loadImg();
+            }
         },
-        /**
-         * 刷新延迟加载元素，可以在外部调用。
-         */
-        /*refresh: function () {
-            var me = this;
-            me.$element = $(me.element);
-            me._bindLazyEvent();
-            me._loadImg();
-        },*/
         /**
          * 验证参数是否合法
          * @returns {boolean}
          * @private
          */
-        /*_verify: function () {
+        _verify: function () {
+            /*if (!this.$element.length) {
+                console.warn("SQ.lazyload: "+ this.settings.selector +"下未找到");
+                return false;
+            }*/
             return true;
         },
-        _init: function () {
-            var me = this;
-            me._bindLazyEvent();
-            me._trigger();
-            me._loadImg();
-        },*/
         _bindLazyEvent: function () {
             var me = this;
             // 为延迟加载元素绑定一次性执行事件
@@ -98,14 +90,16 @@
                 var img = this;
                 var $img = $(img);
                 var src = $img.attr("data-img");
-                // 添加动画
-                if (me.settings.ANIMATE) {
-                    var animateClassName = me.settings.ANIMATE.indexOf(".") === 0 ? me.settings.ANIMATE.slice(1) : me.settings.ANIMATE;
-                    $img.addClass("animated " + animateClassName);
-                }
                 // 替换 src 操作
                 if (src) {
-                    $img.attr("src", src).removeAttr("data-img").removeClass(me.elementClassName);
+                    $img.addClass("unvisible").attr("src", src).removeAttr("data-img").removeClass(me.elementClassName);
+                    $img.on("load", function () {
+                        // 添加动画
+                        if (me.settings.ANIMATE) {
+                            var animateClassName = me.settings.ANIMATE.indexOf(".") === 0 ? me.settings.ANIMATE.slice(1) : me.settings.ANIMATE;
+                            $img.addClass("animated " + animateClassName).removeClass("unvisible");
+                        }
+                    });
                     $img.on("error", function () {
                         if (me.settings.IMG_PLACEHOLDER) {
                             $(this).attr("src", me.settings.IMG_PLACEHOLDER).off("error");
@@ -150,6 +144,7 @@
             var me = this;
             me.$element.each(function (index, item) {
                 var $img = $(item);
+                // 设置占位图
                 if (me.settings.IMG_PLACEHOLDER && $img.hasClass(me.elementClassName)) {
                     $img.attr("src", me.settings.IMG_PLACEHOLDER);
                     $img.on("error", function () {
@@ -170,6 +165,10 @@
 
         options = options || {};
         options.selector = this.selector;
+
+        if (!this.length) {
+            console.warn("SQ.lazyload: 未找到"+ this.selector +"元素");
+        }
 
         this.each(function() {
             if (isJQuery) {
