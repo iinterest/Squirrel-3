@@ -1,10 +1,11 @@
 /**
  * @file SQ.LoadMore 加载更多插件
- * @version 1.5.0
+ * @version 1.6.0
  */
 
 /**
  * @changelog
+ * 1.6.0  * 现在可以记录一个页面中多个实例的运行状态，方便配合 Tab.js 使用。
  * 1.5.0  * 重写插件，调用方式改为 $. 链式调用。
  * 1.4.2  * 修复 _spliceApi 函数对 api 的拼装错误。
  * 1.4.1  * 为 loaded、scrollEnd 回调函数增加 index 参数。
@@ -31,7 +32,7 @@
  * 1.1.0  + 新增 DATATYPE 属性，用于定义 json 数据中 data 字段的数据类型；
  *          新增回调函数 render、loading、loaded、scrollEnd；
  *        - 删除了 scrollEnd 事件中 addClass("click-state") 操作，改为在 scrollEnd 回调函数中执行。
- * 1.0.6  - 精简注释；修改 _refresh 名称为 _reset。
+ * 1.0.6  - 精简注释；修改 _refresh 名称为 _setNewTriggerPoint。
  * 1.0.5  * 修复 _verify 方法因为找不到 DOM 元素而保存导致 js 无法继续执行的问题。
  * 1.0.4  + 添加 _refresh 方法，用于计算并存储文档高度和触发高度，该方法会在完成 XHR 加载后刷新，
  *          减少 _getHeight 取值，优化性能。
@@ -53,9 +54,7 @@
      * @constructor
      * @param {object} config                       插件配置（下面的参数为配置项，配置会写入属性）
      * @param {string} config.EVE_EVENT_TYPE        绑定事件设置，默认为 "scroll"
-     * @param {string | array} config.API API       接口地址，可以是字符串，或者是数组 [url, url, url]
-     * @param {string} config.DOM_TRIGGER_TARGET    被绑定事件的 Dom 元素，默认为 window
-     * @param {string} config.DOM_AJAX_WRAP         数据展示 Dom 元素
+     * @param {string} config.API API               接口地址
      * @param {string} config.CSS_STATE_BAR         初始状态展示样式，默认为 .sq-loadmore-state
      * @param {string} config.NUM_LOAD_POSITION     滑动加载位置，默认值：0.5
      * @param {number} config.NUM_START_PAGE_INDEX  起始页面序号，默认值：0
@@ -93,6 +92,7 @@
 });
      */
     var scope = "sq-loadmore";
+    var initIndex = 0;
     var defaults = {
         API: "",                                 // API 接口
         CSS_STATE_BAR: ".sq-loadmore-state",
@@ -126,13 +126,16 @@
         scrollDelay: 200,   // 滑动阀值
         init: function () {
             var me = this;
-            
+            var self = {};
+            var index = initIndex;
+            var winHeight = window.innerHeight || $(window).height();
+            var oldState = me._reload();
+
             me.$win = $(window);
             me.$triggerTarget = me.$win;                                        // 触发元素
             me.$element = $(me.element);                                        // 数据展示元素
             me.maxPage = me.settings.NUM_SCROLL_MAX_PAGE + me.settings.NUM_START_PAGE_INDEX;
             me.initStyle = me.settings.CSS_STATE_BAR.indexOf(".") === 0 ? me.settings.CSS_STATE_BAR.slice(1) : me.settings.CSS_STATE_BAR;
-            me.loadMores = [];                                                  // 存储多个 self 对象
 
             me.beforeLoadFun = me.settings.beforeLoad;
             me.loadingFun = me.settings.loading;
@@ -140,21 +143,61 @@
             me.loadErrorFun = me.settings.loadError;
             me.scrollEndFun = me.settings.scrollEnd;
 
-            me.$element.each(function (index) {
-                var self = {};
-                self.$element = $(this);
+            self.$element = me.$element;
+
+            if (oldState.isReload) {
+                // 重载状态，获取已有的状态栏
+                self.$stateBar = oldState.$stateBar;
+                self.$stateTxt = self.$stateBar.find(".state-txt");
+            } else {
+                // 初次实例化，创建新的状态栏
                 self.$stateBar = $('<div class="sq-loadMore-state"><i class="state-icon"></i><span class="state-txt"></span></div>');
                 self.$stateTxt = self.$stateBar.find(".state-txt");
-                self.index = index;
-                self.page = me.settings.NUM_START_PAGE_INDEX;
-                self.api = SQ.isArray(me.settings.API) ? me.settings.API[index] : me.settings.API;
-                self.firstClickInit = true;
+                self.$stateBar.addClass(me.initStyle);
+                self.$stateTxt.text(me.settings.TXT_INIT_TIP);
+                self.$element.css({"min-height": winHeight - 40}).after(self.$stateBar);
+            }
 
-                if (me._verify(self)) {
-                    me._init(self);
-                }
-                me.loadMores.push(self);
-            });
+            self.api = me.settings.API;
+            self.index = index;
+            self.page = oldState.page || me.settings.NUM_START_PAGE_INDEX;
+            self.currentState = oldState.page || "none";                                     // 设置当前状态
+            self.currentEventType = oldState.event || me.settings.EVE_EVENT_TYPE;     // 临时存储事件类型，以供 _changeState 判断使用。
+
+            if (self.currentEventType === "click") {
+                me._changeEvent("click", self);
+            }
+            if (oldState.top > 0) {
+                $("body").scrollTop(oldState.top);
+            }
+
+            if (me._verify(self)) {
+                me._setNewTriggerPoint(self);
+                me._bind(self.currentEventType, self);
+            }
+        },
+        /**
+         * 重新加载
+         * @returns {obj} state 状态对象
+         * @private
+         */
+        _reload: function () {
+            var me = this;
+            var $loadmoreDom = $(me.settings.selector);
+            var state = {};
+            // 清除事件绑定
+            $(window).off("scroll.sq");
+            // 如果目标对象已经实例化过，就提取运行状态
+            if ($loadmoreDom.data(scope)) {
+                var $stateBar = $loadmoreDom.next(".sq-loadMore-state");
+                state.isReload = true;
+                state.page = $stateBar.data("page");
+                state.event = $stateBar.data("event");
+                state.top = parseInt($stateBar.data("top"), 10);
+                state.currentState = $stateBar.data("currentState");
+                state.$stateBar = $stateBar;
+            }
+            return state;
         },
         /**
          * 验证
@@ -176,53 +219,18 @@
             return true;
         },
         /**
-         * 初始化
-         * @private
-         */
-        _init: function (self) {
-            var me = this;
-            var winHeight = window.innerHeight || me.$win.height();
-
-            if (self.currentEventType && self.currentEventType !== me.settings.EVE_EVENT_TYPE) {
-                // 当 currentEventType 有值且不为初始值时，一般是滑动事件转为点击事件，滑动事件会被解绑，而点击事件不会解绑，
-                // 所以这里直接返回，不执行初始化操作。
-                return;
-            }
-
-            self.currentState = "none";                         // 设置当前状态
-            self.currentEventType = me.settings.EVE_EVENT_TYPE;   // 临时存储事件类型，以供 _changeState 判断使用。
-            self.$stateBar.addClass(me.initStyle);
-            self.$stateTxt.text(me.settings.TXT_INIT_TIP);
-            self.$element.css({"min-height":winHeight - 40}).after(self.$stateBar);
-
-            if (self.index === 0) {
-                self.active = true;
-            }
-
-            /*if (contentHeight < winHeight) {
-             me._changeEvent("click", self);
-             self.$stateTxt.text(me.settings.TXT_CLICK_TIP);
-             }*/
-
-            if (self.active) {
-                me._reset(self);
-                me._bind(me.settings.EVE_EVENT_TYPE, self);
-            }
-        },
-        /**
          * 事件绑定
          * @param {string} eventType
          * @private
          */
         _bind: function (eventType, self) {
             var me = this;
-            // 为了能够解除事件绑定，不能使用匿名函数，但传入函数字面量又不能直接传参，
-            // 所以使用了一个特殊的返回函数 _trigger 赋值给 _bindHandle，这样就可以解绑。
-            me._bindHandle = me._trigger(self);
-            me.$triggerTarget.on(eventType + ".sq.loadmore", me._bindHandle);
-            /*me.$triggerTarget.on("scroll.sq.loadmore", function () {
+            me.$triggerTarget.on(eventType + ".sq.loadmore" + self.id, function () {
                 me._trigger(self);
-            });*/
+            });
+            me.$win.on("scroll.sq.loadmore.setTop", function () {
+                me._setTopPosition(self);
+            });
         },
         /**
          * 触发事件
@@ -233,42 +241,34 @@
          */
         _trigger: function (self) {
             var me = this;
-            return function () {
-                var isLoading = self.$stateBar.hasClass("loading");
-                var isNoMore = self.$stateBar.hasClass("no-more");
-                
-                if (isLoading || isNoMore) {
-                    return;
+            var isLoading = self.$stateBar.hasClass("loading");
+            var isNoMore = self.$stateBar.hasClass("no-more");
+
+            if (isLoading || isNoMore) {
+                return;
+            }
+            if (self.currentEventType === "scroll") {
+                if (self.page < me.maxPage && !me.scrollTimer) {
+                    // 添加 scroll 事件相应伐值，优化其性能
+                    me.scrollTimer = setTimeout(function () {
+                        if (me.$triggerTarget.scrollTop() >= me.triggerHeight && !isLoading && !isNoMore) {
+                            me._load(me._spliceApi(self), self);
+                        }
+                        me.scrollTimer = 0;
+                    }, me.scrollDelay);
                 }
-                if (self.currentEventType === "scroll") {
-                    if (self.page < me.maxPage && !me.scrollTimer) {
-                        // 添加 scroll 事件相应伐值，优化其性能
-                        me.scrollTimer = setTimeout(function () {
-                            if (me.$triggerTarget.scrollTop() >= me.triggerHeight && !isLoading && !isNoMore) {
-                                me._load(me._spliceApi(self), self);
-                            }
-                            me.scrollTimer = 0;
-                        }, me.scrollDelay);
-                    }
-                    if (self.page === me.maxPage) {
-                        me._changeState("scrollEnd", self);
-                    }
-                } else if (self.currentEventType === "click") {
-                    // 在有滑动转变为点击事件时，会执行 _bind 方法，在该方法中 _trigger 会预先赋值给 _bindHandle，
-                    // 此时 _trigger 会被执行一次，所以设定了一个 firstClickInit 属性，用于判断是初始化还是用户点击。
-                    if (self.firstClickInit) {
-                        self.firstClickInit = false;
-                        return;
-                    }
-                    me._load(me._spliceApi(self), self);
+                if (self.page === me.maxPage) {
+                    me._changeState("scrollEnd", self);
                 }
-            };
+            } else if (self.currentEventType === "click") {
+                me._load(me._spliceApi(self), self);
+            }
         },
         /**
          * 重置计算参数
          * @private
          */
-        _reset: function (self) {
+        _setNewTriggerPoint: function (self) {
             if (self.currentEventType === "click") {
                 // 当为点击事件时，不用计算页面高度等数值。
                 return;
@@ -288,12 +288,11 @@
          */
         _changeEvent: function (eventType, self) {
             var me = this;
-            me.$triggerTarget.off("scroll.sq.loadmore", me._bindHandle);
-            //me.$triggerTarget.off("scroll.sq.loadmore");
+            me.$triggerTarget.off("scroll.sq.loadmore" + self.id);
             self.currentEventType = eventType;
+            self.$stateBar.data("event", eventType);                // 记录事件状态
             if (eventType === "click") {
                 me.$triggerTarget = self.$stateBar;                 // 变更触发目标，并将加载触发方式更改为 click
-                self.firstClickInit = false;
                 me._bind(eventType, self);                          // 重新绑定
                 self.$stateBar.addClass("click").show();
             } else if (eventType === "scroll") {
@@ -314,6 +313,7 @@
                 return;
             }
             self.currentState = state;
+            self.$stateBar.data("currentState", state);
             // 状态判断
             switch (state) {
             case "loading":         //正在加载阶段，添加 loading 标识，更新提示文字
@@ -335,6 +335,7 @@
                     self.$stateTxt.text(me.settings.TXT_CLICK_TIP);
                 }
                 self.page += 1;
+                self.$stateBar.data("page", self.page);
                 break;
             case "scrollEnd":       //滑动加载次数已达到上限
                 me._changeEvent("click", self);
@@ -435,19 +436,7 @@
             if (me.loadFun) {
                 me.loadFun(jsonData, self.$element, self.index);
             }
-            me._reset(self);
-        },
-        active: function (index) {
-            var me = this;
-            var len = me.loadMores.length;
-            var i;
-            for (i = 0; i < len; i++) {
-                me.loadMores[i].active = false;
-            }
-            me.loadMores[index].active = true;
-            me.$triggerTarget.off("scroll", me._bindHandle);
-            me.$triggerTarget = $(me.settings.DOM_TRIGGER_TARGET) || me.$win;
-            me._init(me.loadMores[index]);
+            me._setNewTriggerPoint(self);
         },
         /**
          * 计算页面高度
@@ -486,19 +475,26 @@
                 api = self.api + connector + "page=" + self.page;
             }
             return api;
+        },
+        _setTopPosition: function (self) {
+            self.$stateBar.data("top", $("body").scrollTop());
         }
     };
 
     $.fn.loadmore = function ( options ) {
-        var isZepto = typeof Zepto !== "undefined" ? true : false;
-        var isJQuery = typeof jQuery !== "undefined" ? true : false;
+        //var isZepto = typeof Zepto !== "undefined" ? true : false;
+        //var isJQuery = typeof jQuery !== "undefined" ? true : false;
         var plugin;
 
         options = options || {};
         options.selector = this.selector;
+        
+        if (!this.length) {
+            console.warn("SQ.loadmore: 未找到"+ this.selector +"元素");
+        }
 
         this.each(function() {
-            if (isJQuery) {
+            /*if (isJQuery) {
                 if ( !$.data( this, scope ) ) {
                     $.data( this, scope, new LoadMore( this, options ) );
                 }
@@ -507,7 +503,9 @@
                     plugin = new LoadMore( this, options );
                     $(this).data(scope, "initialized");
                 }
-            }
+            }*/
+            plugin = new LoadMore( this, options );
+            $(this).data(scope, "initialized");
         });
         // chain jQuery functions
         return this;
