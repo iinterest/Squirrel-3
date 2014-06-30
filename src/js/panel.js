@@ -5,6 +5,7 @@
 
 /**
  * @changelog
+ * 1.0.1  * 为 ucweb 9.7 事件优化做兼容，增加 selector Dom 验证。
  * 1.0.0  * 重写插件，调用方式改为 $. 链式调用。
  * 0.5.0  * 完成左侧滑动面板功能
  * 0.0.1  * 新建。
@@ -27,11 +28,11 @@
      * @param {string} config.DISPLAY               显示模式，默认为：overlay，可选 push
      * @param {string} config.DOM_WRAPPER           页面包装节点，当 DISPLAY 设置为 push 时，该节点会应用动画
      * @param {string} config.DIRECTION             出现方向，默认为：left
-     * @param {number} config.CSS_WIDTH             面板宽度
-     * @param {string} config.CLOSE_BTN             是否显示关闭按钮
+     * @param {number} config.CSS_WIDTH             面板宽度，默认为：300px
+     * @param {string} config.CLOSE_BTN             是否显示关闭按钮，默认为：false
      * @param {string} config.TXT_CLOSE_VAL         关闭按钮显示文字，默认为："×"
      * @param {function} config.beforeShow          打开面板前回调函数，该函数必须返回为 true 才能继续执行 show 函数
-     * @param {function} config.show                打开面板时回调函数
+     * @param {function} config.show($activePanel)  打开面板时回调函数
      * @param {function} config.close               关闭面板时回调函数
      * @param {function} config.resize              resize 回调函数
      * @example $(".J_panelMenu").panel({
@@ -53,7 +54,7 @@
         DISPLAY: "overlay",
         DIRECTION: "left",
         CSS_WIDTH: 300,
-        CLOSE_BTN: true,
+        CLOSE_BTN: false,
         TXT_CLOSE_VAL: "×"
     };
 
@@ -66,8 +67,8 @@
 
     Panel.prototype = {
         construtor: "Panel",
-        resizeTimer : false,
-        closed : true,
+        resizeTimer: false,
+        closed: true,
         init: function () {
             var me = this;
             var css = "@-webkit-keyframes showPanel {0% {-webkit-transform: translateX(-"+ me.settings.CSS_WIDTH +"px);} 100% {-webkit-transform: translateX(0);}}" +
@@ -167,11 +168,11 @@
          * 设置滑动面板事件
          * @private
          */
-        _setPanelEvent : function () {
+        _setPanelEvent: function () {
             var me = this;
             // 锁定操作 
             // 优化 Android 下 UCweb 浏览器触摸操作，减少滑动误操作
-            if (SQ.ua.os.name === "android" && SQ.ua.browser.shell === "ucweb" && SQ.ua.browser.version >= 9) {
+            if (SQ.ua.os.name === "android" && SQ.ua.browser.shell === "ucweb" && SQ.ua.browser.version >= 9 && SQ.ua.browser.version < 9.7) {
                 me.$panel.on("touchstart", function (e) {
                     e.preventDefault();
                 });
@@ -230,7 +231,7 @@
             me.closed = false;
             // 执行回调函数。
             if (me.showFun) {
-                me.showFun(e);
+                me.showFun(me.$panel);
             }
 
             me.$panel.show();
@@ -244,8 +245,8 @@
 
             if (me.$mask) {
                 me.$mask.css({
-                    "width" : "100%",
-                    "height" : h
+                    "width": "100%",
+                    "height": h
                 });
                 me.$mask.show();
             } else {
@@ -264,7 +265,8 @@
                 $mask.on("touchstart", function (e) {
                     e.preventDefault();
                     // 当屏蔽 touchstart 事件后其它浏览器不能响应 click 事件，所以注册一个关闭方法。
-                    if (SQ.ua.browser.shell !== "ucweb") {
+                    // ucweb 9.7 也不能响应 click 事件。
+                    if (SQ.ua.browser.shell !== "ucweb" || SQ.ua.browser.version >= 9.7) {
                         me.close();
                     }
                 });
@@ -311,6 +313,10 @@
 
         options = options || {};
         options.selector = this.selector;
+
+        if (!this.length) {
+            console.warn("SQ.panel: 未找到"+ this.selector +"元素");
+        }
 
         this.each(function() {
             if (isJQuery) {
