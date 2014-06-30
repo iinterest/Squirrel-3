@@ -1,10 +1,11 @@
 /**
  * @file SQ.Tab 选项卡插件
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 /**
  * @changelog
+ * 1.0.1  * 添加 _verify 验证 DOM 的提示。
  * 1.0.0  * 重写插件，调用方式改为 $. 链式调用。
  * 0.7.5  * 修改类名，新增 beforeLoad 、loaded 回调函数的传参。
  * 0.7.4  * 解决 localStorage 问题，API 兼容 ["","test.json",""] 这种写法；
@@ -46,11 +47,11 @@
      * @param {number} config.NUM_EXPIRES                               XHR 数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟
      * @param {function} config.trigger($tabs,$panels,tabIndex)         触发选项卡切换回调函数
      * @param {function} config.show($tabs,$panels,tabIndex)            显示选项卡时回调函数
-     * @param {function} config.beforeLoad($activePanels,tabIndex)      异步加载前回调函数，当设定了该回调函数时，必须返回
+     * @param {function} config.beforeLoad($activePanel,tabIndex)      异步加载前回调函数，当设定了该回调函数时，必须返回
      *                                                                  true 才能继续执行，异步加载事件，可中断异步加载事件。
-     *                                                                  参数：$activePanels 是当前激活的面板
-     * @param {function} config.loaded(data,$activePanels,tabIndex)     异步加载成功回调函数，参数：data 是异步加载返回数据
-     *                                                                  参数：$activePanels 是当前激活的面板
+     *                                                                  参数：$activePanel 是当前激活的面板
+     * @param {function} config.loaded(data,$activePanel,tabIndex)     异步加载成功回调函数，参数：data 是异步加载返回数据
+     *                                                                  参数：$activePanel 是当前激活的面板
      * @example $(".J_tabs").tab({
     API: ["data/content1.json", "data/content2.json", ""],
     DOM_TABS: ".sq-nav-tabs>li",
@@ -59,7 +60,7 @@
     show: function ($tabs, $panels, tabIndex) {
 
     },
-    loaded: function (data, $activePanels) {
+    loaded: function (data, $activePanel) {
 
     }
 });
@@ -106,12 +107,20 @@
                 var $tabMould = $(this);
                 var $tabs = $tabMould.find(me.settings.DOM_TABS);
                 var $panels = $tabMould.find(me.settings.DOM_PANELS);
-                if (me._verify()) {
+                if (me._verify($tabs, $panels)) {
                     me._init($tabMould, $tabs, $panels);
                 }
             });
         },
-        _verify: function () {
+        _verify: function ($tabs, $panels) {
+            if (!$tabs.length) {
+                console.warn("SQ.tab: 参数 DOM_TABS 错误，"+ this.settings.selector +"下未找到"+ this.settings.DOM_TABS +"元素");
+                return false;
+            }
+            if (!$panels.length) {
+                console.warn("SQ.tab: 参数 DOM_PANELS 错误，"+ this.settings.selector +"下未找到"+ this.settings.DOM_PANELS +"元素");
+                return false;
+            }
             return true;
         },
         _init: function ($tabMould, $tabs, $panels) {
@@ -159,7 +168,7 @@
          */
         _trigger: function ($tabMould, $tabs, $panels, $tab) {
             var me = this;
-            var tabIndex = $tab.attr("data-tabIndex");
+            var tabIndex = parseInt($tab.attr("data-tabIndex"), 10);
             var isCurrentActive = $tab.hasClass(me.CSS_HIGHLIGHT);
 
             if (isCurrentActive) {
@@ -171,8 +180,8 @@
                 me.triggerFun($tabs, $panels, tabIndex);
             }
         },
-        _cleanPanel: function ($activePanels) {
-            $activePanels.empty();
+        _cleanPanel: function ($activePanel) {
+            $activePanel.empty();
         },
         /**
          * 显示目标选项卡，可以在外部调用该方法
@@ -183,26 +192,26 @@
         show: function ($tabs, $panels, tabIndex) {
             var me = this;
             var $activeTab = $tabs.eq(tabIndex);
-            var $activePanels = $panels.eq(tabIndex);
+            var $activePanel = $panels.eq(tabIndex);
 
             $tabs.removeClass(me.CSS_HIGHLIGHT);
             $panels.removeClass(me.CSS_HIGHLIGHT);
             $activeTab.addClass(me.CSS_HIGHLIGHT);
-            $activePanels.addClass(me.CSS_HIGHLIGHT);
+            $activePanel.addClass(me.CSS_HIGHLIGHT);
 
             if (me.showFun) {
                 me.showFun($tabs, $panels, tabIndex);
             }
             if (me.settings.API) {
-                me._load($activePanels, tabIndex);
+                me._load($activePanel, tabIndex);
             }
         },
-        _load: function ($activePanels, tabIndex) {
+        _load: function ($activePanel, tabIndex) {
             var me = this;
             var api = me.settings.API;
-            var $currentLoadTip = $activePanels.find(".sq-tabs-loading-tip");
+            var $currentLoadTip = $activePanel.find(".sq-tabs-loading-tip");
             var hasLoadingTip = $currentLoadTip.length > 0 ? true : false;
-            var hasLoaded = $activePanels.hasClass("hasLoaded");
+            var hasLoaded = $activePanel.hasClass("hasLoaded");
 
             if (hasLoaded) {
                 return;
@@ -210,22 +219,22 @@
             // 如果设置了 beforeLoadFun 回调函数，则 beforeLoadFun 必须返回 true 才能继续向下执行，
             // 用于人为中断 _load 事件。
             if (me.beforeLoadFun) {
-                if (!me.beforeLoadFun($activePanels, tabIndex)) {
+                if (!me.beforeLoadFun($activePanel, tabIndex)) {
                     return;
                 }
             }
             // 是否清空面板
             if (me.settings.CLEAR_PANEL) {
-                me._cleanPanel($activePanels);
+                me._cleanPanel($activePanel);
             }
             // 是否启用本地缓存
             if (me.settings.LOCAL_DATA) {
                 var localData = SQ.store.localStorage.get(api, me.settings.NUM_EXPIRES);
                 localData = SQ.isString(localData) ? $.parseJSON(localData) : localData;
                 if (localData) {
-                    $activePanels.addClass("hasLoaded");
+                    $activePanel.addClass("hasLoaded");
                     if (me.loadFun) {
-                        me.loadFun(JSON.parse(localData), $activePanels, tabIndex);
+                        me.loadFun(JSON.parse(localData), $activePanel, tabIndex);
                     }
                     return;
                 }
@@ -244,8 +253,8 @@
             if (hasLoadingTip) {
                 $currentLoadTip.show();
             } else {
-                $activePanels.append(me.$loadingTip);
-                $currentLoadTip = $activePanels.find(".sq-tabs-loading-tip");
+                $activePanel.append(me.$loadingTip);
+                $currentLoadTip = $activePanel.find(".sq-tabs-loading-tip");
                 $currentLoadTip.show();
             }
             me.xhr = $.ajax({
@@ -255,30 +264,30 @@
                 timeout : me.settings.NUM_XHR_TIMEER,
                 success : function (data) {
                     $currentLoadTip.hide();
-                    $activePanels.addClass("hasLoaded");    // 为已经加载过的面板添加 .hasLoaded 标记
+                    $activePanel.addClass("hasLoaded");    // 为已经加载过的面板添加 .hasLoaded 标记
                     if (me.settings.LOCAL_DATA) {
                         SQ.store.localStorage.set(api, data);
                     }
                     if (me.loadFun) {
-                        me.loadFun(data, $activePanels, tabIndex);
+                        me.loadFun(data, $activePanel, tabIndex);
                     }
                 },
                 error : function () {
-                    me._showReloadTips($activePanels, tabIndex);
+                    me._showReloadTips($activePanel, tabIndex);
                 }
             });
         },
-        _showReloadTips: function ($activePanels, tabIndex) {
+        _showReloadTips: function ($activePanel, tabIndex) {
             var me = this;
-            var $tip = $activePanels.find(".sq-tabs-loading-tip");
+            var $tip = $activePanel.find(".sq-tabs-loading-tip");
             $tip.show().empty();
             var reloadHTML = "<div class='reload'>" +
                 "<p>抱歉，加载失败，请重试</p>" +
                 "<div class='sq-btn f-grey J_reload'>重新加载</div>" +
                 "</div>";
             $tip.append(reloadHTML);
-            $activePanels.find(".J_reload").off("click").on("click", function () {
-                me._load($activePanels, tabIndex);
+            $activePanel.find(".J_reload").off("click").on("click", function () {
+                me._load($activePanel, tabIndex);
             });
         }
     };
@@ -290,6 +299,10 @@
 
         options = options || {};
         options.selector = this.selector;
+
+        if (!this.length) {
+            console.warn("SQ.tab: 未找到"+ this.selector +"元素");
+        }
 
         this.each(function() {
             if (isJQuery) {
