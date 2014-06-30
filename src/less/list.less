@@ -48,20 +48,23 @@
     &.media{
         .list-item{ .display-box; .box-orient(horizontal);}
         .des{
-            .box-flex(1); margin:0 10px; line-height:@magic-line-height;
-            .tit{ margin-bottom:.3em; font-size:@title-font-size; font-weight:700;}
-            .ctx{ margin-bottom:3px; font-size:@content-font-size; line-height:1.2;}
+            .box-flex(1); margin:0 10px;
+            .tit{ margin-bottom:4px; font-size:@title-font-size; font-weight:normal;}
+            .ctx{ margin-bottom:4px; font-size:@content-font-size; line-height:1.2;}
             .sq-btn{ margin-top:5px;}
         }
         .extend{
             position:relative; display:inline-block; z-index:12;
             .sq-btn + .sq-btn{ margin-left:0; margin-top:5px;}
         }
-        .v-middle{ .display-box; .box-align(center);}
+        .v-middle{ 
+            .display-box; .box-align(center);
+            line-height:1;
+        }
         &.col2,
         &.col3,
         &.col4{
-            .tit{ margin-bottom:.1em;}
+            //.tit{ margin-bottom:.1em;}
             .list-item{ padding:10px 0 10px 10px;}
         }
     }
@@ -83,7 +86,7 @@
         &.col4,
         &.col5,
         &.col6{
-            .list-item{ float:none; display:inline-block; vertical-align:top;}
+            .list-item{ float:none; display:inline-block; vertical-align:top; border-bottom:none;}
             // 为解决高度不一的排版问题，重写 col2-clo6，不使用 float 布局。
         }
     }
