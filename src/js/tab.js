@@ -1,15 +1,16 @@
 /**
  * @file SQ.Tab 选项卡插件
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 /**
  * @changelog
+ * 1.0.2  * 使用了新增的手势事件，适应调整后的 jsHint 规则。
  * 1.0.1  * 添加 _verify 验证 DOM 的提示。
  * 1.0.0  * 重写插件，调用方式改为 $. 链式调用。
  * 0.7.5  * 修改类名，新增 beforeLoad 、loaded 回调函数的传参。
- * 0.7.4  * 解决 localStorage 问题，API 兼容 ["","test.json",""] 这种写法；
- *        * CSS_LOADING_TIP 兼容 ".demo" 和 "demo" 写法。
+ * 0.7.4  * 解决 localStorage 问题，API 兼容 ['','test.json',''] 这种写法；
+ *        * CSS_LOADING_TIP 兼容 '.demo' 和 'demo' 写法。
  * 0.7.3  * 修复 reload 按钮多次绑定问题。
  * 0.7.2  * 修复初始化时，me.$loadingTip 无法找到的问题。
  * 0.7.1  * 修复 jshint 问题。
@@ -25,8 +26,8 @@
  SQ: false,
  console: false
  */
-;(function ($) {
-    "use strict";
+(function ($) {
+    'use strict';
     /**
      * @name Tab
      * @classdesc 选项卡插件
@@ -52,11 +53,11 @@
      *                                                                  参数：$activePanel 是当前激活的面板
      * @param {function} config.loaded(data,$activePanel,tabIndex)     异步加载成功回调函数，参数：data 是异步加载返回数据
      *                                                                  参数：$activePanel 是当前激活的面板
-     * @example $(".J_tabs").tab({
-    API: ["data/content1.json", "data/content2.json", ""],
-    DOM_TABS: ".sq-nav-tabs>li",
-    DOM_PANELS: ".sq-tab-content",
-    CSS_LOADING_TIP: ".tab-loading-tip",
+     * @example $('.J_tabs').tab({
+    API: ['data/content1.json', 'data/content2.json', ''],
+    DOM_TABS: '.sq-nav-tabs>li',
+    DOM_PANELS: '.sq-tab-content',
+    CSS_LOADING_TIP: '.tab-loading-tip',
     show: function ($tabs, $panels, tabIndex) {
 
     },
@@ -65,14 +66,14 @@
     }
 });
      */
-    var scope = "sq-tab";
+    var scope = 'sq-tab';
     var defaults = {
-        EVE_EVENT_TYPE: "click",
-        CSS_HIGHLIGHT: ".active",
+        EVE_EVENT_TYPE: 'click',
+        CSS_HIGHLIGHT: '.active',
         CLEAR_PANEL : false,
         NUM_ACTIVE : 0,
         NUM_XHR_TIMEER : 5000,
-        TXT_LOADING_TIP : "正在加载请稍后...",     // 正在加载提示
+        TXT_LOADING_TIP : '正在加载请稍后...',     // 正在加载提示
         LOCAL_DATA : false,
         NUM_EXPIRES : 15
     };
@@ -85,15 +86,15 @@
     }
 
     Tab.prototype = {
-        construtor: "Tab",
+        construtor: 'Tab',
         needLoadContent : false,    // 选项卡内容是否需要异步加载
         init: function () {
             var me = this;
             
             if (me.settings.CSS_LOADING_TIP) {
-                me.CSS_LOADING_TIP = me.settings.CSS_LOADING_TIP.indexOf(".") === 0 ? me.settings.CSS_LOADING_TIP.slice(1) : me.settings.CSS_LOADING_TIP;
+                me.CSS_LOADING_TIP = me.settings.CSS_LOADING_TIP.indexOf('.') === 0 ? me.settings.CSS_LOADING_TIP.slice(1) : me.settings.CSS_LOADING_TIP;
             }
-            me.CSS_HIGHLIGHT = me.settings.CSS_HIGHLIGHT.indexOf(".") === 0 ? me.settings.CSS_HIGHLIGHT.slice(1) : me.settings.CSS_HIGHLIGHT;
+            me.CSS_HIGHLIGHT = me.settings.CSS_HIGHLIGHT.indexOf('.') === 0 ? me.settings.CSS_HIGHLIGHT.slice(1) : me.settings.CSS_HIGHLIGHT;
 
             me.$element = $(me.element);        // 目标元素
             me.tabsLen = me.$element.length;
@@ -114,11 +115,11 @@
         },
         _verify: function ($tabs, $panels) {
             if (!$tabs.length) {
-                console.warn("SQ.tab: 参数 DOM_TABS 错误，"+ this.settings.selector +"下未找到"+ this.settings.DOM_TABS +"元素");
+                console.warn('SQ.tab: 参数 DOM_TABS 错误，'+ this.settings.selector +'下未找到'+ this.settings.DOM_TABS +'元素');
                 return false;
             }
             if (!$panels.length) {
-                console.warn("SQ.tab: 参数 DOM_PANELS 错误，"+ this.settings.selector +"下未找到"+ this.settings.DOM_PANELS +"元素");
+                console.warn('SQ.tab: 参数 DOM_PANELS 错误，'+ this.settings.selector +'下未找到'+ this.settings.DOM_PANELS +'元素');
                 return false;
             }
             return true;
@@ -128,19 +129,19 @@
             var i = 0;
             // 为选项卡添加序号
             $tabs.each(function () {
-                $(this).attr("data-tabIndex", i);
+                $(this).attr('data-tabIndex', i);
                 i++;
             });
             // 判断是否需要生成异步加载提示语
             if (me.settings.API && (SQ.isString(me.settings.API) || SQ.isArray(me.settings.API))) {
-                me.$loadingTip = $("<div class='sq-tabs-loading-tip'></div>");
+                me.$loadingTip = $('<div class="sq-tabs-loading-tip"></div>');
                 if (me.CSS_LOADING_TIP) {
                     me.$loadingTip.addClass(me.CSS_LOADING_TIP);
                 } else {
                     me.$loadingTip.css({
-                        "height" : 60,
-                        "text-align" : "center",
-                        "line-height" : "60px"
+                        'height' : 60,
+                        'text-align' : 'center',
+                        'line-height' : '60px'
                     });
                 }
                 me.$loadingTip.text(me.settings.TXT_LOADING_TIP);
@@ -151,10 +152,13 @@
                 me.show($tabs, $panels, me.settings.NUM_ACTIVE);
             }
             // 绑定事件
-            $tabs.on(me.settings.EVE_EVENT_TYPE + ".sq.tab", function (e) {
-                var $tab = $(this);
-                e.preventDefault();
-                me._trigger($tabMould, $tabs, $panels, $tab);
+            SQ.gestures.tap({
+                el: $tabs,
+                event: '.sq.tab',
+                callbackFun: function (e, $el) {
+                    e.preventDefault();
+                    me._trigger($tabMould, $tabs, $panels, $el);
+                }
             });
         },
         /**
@@ -168,7 +172,7 @@
          */
         _trigger: function ($tabMould, $tabs, $panels, $tab) {
             var me = this;
-            var tabIndex = parseInt($tab.attr("data-tabIndex"), 10);
+            var tabIndex = parseInt($tab.attr('data-tabIndex'), 10);
             var isCurrentActive = $tab.hasClass(me.CSS_HIGHLIGHT);
 
             if (isCurrentActive) {
@@ -209,9 +213,9 @@
         _load: function ($activePanel, tabIndex) {
             var me = this;
             var api = me.settings.API;
-            var $currentLoadTip = $activePanel.find(".sq-tabs-loading-tip");
+            var $currentLoadTip = $activePanel.find('.sq-tabs-loading-tip');
             var hasLoadingTip = $currentLoadTip.length > 0 ? true : false;
-            var hasLoaded = $activePanel.hasClass("hasLoaded");
+            var hasLoaded = $activePanel.hasClass('hasLoaded');
 
             if (hasLoaded) {
                 return;
@@ -232,7 +236,7 @@
                 var localData = SQ.store.localStorage.get(api, me.settings.NUM_EXPIRES);
                 localData = SQ.isString(localData) ? $.parseJSON(localData) : localData;
                 if (localData) {
-                    $activePanel.addClass("hasLoaded");
+                    $activePanel.addClass('hasLoaded');
                     if (me.loadFun) {
                         me.loadFun(JSON.parse(localData), $activePanel, tabIndex);
                     }
@@ -254,17 +258,17 @@
                 $currentLoadTip.show();
             } else {
                 $activePanel.append(me.$loadingTip);
-                $currentLoadTip = $activePanel.find(".sq-tabs-loading-tip");
+                $currentLoadTip = $activePanel.find('.sq-tabs-loading-tip');
                 $currentLoadTip.show();
             }
             me.xhr = $.ajax({
-                type : "POST",
+                type : 'POST',
                 url : api,
-                dataType : "json",
+                dataType : 'json',
                 timeout : me.settings.NUM_XHR_TIMEER,
                 success : function (data) {
                     $currentLoadTip.hide();
-                    $activePanel.addClass("hasLoaded");    // 为已经加载过的面板添加 .hasLoaded 标记
+                    $activePanel.addClass('hasLoaded');    // 为已经加载过的面板添加 .hasLoaded 标记
                     if (me.settings.LOCAL_DATA) {
                         SQ.store.localStorage.set(api, data);
                     }
@@ -279,29 +283,29 @@
         },
         _showReloadTips: function ($activePanel, tabIndex) {
             var me = this;
-            var $tip = $activePanel.find(".sq-tabs-loading-tip");
+            var $tip = $activePanel.find('.sq-tabs-loading-tip');
             $tip.show().empty();
-            var reloadHTML = "<div class='reload'>" +
-                "<p>抱歉，加载失败，请重试</p>" +
-                "<div class='sq-btn f-grey J_reload'>重新加载</div>" +
-                "</div>";
+            var reloadHTML = '<div class="reload">' +
+                '<p>抱歉，加载失败，请重试</p>' +
+                '<div class="sq-btn f-grey J_reload">重新加载</div>' +
+                '</div>';
             $tip.append(reloadHTML);
-            $activePanel.find(".J_reload").off("click").on("click", function () {
+            $activePanel.find('.J_reload').off('click').on('click', function () {
                 me._load($activePanel, tabIndex);
             });
         }
     };
 
     $.fn.tab = function ( options ) {
-        var isZepto = typeof Zepto !== "undefined" ? true : false;
-        var isJQuery = typeof jQuery !== "undefined" ? true : false;
+        var isZepto = typeof Zepto !== 'undefined' ? true : false;
+        var isJQuery = typeof jQuery !== 'undefined' ? true : false;
         var plugin;
 
         options = options || {};
         options.selector = this.selector;
 
         if (!this.length) {
-            console.warn("SQ.tab: 未找到"+ this.selector +"元素");
+            console.warn('SQ.tab: 未找到'+ this.selector +'元素');
         }
 
         this.each(function() {
@@ -312,7 +316,7 @@
             } else if (isZepto) {
                 if (!$(this).data(scope)) {
                     plugin = new Tab( this, options );
-                    $(this).data(scope, "initialized");
+                    $(this).data(scope, 'initialized');
                 }
             }
         });
