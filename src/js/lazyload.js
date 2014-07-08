@@ -1,10 +1,11 @@
 /**
  * @file SQ.LazyLoad 延迟加载插件 
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 /**
  * @changelog
+ * 1.0.2  * 修改 scroll 绑定事件，使用新增的节流函数，精简函数。
  * 1.0.1  * 增加验证提示，调整了 init 函数。
  * 1.0.0  * 重写插件，调用方式改为 $. 链式调用。
  * 0.8.1  * 新增 ANIMATE 设置。
@@ -110,17 +111,11 @@
         },
         _trigger: function () {
             var me = this;
-            $(window).on("scroll", function () {
-                // 添加 scroll 事件相应伐值，优化其性能
-                if (!me.scrollTimer) {
-                    me.scrollTimer = setTimeout(function () {
-                        if (me.settings.MODE === "image") {
-                            me._loadImg();
-                        }
-                        me.scrollTimer = 0;
-                    }, me.scrollDelay);
+            $(window).on("scroll.bs.lazyload", SQ.throttle(function () {
+                if (me.settings.MODE === "image") {
+                    me._loadImg();
                 }
-            });
+            }, me.scrollDelay));
         },
         /**
          * 判断是否在显示区域
@@ -142,19 +137,15 @@
         },
         _loadImg: function () {
             var me = this;
-            me.$element.each(function (index, item) {
-                var $img = $(item);
-                // 设置占位图
-                if (me.settings.IMG_PLACEHOLDER && $img.hasClass(me.elementClassName)) {
-                    $img.attr("src", me.settings.IMG_PLACEHOLDER);
-                    $img.on("error", function () {
-                        $(this).attr("src", me.settings.IMG_PLACEHOLDER).off("error");
-                    });
-                }
-                if (me._isInDisplayArea(item)) {
-                    $img.trigger("appear");
-                }
-            });
+            if (me.settings.IMG_PLACEHOLDER && me.$element.hasClass(me.elementClassName)) {
+                me.$element.attr("src", me.settings.IMG_PLACEHOLDER);
+                me.$element.on("error", function () {
+                    $(this).attr("src", me.settings.IMG_PLACEHOLDER).off("error");
+                });
+            }
+            if (me._isInDisplayArea(me.$element.get(0))) {
+                me.$element.trigger("appear");
+            }
         }
     };
 
