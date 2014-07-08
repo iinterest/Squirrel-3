@@ -14,20 +14,16 @@
  * 1.0.0  * 原 Dialog 插件重构为 Popup 插件。
  */
 
-/*global
- $: false,
- SQ: false,
- console: false,
- jQuery: false
- */
+/*global $, SQ, console, jQuery*/
 ;(function ($) {
     "use strict";
     /**
      * @name Popup
-     * @classdesc 对话框插件，依赖 jQuery 或 Zepto 库。
+     * @classdesc 对话框插件。
      * @constructor
      * @param {object} config 插件配置（下面的参数为配置项，配置会写入属性）
-     * @param {string} config.EVE_EVENT_TYPE        绑定事件设置，默认值为："click"
+     * @param {string} config.ANIMATE               动画类
+     * @param {boolen} config.CANCEL_BTN            取消按钮显示设定，默认值：false
      * @param {string} config.CSS_CLASS             弹窗样式类，支持添加多个类：".style1 .style2"
      * @param {string} config.CSS_POSITION          弹窗定位方式，默认值："fixed"， 可以设置为："absolute"
      * @param {number} config.CSS_TOP               弹窗 top 属性值
@@ -36,23 +32,22 @@
      * @param {number} config.CSS_LEFT              弹窗 left 属性值
      * @param {number} config.CSS_WIDTH             弹窗 width 属性值
      * @param {number} config.CSS_HEIGHT            弹窗 height 属性值
-     * @param {boolen} config.VERTICAL_CENTER       弹窗是否垂直居中设定，默认值：true
-     * @param {boolen} config.HORIZONTAL_CENTER     弹窗是否水平居中设定，默认值：true
+     * @param {string} config.CSS_MASK_BACKGROUND   遮罩背景色，默认值："#000000"
+     * @param {string} config.CSS_MASK_OPACITY      遮罩透明度，默认值：0.5
      * @param {boolen} config.CLOSE_BTN             关闭按钮显示设定，默认值：true
+     * @param {number} config.DELAY                 延时显示对话框设置，单位：毫秒
+     * @param {boolen} config.DISPOSABLE            设置弹窗是否是只显示一次，默认为 false
+     * @param {string} config.EVE_EVENT_TYPE        绑定事件设置，默认值为："click"
+     * @param {boolen} config.HORIZONTAL            弹窗是否水平居中设定，值：'center'
+     * @param {boolen} config.LOCK                  锁定操作，设为 true 将屏蔽触摸操作，默认为 false
+     * @param {boolen} config.MASK                  遮罩设定，默认为 true
+     * @param {number} config.NUM_CLOSE_TIME        对话框自动关闭时间，单位：毫秒
      * @param {boolen} config.OK_BTN                去掉按钮显示设定，默认值：false
-     * @param {boolen} config.CANCEL_BTN            取消按钮显示设定，默认值：false
+     * @param {boolen} config.PREVENT_DEFAULT       默认动作响应设置，默认为 true，不响应默认操作
+     * @param {boolen} config.VERTICAL              弹窗是否垂直居中设定，值：'middle'
      * @param {string} config.TXT_CLOSE_VAL         关闭按钮显示文字，默认值："×"
      * @param {string} config.TXT_OK_VAL            确定按钮显示文字，默认值："确定"
      * @param {string} config.TXT_CANCEL_VAL        取消按钮显示文字，默认值："取消"
-     * @param {string} config.ANIMATE               动画类
-     * @param {boolen} config.MASK                  遮罩设定，默认为 true
-     * @param {string} config.CSS_MASK_BACKGROUND   遮罩背景色，默认值："#000000"
-     * @param {string} config.CSS_MASK_OPACITY      遮罩透明度，默认值：0.5
-     * @param {number} config.NUM_CLOSE_TIME        对话框自动关闭时间，单位：毫秒
-     * @param {boolen} config.LOCK                  锁定操作，默认为 false，设为 true 将屏蔽触摸操作，默认值：false
-     * @param {boolen} config.PREVENT_DEFAULT       默认动作响应设置，默认为 true，不响应默认操作
-     * @param {boolen} config.DISPOSABLE            设置弹窗是否是只显示一次，默认为 false
-     * @param {number} config.DELAY                 延时显示对话框设置，单位：毫秒
      * @param {function} config.beforeShow          打开弹窗前回调函数，该函数必须返回为 true 才能继续执行 show 函数
      * @param {function} config.show                打开弹窗回调函数
      * @param {function} config.ok                  点击确定按钮回调函数
