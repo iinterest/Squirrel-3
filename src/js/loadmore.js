@@ -5,6 +5,7 @@
 
 /**
  * @changelog
+ * 1.6.1  * 使用新增的节流函数，调整执行逻辑。
  * 1.6.0  * 现在可以记录一个页面中多个实例的运行状态，方便配合 Tab.js 使用。
  * 1.5.0  * 重写插件，调用方式改为 $. 链式调用。
  * 1.4.2  * 修复 _spliceApi 函数对 api 的拼装错误。
@@ -186,7 +187,7 @@
             var $loadmoreDom = $(me.settings.selector);
             var state = {};
             // 清除事件绑定
-            $(window).off("scroll.sq");
+            $(window).off("scroll.sq.loadmore");
             // 如果目标对象已经实例化过，就提取运行状态
             if ($loadmoreDom.data(scope)) {
                 var $stateBar = $loadmoreDom.next(".sq-loadMore-state");
@@ -241,21 +242,15 @@
          */
         _trigger: function (self) {
             var me = this;
-            var isLoading = self.$stateBar.hasClass("loading");
-            var isNoMore = self.$stateBar.hasClass("no-more");
-
-            if (isLoading || isNoMore) {
-                return;
-            }
             if (self.currentEventType === "scroll") {
-                if (self.page < me.maxPage && !me.scrollTimer) {
-                    // 添加 scroll 事件相应伐值，优化其性能
-                    me.scrollTimer = setTimeout(function () {
+                if (self.page < me.maxPage) {
+                    (SQ.throttle(function () {
+                        var isLoading = self.$stateBar.hasClass("loading");
+                        var isNoMore = self.$stateBar.hasClass("no-more");
                         if (me.$triggerTarget.scrollTop() >= me.triggerHeight && !isLoading && !isNoMore) {
                             me._load(me._spliceApi(self), self);
                         }
-                        me.scrollTimer = 0;
-                    }, me.scrollDelay);
+                    }, me.scrollDelay)());
                 }
                 if (self.page === me.maxPage) {
                     me._changeState("scrollEnd", self);
