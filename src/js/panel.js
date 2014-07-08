@@ -1,10 +1,11 @@
 /**
  * @file SQ.Panel 滑动面板插件
- * @version 1.0.0
+ * @version 1.0.2
  */
 
 /**
  * @changelog
+ * 1.0.2  * 使用了新增的手势事件，适应调整后的 jsHint 规则。
  * 1.0.1  * 为 ucweb 9.7 事件优化做兼容，增加 selector Dom 验证。
  * 1.0.0  * 重写插件，调用方式改为 $. 链式调用。
  * 0.5.0  * 完成左侧滑动面板功能
@@ -17,8 +18,8 @@
  console: false,
  jQuery: false
  */
-;(function ($) {
-    "use strict";
+(function ($) {
+    'use strict';
     /**
      * @name Panel
      * @classdesc 内容延迟加载
@@ -30,32 +31,32 @@
      * @param {string} config.DIRECTION             出现方向，默认为：left
      * @param {number} config.CSS_WIDTH             面板宽度，默认为：300px
      * @param {string} config.CLOSE_BTN             是否显示关闭按钮，默认为：false
-     * @param {string} config.TXT_CLOSE_VAL         关闭按钮显示文字，默认为："×"
+     * @param {string} config.TXT_CLOSE_VAL         关闭按钮显示文字，默认为：'×'
      * @param {function} config.beforeShow          打开面板前回调函数，该函数必须返回为 true 才能继续执行 show 函数
      * @param {function} config.show($activePanel)  打开面板时回调函数
      * @param {function} config.close               关闭面板时回调函数
      * @param {function} config.resize              resize 回调函数
-     * @example $(".J_panelMenu").panel({
-    CSS_CLASS: ".panel-menu",
+     * @example $('.J_panelMenu').panel({
+    CSS_CLASS: '.panel-menu',
     CSS_WIDTH: 240,
     beforeShow: function () {
-        console.log("beforeShow");
+        console.log('beforeShow');
         return true;
     },
     show: function () {
-        console.log("show");
+        console.log('show');
     }
 });
      */
 
-    var scope = "sq-panel";
+    var scope = 'sq-panel';
     var defaults = {
-        EVE_EVENT_TYPE: "click",
-        DISPLAY: "overlay",
-        DIRECTION: "left",
+        EVE_EVENT_TYPE: 'click',
+        DISPLAY: 'overlay',
+        DIRECTION: 'left',
         CSS_WIDTH: 300,
         CLOSE_BTN: false,
-        TXT_CLOSE_VAL: "×"
+        TXT_CLOSE_VAL: '×'
     };
 
     function Panel ( element, options ) {
@@ -66,21 +67,21 @@
     }
 
     Panel.prototype = {
-        construtor: "Panel",
+        construtor: 'Panel',
         resizeTimer: false,
         closed: true,
         init: function () {
             var me = this;
-            var css = "@-webkit-keyframes showPanel {0% {-webkit-transform: translateX(-"+ me.settings.CSS_WIDTH +"px);} 100% {-webkit-transform: translateX(0);}}" +
-                "@-webkit-keyframes hidePanel{0% {-webkit-transform: translateX(0);}100% {-webkit-transform: translateX(-"+ me.settings.CSS_WIDTH +"px);}}";
-            if (me.settings.DISPLAY === "push") {
-                css += "@-webkit-keyframes hideWrap {0% {-webkit-transform: translateX(0);}100% {-webkit-transform: translateX("+ me.settings.CSS_WIDTH +"px);}}" +
-                    "@-webkit-keyframes showWrap {0% {-webkit-transform: translateX("+ me.settings.CSS_WIDTH +"px);}100% {-webkit-transform: translateX(0);}}";
+            var css = '@-webkit-keyframes showPanel {0% {-webkit-transform: translateX(-'+ me.settings.CSS_WIDTH +'px);} 100% {-webkit-transform: translateX(0);}}' +
+                '@-webkit-keyframes hidePanel{0% {-webkit-transform: translateX(0);}100% {-webkit-transform: translateX(-'+ me.settings.CSS_WIDTH +'px);}}';
+            if (me.settings.DISPLAY === 'push') {
+                css += '@-webkit-keyframes hideWrap {0% {-webkit-transform: translateX(0);}100% {-webkit-transform: translateX('+ me.settings.CSS_WIDTH +'px);}}' +
+                    '@-webkit-keyframes showWrap {0% {-webkit-transform: translateX('+ me.settings.CSS_WIDTH +'px);}100% {-webkit-transform: translateX(0);}}';
             }
 
             me.$win = $(window);
             me.$doc = $(document);
-            me.$body = $("body");
+            me.$body = $('body');
             me.$element = $(me.element);                // 触发元素
             me.$wrapper = $(me.settings.DOM_WRAPPER);
 
@@ -91,7 +92,7 @@
 
             if (me._verify()) {
                 me._bind();
-                me.$body.append("<style>" + css + "</style>");
+                me.$body.append('<style>' + css + '</style>');
             }
         },
         /**
@@ -103,22 +104,26 @@
             var me = this;
             // Dom 验证，触发元素、数据展示元素、状态展示元素必须都存在
             if (me.$element.length === 0 || me.$wrapper.length === 0) {
-                console.warn("SQ.panel: 缺少 Dom 元素");
+                console.warn('SQ.panel: 缺少 Dom 元素');
                 return false;
             }
             return true;
         },
         /**
          * 事件绑定方法
-         * @param {string} EVE_EVENT_TYPE 事件类型，"scroll" 或 "click"。
+         * @param {string} EVE_EVENT_TYPE 事件类型，'scroll' 或 'click'。
          * @private
          */
         _bind: function () {
             var me = this;
             // 绑定在 document 上是为了解决 Ajax 内容绑定问题
-            me.$doc.on(me.settings.EVE_EVENT_TYPE + ".sq.panel", me.settings.selector, function (e) {
-                e.preventDefault();
-                me.show(e);
+            SQ.gestures.tap({
+                el: me.settings.selector,
+                event: '.sq.panel',
+                callbackFun: function (e) {
+                    e.preventDefault();
+                    me.show(e);
+                }
             });
         },
         /**
@@ -130,24 +135,24 @@
             var me = this;
 
             // 初始化
-            var $panel = $("<div class='sq-panel'></div>");
-            var $panelContent = $("<div class='content'></div>");
-            var $close = $("<div class='close-btn'>" + me.settings.TXT_CLOSE_VAL + "</div>");
+            var $panel = $('<div class="sq-panel"></div>');
+            var $panelContent = $('<div class="content"></div>');
+            var $close = $('<div class="close-btn">' + me.settings.TXT_CLOSE_VAL + '</div>');
 
             // 设置样式
-            if (me.settings.DIRECTION === "left" || me.settings.DIRECTION === "right") {
+            if (me.settings.DIRECTION === 'left' || me.settings.DIRECTION === 'right') {
                 $panel.css({
-                    "position": "absolute",
-                    "display": "none",
-                    "top": 0,
-                    "bottom": 0,
-                    "width": me.settings.CSS_WIDTH,
-                    "z-index": 1000
+                    'position': 'absolute',
+                    'display': 'none',
+                    'top': 0,
+                    'bottom': 0,
+                    'width': me.settings.CSS_WIDTH,
+                    'z-index': 1000
                 });
             }
 
             if (me.settings.CSS_CLASS) {
-                $panel.addClass(me.settings.CSS_CLASS.indexOf(".") === 0 ? me.settings.CSS_CLASS.slice(1) : me.settings.CSS_CLASS);
+                $panel.addClass(me.settings.CSS_CLASS.indexOf('.') === 0 ? me.settings.CSS_CLASS.slice(1) : me.settings.CSS_CLASS);
             }
             // 装载内容
             $panel.append($panelContent);
@@ -172,19 +177,19 @@
             var me = this;
             // 锁定操作 
             // 优化 Android 下 UCweb 浏览器触摸操作，减少滑动误操作
-            if (SQ.ua.os.name === "android" && SQ.ua.browser.shell === "ucweb" && SQ.ua.browser.version >= 9 && SQ.ua.browser.version < 9.7) {
-                me.$panel.on("touchstart", function (e) {
+            if (SQ.ua.os.name === 'android' && SQ.ua.browser.shell === 'ucweb' && SQ.ua.browser.version >= 9 && SQ.ua.browser.version < 9.7) {
+                me.$panel.on('touchstart', function (e) {
                     e.preventDefault();
                 });
             } else {
-                me.$panel.on("touchmove", function (e) {
+                me.$panel.on('touchmove', function (e) {
                     e.preventDefault();
                 });
             }
-            me.$panel.on("mousewheel", function (e) {
+            me.$panel.on('mousewheel', function (e) {
                 e.preventDefault();
             });
-            me.$close.on("click", function () {
+            me.$close.on('click', function () {
                 me.close();
             });
 
@@ -222,12 +227,12 @@
                 return;
             }
             if (!me._beforeShow(e)) {
-                console.warn("SQ.Panel: _beforeShow 回调函数返回 false");
+                console.warn('SQ.Panel: _beforeShow 回调函数返回 false');
                 return;
             }
             me.mask();
-            me.$panel.removeClass("sq-hidePanel").addClass("animated sq-showPanel fast");
-            me.$wrapper.removeClass("sq-showWrap").addClass("animated sq-hideWrap fast");
+            me.$panel.removeClass('sq-hidePanel').addClass('animated sq-showPanel fast');
+            me.$wrapper.removeClass('sq-showWrap').addClass('animated sq-hideWrap fast');
             me.closed = false;
             // 执行回调函数。
             if (me.showFun) {
@@ -245,36 +250,39 @@
 
             if (me.$mask) {
                 me.$mask.css({
-                    "width": "100%",
-                    "height": h
+                    'width': '100%',
+                    'height': h
                 });
                 me.$mask.show();
             } else {
-                var $mask = $("<div class='mask'></div>");
+                var $mask = $('<div class="mask"></div>');
                 $mask.css({
-                    "position": "absolute",
-                    "top": 0,
-                    "left": 0,
-                    "right": 0,
-                    "width": "100%",
-                    "height": h,
-                    //"background": "rgba(255,255,255,.5)",
-                    "z-index": 999
+                    'position': 'absolute',
+                    'top': 0,
+                    'left': 0,
+                    'right': 0,
+                    'width': '100%',
+                    'height': h,
+                    //'background': 'rgba(255,255,255,.5)',
+                    'z-index': 999
                 }).appendTo(me.$body);
 
-                $mask.on("touchstart", function (e) {
+                $mask.on('touchstart', function (e) {
                     e.preventDefault();
                     // 当屏蔽 touchstart 事件后其它浏览器不能响应 click 事件，所以注册一个关闭方法。
                     // ucweb 9.7 也不能响应 click 事件。
-                    if (SQ.ua.browser.shell !== "ucweb" || SQ.ua.browser.version >= 9.7) {
+                    if (SQ.ua.browser.shell !== 'ucweb' || SQ.ua.browser.version >= 9.7) {
                         me.close();
                     }
                 });
-                $mask.on("click", function (e) {
-                    e.preventDefault();
-                    me.close();
+                SQ.gestures.tap({
+                    el: $mask,
+                    callbackFun: function (e) {
+                        e.preventDefault();
+                        me.close();
+                    }
                 });
-                $mask.on("mousewheel", function (e) {
+                $mask.on('mousewheel', function (e) {
                     e.preventDefault();
                 });
 
@@ -287,8 +295,8 @@
          */
         close: function (type) {
             var me = this;
-            me.$panel.removeClass("sq-showPanel").addClass("sq-hidePanel");
-            me.$wrapper.removeClass("sq-hideWrap").addClass("sq-showWrap");
+            me.$panel.removeClass('sq-showPanel').addClass('sq-hidePanel');
+            me.$wrapper.removeClass('sq-hideWrap').addClass('sq-showWrap');
             me.$mask.hide();
             me.closed = true;
             if (me.closeFun && !type) {
@@ -307,15 +315,15 @@
     };
 
     $.fn.panel = function ( options ) {
-        var isZepto = typeof Zepto !== "undefined" ? true : false;
-        var isJQuery = typeof jQuery !== "undefined" ? true : false;
+        var isZepto = typeof Zepto !== 'undefined' ? true : false;
+        var isJQuery = typeof jQuery !== 'undefined' ? true : false;
         var plugin;
 
         options = options || {};
         options.selector = this.selector;
 
         if (!this.length) {
-            console.warn("SQ.panel: 未找到"+ this.selector +"元素");
+            console.warn('SQ.panel: 未找到'+ this.selector +'元素');
         }
 
         this.each(function() {
@@ -326,7 +334,7 @@
             } else if (isZepto) {
                 if (!$(this).data(scope)) {
                     plugin = new Panel( this, options );
-                    $(this).data(scope, "initialized");
+                    $(this).data(scope, 'initialized');
                 }
             }
         });
