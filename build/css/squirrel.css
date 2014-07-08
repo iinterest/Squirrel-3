@@ -1,7 +1,7 @@
 @charset "UTF-8";
 html {
   color: #333333;
-  font-size: 13px;
+  font-size: 14px;
   background: #fff;
 }
 body,
@@ -464,7 +464,7 @@ body {
   border: 1px solid transparent;
   text-align: center;
   white-space: nowrap;
-  line-height: 1.3;
+  line-height: 1.42857143;
   vertical-align: middle;
   cursor: pointer;
   -webkit-user-select: none;
@@ -1959,7 +1959,7 @@ button.sq-btn.block {
 }
 .sq-list.media .des .tit {
   margin-bottom: 4px;
-  font-size: 1.2rem;
+  font-size: 1.17rem;
   font-weight: normal;
 }
 .sq-list.media .des .ctx {
