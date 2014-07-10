@@ -516,9 +516,10 @@ button.sq-btn.block {
   left: -1px;
   width: 100%;
   min-width: 100px;
-  margin-top: 5px;
+  margin-top: 6px;
   background: #fff;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
   border: 1px solid #d7d7d7;
   line-height: 30px;
 }

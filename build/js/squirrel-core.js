@@ -3,20 +3,21 @@
  * @version 1.0.0
  */
 /*global SQ*/
-var SQ = {
+window.SQ = {
     /**
      * 命名空间方法
      * @method
      * @name SQ.core.namespace
      * @param {string} nameSpaceString 命名空间字符串
      * @example
-     * SQ.core.namespace("SQ.modules.module2");
+     * SQ.core.namespace('SQ.modules.module2');
      */
     namespace: function (nameSpaceString) {
-        var parts = nameSpaceString.split(".");
+        'use strict';
+        var parts = nameSpaceString.split('.');
         var parent = SQ;
         var i;
-        if (parts[0] === "SQ") {
+        if (parts[0] === 'SQ') {
             parts = parts.slice(1);
         } else {
             return false;
@@ -35,28 +36,36 @@ var SQ = {
      * SQ.core.isString(str);
      */
     isString: function (str) {
-        return Object.prototype.toString.call(str) === "[object String]";
+        'use strict';
+        return Object.prototype.toString.call(str) === '[object String]';
     },
     isArray: function (arr) {
-        return Object.prototype.toString.call(arr) === "[object Array]";
+        'use strict';
+        return Object.prototype.toString.call(arr) === '[object Array]';
     },
     isNumber: function (num) {
-        return Object.prototype.toString.call(num) === "[object Number]";
+        'use strict';
+        return Object.prototype.toString.call(num) === '[object Number]';
     },
     isBoolean: function (bool) {
-        return Object.prototype.toString.call(bool) === "[object Boolean]";
+        'use strict';
+        return Object.prototype.toString.call(bool) === '[object Boolean]';
     },
     isNull: function (nullObj) {
-        return Object.prototype.toString.call(nullObj) === "[object Null]";
+        'use strict';
+        return Object.prototype.toString.call(nullObj) === '[object Null]';
     },
     isUndefined: function (undefinedObj) {
-        return Object.prototype.toString.call(undefinedObj) === "[object Undefined]";
+        'use strict';
+        return Object.prototype.toString.call(undefinedObj) === '[object Undefined]';
     },
     isFunction: function (fun) {
-        return Object.prototype.toString.call(fun) === "[object Function]";
+        'use strict';
+        return Object.prototype.toString.call(fun) === '[object Function]';
     },
     isObject: function (obj) {
-        return Object.prototype.toString.call(obj) === "[object Object]";
+        'use strict';
+        return Object.prototype.toString.call(obj) === '[object Object]';
     },
     /**
      * isJSON
@@ -68,8 +77,8 @@ var SQ = {
     // 暂时无法使用
     /*isJSON : function (string) {
      var rvalidchars = /^[\],:{}\s]*$/;
-     var rvalidescape = /\\(?:["\\\/bfnrt]|u[\da-fA-F]{4})/g;
-     var rvalidtokens = /"[^"\\\r\n]*"|true|false|null|-?(?:\d\d*\.|)\d+(?:[eE][\-+]?\d+|)/g;
+     var rvalidescape = /\\(?:['\\\/bfnrt]|u[\da-fA-F]{4})/g;
+     var rvalidtokens = /'[^'\\\r\n]*'|true|false|null|-?(?:\d\d*\.|)\d+(?:[eE][\-+]?\d+|)/g;
      var rvalidbraces = /(?:^|:|,)(?:\s*\[)+/g;
      return typeof string === 'string' && $.trim(string) !== '' ?
      rvalidchars.test(string
@@ -84,6 +93,7 @@ var SQ = {
      * @param Parent
      */
     extend: function (Child, Parent) {
+        'use strict';
         var F = function () {
         };
         F.prototype = Parent.prototype;
@@ -99,22 +109,23 @@ var SQ = {
      * @return {function}       实际调用函数
      */
     throttle: function (fn, delay, immediate, debounce) {
+        'use strict';
         var curr;
-        var last_call = 0;
-        var last_exec = 0;
+        var lastCall = 0;
+        var lastExec = 0;
         var timer = null;
         var diff;               // 时间差
         var context;            // 上下文
         var args;
         var exec = function () {
-            last_exec = curr;
+            lastExec = curr;
             fn.apply(context, args);
         };
         return function () {
             curr = + new Date();
             context = this;
             args = arguments;
-            diff = curr - (debounce ? last_call : last_exec) - delay;
+            diff = curr - (debounce ? lastCall : lastExec) - delay;
             clearTimeout(timer);
             if (debounce) {
                 if (immediate) {
@@ -129,7 +140,7 @@ var SQ = {
                     timer = setTimeout(exec, -diff);
                 }
             }
-            last_call = curr;
+            lastCall = curr;
         };
     },
     /**
@@ -140,6 +151,7 @@ var SQ = {
      * @return {function}       实际调用函数
      */
     debounce: function (fn, delay, immediate) {
+        'use strict';
         return SQ.throttle(fn, delay, immediate, true);
     }
 };
@@ -206,27 +218,27 @@ SQ.gestures = {
  * @file SQ.store
  * @version 1.1.0
  */
-/*global
- SQ: false
- */
+/*global SQ*/
 SQ.store = {
     /**
      * Cookie
      * @example
-     * Sq.cookie.set("name", "value");  // 设置
-     * Sq.cookie.get("name");           // 读取
-     * Sq.cookie.del("name");           // 删除
+     * Sq.cookie.set('name', 'value');  // 设置
+     * Sq.cookie.get('name');           // 读取
+     * Sq.cookie.del('name');           // 删除
      */
     cookie: {
         _getValue: function (offset) {
+            'use strict';
             var ck = document.cookie;
-            var endstr = ck.indexOf(";", offset) === -1 ? ck.length : ck.indexOf(";", offset);
+            var endstr = ck.indexOf(';', offset) === -1 ? ck.length : ck.indexOf(';', offset);
             return decodeURIComponent(ck.substring(offset, endstr));
         },
         get: function (key) {
+            'use strict';
             var me = this;
             var ck = document.cookie;
-            var arg = key + "=";
+            var arg = key + '=';
             var argLen = arg.length;
             var cookieLen = ck.length;
             var i = 0;
@@ -235,7 +247,7 @@ SQ.store = {
                 if (ck.substring(i, j) === arg) {
                     return me._getValue(j);
                 }
-                i = ck.indexOf(" ", i) + 1;
+                i = ck.indexOf(' ', i) + 1;
                 if (i === 0) {
                     break;
                 }
@@ -243,6 +255,7 @@ SQ.store = {
             return null;
         },
         set: function (key, value) {
+            'use strict';
             var expdate = new Date();
             var year = expdate.getFullYear();
             var month = expdate.getMonth();
@@ -257,7 +270,7 @@ SQ.store = {
 
             if (!!expires) {
                 switch (expires) {
-                case "day":
+                case 'day':
                     expdate.setYear(year);
                     expdate.setMonth(month);
                     expdate.setDate(date);
@@ -265,7 +278,7 @@ SQ.store = {
                     expdate.setMinutes(0);
                     expdate.setSeconds(0);
                     break;
-                case "week":
+                case 'week':
                     var week = 7 * 24 * 3600 * 1000;
                     expdate.setTime(expdate.getTime() + week);
                     break;
@@ -275,16 +288,17 @@ SQ.store = {
                 }
             }
 
-            document.cookie = key + "=" + encodeURIComponent(value) + ((expires === null) ? "" : ("; expires=" + expdate.toGMTString())) +
-             ((path === null) ? "" : ("; path=" + path)) + ((domain === null) ? "" : ("; domain=" + domain)) +
-             ((secure === true) ? "; secure" : "");
+            document.cookie = key + '=' + encodeURIComponent(value) + ((expires === null) ? '' : ('; expires=' + expdate.toGMTString())) +
+             ((path === null) ? '' : ('; path=' + path)) + ((domain === null) ? '' : ('; domain=' + domain)) +
+             ((secure === true) ? '; secure' : '');
         },
         del: function (key) {
+            'use strict';
             var me = this;
             var exp = new Date();
             exp.setTime(exp.getTime() - 1);
             var cval = me.get(key);
-            document.cookie = key + "=" + cval + "; expires=" + exp.toGMTString();
+            document.cookie = key + '=' + cval + '; expires=' + exp.toGMTString();
         }
     },
     /**
@@ -292,12 +306,14 @@ SQ.store = {
      */
     localStorage: {
         hasLoaclStorage: (function () {
-            if( ("localStorage" in window) && window.localStorage !== null ) {
+            'use strict';
+            if(('localStorage' in window) && window.localStorage !== null) {
                 return true;
             }
         }()),
         // expires 过期时间，单位 min 
         get: function (key, expires) {
+            'use strict';
             var me = this;
             var now = new Date().getTime();
             var localData;
@@ -322,6 +338,7 @@ SQ.store = {
             }
         },
         set: function (key, value) {
+            'use strict';
             var me = this;
             var ds = {};
             var now = new Date().getTime();
@@ -336,6 +353,7 @@ SQ.store = {
             localStorage.setItem(key, ds);
         },
         del: function (key) {
+            'use strict';
             var me = this;
             if (!key || !me.hasLoaclStorage) {
                 return;
@@ -343,6 +361,7 @@ SQ.store = {
             localStorage.removeItem(key);
         },
         clearAll: function () {
+            'use strict';
             var me = this;
             if (!me.hasLoaclStorage) {
                 return;
@@ -356,10 +375,9 @@ SQ.store = {
  * 获取设备 ua 信息，判断系统版本、浏览器名称及版本
  * @version 1.0.0
  */
-/*global
- SQ: false
- */
+/*global SQ*/
 SQ.ua = (function () {
+    'use strict';
     var info = {};
     var ua = navigator.userAgent;
     var m;
@@ -372,63 +390,63 @@ SQ.ua = (function () {
      * @type string
      */
     if ((/Android/i).test(ua)) {
-        info.os.name = "android";
+        info.os.name = 'android';
         info.os.version = ua.match(/(Android)\s([\d.]+)/)[2];
     } else if ((/Adr/i).test(ua)) {
-        // UC 浏览器极速模式下，Android 系统的 UA 为 "Adr"
-        info.os.name = "android";
+        // UC 浏览器极速模式下，Android 系统的 UA 为 'Adr'
+        info.os.name = 'android';
         info.os.version = ua.match(/(Adr)\s([\d.]+)/)[2];
     } else if ((/iPod/i).test(ua)) {
-        info.os.name = "ios";
-        info.os.version = ua.match(/OS\s([\d_]+)/)[1].replace(/_/g, ".");
-        info.device = "ipod";
+        info.os.name = 'ios';
+        info.os.version = ua.match(/OS\s([\d_]+)/)[1].replace(/_/g, '.');
+        info.device = 'ipod';
     } else if ((/iPhone/i).test(ua)) {
-        info.os.name = "ios";
-        info.os.version = ua.match(/(iPhone\sOS)\s([\d_]+)/)[2].replace(/_/g, ".");
-        info.device = "iphone";
+        info.os.name = 'ios';
+        info.os.version = ua.match(/(iPhone\sOS)\s([\d_]+)/)[2].replace(/_/g, '.');
+        info.device = 'iphone';
     } else if ((/iPad/i).test(ua)) {
-        info.os.name = "ios";
-        info.os.version = ua.match(/OS\s([\d_]+)/)[1].replace(/_/g, ".");
-        info.device = "ipad";
+        info.os.name = 'ios';
+        info.os.version = ua.match(/OS\s([\d_]+)/)[1].replace(/_/g, '.');
+        info.device = 'ipad';
     }
 
     // 浏览器判断
     m = ua.match(/AppleWebKit\/([\d.]*)/);
     if (m && m[1]) {
-        info.browser.core = "webkit";
+        info.browser.core = 'webkit';
         info.browser.version = m[1];
 
         if ((/Chrome/i).test(ua)) {
-            info.browser.shell = "chrome";
+            info.browser.shell = 'chrome';
         } else if ((/Safari/i).test(ua)) {
-            info.browser.shell = "safari";
+            info.browser.shell = 'safari';
         } else if ((/Opera/i).test(ua)) {
-            info.browser.shell = "opera";
+            info.browser.shell = 'opera';
         }
     }
 
     if ((/UCBrowser/i).test(ua)) {
         // UCWeb 9.0 UA 信息中包含 UCBrowser 字段
         m = ua.match(/(UCBrowser)\/([\d.]+)/);
-        info.browser.shell = "ucweb";
+        info.browser.shell = 'ucweb';
         info.browser.version = m[2];
     } else if ((/UCWEB/i).test(ua)) {
         // UCWeb 7.9 UA 信息中包含 UCWEB 字段
         m = ua.match(/(UCWEB)([\d.]+)/);
-        info.browser.shell = "ucweb";
+        info.browser.shell = 'ucweb';
         info.browser.version = m[2];
     } else if ((/UC/i).test(ua)) {
         // UCWeb 8.x UA 信息中包含 UC 字段
         // 确认 8.6、8.7 
-        info.browser.shell = "ucweb";
-        info.browser.version = "8.x";
+        info.browser.shell = 'ucweb';
+        info.browser.version = '8.x';
     }
 
-    if (info.browser.shell === "ucweb") {
+    if (info.browser.shell === 'ucweb') {
         // UC 浏览器急速模式
         // 目前只有 Android 平台国内版 UCWeb 9.0 可以判断是否为急速模式，UA 中包含 UCWEB/2.0 字段即为急速模式。
         if ((/UCWEB\/2\.0/i).test(ua)) {
-            info.browser.module = "swift";
+            info.browser.module = 'swift';
         }
     }
 
@@ -443,9 +461,7 @@ SQ.ua = (function () {
  * 常用函数
  * @version 1.0.0
  */
-/*global
- SQ: false
- */
+/*global SQ*/
 SQ.util = {
     /**
      * 随机数输出
@@ -462,12 +478,14 @@ SQ.util = {
 
         },
         randomInt: function (min, max) {
-            if (typeof min === "number" && typeof max === "number" && min < max) {
+            'use strict';
+            if (typeof min === 'number' && typeof max === 'number' && min < max) {
                 return parseInt(Math.random() * (max - min + 1) + min, 10);
             }
             return false;
         },
         randomArr: function (arr) {
+            'use strict';
             return arr.sort(function () {
                 return Math.random() - 0.5;
             });
@@ -478,13 +496,14 @@ SQ.util = {
      * @method
      * @name SQ.util.string
      * @example
-     * SQ.util.string.trim("   test string    ");
+     * SQ.util.string.trim('   test string    ');
      * //return test string
      */
     string: {
         // 过滤字符串首尾的空格
         trim: function(srt) {
-            return srt.replace(/^\s+|\s+$/g, "");
+            'use strict';
+            return srt.replace(/^\s+|\s+$/g, '');
         }
     },
     /**
@@ -496,21 +515,30 @@ SQ.util = {
      * //return 2013-10-17 17:31:58
      */
     dateToString: function(time) {
+        'use strict';
         var year = time.getFullYear();
         var month = time.getMonth() + 1;
         var date = time.getDate();
         var hours = time.getHours();
         var min = time.getMinutes();
         var sec = time.getSeconds();
-        10 > month && (month = "0" + month), 10 > date && (date = "0" + date), 10 > hours && (hours = "0" + hours), 10 > min && (min = "0" + min), 10 > sec && (sec = "0" + sec);
-        var dateString = year + "-" + month + "-" + date + " " + hours + ":" + min + ":" + sec;
+        
+        month = month < 10 ? ('0' + month) : month;
+        date = date < 10 ? ('0' + date) : date;
+        hours = hours < 10 ? ('0' + hours) : hours;
+        min = min < 10 ? ('0' + min) : min;
+        sec = sec < 10 ? ('0' + sec) : sec;
+        
+        var dateString = year + '-' + month + '-' + date + ' ' + hours + ':' + min + ':' + sec;
         return dateString;
     },
     goTop: function (e) {
+        'use strict';
         e.preventDefault();
         window.scrollTo(0, 0);
     },
     goBack: function (e) {
+        'use strict';
         e.preventDefault();
         history.back();
     }

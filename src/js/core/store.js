@@ -2,27 +2,27 @@
  * @file SQ.store
  * @version 1.1.0
  */
-/*global
- SQ: false
- */
+/*global SQ*/
 SQ.store = {
     /**
      * Cookie
      * @example
-     * Sq.cookie.set("name", "value");  // 设置
-     * Sq.cookie.get("name");           // 读取
-     * Sq.cookie.del("name");           // 删除
+     * Sq.cookie.set('name', 'value');  // 设置
+     * Sq.cookie.get('name');           // 读取
+     * Sq.cookie.del('name');           // 删除
      */
     cookie: {
         _getValue: function (offset) {
+            'use strict';
             var ck = document.cookie;
-            var endstr = ck.indexOf(";", offset) === -1 ? ck.length : ck.indexOf(";", offset);
+            var endstr = ck.indexOf(';', offset) === -1 ? ck.length : ck.indexOf(';', offset);
             return decodeURIComponent(ck.substring(offset, endstr));
         },
         get: function (key) {
+            'use strict';
             var me = this;
             var ck = document.cookie;
-            var arg = key + "=";
+            var arg = key + '=';
             var argLen = arg.length;
             var cookieLen = ck.length;
             var i = 0;
@@ -31,7 +31,7 @@ SQ.store = {
                 if (ck.substring(i, j) === arg) {
                     return me._getValue(j);
                 }
-                i = ck.indexOf(" ", i) + 1;
+                i = ck.indexOf(' ', i) + 1;
                 if (i === 0) {
                     break;
                 }
@@ -39,6 +39,7 @@ SQ.store = {
             return null;
         },
         set: function (key, value) {
+            'use strict';
             var expdate = new Date();
             var year = expdate.getFullYear();
             var month = expdate.getMonth();
@@ -53,7 +54,7 @@ SQ.store = {
 
             if (!!expires) {
                 switch (expires) {
-                case "day":
+                case 'day':
                     expdate.setYear(year);
                     expdate.setMonth(month);
                     expdate.setDate(date);
@@ -61,7 +62,7 @@ SQ.store = {
                     expdate.setMinutes(0);
                     expdate.setSeconds(0);
                     break;
-                case "week":
+                case 'week':
                     var week = 7 * 24 * 3600 * 1000;
                     expdate.setTime(expdate.getTime() + week);
                     break;
@@ -71,16 +72,17 @@ SQ.store = {
                 }
             }
 
-            document.cookie = key + "=" + encodeURIComponent(value) + ((expires === null) ? "" : ("; expires=" + expdate.toGMTString())) +
-             ((path === null) ? "" : ("; path=" + path)) + ((domain === null) ? "" : ("; domain=" + domain)) +
-             ((secure === true) ? "; secure" : "");
+            document.cookie = key + '=' + encodeURIComponent(value) + ((expires === null) ? '' : ('; expires=' + expdate.toGMTString())) +
+             ((path === null) ? '' : ('; path=' + path)) + ((domain === null) ? '' : ('; domain=' + domain)) +
+             ((secure === true) ? '; secure' : '');
         },
         del: function (key) {
+            'use strict';
             var me = this;
             var exp = new Date();
             exp.setTime(exp.getTime() - 1);
             var cval = me.get(key);
-            document.cookie = key + "=" + cval + "; expires=" + exp.toGMTString();
+            document.cookie = key + '=' + cval + '; expires=' + exp.toGMTString();
         }
     },
     /**
@@ -88,12 +90,14 @@ SQ.store = {
      */
     localStorage: {
         hasLoaclStorage: (function () {
-            if( ("localStorage" in window) && window.localStorage !== null ) {
+            'use strict';
+            if(('localStorage' in window) && window.localStorage !== null) {
                 return true;
             }
         }()),
         // expires 过期时间，单位 min 
         get: function (key, expires) {
+            'use strict';
             var me = this;
             var now = new Date().getTime();
             var localData;
@@ -118,6 +122,7 @@ SQ.store = {
             }
         },
         set: function (key, value) {
+            'use strict';
             var me = this;
             var ds = {};
             var now = new Date().getTime();
@@ -132,6 +137,7 @@ SQ.store = {
             localStorage.setItem(key, ds);
         },
         del: function (key) {
+            'use strict';
             var me = this;
             if (!key || !me.hasLoaclStorage) {
                 return;
@@ -139,6 +145,7 @@ SQ.store = {
             localStorage.removeItem(key);
         },
         clearAll: function () {
+            'use strict';
             var me = this;
             if (!me.hasLoaclStorage) {
                 return;

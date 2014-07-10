@@ -11,31 +11,26 @@
  * 0.1.1  + 新增 menu 交互模式
  * 0.0.1  + 新建
  */
-/*global
- $: false,
- SQ: false,
- console: false,
- jQuery: false
- */
-;(function ($) {
-    "use strict";
+/*global $, SQ, console, jQuery*/
+(function ($) {
+    'use strict';
     /**
      * @name Button
      * @classdesc 按钮交互插件
      * @constructor
      * @param {object} config 插件配置（下面的参数为配置项，配置会写入属性）
-     * @param {string} config.MODE                  按钮交互模式，默认为 "menu"
-     * @param {string} config.EVE_EVENT_TYPE        交互触发方式，默认为 "click"
      * @param {string} config.ANIMATE               动画类，例如 .fadeIn
-     * @example $(".J_buttonMenu").button({
-    ANIMATE: ".fadeIn quick"
+     * @param {string} config.EVE_EVENT_TYPE        交互触发方式，默认为 'click'
+     * @param {string} config.MODE                  按钮交互模式，默认为 'menu'
+     * @example $('.J_buttonMenu').button({
+    ANIMATE: '.fadeIn quick'
 });
      */
 
-    var scope = "sq-button";    // data-* 后缀
+    var scope = 'sq-button';    // data-* 后缀
     var defaults = {
-        MODE: "menu",
-        EVE_EVENT_TYPE: "click"
+        MODE: 'menu',
+        EVE_EVENT_TYPE: 'click'
     };
 
     function Button ( element, options ) {
@@ -46,33 +41,33 @@
     }
 
     Button.prototype = {
-        construtor: "Button",
+        construtor: 'Button',
         init: function () {
             var me = this;
             me.$element = $(me.element);
-            me.elementClassName = me.settings.selector.slice(1);   // ".style-name" => "style-name"
-            if (me.settings.MODE === "menu") {
+            me.elementClassName = me.settings.selector.slice(1);   // '.style-name' => 'style-name'
+            if (me.settings.MODE === 'menu') {
                 me.menu();
             }
         },
         setState: function (state) {
             var me = this;
-            if (state === "active") {
-                me.$element.addClass("active");
+            if (state === 'active') {
+                me.$element.addClass('active');
             }
-            if (state === "init") {
-                me.$element.removeClass("active");
+            if (state === 'init') {
+                me.$element.removeClass('active');
             }
         },
         menu: function () {
             var me = this;
             var $doc = $(document);
             var $allButtons = $(me.settings.selector);
-            var $allMenus = $allButtons.find(".dropdown-menu");
-            var $menu = me.$element.find(".dropdown-menu");
+            var $allMenus = $allButtons.find('.dropdown-menu');
+            var $menu = me.$element.find('.dropdown-menu');
 
-            me.$element.on(me.settings.EVE_EVENT_TYPE + ".sq.button.menu", function () {
-                if (!me.$element.hasClass("active")) {
+            me.$element.on(me.settings.EVE_EVENT_TYPE + '.sq.button.menu', function () {
+                if (!me.$element.hasClass('active')) {
                     _showMenu();
                 } else {
                     _hideMenu();
@@ -82,21 +77,21 @@
             function _showMenu() {
                 //** reset all menus
                 $allMenus.hide();
-                $allButtons.removeClass("active");
+                $allButtons.removeClass('active');
                 //** add animate
                 if (me.settings.ANIMATE) {
-                    var animateClassName = me.settings.ANIMATE.indexOf(".") === 0 ? me.settings.ANIMATE.slice(1) : me.settings.ANIMATE;
-                    $menu.addClass("animated " + animateClassName);
+                    var animateClassName = me.settings.ANIMATE.indexOf('.') === 0 ? me.settings.ANIMATE.slice(1) : me.settings.ANIMATE;
+                    $menu.addClass('animated ' + animateClassName);
                 }
                 $menu.show();
-                me.setState("active");
-                $doc.on("click.sq.button.menu", _documentEvent);
+                me.setState('active');
+                $doc.on('click.sq.button.menu', _documentEvent);
             }
 
             function _hideMenu() {
                 $menu.hide();
-                me.setState("init");
-                $doc.off("click.sq.button.menu", _documentEvent);
+                me.setState('init');
+                $doc.off('click.sq.button.menu', _documentEvent);
             }
 
             function _documentEvent(e) {
@@ -108,8 +103,8 @@
     };
 
     $.fn.button = function ( options ) {
-        var isZepto = typeof Zepto !== "undefined" ? true : false;
-        var isJQuery = typeof jQuery !== "undefined" ? true : false;
+        var isZepto = typeof Zepto !== 'undefined' ? true : false;
+        var isJQuery = typeof jQuery !== 'undefined' ? true : false;
         var plugin;
 
         options = options || {};
@@ -123,7 +118,7 @@
             } else if (isZepto) {
                 if (!$(this).data(scope)) {
                     plugin = new Button( this, options );
-                    $(this).data(scope, "initialized");
+                    $(this).data(scope, 'initialized');
                 }
             }
         });

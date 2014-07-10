@@ -21,11 +21,7 @@
  * 0.5.1  * 完成选项卡基本功能。
  * 0.0.1  + 新建。
  */
-/*global
- $: false,
- SQ: false,
- console: false
- */
+/*global $, SQ, console, jQuery */
 (function ($) {
     'use strict';
     /**
@@ -33,19 +29,19 @@
      * @classdesc 选项卡插件
      * @constructor
      * @param {object} config                                           插件配置（下面的参数为配置项，配置会写入属性）
-     * @param {string} config.EVE_EVENT_TYPE                            触发事件，click 或 mouseover
-     * @param {string} config.DOM_TABS                                  标签 Dom 元素
-     * @param {string} config.DOM_PANELS                                面板 Dom 元素
      * @param {string} config.API                                       API 接口① 字符串形式
      * @param {array}  config.API                                       API 接口② 数组形式，数组中各项对应各个选项卡
+     * @param {boolean} config.CLEAR_PANEL                              切换选项卡时是否自动清理面板数据
      * @param {string} config.CSS_HIGHLIGHT                             自定义高亮样式名称，默认为 .active
      * @param {string} config.CSS_LOADING_TIP                           loading 提示样式
-     * @param {string} config.TXT_LOADING_TIP                           loading 提示文字
-     * @param {number} config.NUM_ACTIVE                                初始高亮选项卡序号，0 - n
-     * @param {number} config.NUM_XHR_TIMEER                            XHR 超时时间
-     * @param {boolean} config.CLEAR_PANEL                              切换选项卡时是否自动清理面板数据
+     * @param {string} config.DOM_PANELS                                面板 Dom 元素
+     * @param {string} config.DOM_TABS                                  标签 Dom 元素
+     * @param {string} config.EVE_EVENT_TYPE                            触发事件，click 或 mouseover
      * @param {string} config.LOCAL_DATA                                XHR 数据 loaclstorage 开关，默认为 false
+     * @param {number} config.NUM_ACTIVE                                初始高亮选项卡序号，0 - n
      * @param {number} config.NUM_EXPIRES                               XHR 数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟
+     * @param {number} config.NUM_XHR_TIMEER                            XHR 超时时间
+     * @param {string} config.TXT_LOADING_TIP                           loading 提示文字
      * @param {function} config.trigger($tabs,$panels,tabIndex)         触发选项卡切换回调函数
      * @param {function} config.show($tabs,$panels,tabIndex)            显示选项卡时回调函数
      * @param {function} config.beforeLoad($activePanel,tabIndex)      异步加载前回调函数，当设定了该回调函数时，必须返回

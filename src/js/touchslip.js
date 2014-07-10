@@ -4,14 +4,11 @@
  * @version 1.0.0
  */
 
-/*global
- $: false,
- SQ: true,
- Zepto: true
- */
+/*global $, SQ, console, jQuery */
 
 (function (window, document) {
-    _fun = {
+    'use strict';
+    var _fun = {
         ios: function () { // 作用：判断是否为苹果的IOS设备
             var regularResult = navigator.userAgent.match(/.*OS\s([\d_]+)/),
                 isiOS = !!regularResult;
@@ -27,17 +24,17 @@
             return this._versionValue;
         },
         clone: function (object) { // 作用：用于原型继承
-            function f() {}
-            f.prototype = object;
-            return new f();
+            function F() {}
+            F.prototype = object;
+            return new F();
         }
     };
 
     var slipjs = {
-        _refreshCommon: function (wide_high, parent_wide_high) { // 作用：当尺寸改变时，需要重新取得相关的值
+        _refreshCommon: function (wideHigh, parentWideHigh) { // 作用：当尺寸改变时，需要重新取得相关的值
             var me = this;
-            me.wide_high = wide_high || me.core[me.offset] - me.up_range;
-            me.parent_wide_high      = parent_wide_high      || me.core.parentNode[me.offset];
+            me.wideHigh = wideHigh || me.core[me.offset] - me.upRange;
+            me.parentWideHigh      = parentWideHigh      || me.core.parentNode[me.offset];
             me._getCoreWidthSubtractShellWidth();
         },
         _initCommon: function (core, param) { // 作用：初始化
@@ -48,8 +45,8 @@
             me.touchEndFun = param.touchEndFun;
             me.endFun      = param.endFun;
             me.DIRECTION   = param.DIRECTION;
-            me.up_range    = param.up_range   || 0;
-            me.down_range  = param.down_range  || 0;
+            me.upRange    = param.upRange   || 0;
+            me.downRange  = param.downRange  || 0;
             if (me.DIRECTION === 'x') {
                 me.offset = 'offsetWidth';
                 me._pos   = me.__posX;
@@ -57,37 +54,37 @@
                 me.offset = 'offsetHeight';
                 me._pos   = me.__posY;
             }
-            me.wide_high       = param.wide_high || me.core[me.offset] - me.up_range;
-            me.parent_wide_high   = param.parent_wide_high || me.core.parentNode[me.offset];
+            me.wideHigh       = param.wideHigh || me.core[me.offset] - me.upRange;
+            me.parentWideHigh   = param.parentWideHigh || me.core.parentNode[me.offset];
             me._getCoreWidthSubtractShellWidth();
 
-            me._bind("touchstart");
-            me._bind("touchmove");
-            me._bind("touchend");
-            me._bind("webkitTransitionEnd");
+            me._bind('touchstart');
+            me._bind('touchmove');
+            me._bind('touchend');
+            me._bind('webkitTransitionEnd');
 
             me.xy = 0;
             me.y = 0;
-            me._pos(-me.up_range);
+            me._pos(-me.upRange);
         },
         _getCoreWidthSubtractShellWidth: function () { // 作用：取得滑动对象和它父级元素的宽度或者高度的差
             var me = this;
-            me.width_cut_coreWidth = me.parent_wide_high - me.wide_high;
-            me.coreWidth_cut_width = me.wide_high - me.parent_wide_high;
+            me.widthCutCoreWidth = me.parentWideHigh - me.wideHigh;
+            me.coreWidthCutWidth = me.wideHigh - me.parentWideHigh;
         },
         handleEvent: function (e) { // 作用：简化addEventListener的事件绑定
             switch (e.type) {
-            case "touchstart":
+            case 'touchstart':
                 this._start(e);
                 break;
-            case "touchmove":
+            case 'touchmove':
                 this._move(e);
                 break;
-            case "touchend":
-            case "touchcancel":
+            case 'touchend':
+            case 'touchcancel':
                 this._end(e);
                 break;
-            case "webkitTransitionEnd":
+            case 'webkitTransitionEnd':
                 this._transitionEnd(e);
                 break;
             }
@@ -100,12 +97,12 @@
         },
         __posX: function (x) { // 作用：当设置滑动的方向为“X”时用于设置滑动元素的坐标
             this.xy = x;
-            this.core.style['webkitTransform'] = 'translate3d(' + x + 'px, 0px, 0px)';
+            this.core.style.webkitTransform = 'translate3d(' + x + 'px, 0px, 0px)';
             //this.core.style['webkitTransform'] = 'translate('+x+'px, 0px) scale(1) translateZ(0px)';
         },
         __posY: function (x) { // 作用：当设置滑动的方向为“Y”时用于设置滑动元素的坐标
             this.xy = x;
-            this.core.style['webkitTransform'] = 'translate3d(0px, ' + x + 'px, 0px)';
+            this.core.style.webkitTransform = 'translate3d(0px, ' + x + 'px, 0px)';
             //this.core.style['webkitTransform'] = 'translate(0px, '+x+'px) scale(1) translateZ(0px)';
         },
         _posTime: function (x, time) { // 作用：缓慢移动
@@ -119,26 +116,32 @@
     //SQ.util.extend(SlipPage, slipjs);
 
     SlipPage._init = function (core, param) { // 作用：初始化
-        var me           = this;
+        var me = this;
         me._initCommon(core, param);
-        me.NUM_PAGES           = param.NUM_PAGES;
-        me.page          = 0;
-        me.AUTO_TIMER   = param.AUTO_TIMER;
-        me.lastPageFun   = param.lastPageFun;
-        me.firstPageFun  = param.firstPageFun;
-        param.AUTO_TIMER && me._autoChange();
-        param.no_follow ? (me._move = me._moveNoMove, me.next_time = 500) : me.next_time = 300;
+        me.NUM_PAGES = param.NUM_PAGES;
+        me.page = 0;
+        me.AUTO_TIMER = param.AUTO_TIMER;
+        me.lastPageFun = param.lastPageFun;
+        me.firstPageFun = param.firstPageFun;
+        if (param.AUTO_TIMER) {
+            me._autoChange();
+        }
+        param.noFollow ? (me._move = me._moveNoMove, me.nextTime = 500) : me.nextTime = 300;
     };
-    SlipPage._start = function(e) { // 触摸开始
-        var me = this,
-            e = e.touches[0];
-        me._abrupt_x     = 0;
-        me._abrupt_x_abs = 0;
-        me._start_x = me._start_x_clone = e.pageX;
-        me._start_y = e.pageY;
+    SlipPage._start = function(evt) { // 触摸开始
+        var me = this;
+        var e = evt.touches[0];
+        me._abruptX = 0;
+        me._abruptXAbs = 0;
+        me._startX = me._startXClone = e.pageX;
+        me._startY = e.pageY;
         me._movestart = undefined;
-        me.AUTO_TIMER && me._stop();
-        me.startFun && me.startFun(e);
+        if (me.AUTO_TIMER) {
+            me._stop();
+        }
+        if (me.startFun) {
+            me.startFun(e);
+        }
     };
     SlipPage._move = function(evt) { // 触摸中,跟随移动
         var me = this;
@@ -146,15 +149,17 @@
         if(!me._movestart){
             var e = evt.touches[0];
             evt.preventDefault();
-            me.offset_x = (me.xy > 0 || me.xy < me.width_cut_coreWidth) ? me._dis_x/2 + me.xy : me._dis_x + me.xy;
-            me._start_x  = e.pageX;
-            if (me._abrupt_x_abs < 6) {
-                me._abrupt_x += me._dis_x;
-                me._abrupt_x_abs = Math.abs(me._abrupt_x);
+            me.offsetX = (me.xy > 0 || me.xy < me.widthCutCoreWidth) ? me._disX/2 + me.xy : me._disX + me.xy;
+            me._startX  = e.pageX;
+            if (me._abruptXAbs < 6) {
+                me._abruptX += me._disX;
+                me._abruptXAbs = Math.abs(me._abruptX);
                 return;
             }
-            me._pos(me.offset_x);
-            me.moveFun && me.moveFun(e);
+            me._pos(me.offsetX);
+            if (me.moveFun) {
+                me.moveFun(e);
+            }
         }
     };
     SlipPage._moveNoMove = function(evt) { // 触摸中,不跟随移动，只记录必要的值
@@ -168,21 +173,21 @@
     SlipPage._moveShare = function(evt) { // 不跟随移动和跟随移动的公共操作
         var me = this,
         e = evt.touches[0];
-        me._dis_x = e.pageX - me._start_x;
-        me._dis_y = e.pageY - me._start_y;	
-        typeof me._movestart == "undefined" && (me._movestart = !!(me._movestart || Math.abs(me._dis_x) < Math.abs(me._dis_y)));
+        me._disX = e.pageX - me._startX;
+        me._disY = e.pageY - me._startY;
+        typeof me._movestart === 'undefined' && (me._movestart = !!(me._movestart || Math.abs(me._disX) < Math.abs(me._disY)));
     };
     SlipPage._end = function(e) { // 触摸结束
         if (!this._movestart) {
             var me = this;
-            me._end_x = e.changedTouches[0].pageX;
-            me._range = me._end_x - me._start_x_clone;
+            me._endX = e.changedTouches[0].pageX;
+            me._range = me._endX - me._startXClone;
             if(me._range > 35){
-                me.page != 0 ? me.page -= 1 : (me.firstPageFun && me.firstPageFun(e));
+                me.page !== 0 ? me.page -= 1 : (me.firstPageFun && me.firstPageFun(e));
             }else if(Math.abs(me._range) > 35){
-                me.page != me.NUM_PAGES - 1 ? me.page += 1 : (me.lastPageFun && me.lastPageFun(e));
+                me.page !== me.NUM_PAGES - 1 ? me.page += 1 : (me.lastPageFun && me.lastPageFun(e));
             }
-            me.toPage(me.page, me.next_time);
+            me.toPage(me.page, me.nextTime);
             me.touchEndFun && me.touchEndFun(e);
         }
     };
@@ -190,26 +195,26 @@
         var me = this;
         e.stopPropagation();
         me.core.style.webkitTransitionDuration = '0';
-        me._stop_ing && me._autoChange(), me._stop_ing = false;
+        me._stopIng && me._autoChange(), me._stopIng = false;
         me.endFun && me.endFun();
     };
     SlipPage.toPage = function(num, time) { // 可在外部调用的函数，指定轮换到第几张，只要传入：“轮换到第几张”和“时间”两个参数。
-        this._posTime(-this.parent_wide_high * num, time || 0);
+        this._posTime(-this.parentWideHigh * num, time || 0);
         this.page = num;
     };
     SlipPage._stop = function() { // 作用：停止自动轮换
         clearInterval(this._autoChangeSet);
-        this._stop_ing = true;
+        this._stopIng = true;
     };
     SlipPage._autoChange = function() { // 作用：自动轮换
         var me = this;
         me._autoChangeSet = setInterval(function() {
-            me.page != me.NUM_PAGES - 1 ? me.page += 1 : me.page = 0;
-            me.toPage(me.page, me.next_time);
+            me.page !== me.NUM_PAGES - 1 ? me.page += 1 : me.page = 0;
+            me.toPage(me.page, me.nextTime);
         },me.AUTO_TIMER);
     };
-    SlipPage.refresh = function(wide_high, parent_wide_high) { // 可在外部调用，作用：当尺寸改变时（如手机横竖屏时），需要重新取得相关的值。这时候就可以调用该函数
-        this._refreshCommon(wide_high, parent_wide_high);
+    SlipPage.refresh = function(wideHigh, parentWideHigh) { // 可在外部调用，作用：当尺寸改变时（如手机横竖屏时），需要重新取得相关的值。这时候就可以调用该函数
+        this._refreshCommon(wideHigh, parentWideHigh);
     };
             
     var SlipPx = _fun.clone(slipjs);
@@ -221,16 +226,16 @@
         me._initCommon(core,param);
         me.perfect     = param.perfect;
         me.SHOW_SCROLL_BAR = param.SHOW_SCROLL_BAR;
-        if(me.DIRECTION == 'x'){
-            me.page_x          = "pageX";
-            me.page_y          = "pageY";
-            me.width_or_height = "width";
+        if(me.DIRECTION === 'x'){
+            me.pageX          = 'pageX';
+            me.pageY          = 'pageY';
+            me.widthOrHeight = 'width';
             me._real           = me._realX;
             me._posBar         = me.__posBarX;
         }else{
-            me.page_x          = "pageY";
-            me.page_y          = "pageX";
-            me.width_or_height = "height";
+            me.pageX          = 'pageY';
+            me.pageY          = 'pageX';
+            me.widthOrHeight = 'height';
             me._real           = me._realY;
             me._posBar         = me.__posBarY;
         }
@@ -239,12 +244,12 @@
             me._stop          = me._stopPerfect;
             me._slipBar       = me._slipBarPerfect;
             me._posTime       = me._posTimePerfect;
-            me._bar_upRange   = me.up_range;
-            me.no_bar         = false;
+            me._barUpRange   = me.upRange;
+            me.noBar         = false;
             me._slipBarTime   = function(){};
         }else{
-            me.no_bar   = param.no_bar;
-            me.core.style.webkitTransitionTimingFunction = "cubic-bezier(0.33, 0.66, 0.66, 1)";
+            me.noBar   = param.noBar;
+            me.core.style.webkitTransitionTimingFunction = 'cubic-bezier(0.33, 0.66, 0.66, 1)';
         }
         if(me.SHOW_SCROLL_BAR){
             me._hideBar = function(){};
@@ -255,78 +260,78 @@
         }else{
             me.radius = 0;
         }
-        if(!me.no_bar){
+        if(!me.noBar){
             me._insertSlipBar(param);
-            if(me.coreWidth_cut_width <= 0){
-                me._bar_shell_opacity = 0;
+            if(me.coreWidthCutWidth <= 0){
+                me._barShellOpacity = 0;
                 me._showBarStorage    = me._showBar;
-                me._showBar           = function(){};	
+                me._showBar           = function(){};
             }
         }else{
             me._hideBar = function(){};
             me._showBar = function(){};
         }
     };
-    SlipPx._start = function(e) { // 触摸开始
-        var me = this,
-            e = e.touches[0];
-            me._animating = false;
+    SlipPx._start = function(evt) { // 触摸开始
+        var me = this;
+        var e = evt.touches[0];
+        me._animating = false;
         me._steps = [];
-        me._abrupt_x     = 0;
-        me._abrupt_x_abs = 0;
-        me._start_x = me._start_x_clone = e[me.page_x];
-        me._start_y = e[me.page_y];
-        me._start_time = e.timeStamp || Date.now();
+        me._abruptX     = 0;
+        me._abruptXAbs = 0;
+        me._startX = me._startXClone = e[me.pageX];
+        me._startY = e[me.pageY];
+        me._startTime = e.timeStamp || Date.now();
         me._movestart = undefined;
-        !me.perfect && me._need_stop && me._stop();
+        !me.perfect && me._needStop && me._stop();
         me.core.style.webkitTransitionDuration = '0';
         me.startFun && me.startFun(e);
     };
     SlipPx._move = function(evt) { // 触摸中
-        var me = this,                   
-            e = evt.touches[0],
-            _e_page = e[me.page_x],
-            _e_page_other = e[me.page_y],
-            that_x = me.xy;
-        me._dis_x = _e_page - me._start_x;
-        me._dis_y = _e_page_other - me._start_y;
-        (me.DIRECTION == 'x' && typeof me._movestart == "undefined") && (me._movestart = !!(me._movestart || (Math.abs(me._dis_x) < Math.abs(me._dis_y))));
+        var me = this;
+        var e = evt.touches[0];
+        var _ePage = e[me.pageX];
+        var _ePageOther = e[me.pageY];
+        var thatX = me.xy;
+        me._disX = _ePage - me._startX;
+        me._disY = _ePageOther - me._startY;
+        (me.DIRECTION === 'x' && typeof me._movestart === 'undefined') && (me._movestart = !!(me._movestart || (Math.abs(me._disX) < Math.abs(me._disY))));
         
         if(!me._movestart){
             evt.preventDefault();
-            me._move_time = e.timeStamp || Date.now();
-            me.offset_x = (that_x > 0 || that_x < me.width_cut_coreWidth - me.up_range) ? me._dis_x/2 + that_x : me._dis_x + that_x;    
-            me._start_x = _e_page;
-            me._start_y = _e_page_other;
+            me._moveTime = e.timeStamp || Date.now();
+            me.offsetX = (thatX > 0 || thatX < me.widthCutCoreWidth - me.upRange) ? me._disX/2 + thatX : me._disX + thatX;
+            me._startX = _ePage;
+            me._startY = _ePageOther;
             me._showBar();
-            if (me._abrupt_x_abs < 6 ) {
-                me._abrupt_x += me._dis_x;
-                me._abrupt_x_abs = Math.abs(me._abrupt_x);
+            if (me._abruptXAbs < 6 ) {
+                me._abruptX += me._disX;
+                me._abruptXAbs = Math.abs(me._abruptX);
                 return;
             }
-            me._pos(me.offset_x);
-            me.no_bar || me._slipBar();
-            if (me._move_time - me._start_time > 300) {
-                me._start_time    = me._move_time;
-                me._start_x_clone = _e_page;
+            me._pos(me.offsetX);
+            me.noBar || me._slipBar();
+            if (me._moveTime - me._startTime > 300) {
+                me._startTime    = me._moveTime;
+                me._startXClone = _ePage;
             }
             me.moveFun && me.moveFun(e);
         }
     };
-    SlipPx._end = function(e) { // 触摸结束
+    SlipPx._end = function(evt) { // 触摸结束
         if (!this._movestart) {
             var me = this,
-                e = e.changedTouches[0],
-                duration = (e.timeStamp || Date.now()) - me._start_time,
-                fast_dist_x = e[me.page_x] - me._start_x_clone;
-            me._need_stop = true;
-            if(duration < 300 && Math.abs(fast_dist_x) > 10) {
-                if (me.xy > -me.up_range || me.xy < me.width_cut_coreWidth) {
+                e = evt.changedTouches[0],
+                duration = (e.timeStamp || Date.now()) - me._startTime,
+                fastDistX = e[me.pageX] - me._startXClone;
+            me._needStop = true;
+            if(duration < 300 && Math.abs(fastDistX) > 10) {
+                if (me.xy > -me.upRange || me.xy < me.widthCutCoreWidth) {
                     me._rebound();
                 }else{
-                    var _momentum = me._momentum(fast_dist_x, duration, -me.xy - me.up_range, me.coreWidth_cut_width + (me.xy), me.parent_wide_high);
+                    var _momentum = me._momentum(fastDistX, duration, -me.xy - me.upRange, me.coreWidthCutWidth + (me.xy), me.parentWideHigh);
                     me._posTime(me.xy + _momentum.dist, _momentum.time);
-                    me.no_bar || me._slipBarTime(_momentum.time);
+                    me.noBar || me._slipBarTime(_momentum.time);
                 }
             }else{
                 me._rebound();
@@ -336,80 +341,84 @@
     };
     SlipPx._transitionEnd = function(e) { // 滑动结束
         var me = this;
-        if (e.target != me.core) return;
+        if (e.target !== me.core) {
+            return;
+        }
         me._rebound();
-        me._need_stop = false;
+        me._needStop = false;
     };
     SlipPx._rebound = function(time) { // 作用：滑动对象超出时复位
         var me = this,
-            _reset = (me.coreWidth_cut_width <= 0) ? 0 : (me.xy >= -me.up_range ? -me.up_range : me.xy <= me.width_cut_coreWidth - me.up_range ? me.width_cut_coreWidth - me.up_range : me.xy);
-        if (_reset == me.xy) {
+            _reset = (me.coreWidthCutWidth <= 0) ? 0 : (me.xy >= -me.upRange ? -me.upRange : me.xy <= me.widthCutCoreWidth - me.upRange ? me.widthCutCoreWidth - me.upRange : me.xy);
+        if (_reset === me.xy) {
             me.endFun && me.endFun();
             me._hideBar();
             return;
         }
         me._posTime(_reset, time || 400);
-        me.no_bar || me._slipBarTime(time);
+        me.noBar || me._slipBarTime(time);
     };
     SlipPx._insertSlipBar = function(param) { // 插入滚动条
         var me = this;
         me._bar       = document.createElement('div');
-        me._bar_shell = document.createElement('div');
-        if(me.DIRECTION == 'x'){
-            var _bar_css = 'height: 5px; position: absolute;z-index: 10; pointer-events: none;';
-            var _bar_shell_css      = 'opacity: '+me._bar_shell_opacity+'; left:2px; bottom: 2px; right: 2px; height: 5px; position: absolute; z-index: 10; pointer-events: none;';
+        me._barShell = document.createElement('div');
+        var _barCss;
+        var _barShellCss;
+        if(me.DIRECTION === 'x'){
+            _barCss = 'height: 5px; position: absolute;z-index: 10; pointer-events: none;';
+            _barShellCss = 'opacity: '+me._barShellOpacity+'; left:2px; bottom: 2px; right: 2px; height: 5px; position: absolute; z-index: 10; pointer-events: none;';
         }else{
-            var _bar_css = 'width: 5px; position: absolute;z-index: 10; pointer-events: none;';
-            var _bar_shell_css      = 'opacity: '+me._bar_shell_opacity+'; top:2px; bottom: 2px; right: 2px; width: 5px; position: absolute; z-index: 10; pointer-events: none; ';
+            _barCss = 'width: 5px; position: absolute;z-index: 10; pointer-events: none;';
+            _barShellCss = 'opacity: '+me._barShellOpacity+'; top:2px; bottom: 2px; right: 2px; width: 5px; position: absolute; z-index: 10; pointer-events: none;';
         }
-        var _default_bar_css = ' background-color: rgba(0, 0, 0, 0.5); border-radius: '+me.radius+'px; -webkit-transition: cubic-bezier(0.33, 0.66, 0.66, 1);' ;
-        var _bar_css = _bar_css + _default_bar_css + param.bar_css;
+        var _defaultBarCss = ' background-color: rgba(0, 0, 0, 0.5); border-radius: '+me.radius+'px; -webkit-transition: cubic-bezier(0.33, 0.66, 0.66, 1);' ;
+        _barCss = _barCss + _defaultBarCss + param.barCss;
         
-        me._bar.style.cssText       = _bar_css;
-        me._bar_shell.style.cssText = _bar_shell_css
+        me._bar.style.cssText       = _barCss;
+        me._barShell.style.cssText = _barShellCss;
         me._countAboutBar();
         me._countBarSize();
         me._setBarSize();
         me._countWidthCutBarSize();
-        me._bar_shell.appendChild(me._bar);
-        me.core.parentNode.appendChild(me._bar_shell);
+        me._barShell.appendChild(me._bar);
+        me.core.parentNode.appendChild(me._barShell);
         setTimeout(function(){me._hideBar();}, 500);
     };
     SlipPx._posBar = function(pos) {};
     SlipPx.__posBarX = function(pos) { // 作用：当设置滑动的方向为“X”时用于设置滚动条的坐标 
         var me = this;
-        me._bar.style['webkitTransform'] = 'translate3d('+pos+'px, 0px, 0px)';
+        me._bar.style.webkitTransform = 'translate3d('+pos+'px, 0px, 0px)';
         //me._bar.style['webkitTransform'] = 'translate('+pos+'px, 0px)  translateZ(0px)';
     };
     SlipPx.__posBarY = function(pos) { // 作用：当设置滑动的方向为“Y”时用于设置滚动条的坐标 
         var me = this;
         //me._bar.style['webkitTransform'] = 'translate(0px, '+pos+'px)  translateZ(0px)';
-        me._bar.style['webkitTransform'] = 'translate3d(0px, '+pos+'px, 0px)';
+        me._bar.style.webkitTransform = 'translate3d(0px, '+pos+'px, 0px)';
     };
     SlipPx._slipBar = function() { // 流畅模式下滚动条的滑动
         var me = this;
-        var pos = me._about_bar * (me.xy + me.up_range);
+        var pos = me._aboutBar * (me.xy + me.upRange);
         if (pos <= 0) {
             pos = 0;
-        }else if(pos >= me._width_cut_barSize){
-            pos = Math.round(me._width_cut_barSize);
-        } 
+        }else if(pos >= me._widthCutBarSize){
+            pos = Math.round(me._widthCutBarSize);
+        }
         me._posBar(pos);
         me._showBar();
     };
     SlipPx._slipBarPerfect = function() { // 完美模式下滚动条的滑动
         var me = this;
-        var pos = me._about_bar * (me.xy + me._bar_upRange);
-        me._bar.style[me.width_or_height] = me._bar_size + 'px';
+        var pos = me._aboutBar * (me.xy + me._barUpRange);
+        me._bar.style[me.widthOrHeight] = me._barSize + 'px';
         if (pos < 0) {
-            var size = me._bar_size + pos * 3;
-            me._bar.style[me.width_or_height] = Math.round(Math.max(size, 5)) + 'px';
+            var size = me._barSize + pos * 3;
+            me._bar.style[me.widthOrHeight] = Math.round(Math.max(size, 5)) + 'px';
             pos = 0;
-        }else if(pos >= me._width_cut_barSize){
-            var size = me._bar_size - (pos - me._width_cut_barSize) * 3;
+        }else if (pos >= me._widthCutBarSize) {
+            var size = me._barSize - (pos - me._widthCutBarSize) * 3;
             if(size < 5) {size = 5;}
-            me._bar.style[me.width_or_height] = Math.round(size) + 'px';
-            pos = Math.round(me._width_cut_barSize + me._bar_size - size);
+            me._bar.style[me.widthOrHeight] = Math.round(size) + 'px';
+            pos = Math.round(me._widthCutBarSize + me._barSize - size);
         }
         me._posBar(pos);
     };
@@ -418,45 +427,45 @@
         this._slipBar();
     };
     SlipPx._stop = function() { // 流畅模式下的动画停止
-        var me = this,
-            _real_x = me._real();
-        me._pos(_real_x);
-        if(!me.no_bar){
+        var me = this;
+        var _realX = me._real();
+        me._pos(_realX);
+        if(!me.noBar){
             me._bar.style.webkitTransitionDuration = '0';
-            me._posBar(me._about_bar * _real_x);
-        }	
+            me._posBar(me._aboutBar * _realX);
+        }
     };
     SlipPx._stopPerfect = function() { // 完美模式下的动画停止
         clearTimeout(this._aniTime);
         this._animating = false;
     };
     SlipPx._realX = function() { // 作用：取得滑动X坐标
-        var _real_xy = getComputedStyle(this.core, null)['webkitTransform'].replace(/[^0-9-.,]/g, '').split(',');
-        return _real_xy[4] * 1;
+        var _realXy = getComputedStyle(this.core, null).webkitTransform.replace(/[^0-9-.,]/g, '').split(',');
+        return _realXy[4] * 1;
     };
     SlipPx._realY = function() { // 作用：取得滑动Y坐标
-        var _real_xy = getComputedStyle(this.core, null)['webkitTransform'].replace(/[^0-9-.,]/g, '').split(',');
-        return _real_xy[5] * 1;
+        var _realXy = getComputedStyle(this.core, null).webkitTransform.replace(/[^0-9-.,]/g, '').split(',');
+        return _realXy[5] * 1;
     };
     SlipPx._countBarSize = function() { // 作用：根据比例计算滚动条的高度
-        this._bar_size = Math.round(Math.max(this.parent_wide_high * this.parent_wide_high / this.wide_high, 5));
+        this._barSize = Math.round(Math.max(this.parentWideHigh * this.parentWideHigh / this.wideHigh, 5));
     };
     SlipPx._setBarSize = function() { // 作用：设置滚动条的高度
-        this._bar.style[this.width_or_height] = this._bar_size + 'px';
+        this._bar.style[this.widthOrHeight] = this._barSize + 'px';
     };
     SlipPx._countAboutBar = function() { // 作用：计算一个关于滚动条的的数值
-        this._about_bar = ((this.parent_wide_high-4) - (this.parent_wide_high-4) * this.parent_wide_high / this.wide_high)/this.width_cut_coreWidth;
+        this._aboutBar = ((this.parentWideHigh-4) - (this.parentWideHigh-4) * this.parentWideHigh / this.wideHigh)/this.widthCutCoreWidth;
     };
     SlipPx._countWidthCutBarSize = function() { // 作用：计算一个关于滚动条的的数值
-        this._width_cut_barSize = (this.parent_wide_high-4) - this._bar_size;
+        this._widthCutBarSize = (this.parentWideHigh-4) - this._barSize;
     };
-    SlipPx.refresh = function(wide_high, parent_wide_high) {// 可在外部调用，作用：当尺寸改变时（如手机横竖屏时），需要重新取得相关的值。这时候就可以调用该函数
+    SlipPx.refresh = function(wideHigh, parentWideHigh) {// 可在外部调用，作用：当尺寸改变时（如手机横竖屏时），需要重新取得相关的值。这时候就可以调用该函数
         var me = this;
-        me._refreshCommon(wide_high, parent_wide_high);
-        if(!me.no_bar){
-            if(me.coreWidth_cut_width <= 0) {
-                me._bar_shell_opacity   = 0;
-                me._showBar       = function(){};	
+        me._refreshCommon(wideHigh, parentWideHigh);
+        if(!me.noBar){
+            if(me.coreWidthCutWidth <= 0) {
+                me._barShellOpacity   = 0;
+                me._showBar       = function(){};
             }else{
                 me._showBar = me._showBarStorage || me._showBar;
                 me._countAboutBar();
@@ -480,13 +489,17 @@
             startTime = Date.now(),
             step, easeOut,
             animate;
-        if (me._animating) return;
+        if (me._animating) {
+            return;
+        }
         if (!me._steps.length) {
-            me._rebound();	
+            me._rebound();
             return;
         }
         step = me._steps.shift();
-        if (step.x == startX) step.time = 0;
+        if (step.x === startX) {
+            step.time = 0;
+        }
         me._animating = true;
         animate = function () {
             var now = Date.now(),
@@ -530,15 +543,15 @@
     };
     SlipPx._showBar = function() {// 作用：显示滚动条
         var me = this;
-        me._bar_shell.style.webkitTransitionDelay = "0ms";
-        me._bar_shell.style.webkitTransitionDuration = '0ms';
-        me._bar_shell.style.opacity = "1";
+        me._barShell.style.webkitTransitionDelay = '0ms';
+        me._barShell.style.webkitTransitionDuration = '0ms';
+        me._barShell.style.opacity = '1';
     };
     SlipPx._hideBar = function() {// 作用：隐藏滚动条
         var me = this;
-        me._bar_shell.style.opacity = "0";
-        me._bar_shell.style.webkitTransitionDelay  = "300ms";
-        me._bar_shell.style.webkitTransitionDuration = '300ms';
+        me._barShell.style.opacity = '0';
+        me._barShell.style.webkitTransitionDelay  = '300ms';
+        me._barShell.style.webkitTransitionDuration = '300ms';
     };
 
     function TouchSlip(config) {
@@ -558,13 +571,13 @@
         me.triggerTarget = $(me.config.DOM_TRIGGER_TARGET)[0];
 
         if (_fun.ios() && (parseInt(_fun.version()) >= 5 && config.DIRECTION === 'x') && config.wit) {
-            me.triggerTarget.parentNode.style.cssText += "overflow:scroll; -webkit-overflow-scrolling:touch;";
+            me.triggerTarget.parentNode.style.cssText += 'overflow:scroll; -webkit-overflow-scrolling:touch;';
             return;
         }
         
         switch (me.config.MODE) {
-        case "page":
-            config.DIRECTION = "x";
+        case 'page':
+            config.DIRECTION = 'x';
             if (!this.SlipPage) {
                 this.SlipPage = true;
                 SlipPage._init(me.triggerTarget, config);
@@ -575,7 +588,7 @@
                 return page;
             }
             break;
-        case "px":
+        case 'px':
             if (!this.SlipPx) {
                 this.SlipPx = true;
                 SlipPx._init(me.triggerTarget, config);
@@ -589,5 +602,5 @@
         }
         
     }
-    SQ.TouchSlip = TouchSlip;	
+    SQ.TouchSlip = TouchSlip;
 })(window, document);

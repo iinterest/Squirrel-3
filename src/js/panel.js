@@ -12,12 +12,7 @@
  * 0.0.1  * 新建。
  */
 
-/*global
- $: false,
- SQ: false,
- console: false,
- jQuery: false
- */
+/*global $, SQ, console, jQuery */
 (function ($) {
     'use strict';
     /**
@@ -25,12 +20,12 @@
      * @classdesc 内容延迟加载
      * @constructor
      * @param {object} config 插件配置（下面的参数为配置项，配置会写入属性）
-     * @param {string} config.EVE_EVENT_TYPE        触发方式，默认为：click
-     * @param {string} config.DISPLAY               显示模式，默认为：overlay，可选 push
+     * @param {string} config.CLOSE_BTN             是否显示关闭按钮，默认为：false
+     * @param {number} config.CSS_WIDTH             面板宽度，默认为：300px
      * @param {string} config.DOM_WRAPPER           页面包装节点，当 DISPLAY 设置为 push 时，该节点会应用动画
      * @param {string} config.DIRECTION             出现方向，默认为：left
-     * @param {number} config.CSS_WIDTH             面板宽度，默认为：300px
-     * @param {string} config.CLOSE_BTN             是否显示关闭按钮，默认为：false
+     * @param {string} config.DISPLAY               显示模式，默认为：overlay，可选 push
+     * @param {string} config.EVE_EVENT_TYPE        触发方式，默认为：click
      * @param {string} config.TXT_CLOSE_VAL         关闭按钮显示文字，默认为：'×'
      * @param {function} config.beforeShow          打开面板前回调函数，该函数必须返回为 true 才能继续执行 show 函数
      * @param {function} config.show($activePanel)  打开面板时回调函数

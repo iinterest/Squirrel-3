@@ -3,20 +3,21 @@
  * @version 1.0.0
  */
 /*global SQ*/
-var SQ = {
+window.SQ = {
     /**
      * 命名空间方法
      * @method
      * @name SQ.core.namespace
      * @param {string} nameSpaceString 命名空间字符串
      * @example
-     * SQ.core.namespace("SQ.modules.module2");
+     * SQ.core.namespace('SQ.modules.module2');
      */
     namespace: function (nameSpaceString) {
-        var parts = nameSpaceString.split(".");
+        'use strict';
+        var parts = nameSpaceString.split('.');
         var parent = SQ;
         var i;
-        if (parts[0] === "SQ") {
+        if (parts[0] === 'SQ') {
             parts = parts.slice(1);
         } else {
             return false;
@@ -35,28 +36,36 @@ var SQ = {
      * SQ.core.isString(str);
      */
     isString: function (str) {
-        return Object.prototype.toString.call(str) === "[object String]";
+        'use strict';
+        return Object.prototype.toString.call(str) === '[object String]';
     },
     isArray: function (arr) {
-        return Object.prototype.toString.call(arr) === "[object Array]";
+        'use strict';
+        return Object.prototype.toString.call(arr) === '[object Array]';
     },
     isNumber: function (num) {
-        return Object.prototype.toString.call(num) === "[object Number]";
+        'use strict';
+        return Object.prototype.toString.call(num) === '[object Number]';
     },
     isBoolean: function (bool) {
-        return Object.prototype.toString.call(bool) === "[object Boolean]";
+        'use strict';
+        return Object.prototype.toString.call(bool) === '[object Boolean]';
     },
     isNull: function (nullObj) {
-        return Object.prototype.toString.call(nullObj) === "[object Null]";
+        'use strict';
+        return Object.prototype.toString.call(nullObj) === '[object Null]';
     },
     isUndefined: function (undefinedObj) {
-        return Object.prototype.toString.call(undefinedObj) === "[object Undefined]";
+        'use strict';
+        return Object.prototype.toString.call(undefinedObj) === '[object Undefined]';
     },
     isFunction: function (fun) {
-        return Object.prototype.toString.call(fun) === "[object Function]";
+        'use strict';
+        return Object.prototype.toString.call(fun) === '[object Function]';
     },
     isObject: function (obj) {
-        return Object.prototype.toString.call(obj) === "[object Object]";
+        'use strict';
+        return Object.prototype.toString.call(obj) === '[object Object]';
     },
     /**
      * isJSON
@@ -68,8 +77,8 @@ var SQ = {
     // 暂时无法使用
     /*isJSON : function (string) {
      var rvalidchars = /^[\],:{}\s]*$/;
-     var rvalidescape = /\\(?:["\\\/bfnrt]|u[\da-fA-F]{4})/g;
-     var rvalidtokens = /"[^"\\\r\n]*"|true|false|null|-?(?:\d\d*\.|)\d+(?:[eE][\-+]?\d+|)/g;
+     var rvalidescape = /\\(?:['\\\/bfnrt]|u[\da-fA-F]{4})/g;
+     var rvalidtokens = /'[^'\\\r\n]*'|true|false|null|-?(?:\d\d*\.|)\d+(?:[eE][\-+]?\d+|)/g;
      var rvalidbraces = /(?:^|:|,)(?:\s*\[)+/g;
      return typeof string === 'string' && $.trim(string) !== '' ?
      rvalidchars.test(string
@@ -84,6 +93,7 @@ var SQ = {
      * @param Parent
      */
     extend: function (Child, Parent) {
+        'use strict';
         var F = function () {
         };
         F.prototype = Parent.prototype;
@@ -99,22 +109,23 @@ var SQ = {
      * @return {function}       实际调用函数
      */
     throttle: function (fn, delay, immediate, debounce) {
+        'use strict';
         var curr;
-        var last_call = 0;
-        var last_exec = 0;
+        var lastCall = 0;
+        var lastExec = 0;
         var timer = null;
         var diff;               // 时间差
         var context;            // 上下文
         var args;
         var exec = function () {
-            last_exec = curr;
+            lastExec = curr;
             fn.apply(context, args);
         };
         return function () {
             curr = + new Date();
             context = this;
             args = arguments;
-            diff = curr - (debounce ? last_call : last_exec) - delay;
+            diff = curr - (debounce ? lastCall : lastExec) - delay;
             clearTimeout(timer);
             if (debounce) {
                 if (immediate) {
@@ -129,7 +140,7 @@ var SQ = {
                     timer = setTimeout(exec, -diff);
                 }
             }
-            last_call = curr;
+            lastCall = curr;
         };
     },
     /**
@@ -140,6 +151,7 @@ var SQ = {
      * @return {function}       实际调用函数
      */
     debounce: function (fn, delay, immediate) {
+        'use strict';
         return SQ.throttle(fn, delay, immediate, true);
     }
 };

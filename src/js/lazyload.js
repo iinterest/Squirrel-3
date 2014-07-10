@@ -22,32 +22,29 @@
  * 0.5.1  * 完成图片模式的延迟加载功能。
  * 0.0.1  + 新建。
  */
-/*global
- $: false,
- SQ: false,
- console: false,
- jQuery: false
- */
-;(function ($) {
-    "use strict";
+/*global $, SQ, console, jQuery */
+(function ($) {
+    'use strict';
     /**
      * @name LazyLoad
      * @classdesc 内容延迟加载
      * @constructor
      * @param {object} config 插件配置（下面的参数为配置项，配置会写入属性）
-     * @param {string} config.MODE                  延迟加载模式，默认为：image（图片模式）
-     * @param {string} config.IMG_PLACEHOLDER       占位图片
-     * @param {number} config.NUM_THRESHOLD         灵敏度，数值越大越灵敏，延迟性越小，默认为 200
      * @param {string} config.ANIMATE               动画类，例如 .fadeIn
-     * @example $(".J_lazyload").lazyload({
-    ANIMATE: ".fadeIn"
+     * @param {string} config.IMG_PLACEHOLDER       占位图片
+     * @param {string} config.MODE                  延迟加载模式，默认为：image（图片模式）
+     * @param {number} config.NUM_THRESHOLD         灵敏度，数值越大越灵敏，延迟性越小，默认为 200
+     * 
+     * @example $('.J_lazyload').lazyload({
+    ANIMATE: '.fadeIn'
 });
      */
 
-    var scope = "sq-lazyload";      // data-* 后缀
+    var scope = 'sq-lazyload';      // data-* 后缀
     var defaults = {
-        "MODE": "image",
-        "NUM_THRESHOLD": 350
+        MODE: 'image',
+        NUM_THRESHOLD: 350,
+        IMG_PLACEHOLDER: ''
     };
 
     function Lazyload ( element, options ) {
@@ -58,14 +55,14 @@
     }
 
     Lazyload.prototype = {
-        construtor: "Lazyload",
+        construtor: 'Lazyload',
         scrollTimer: 0,     // 滑动计时器
         scrollDelay: 150,   // 滑动阀值
         init: function () {
             var me = this;
             me.$element = $(me.element);
-            me.elementClassName = me.settings.selector.slice(1);   // ".style-name" => "style-name"
-            
+            me.elementClassName = me.settings.selector.slice(1);   // '.style-name' => 'style-name'
+            me.$element.attr('src', me.settings.IMG_PLACEHOLDER);
             if (me._verify()) {
                 me._bindLazyEvent();
                 me._trigger();
@@ -79,7 +76,7 @@
          */
         _verify: function () {
             /*if (!this.$element.length) {
-                console.warn("SQ.lazyload: "+ this.settings.selector +"下未找到");
+                console.warn('SQ.lazyload: '+ this.settings.selector +'下未找到');
                 return false;
             }*/
             return true;
@@ -87,23 +84,24 @@
         _bindLazyEvent: function () {
             var me = this;
             // 为延迟加载元素绑定一次性执行事件
-            me.$element.one("appear", function () {
+            me.$element.one('appear', function () {
                 var img = this;
                 var $img = $(img);
-                var src = $img.attr("data-img");
+                var src = $img.attr('data-img');
                 // 替换 src 操作
                 if (src) {
-                    $img.addClass("unvisible").attr("src", src).removeAttr("data-img").removeClass(me.elementClassName);
-                    $img.on("load", function () {
+                    $img.addClass('unvisible').attr('src', src).removeAttr('data-img').removeClass(me.elementClassName);
+                    $img.on('load', function () {
                         // 添加动画
                         if (me.settings.ANIMATE) {
-                            var animateClassName = me.settings.ANIMATE.indexOf(".") === 0 ? me.settings.ANIMATE.slice(1) : me.settings.ANIMATE;
-                            $img.addClass("animated " + animateClassName).removeClass("unvisible");
+                            var animateClassName = me.settings.ANIMATE.indexOf('.') === 0 ? me.settings.ANIMATE.slice(1) : me.settings.ANIMATE;
+                            $img.addClass('animated ' + animateClassName);
                         }
+                        $img.removeClass('unvisible');
                     });
-                    $img.on("error", function () {
+                    $img.on('error', function () {
                         if (me.settings.IMG_PLACEHOLDER) {
-                            $(this).attr("src", me.settings.IMG_PLACEHOLDER).off("error");
+                            $(this).attr('src', me.settings.IMG_PLACEHOLDER).off('error');
                         }
                     });
                 }
@@ -111,8 +109,8 @@
         },
         _trigger: function () {
             var me = this;
-            $(window).on("scroll.bs.lazyload", SQ.throttle(function () {
-                if (me.settings.MODE === "image") {
+            $(window).on('scroll.bs.lazyload', SQ.throttle(function () {
+                if (me.settings.MODE === 'image') {
                     me._loadImg();
                 }
             }, me.scrollDelay));
@@ -138,27 +136,27 @@
         _loadImg: function () {
             var me = this;
             if (me.settings.IMG_PLACEHOLDER && me.$element.hasClass(me.elementClassName)) {
-                me.$element.attr("src", me.settings.IMG_PLACEHOLDER);
-                me.$element.on("error", function () {
-                    $(this).attr("src", me.settings.IMG_PLACEHOLDER).off("error");
+                //me.$element.attr('src', me.settings.IMG_PLACEHOLDER);
+                me.$element.on('error', function () {
+                    $(this).attr('src', me.settings.IMG_PLACEHOLDER).off('error');
                 });
             }
             if (me._isInDisplayArea(me.$element.get(0))) {
-                me.$element.trigger("appear");
+                me.$element.trigger('appear');
             }
         }
     };
 
     $.fn.lazyload = function ( options ) {
-        var isZepto = typeof Zepto !== "undefined" ? true : false;
-        var isJQuery = typeof jQuery !== "undefined" ? true : false;
+        var isZepto = typeof Zepto !== 'undefined' ? true : false;
+        var isJQuery = typeof jQuery !== 'undefined' ? true : false;
         var plugin;
 
         options = options || {};
         options.selector = this.selector;
 
         if (!this.length) {
-            console.warn("SQ.lazyload: 未找到"+ this.selector +"元素");
+            console.warn('SQ.lazyload: 未找到'+ this.selector +'元素');
         }
 
         this.each(function() {
@@ -169,7 +167,7 @@
             } else if (isZepto) {
                 if (!$(this).data(scope)) {
                     plugin = new Lazyload( this, options );
-                    $(this).data(scope, "initialized");
+                    $(this).data(scope, 'initialized');
                 }
             }
         });

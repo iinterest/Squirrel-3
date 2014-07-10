@@ -15,14 +15,9 @@
  * 0.0.1  + 新建。
  */
 
-/*global
- $: false,
- SQ: false,
- console: false,
- jQuery: false
- */
-;(function ($) {
-    "use strict";
+/*global $, SQ, console, jQuery */
+(function ($) {
+    'use strict';
     /**
      * @name Suggest
      * @classdesc 搜索联想词插件
@@ -38,17 +33,17 @@
      * @param {function} config.start               开始检测输入框时回调函数
      * @param {function} config.show(data)          显示联想词面板时回调函数，data 为 XHR 返回数据
      * @param {function} config.clear               清除时回调函数
-     * @example $(".J_suggest").suggest({
-    API: "data/suggest.json",
-    CSS_CLEAR_BTN: ".clear",
-    CSS_SUGGEST_RESULT: ".suggest-panel",
+     * @example $('.J_suggest').suggest({
+    API: 'data/suggest.json',
+    CSS_CLEAR_BTN: '.clear',
+    CSS_SUGGEST_RESULT: '.suggest-panel',
     show: function (data) {
         var me = this;
-       console.log("suggestList: " + data);
+       console.log('suggestList: ' + data);
     }
 });
      */
-    var scope = "sq-suggest";
+    var scope = 'sq-suggest';
     var defaults = {
         NUM_TIMER_DELAY : 300,
         NUM_XHR_TIMEER : 5000,
@@ -64,24 +59,24 @@
     }
 
     Suggest.prototype = {
-        construtor: "Suggest",
-        lastKeyword: "",        // 为 300ms（检测时长） 前的关键词
-        lastSendKeyword : "",   // 上一次符合搜索条件的关键词
+        construtor: 'Suggest',
+        lastKeyword: '',        // 为 300ms（检测时长） 前的关键词
+        lastSendKeyword : '',   // 上一次符合搜索条件的关键词
         canSendRequest : true,  // 是否可以进行下次联想请求
         init: function () {
             var me = this;
-            var clearBtnClassName = "";
-            var suggestResultClassName = "";
+            var clearBtnClassName = '';
+            var suggestResultClassName = '';
 
             if (me.settings.CSS_CLEAR_BTN) {
-                clearBtnClassName = me.settings.CSS_CLEAR_BTN.indexOf(".") !== -1 ? me.settings.CSS_CLEAR_BTN.slice(1) : me.settings.CSS_CLEAR_BTN;
+                clearBtnClassName = me.settings.CSS_CLEAR_BTN.indexOf('.') !== -1 ? me.settings.CSS_CLEAR_BTN.slice(1) : me.settings.CSS_CLEAR_BTN;
             }
             if (me.settings.CSS_SUGGEST_RESULT) {
-                suggestResultClassName = me.settings.CSS_SUGGEST_RESULT.indexOf(".") !== -1 ? me.settings.CSS_SUGGEST_RESULT.slice(1) : me.settings.CSS_SUGGEST_RESULT;
+                suggestResultClassName = me.settings.CSS_SUGGEST_RESULT.indexOf('.') !== -1 ? me.settings.CSS_SUGGEST_RESULT.slice(1) : me.settings.CSS_SUGGEST_RESULT;
             }
 
             me.$element = $(me.element);
-            me.$input = me.$element.find("input[type=text]");
+            me.$input = me.$element.find('input[type=text]');
             me.$clearBtn = $('<div class="sq-suggest-clear-btn"></div>').addClass(clearBtnClassName);
             me.$suggestPanel = $('<div class="sq-suggest-result"></div>').addClass(suggestResultClassName);
 
@@ -102,13 +97,13 @@
         },
         _bind : function (e) {
             var me = this;
-            me.$input.on("focus", function () {
+            me.$input.on('focus', function () {
                 me.start();
             });
-            me.$input.on("blur", function () {
+            me.$input.on('blur', function () {
                 me.stop();
             });
-            me.$clearBtn.on("click", function () {
+            me.$clearBtn.on('click', function () {
                 me.clear();
             });
             if (me.beforeStartFun) {
@@ -117,7 +112,7 @@
         },
         /** 过滤输入内容 */
         _filter : function (originalKeyword) {
-            return originalKeyword.replace(/\s+/g, "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "");
+            return originalKeyword.replace(/\s+/g, '').replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, '');
         },
         /** 初始化提示层容器 */
         _initSuggest : function () {
@@ -129,15 +124,15 @@
             var me = this;
             var api = me.settings.API;
 
-            //console.log("request -> " + "keyword: " + keyword, "lastSendKeyword: " + me.lastSendKeyword);
+            //console.log('request -> ' + 'keyword: ' + keyword, 'lastSendKeyword: ' + me.lastSendKeyword);
             if (me.xhr) {
                 me.xhr.abort();
             }
             me.xhr = $.ajax({
-                type : "POST",
+                type : 'POST',
                 url : api,
-                dataType : "json",
-                data : {"keyword": keyword},
+                dataType : 'json',
+                data : {'keyword': keyword},
                 timeout : me.settings.NUM_XHR_TIMEER,
                 success : function (data) {
                     me.showSuggest(data);
@@ -155,10 +150,10 @@
             var me = this;
             var cLen = keyword.length;
             var lsLen = me.lastSendKeyword.length;
-            //console.log("keyword: " + keyword, "lastSendKeyword: " + me.lastSendKeyword);
+            //console.log('keyword: ' + keyword, 'lastSendKeyword: ' + me.lastSendKeyword);
 
             if (me.lastKeyword === keyword) {
-                //console.log("same " + "me.lastKeyword = " + me.lastKeyword + " | " + "keyword = " + keyword + " | " + "me.lastSendKeyword =" + me.lastSendKeyword);
+                //console.log('same ' + 'me.lastKeyword = ' + me.lastKeyword + ' | ' + 'keyword = ' + keyword + ' | ' + 'me.lastSendKeyword =' + me.lastSendKeyword);
                 return false;
             }
 
@@ -177,11 +172,11 @@
                 // false 情况
                 // 1、请求服务器成功，但返回的 code 与 NUM_SUCCESS_CODE 不一致，canSendRequest 为 false
                 // 2、请求服务器失败，canSendRequest 为 false
-                //console.log("!canSendRequest");
+                //console.log('!canSendRequest');
                 return false;
             }
             if (me.lastSendKeyword === keyword) {
-                //console.log("关键词相同")
+                //console.log('关键词相同')
                 return false;
             }
             return true;
@@ -194,7 +189,7 @@
                 var keyword = me._filter(originalKeyword);
 
                 if (keyword.length > 0) {
-                    if (me.$clearBtn.css("display") === "none") {
+                    if (me.$clearBtn.css('display') === 'none') {
                         me.$clearBtn.show();
                     }
                     if (me._compare(keyword)) {
@@ -218,7 +213,7 @@
         /** 显示提示层 */
         showSuggest : function (data) {
             var me = this;
-            var ds = typeof data === "object" ? data : JSON.parse(data);
+            var ds = typeof data === 'object' ? data : JSON.parse(data);
             if (ds.code !== me.settings.NUM_SUCCESS_CODE) {
                 me.canSendRequest = false;
                 return;
@@ -237,11 +232,11 @@
         /** 清除输入内容 */
         clear : function () {
             var me = this;
-            me.$input.val("");
+            me.$input.val('');
             me.hideSuggest();
             me.$clearBtn.hide();
             me.canSendRequest = true;
-            me.lastSendKeyword = "";
+            me.lastSendKeyword = '';
             if (me.clearFun) {
                 me.clearFun();
             }
@@ -249,8 +244,8 @@
     };
 
     $.fn.suggest = function ( options ) {
-        var isZepto = typeof Zepto !== "undefined" ? true : false;
-        var isJQuery = typeof jQuery !== "undefined" ? true : false;
+        var isZepto = typeof Zepto !== 'undefined' ? true : false;
+        var isJQuery = typeof jQuery !== 'undefined' ? true : false;
         var plugin;
 
         options = options || {};
@@ -264,7 +259,7 @@
             } else if (isZepto) {
                 if (!$(this).data(scope)) {
                     plugin = new Suggest( this, options );
-                    $(this).data(scope, "initialized");
+                    $(this).data(scope, 'initialized');
                 }
             }
         });
