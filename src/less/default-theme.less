@@ -5,6 +5,7 @@
 
 //** base color
 @theme-bc-grey:#e5e5e5;
+@theme-font-grey:#999;
 
 //** Global
 //html{ font-size:@theme-font-size;}
@@ -31,13 +32,15 @@ a{ color:#333;}
 
 //** sq-list
 .sq-list{
-    .list-item{ border-bottom:1px solid @theme-bc-grey;}
+    .list-item{ border-top-color:@theme-bc-grey; border-bottom-color:@theme-bc-grey;}
     .icon{
         //.badge{ background:#e34541;}
     }
     &.text{
         //.badge{ background:@theme-bc-grey; color:#fff;}
-        .group-hd{ background:#efeff4; border-bottom-color:@theme-bc-grey;}
+        .group-hd{ background:#efeff4; border-top-color:@theme-bc-grey; border-bottom-color:@theme-bc-grey;}
+        .data{ color:@theme-font-grey;}
+        .digest{ color:@theme-font-grey;}
     }
     &.media{
         &.col2,

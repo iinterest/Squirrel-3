@@ -1,21 +1,12 @@
 //** sq-button
 //** 通用按钮，包括单体按钮、组合按钮 
 
-//========================================
-// @changelog
-// 1.2.0
-// 1.1.0 ---
-// 1.0.6 清除形状样式
-// 1.0.5 修改按钮颜色
-// 1.0.4 新增了多种按钮颜色
-// 1.0.3 调整 sq-btn 的 min-height 为 26 像素，给各尺寸添加 min-height 值。
-// 1.0.2 .block 调整专为表单控件添加 width:100% 属性，以解决撑出页面问题。
-// 1.0.1 .block 类添加 width:100% 属性，修复 submit 表单控件无法充满父层空间问题。
-//========================================
-
 .sq-btn{
-    .border-box; display:inline-block; position:relative; padding:4px .5em; border-radius:3px; border:1px solid transparent; text-align:center; white-space:nowrap; line-height:@magic-line-height; vertical-align:middle; cursor:pointer;
-    //font:-webkit-small-control;
+    display:inline-block; position:relative;
+    border-radius:3px; border:1px solid transparent; 
+    text-align:center; white-space:nowrap;  line-height:1;
+    cursor:pointer;
+    // 不可选
     -webkit-user-select:none;
     -moz-user-select:none;
     -ms-user-select:none;
@@ -25,9 +16,10 @@
     // Size
 	// 按钮尺寸
 	//========================================
-	&.large{ padding:8px .6em; font-size:18px; line-height:1.2;}
-	&.small{ padding:4px .6em; font-size:12px; line-height:1.2;}
-    &.mini{ padding:2px .6em; font-size:12px; line-height:1;}
+    /*normal*/ padding:9px 1rem; /* sq-btn height = 9*2 + 16 + 2 = 36px */
+	&.large{ padding:12px 1rem; font-size:1.8rem;} 
+	&.small{ padding:6px 1rem; font-size:1.4rem;}  /*28px*/
+    &.mini{ padding:4px 1rem; font-size:1.2rem;}
     &.block{
    	    display:block;
    	    input[type="button"]&,
@@ -41,10 +33,8 @@
     // icon
     // 按钮图标
     //========================================
-    &.right-icon{
-        .sq-icon::before{ margin-right:0; margin-left:.5em;}
-    }
-    .sq-icon::before{ opacity:.8;}
+    &>.sq-icon::before{ opacity:.8; margin-right:.5rem;}
+    &.right-icon > .sq-icon::before{ margin-right:0; margin-left:.5rem;}
     
 
     //========================================
@@ -65,6 +55,9 @@
 	.dropdown-menu{ 
 	    display:none; position:absolute; left:-1px; width:100%; min-width:100px; margin-top:6px; background:#fff; box-shadow:0 3px 5px rgba(0,0,0,.2); border-radius:3px; border:1px solid #d7d7d7; line-height:30px;
 	    a{ display:block; color:#333;} 
+        &.right{
+            left:auto; right:0;
+        }
 	}
 }
 
@@ -75,9 +68,11 @@
 //========================================
 .sq-btn-group{
     .display-box; .box-orient(horizontal);
-    .active{ z-index:1;
+    .active{
+        // 保证激活项目在最上层显示
+        z-index:1;
         &+.sq-btn{ border-left-color:transparent;}
-    } // 保证激活项目在最上层显示
+    }
     // 默认为水平布局
 	.sq-btn{
 	    display:block; .box-flex(1); margin-left:-1px; border-radius:0;
@@ -121,8 +116,10 @@
         a{ color:#fff;}
     }
 	&.mt-blue{
-		background:#009bd8; border-color:#009bd8; color:#fff;
+		//background:#009bd8; border-color:#009bd8; color:#fff;
+        background:#4285f4; border-color:#4285f4; color:#fff;
 		a{ color:#fff;}
+        &:hover{ background:#3367d6;}
 	}
 	&.mt-green{ background:#6eb82c; border-color:#6eb82c; color:#fff;
 		a{ color:#fff;}

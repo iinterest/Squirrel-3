@@ -9,13 +9,6 @@
     font-style:normal;
 }
 
-/*.sq-icon{
-    &.up::before{ -webkit-transform:rotate(-90deg);}
-    &.down::before{ -webkit-transform:rotate(90deg);}
-    &.left::before{ -webkit-transform:rotate(180deg);}
-    &.down-left::before{ -webkit-transform:rotate(135deg);}
-}*/
-
 .sq-icon{
     &::before{
         font-family: "fontello";
@@ -26,7 +19,6 @@
         display:inline-block;
         text-decoration:inherit;
         min-width:.5rem;
-        margin-right:.5rem;
         text-align:center;
 
         /* For safety - reset parent styles, that can break glyph codes*/
@@ -34,14 +26,23 @@
         text-transform:none;
 
         /* fix buttons height, for twitter bootstrap */
-        line-height:1em;
+        //line-height:1rem;     // 导致 nav、button 下的 icon 高度不足
+        
+        //** 修复垂直居中问题
+        position:relative;
+        //top:.1rem;
     }
     
-    &.x2::before{ font-size:1.35rem;}   //** 适合在导航栏中显示
-    &.x3::before{ font-size:1.8rem;}    //** 适合在导航栏 icons 模式下显示
-    &.x4::before{ font-size:3rem;}
-    &.x5::before{ font-size:5rem;}
+    &.x2::before{ font-size:@icon-x2-size;}     //** 适合在导航栏中显示
+    &.x3::before{ font-size:@icon-x3-size;}     //** 适合在导航栏 icons 模式下显示
+    &.x4::before{ font-size:@icon-x4-size;}
+    &.x5::before{ font-size:@icon-x5-size;}
 }
+
+//** fixed
+.icon-left-open:before,
+.icon-right-open:before,
+.icon-download:before{ top:.1rem;}
 
 .icon-group{
     .sq-icon::before{ margin-right:.1em;}
