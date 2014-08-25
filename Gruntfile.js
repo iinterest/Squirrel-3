@@ -124,7 +124,7 @@ module.exports = function (grunt) {
                 expand: true,
                 flatten: true,
                 src: 'doc_tpl/documentation.html',
-                dest: '../Squirrel-Doc/docs/',
+                dest: '../Squirrel-Doc/docs/latest/',
                 filter: 'isFile'
             }
         },
@@ -143,7 +143,7 @@ module.exports = function (grunt) {
             versionNumber: {
                 path: [
                     '../Squirrel-Doc/index.html',
-                    '../Squirrel-Doc/docs/documentation.html'
+                    '../Squirrel-Doc/docs/latest/documentation.html'
                 ],
                 pattern: '%VERSION%',
                 replacement: '<%= pkg.version %>'
@@ -151,7 +151,7 @@ module.exports = function (grunt) {
             update: {
                 path: [
                     '../Squirrel-Doc/index.html',
-                    '../Squirrel-Doc/docs/documentation.html'
+                    '../Squirrel-Doc/docs/latest/documentation.html'
                 ],
                 pattern: '%UPDATE%',
                 replacement: '<%= grunt.template.today("yyyy-mm-dd") %>'
