@@ -1169,6 +1169,7 @@ SQ.util = {
      * @param {string} config.TXT_INIT_TIP          初始提示文字，默认值：'滑动加载更多内容'
      * @param {string} config.TXT_UNKNOWN_ERROR     通过 XHR 接收到的数据无法识别，默认值：'未知错误，请重试'
      * @param {number} config.XHR_TIMEOUT           设置 XHR 超时时间，默认为 5000 ms
+     * @param {number} config.XHR_METHOD            XHR 请求方法，默认为 POST
      * @param {function} config.loading(index)                  加载阶段回调函数，返回参数：index(序号)
      * @param {function} config.loaded(data,$element,index)     加载完成回调函数，返回参数：data(XHR 数据), $element(当前 DOM 容器), index(序号)
      * @param {function} config.loadError(index)                加载失败回调函数，返回参数：index(序号)
@@ -2770,7 +2771,8 @@ SQ.util = {
      * @param {string} config.LOCAL_DATA                                XHR 数据 loaclstorage 开关，默认为 false
      * @param {number} config.NUM_ACTIVE                                初始高亮选项卡序号，0 - n
      * @param {number} config.NUM_EXPIRES                               XHR 数据 loaclstorage 过期时间（单位：分钟），默认为 15 分钟
-     * @param {number} config.NUM_XHR_TIMEER                            XHR 超时时间
+     * @param {number} config.XHR_TIMEOUT                               XHR 超时时间
+     * @param {number} config.XHR_METHOD                                XHR 请求方法，默认为 POST
      * @param {string} config.TXT_LOADING_TIP                           loading 提示文字
      * @param {function} config.trigger($tabs,$panels,tabIndex)         触发选项卡切换回调函数
      * @param {function} config.show($tabs,$panels,tabIndex)            显示选项卡时回调函数
@@ -2797,11 +2799,12 @@ SQ.util = {
         EVE_EVENT_TYPE: 'click',
         CSS_HIGHLIGHT: '.active',
         CLEAR_PANEL : false,
+        LOCAL_DATA: false,
         NUM_ACTIVE : 0,
-        NUM_XHR_TIMEER : 5000,
+        XHR_TIMEOUT : 5000,
+        NUM_EXPIRES: 15,
         TXT_LOADING_TIP : '正在加载请稍后...',     // 正在加载提示
-        LOCAL_DATA : false,
-        NUM_EXPIRES : 15
+        XHR_METHOD: 'POST'
     };
 
     function Tab ( element, options ) {
@@ -2988,10 +2991,10 @@ SQ.util = {
                 $currentLoadTip.show();
             }
             me.xhr = $.ajax({
-                type : 'POST',
+                type: me.settings.XHR_METHOD,
                 url : api,
                 dataType : 'json',
-                timeout : me.settings.NUM_XHR_TIMEER,
+                timeout : me.settings.XHR_TIMEOUT,
                 success : function (data) {
                     $currentLoadTip.hide();
                     $activePanel.addClass('hasLoaded');    // 为已经加载过的面板添加 .hasLoaded 标记

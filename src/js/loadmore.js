@@ -67,6 +67,7 @@
      * @param {string} config.TXT_INIT_TIP          初始提示文字，默认值：'滑动加载更多内容'
      * @param {string} config.TXT_UNKNOWN_ERROR     通过 XHR 接收到的数据无法识别，默认值：'未知错误，请重试'
      * @param {number} config.XHR_TIMEOUT           设置 XHR 超时时间，默认为 5000 ms
+     * @param {number} config.XHR_METHOD            XHR 请求方法，默认为 POST
      * @param {function} config.loading(index)                  加载阶段回调函数，返回参数：index(序号)
      * @param {function} config.loaded(data,$element,index)     加载完成回调函数，返回参数：data(XHR 数据), $element(当前 DOM 容器), index(序号)
      * @param {function} config.loadError(index)                加载失败回调函数，返回参数：index(序号)
