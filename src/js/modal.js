@@ -1,10 +1,11 @@
 /**
- * @file SQ.Popup 弹窗插件
- * @version 1.5.1
+ * @file SQ.Modal 弹窗插件
+ * @version 1.6.0
  */
 
 /**
  * @changelog
+ * 1.6.0  * 重命名为 SQ.Modal。
  * 1.5.1  * 为 ucweb 9.7 事件优化做兼容。
  * 1.5.0  * 重写插件，调用方式改为 $. 链式调用。
  * 1.0.3  * 修复 resize 导致报错的 BUG。
@@ -18,7 +19,7 @@
 (function ($) {
     'use strict';
     /**
-     * @name Popup
+     * @name Modal
      * @classdesc 对话框插件。
      * @constructor
      * @param {object} config 插件配置（下面的参数为配置项，配置会写入属性）
@@ -54,8 +55,8 @@
      * @param {function} config.cancel              点击取消按钮回调函数
      * @param {function} config.close               关闭对话框回调函数
      * @param {function} config.reszie              resize 回调函数
-     * @example $('.J_showFullPopup').popup({
-    CSS_CLASS: '.popup-demo',
+     * @example $('.J_showFullModal').modal({
+    CSS_CLASS: '.modal-demo',
     CSS_TOP: 10,
     CSS_RIGHT: 10,
     CSS_BOTTOM: 10,
@@ -63,16 +64,16 @@
     DISPOSABLE: true,
     beforeShow: function () {
         var me = this;
-        me.$popupContent.append('全屏窗口');
+        me.$modalContent.append('全屏窗口');
         return true;
     },
     close: function () {
-        tipPopup('全屏窗口是一次性点击响应');
+        tipModal('全屏窗口是一次性点击响应');
     }
 });
      */
 
-    var scope = 'sq-popup';
+    var scope = 'sq-modal';
     var defaults = {
         EVE_EVENT_TYPE: 'click',
         CSS_POSITION: 'fixed',
@@ -87,15 +88,15 @@
         CLOSE_BTN: true
     };
 
-    function Popup ( element, options ) {
+    function Modal ( element, options ) {
         this.element = element;
         this.settings = $.extend( {}, defaults, options );
         this._defaults = defaults;
         this.init();
     }
 
-    Popup.prototype = {
-        construtor: 'Popup',
+    Modal.prototype = {
+        construtor: 'Modal',
         timer : undefined,
         resizeTimer : false,    // resize 
         closed : true,
@@ -122,7 +123,7 @@
          */
         _bind: function () {
             var me = this;
-            var event = me.settings.DISPOSABLE ? '.sq.popup.once' : '.sq.popup';
+            var event = me.settings.DISPOSABLE ? '.sq.modal.once' : '.sq.modal';
 
             me.$doc.on(me.settings.EVE_EVENT_TYPE + event, me.settings.selector, function (e) {
                 if (me.settings.PREVENT_DEFAULT) {
@@ -151,24 +152,24 @@
         },
         /**
          * 新建弹窗对象
-         * @returns {*} $popupPanel
+         * @returns {*} $modalPanel
          * @private
          */
-        _createPopup: function () {
+        _createModal: function () {
             var me = this;
 
-            if (me.$popupPanel) {
-                return me.$popupPanel;
+            if (me.$modalPanel) {
+                return me.$modalPanel;
             }
             // 初始化
-            var $popupPanel = $('<div class="sq-popup"></div>');
-            var $popupContent = $('<div class="content"></div>');
+            var $modalPanel = $('<div class="sq-modal"></div>');
+            var $modalContent = $('<div class="content"></div>');
             var $close = $('<div class="close-btn">' + me.settings.TXT_CLOSE_VAL + '</div>');
             var $okBtn = $('<div class="ok">' + me.settings.TXT_OK_VAL + '</div>');
             var $cancelBtn = $('<div class="cancel">' + me.settings.TXT_CANCEL_VAL + '</div>');
 
             // 设置样式
-            $popupPanel.css({
+            $modalPanel.css({
                 'position' : me.settings.CSS_POSITION,
                 'width' : me.settings.CSS_WIDTH,
                 'height' : me.settings.CSS_HEIGHT,
@@ -181,38 +182,38 @@
                 var len = cssClasses.length;
                 for (i = 0; i < len; i++) {
                     var cssClass = cssClasses[i];
-                    $popupPanel.addClass(cssClass.indexOf('.') === 0 ? cssClass.slice(1) : cssClass);
+                    $modalPanel.addClass(cssClass.indexOf('.') === 0 ? cssClass.slice(1) : cssClass);
                 }
                 
             }
             // 装载内容
-            $popupPanel.append($popupContent);
+            $modalPanel.append($modalContent);
             // 设置显示按钮
             if (me.settings.CLOSE_BTN) {
-                $popupPanel.append($close);
+                $modalPanel.append($close);
             }
             if (me.settings.OK_BTN) {
-                $popupPanel.append($okBtn);
+                $modalPanel.append($okBtn);
             }
             if (me.settings.CANCEL_BTN) {
-                $popupPanel.append($cancelBtn);
+                $modalPanel.append($cancelBtn);
             }
 
-            $popupPanel.appendTo(me.$body);
+            $modalPanel.appendTo(me.$body);
             // 保存 Dom
-            me.$popupPanel = $popupPanel;
-            me.$popupContent = $popupContent;
+            me.$modalPanel = $modalPanel;
+            me.$modalContent = $modalContent;
             me.$okBtn = $okBtn;
             me.$cancelBtn = $cancelBtn;
             me.$close = $close;
 
-            return $popupPanel;
+            return $modalPanel;
         },
         /**
          * 设置弹窗位置
          * @private
          */
-        _setPopupPos: function () {
+        _setModalPos: function () {
             var me = this;
             var top;
             var supportBroswer = 'chrome';
@@ -236,7 +237,7 @@
 
             if (me.settings.CSS_TOP && me.settings.CSS_LEFT && me.settings.CSS_BOTTOM && me.settings.CSS_RIGHT) {
                 // 当坐标全部设置时，直接定位弹窗不做计算
-                me.$popupPanel.css({
+                me.$modalPanel.css({
                     'top': me.settings.CSS_TOP,
                     'left': me.settings.CSS_LEFT,
                     'bottom': me.settings.CSS_BOTTOM,
@@ -247,25 +248,25 @@
 
             if (isSupportTransform && !isAnimate) {
                 if (isMiddle && isCenter) {
-                    me.$popupPanel.css({
+                    me.$modalPanel.css({
                         'top': top,
                         'left': '50%',
                         '-webkit-transform': 'translate(-50%, -50%)'
                     });
                 } else if (isMiddle) {
-                    me.$popupPanel.css({
+                    me.$modalPanel.css({
                         'top': top,
                         'left': me.settings.CSS_LEFT || 0,
                         '-webkit-transform': 'translateY(-50%)'
                     });
                 } else if (isCenter) {
-                    me.$popupPanel.css({
+                    me.$modalPanel.css({
                         'top': me.settings.CSS_TOP || 0,
                         'left': '50%',
                         '-webkit-transform': 'translateX(-50%)'
                     });
                 } else {
-                    me.$popupPanel.css({
+                    me.$modalPanel.css({
                         'top': me.settings.CSS_TOP,
                         'left': me.settings.CSS_LEFT,
                         'bottom': me.settings.CSS_BOTTOM,
@@ -273,29 +274,29 @@
                     });
                 }
             } else {
-                var mt = me.settings.CSS_HEIGHT ? me.settings.CSS_HEIGHT / 2 * -1 : me.$popupPanel.height() / 2 * -1;
-                var ml = me.settings.CSS_WIDTH ? me.settings.CSS_WIDTH / 2 * -1 : me.$popupPanel.width() / 2 * -1;
+                var mt = me.settings.CSS_HEIGHT ? me.settings.CSS_HEIGHT / 2 * -1 : me.$modalPanel.height() / 2 * -1;
+                var ml = me.settings.CSS_WIDTH ? me.settings.CSS_WIDTH / 2 * -1 : me.$modalPanel.width() / 2 * -1;
                 if (isMiddle && isCenter) {
-                    me.$popupPanel.css({
+                    me.$modalPanel.css({
                         'top': top,
                         'left': '50%',
                         'margin-top': mt,
                         'margin-left': ml
                     });
                 } else if (isMiddle) {
-                    me.$popupPanel.css({
+                    me.$modalPanel.css({
                         'top': top,
                         'left': me.settings.CSS_LEFT || 0,
                         'margin-top': mt
                     });
                 } else if (isCenter) {
-                    me.$popupPanel.css({
+                    me.$modalPanel.css({
                         'top': me.settings.CSS_TOP || 0,
                         'left': '50%',
                         'margin-left': ml
                     });
                 } else {
-                    me.$popupPanel.css({
+                    me.$modalPanel.css({
                         'top': me.settings.CSS_TOP,
                         'left': me.settings.CSS_LEFT,
                         'bottom': me.settings.CSS_BOTTOM,
@@ -308,22 +309,22 @@
          * 设置弹窗事件
          * @private
          */
-        _setPopupEvent : function () {
+        _setModalEvent : function () {
             var me = this;
             // 锁定操作
             if (me.settings.LOCK) {
                 // 优化 Android 下 UCweb 浏览器触摸操作，减少滑动误操作
                 // Ucweb 9.7 以后对 click 事件做了优化，取消 touchstart 默认操作会导致点击事件失效
                 if (SQ.ua.os.name === 'android' && SQ.ua.browser.shell === 'ucweb' && SQ.ua.browser.version >= 9 && SQ.ua.browser.version < 9.7) {
-                    me.$popupPanel.on('touchstart', function (e) {
+                    me.$modalPanel.on('touchstart', function (e) {
                         e.preventDefault();
                     });
                 } else {
-                    me.$popupPanel.on('touchmove', function (e) {
+                    me.$modalPanel.on('touchmove', function (e) {
                         e.preventDefault();
                     });
                 }
-                me.$popupPanel.on('mousewheel', function (e) {
+                me.$modalPanel.on('mousewheel', function (e) {
                     e.preventDefault();
                 });
             }
@@ -344,13 +345,13 @@
         _beforeShow: function (e) {
             var me = this;
             // 创建弹窗
-            me.$popupPanel = me._createPopup();
+            me.$modalPanel = me._createModal();
             // 绑定弹窗事件
-            me._setPopupEvent();
+            me._setModalEvent();
             // 添加动画
             if (me.settings.ANIMATE) {
                 var animateClassName = me.settings.ANIMATE.indexOf('.') === 0 ? me.settings.ANIMATE.slice(1) : me.settings.ANIMATE;
-                me.$popupPanel.addClass('animated ' + animateClassName);
+                me.$modalPanel.addClass('animated ' + animateClassName);
             }
             if (me.beforeShowFun) {
                 return me.beforeShowFun(e);
@@ -367,7 +368,7 @@
                 return;
             }
             if (!me._beforeShow(e)) {
-                console.warn('SQ.Popup: _beforeShow function return false');
+                console.warn('SQ.Modal: _beforeShow function return false');
                 return;
             }
             me.closed = false;
@@ -379,8 +380,8 @@
                 me.showFun(e);
             }
             // 设置弹窗位置
-            me._setPopupPos();
-            me.$popupPanel.show();
+            me._setModalPos();
+            me.$modalPanel.show();
             // 设置自动关闭
             if (me.settings.NUM_CLOSE_TIME) {
                 me.time(me.settings.NUM_CLOSE_TIME);
@@ -396,9 +397,9 @@
             if (me.timer) {
                 clearTimeout(me.timer);
             }
-            me.$popupPanel.remove();
-            me.$popupContent.empty();
-            me.$popupPanel = null;
+            me.$modalPanel.remove();
+            me.$modalContent.empty();
+            me.$modalPanel = null;
             if (me.settings.MASK) {
                 me.$mask.hide();
             }
@@ -475,13 +476,13 @@
         },
         resize: function () {
             var me = this;
-            if (me.$popupPanel) {
-                me._setPopupPos();
+            if (me.$modalPanel) {
+                me._setModalPos();
             }
         }
     };
 
-    $.fn.popup = function ( options ) {
+    $.fn.modal = function ( options ) {
         var isZepto = typeof Zepto !== 'undefined' ? true : false;
         var isJQuery = typeof jQuery !== 'undefined' ? true : false;
         var plugin;
@@ -490,7 +491,7 @@
         options = options || {};
         options.selector = this.selector;
 
-        // 如果页面中没有指定的 Dom 则生成一个插入到文档中，避免因 trigger() 触发 Popup 时找不到该 Dom 而报错。
+        // 如果页面中没有指定的 Dom 则生成一个插入到文档中，避免因 trigger() 触发 Modal 时找不到该 Dom 而报错。
         if ($(this.selector).length === 0) {
             me = $('<div class="' + this.selector.slice(1) + '" style="display:none"></div>');
             me.selector = this.selector;
@@ -501,11 +502,11 @@
         me.each(function() {
             if (isJQuery) {
                 if ( !$.data( this, scope ) ) {
-                    $.data( this, scope, new Popup( me, options ) );
+                    $.data( this, scope, new Modal( me, options ) );
                 }
             } else if (isZepto) {
                 if (!me.data(scope)) {
-                    plugin = new Popup( me, options );
+                    plugin = new Modal( me, options );
                     me.data(scope, 'initialized');
                 }
             }

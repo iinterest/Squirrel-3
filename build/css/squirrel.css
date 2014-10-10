@@ -2435,11 +2435,11 @@ button.sq-btn.block {
 .sq-showWrap {
   -webkit-animation-name: showWrap;
 }
-.sq-popup {
+.sq-modal {
   background: #fff;
   border-radius: 5px;
 }
-.sq-popup .close-btn {
+.sq-modal .close-btn {
   position: absolute;
   top: 0;
   right: 0;
@@ -2452,8 +2452,8 @@ button.sq-btn.block {
   cursor: pointer;
   z-index: 3;
 }
-.sq-popup .ok,
-.sq-popup .cancel {
+.sq-modal .ok,
+.sq-modal .cancel {
   float: left;
   width: 50%;
   height: 40px;
@@ -2463,7 +2463,7 @@ button.sq-btn.block {
   text-align: center;
   cursor: pointer;
 }
-.sq-popup .ok {
+.sq-modal .ok {
   border-right: 1px solid #d7d7d7;
 }
 .suggest-panel {
