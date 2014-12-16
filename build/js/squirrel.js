@@ -289,8 +289,8 @@ SQ.store = {
             }
 
             document.cookie = key + '=' + encodeURIComponent(value) + ((expires === null) ? '' : ('; expires=' + expdate.toGMTString())) +
-             ((path === null) ? '' : ('; path=' + path)) + ((domain === null) ? '' : ('; domain=' + domain)) +
-             ((secure === true) ? '; secure' : '');
+            ((path === null) ? '' : ('; path=' + path)) + ((domain === null) ? '' : ('; domain=' + domain)) +
+            ((secure === true) ? '; secure' : '');
         },
         del: function (key) {
             'use strict';
@@ -319,7 +319,7 @@ SQ.store = {
             var localData;
             var time;
             var dataStore;
-            
+
             if (!key || !me.hasLoaclStorage) {
                 return;
             }
@@ -370,6 +370,7 @@ SQ.store = {
         }
     }
 };
+
 /**
  * @file SQ.ua
  * 获取设备 ua 信息，判断系统版本、浏览器名称及版本
@@ -589,8 +590,13 @@ SQ.util = {
         construtor: 'Button',
         init: function () {
             var me = this;
+            var date = new Date().getTime().toString().slice(-4);
             me.$element = $(me.element);
             me.elementClassName = me.settings.selector.slice(1);   // '.style-name' => 'style-name'
+            
+            // _documentEvent 判断时会碰到相同 className 的情况，会导致无法隐藏菜单
+            me.classId = scope + '-id-' + date;
+            me.$element.addClass(me.classId);
             if (me.settings.MODE === 'menu') {
                 me.menu();
             }
@@ -640,7 +646,7 @@ SQ.util = {
             }
 
             function _documentEvent(e) {
-                if (!$(e.target).hasClass(me.elementClassName)) {
+                if (!$(e.target).hasClass(me.classId)) {
                     _hideMenu();
                 }
             }
@@ -652,18 +658,22 @@ SQ.util = {
         var isJQuery = typeof jQuery !== 'undefined' ? true : false;
         var plugin;
 
-        options = options || {};
-        options.selector = this.selector;
-
+        if (SQ.isObject(options)) {
+            options = options || {};
+            // 当使用 $(this).modal({...}) 调用时，无法获取 this.selector 值，
+            // 所以去手动获取该 DOM 的类名
+            options.selector = this.selector || '.' + this[0].className.split(' ').join('.');
+        }
+        
         this.each(function() {
             if (isJQuery) {
-                if ( !$.data( this, scope ) ) {
-                    $.data( this, scope, new Button( this, options ) );
+                if (!$.data(this, scope + 'init')) {
+                    $.data( this, scope + 'init', new Button( this, options ) );
                 }
             } else if (isZepto) {
-                if (!$(this).data(scope)) {
+                if (!$(this).data(scope + 'init')) {
                     plugin = new Button( this, options );
-                    $(this).data(scope, 'initialized');
+                    $(this).data(scope + 'init', 'initialized');
                 }
             }
         });
@@ -671,6 +681,23 @@ SQ.util = {
         return this;
     };
 
+    // DATA-API
+    // ===============
+    /*$(document).on('click.button.data.api', '[data-'+ scope +']', function () {
+        var $me = $(this);
+        var pluginSetting = $me.data(scope);
+        //console.log(pluginSetting)
+        $me.button(pluginSetting);
+    });*/
+    /*$(document).ready(function () {
+        $('[data-'+ scope +']').each(function () {
+            var $me = $(this);
+            var pluginSetting = $me.data(scope);
+            if (SQ.isObject(pluginSetting)) {
+                $me.button(pluginSetting);
+            }
+        });
+    });*/
 })($);
 /*global $, SQ, console*/
 (function ($) {
@@ -1610,7 +1637,11 @@ SQ.util = {
 
 /**
  * @changelog
- * 1.6.0  * 重命名为 SQ.Modal。
+ * 1.6.0  * 重命名为 SQ.Modal
+ *        * 删除 trigget 方法，
+ *        * 优化 _setModalPos 方法
+ *        + 新增 DATA-API 调用方式，
+ *        + 新增外部触发的事件，如 sq:modal:remove。
  * 1.5.1  * 为 ucweb 9.7 事件优化做兼容。
  * 1.5.0  * 重写插件，调用方式改为 $. 链式调用。
  * 1.0.3  * 修复 resize 导致报错的 BUG。
@@ -1707,10 +1738,12 @@ SQ.util = {
         closed : true,
         init: function () {
             var me = this;
-
+            
             me.$win = $(window);
             me.$doc = $(document);
             me.$body = $('body');
+            me.$target = $(me.settings.selector);
+            me.customEvent = me.settings.selector.replace('.', ':');
 
             me.beforeShowFun = me.settings.beforeShow;
             me.showFun = me.settings.show;
@@ -1729,31 +1762,26 @@ SQ.util = {
         _bind: function () {
             var me = this;
             var event = me.settings.DISPOSABLE ? '.sq.modal.once' : '.sq.modal';
-
             me.$doc.on(me.settings.EVE_EVENT_TYPE + event, me.settings.selector, function (e) {
                 if (me.settings.PREVENT_DEFAULT) {
                     e.preventDefault();
                 }
                 if (me.settings.DISPOSABLE) {
+                    me.$target.addClass('disabled');
                     me.$doc.off(me.settings.EVE_EVENT_TYPE + event);
                 }
-                me._trigger(e);
+                if (me.settings.DELAY) {
+                    setTimeout(function () {
+                        me.show(e);
+                    }, me.settings.DELAY);
+                    return;
+                }
+                me.show(e);
             });
-        },
-        /**
-         * 事件触发
-         * @param e
-         * @private
-         */
-        _trigger: function (e) {
-            var me = this;
-            if (me.settings.DELAY) {
-                setTimeout(function () {
-                    me.show(e);
-                }, me.settings.DELAY);
-                return;
-            }
-            me.show(e);
+
+            me.$target.on('sq:modal:remove', function () {
+                me.close();
+            });
         },
         /**
          * 新建弹窗对象
@@ -1789,8 +1817,8 @@ SQ.util = {
                     var cssClass = cssClasses[i];
                     $modalPanel.addClass(cssClass.indexOf('.') === 0 ? cssClass.slice(1) : cssClass);
                 }
-                
             }
+            
             // 装载内容
             $modalPanel.append($modalContent);
             // 设置显示按钮
@@ -1820,95 +1848,65 @@ SQ.util = {
          */
         _setModalPos: function () {
             var me = this;
-            var top;
             var supportBroswer = 'chrome';
             var isAnimate = me.settings.ANIMATE;
             var isMiddle = me.settings.VERTICAL === 'middle' ? true : false;
             var isCenter = me.settings.HORIZONTAL === 'center' ? true : false;
             var isSupportTransform = SQ.ua.browser.shell === 'ucweb' && SQ.ua.browser.version >= 9 || supportBroswer.indexOf(SQ.ua.browser.shell) !== -1;
 
+            // 垂直居中时使用的 top 值，下面使用时会进行修正
+            var verticalCenterTop;
             if (me.settings.CSS_POSITION === 'fixed') {
-                top = '50%';
+                verticalCenterTop = '50%';
             } else if (me.settings.CSS_POSITION === 'absolute') {
                 var winHeight = window.innerHeight || me.$win.height();
-                top = me.$body.scrollTop() + winHeight / 2;
+                verticalCenterTop = me.$body.scrollTop() + winHeight / 2;
+            }
+            var mt = me.settings.CSS_HEIGHT ? me.settings.CSS_HEIGHT / 2 * -1 : me.$modalPanel.height() / 2 * -1;
+            var ml = me.settings.CSS_WIDTH ? me.settings.CSS_WIDTH / 2 * -1 : me.$modalPanel.width() / 2 * -1;
+            var css = {
+                'top': me.settings.CSS_TOP || 'auto',
+                'left': me.settings.CSS_LEFT || 'auto',
+                'bottom': me.settings.CSS_BOTTOM || 'auto',
+                'right': me.settings.CSS_RIGHT || 'auto'
+            };
+
+            // 当坐标全部未设置时给一个默认值，避免弹窗定位到页面最底部
+            if (!me.settings.CSS_TOP && !me.settings.CSS_BOTTOM) {
+                css.top = 0;
+            }
+            if (!me.settings.CSS_LEFT && !me.settings.CSS_RIGHT) {
+                css.left = 0;
             }
 
-            if (!me.settings.CSS_TOP && !me.settings.CSS_LEFT && !me.settings.CSS_BOTTOM && !me.settings.CSS_RIGHT) {
-                // 当坐标全部未设置时给一个默认值，避免弹窗定位到页面最底部
-                me.settings.CSS_TOP = 0;
-                me.settings.CSS_LEFT = 0;
-            }
-
-            if (me.settings.CSS_TOP && me.settings.CSS_LEFT && me.settings.CSS_BOTTOM && me.settings.CSS_RIGHT) {
-                // 当坐标全部设置时，直接定位弹窗不做计算
-                me.$modalPanel.css({
-                    'top': me.settings.CSS_TOP,
-                    'left': me.settings.CSS_LEFT,
-                    'bottom': me.settings.CSS_BOTTOM,
-                    'right': me.settings.CSS_RIGHT
-                });
-                return;
-            }
-
-            if (isSupportTransform && !isAnimate) {
-                if (isMiddle && isCenter) {
-                    me.$modalPanel.css({
-                        'top': top,
-                        'left': '50%',
-                        '-webkit-transform': 'translate(-50%, -50%)'
-                    });
-                } else if (isMiddle) {
-                    me.$modalPanel.css({
-                        'top': top,
-                        'left': me.settings.CSS_LEFT || 0,
-                        '-webkit-transform': 'translateY(-50%)'
-                    });
-                } else if (isCenter) {
-                    me.$modalPanel.css({
-                        'top': me.settings.CSS_TOP || 0,
-                        'left': '50%',
-                        '-webkit-transform': 'translateX(-50%)'
-                    });
+            if (isMiddle && isCenter) {
+                // 同时居中
+                css.top = verticalCenterTop;
+                css.left = '50%';
+                if (isSupportTransform && !isAnimate) {
+                    css['-webkit-transform'] = 'translate(-50%, -50%)';
                 } else {
-                    me.$modalPanel.css({
-                        'top': me.settings.CSS_TOP,
-                        'left': me.settings.CSS_LEFT,
-                        'bottom': me.settings.CSS_BOTTOM,
-                        'right': me.settings.CSS_RIGHT
-                    });
+                    css['margin-top'] = mt;
+                    css['margin-left'] = ml;
                 }
-            } else {
-                var mt = me.settings.CSS_HEIGHT ? me.settings.CSS_HEIGHT / 2 * -1 : me.$modalPanel.height() / 2 * -1;
-                var ml = me.settings.CSS_WIDTH ? me.settings.CSS_WIDTH / 2 * -1 : me.$modalPanel.width() / 2 * -1;
-                if (isMiddle && isCenter) {
-                    me.$modalPanel.css({
-                        'top': top,
-                        'left': '50%',
-                        'margin-top': mt,
-                        'margin-left': ml
-                    });
-                } else if (isMiddle) {
-                    me.$modalPanel.css({
-                        'top': top,
-                        'left': me.settings.CSS_LEFT || 0,
-                        'margin-top': mt
-                    });
-                } else if (isCenter) {
-                    me.$modalPanel.css({
-                        'top': me.settings.CSS_TOP || 0,
-                        'left': '50%',
-                        'margin-left': ml
-                    });
+            } else if (isMiddle) {
+                // 垂直居中
+                css.top = verticalCenterTop;
+                if (isSupportTransform && !isAnimate) {
+                    css['-webkit-transform'] = 'translateY(-50%)';
                 } else {
-                    me.$modalPanel.css({
-                        'top': me.settings.CSS_TOP,
-                        'left': me.settings.CSS_LEFT,
-                        'bottom': me.settings.CSS_BOTTOM,
-                        'right': me.settings.CSS_RIGHT
-                    });
+                    css['margin-top'] = mt;
+                }
+            } else if (isCenter) {
+                // 水平居中
+                css.left = '50%';
+                if (isSupportTransform && !isAnimate) {
+                    css['-webkit-transform'] = 'translateX(-50%)';
+                } else {
+                    css['margin-left'] = ml;
                 }
             }
+            me.$modalPanel.css(css);
         },
         /**
          * 设置弹窗事件
@@ -1942,7 +1940,6 @@ SQ.util = {
             me.$close.on('click', function () {
                 me.close();
             });
-
             me.$win.resize(function () {
                 me.resize();
             });
@@ -1958,6 +1955,10 @@ SQ.util = {
                 var animateClassName = me.settings.ANIMATE.indexOf('.') === 0 ? me.settings.ANIMATE.slice(1) : me.settings.ANIMATE;
                 me.$modalPanel.addClass('animated ' + animateClassName);
             }
+            // 为 DATA-API 模式触发自定义的 beforeShow 事件，
+            // 自定义 beforeShow 事件不同于 beforeShowFun，它无法接收返回 true | false 从而判断是否继续执行
+            me.$target.trigger('sq:modal:beforeShow', [me]);
+            // 执行回调函数
             if (me.beforeShowFun) {
                 return me.beforeShowFun(e);
             }
@@ -1980,6 +1981,8 @@ SQ.util = {
             if (me.settings.MASK) {
                 me.mask();
             }
+            // 为 DATA-API 模式触发自定义事件
+            me.$target.trigger('sq:modal:show', [me]);
             // 执行回调函数，优先执行 show 回调函数可以确定弹窗中的内容，从而方便计算弹窗尺寸。
             if (me.showFun) {
                 me.showFun(e);
@@ -1994,7 +1997,7 @@ SQ.util = {
         },
         /**
          * 关闭对话框
-         * @param e
+         * @param type
          */
         close: function (type) {
             var me = this;
@@ -2002,14 +2005,17 @@ SQ.util = {
             if (me.timer) {
                 clearTimeout(me.timer);
             }
-            me.$modalPanel.remove();
-            me.$modalContent.empty();
-            me.$modalPanel = null;
+            if (me.$modalPanel) {
+                me.$modalPanel.remove();
+                me.$modalContent.empty();
+                me.$modalPanel = null;
+            }
             if (me.settings.MASK) {
                 me.$mask.hide();
             }
             me.closed = true;
-
+            // 为 DATA-API 模式触发自定义事件
+            me.$target.trigger('sq:modal:close', [me]);
             if (me.closeFun && !type) {
                 me.closeFun();
             }
@@ -2068,6 +2074,8 @@ SQ.util = {
         ok: function (e) {
             var me = this;
             me.close('ok');
+            // 为 DATA-API 模式触发自定义事件
+            me.$target.trigger('sq:modal:ok', [me]);
             if (me.okFun) {
                 me.okFun(e);
             }
@@ -2075,6 +2083,8 @@ SQ.util = {
         cancel: function (e) {
             var me = this;
             me.close('cancel');
+            // 为 DATA-API 模式触发自定义事件
+            me.$target.trigger('sq:modal:cancel', [me]);
             if (me.cancelFun) {
                 me.cancelFun(e);
             }
@@ -2093,8 +2103,12 @@ SQ.util = {
         var plugin;
         var me = this;
 
-        options = options || {};
-        options.selector = this.selector;
+        if (SQ.isObject(options)) {
+            options = options || {};
+            // 当使用 $(this).modal({...}) 调用时，无法获取 this.selector 值，
+            // 所以去手动获取该 DOM 的类名
+            options.selector = this.selector || '.' + this[0].className.split(' ').join('.');
+        }
 
         // 如果页面中没有指定的 Dom 则生成一个插入到文档中，避免因 trigger() 触发 Modal 时找不到该 Dom 而报错。
         if ($(this.selector).length === 0) {
@@ -2119,6 +2133,19 @@ SQ.util = {
         // chain jQuery functions
         return me;
     };
+
+
+    // DATA-API
+    // ===============
+    $(document).ready(function () {
+        $('[data-'+ scope +']').each(function () {
+            var $me = $(this);
+            var pluginSetting = $me.data(scope);
+            if (SQ.isObject(pluginSetting)) {
+                $me.modal(pluginSetting);
+            }
+        });
+    });
 })($);
 /**
  * @file SQ.Panel 滑动面板插件

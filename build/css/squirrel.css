@@ -404,55 +404,30 @@ textarea,
 select {
   -webkit-font-smoothing: antialiased;
 }
-.fl {
+.sq-fl {
   float: left;
 }
-.fr {
+.sq-fr {
   float: right;
 }
-.m10 {
+.sq-m10 {
   margin: 10px;
 }
-.mt20 {
-  margin-top: 20px;
-}
-.mt30 {
-  margin-top: 30px;
-}
-.p10 {
+.sq-p10 {
   padding: 10px;
 }
-.h-col {
-  display: -webkit-box;
-  -webkit-box-orient: horizontal;
-  -webkit-box-pack: center;
-  -webkit-box-align: center;
+.sq-hide {
+  display: none;
 }
-.h-col > * {
-  display: block;
-  -webkit-box-flex: 1;
+.sq-unvisible {
+  visibility: hidden;
 }
-.clearfix:before,
-.clearfix:after {
+.sq-clearfix:before,
+.sq-clearfix:after {
   content: " ";
   display: table;
 }
-.clearfix:after {
-  clear: both;
-}
-.col2::after,
-.col2 ul::after,
-.col3::after,
-.col3 ul::after,
-.col4::after,
-.col4 ul::after,
-.col5::after,
-.col5 ul::after,
-.col6::after,
-.col6 ul::after {
-  content: ' ';
-  display: block;
-  height: 0;
+.sq-clearfix:after {
   clear: both;
 }
 .col2 > *,
@@ -461,6 +436,26 @@ select {
 .col5 > *,
 .col5 > * {
   float: left;
+}
+.col2 > *::after:before,
+.col3 > *::after:before,
+.col4 > *::after:before,
+.col5 > *::after:before,
+.col5 > *::after:before,
+.col2 > *::after:after,
+.col3 > *::after:after,
+.col4 > *::after:after,
+.col5 > *::after:after,
+.col5 > *::after:after {
+  content: " ";
+  display: table;
+}
+.col2 > *::after:after,
+.col3 > *::after:after,
+.col4 > *::after:after,
+.col5 > *::after:after,
+.col5 > *::after:after {
+  clear: both;
 }
 .col2 > * {
   width: 50%;
@@ -477,32 +472,26 @@ select {
 .col6 > * {
   width: 16.6666%;
 }
-.ucweb-anchor {
-  position: relative;
-}
-.ucweb-anchor li {
-  position: relative;
-}
-.ucweb-anchor a {
-  position: absolute!important;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
 .sq-box .hd {
   height: 40px;
   padding: 0 10px;
   line-height: 40px;
 }
-.hide {
-  display: none;
-}
-.unvisible {
-  visibility: hidden;
-}
-.content {
+.sq-content {
   margin: 16px;
+}
+.sq-ucweb-anchor {
+  position: relative;
+}
+.sq-ucweb-anchor li {
+  position: relative;
+}
+.sq-ucweb-anchor a {
+  position: absolute!important;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 .sq-badge {
   border-radius: 10px;
@@ -770,19 +759,19 @@ button.sq-btn.block {
   margin-right: 0;
   margin-left: .5rem;
 }
-.sq-btn.disable,
+.sq-btn.disabled,
 .sq-btn[disabled] {
   pointer-events: none;
-  opacity: .75;
+  opacity: .7;
   cursor: not-allowed;
 }
 .sq-btn .dropdown-menu {
   display: none;
   position: absolute;
+  top: 100%;
   left: -1px;
-  width: 100%;
+  right: -1px;
   min-width: 100px;
-  margin-top: 6px;
   background: #fff;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
   border-radius: 3px;
@@ -791,7 +780,9 @@ button.sq-btn.block {
 }
 .sq-btn .dropdown-menu a {
   display: block;
+  padding: 3px 0;
   color: #333;
+  border-bottom: 1px solid #efefef;
 }
 .sq-btn .dropdown-menu.right {
   left: auto;
@@ -2459,12 +2450,14 @@ button.sq-btn.block {
   height: 40px;
   background: #efefef;
   border-top: 1px solid #d7d7d7;
+  border-radius: 0 0 5px 0;
   line-height: 40px;
   text-align: center;
   cursor: pointer;
 }
 .sq-modal .ok {
   border-right: 1px solid #d7d7d7;
+  border-radius: 0 0 0 5px;
 }
 .suggest-panel {
   display: none;

@@ -289,8 +289,8 @@ SQ.store = {
             }
 
             document.cookie = key + '=' + encodeURIComponent(value) + ((expires === null) ? '' : ('; expires=' + expdate.toGMTString())) +
-             ((path === null) ? '' : ('; path=' + path)) + ((domain === null) ? '' : ('; domain=' + domain)) +
-             ((secure === true) ? '; secure' : '');
+            ((path === null) ? '' : ('; path=' + path)) + ((domain === null) ? '' : ('; domain=' + domain)) +
+            ((secure === true) ? '; secure' : '');
         },
         del: function (key) {
             'use strict';
@@ -319,7 +319,7 @@ SQ.store = {
             var localData;
             var time;
             var dataStore;
-            
+
             if (!key || !me.hasLoaclStorage) {
                 return;
             }
@@ -370,6 +370,7 @@ SQ.store = {
         }
     }
 };
+
 /**
  * @file SQ.ua
  * 获取设备 ua 信息，判断系统版本、浏览器名称及版本

@@ -44,8 +44,13 @@
         construtor: 'Button',
         init: function () {
             var me = this;
+            var date = new Date().getTime().toString().slice(-4);
             me.$element = $(me.element);
             me.elementClassName = me.settings.selector.slice(1);   // '.style-name' => 'style-name'
+            
+            // _documentEvent 判断时会碰到相同 className 的情况，会导致无法隐藏菜单
+            me.classId = scope + '-id-' + date;
+            me.$element.addClass(me.classId);
             if (me.settings.MODE === 'menu') {
                 me.menu();
             }
@@ -95,7 +100,7 @@
             }
 
             function _documentEvent(e) {
-                if (!$(e.target).hasClass(me.elementClassName)) {
+                if (!$(e.target).hasClass(me.classId)) {
                     _hideMenu();
                 }
             }
@@ -107,18 +112,22 @@
         var isJQuery = typeof jQuery !== 'undefined' ? true : false;
         var plugin;
 
-        options = options || {};
-        options.selector = this.selector;
-
+        if (SQ.isObject(options)) {
+            options = options || {};
+            // 当使用 $(this).modal({...}) 调用时，无法获取 this.selector 值，
+            // 所以去手动获取该 DOM 的类名
+            options.selector = this.selector || '.' + this[0].className.split(' ').join('.');
+        }
+        
         this.each(function() {
             if (isJQuery) {
-                if ( !$.data( this, scope ) ) {
-                    $.data( this, scope, new Button( this, options ) );
+                if (!$.data(this, scope + 'init')) {
+                    $.data( this, scope + 'init', new Button( this, options ) );
                 }
             } else if (isZepto) {
-                if (!$(this).data(scope)) {
+                if (!$(this).data(scope + 'init')) {
                     plugin = new Button( this, options );
-                    $(this).data(scope, 'initialized');
+                    $(this).data(scope + 'init', 'initialized');
                 }
             }
         });
@@ -126,4 +135,21 @@
         return this;
     };
 
+    // DATA-API
+    // ===============
+    /*$(document).on('click.button.data.api', '[data-'+ scope +']', function () {
+        var $me = $(this);
+        var pluginSetting = $me.data(scope);
+        //console.log(pluginSetting)
+        $me.button(pluginSetting);
+    });*/
+    /*$(document).ready(function () {
+        $('[data-'+ scope +']').each(function () {
+            var $me = $(this);
+            var pluginSetting = $me.data(scope);
+            if (SQ.isObject(pluginSetting)) {
+                $me.button(pluginSetting);
+            }
+        });
+    });*/
 })($);

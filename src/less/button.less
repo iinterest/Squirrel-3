@@ -38,13 +38,13 @@
     
 
     //========================================
-    // disable
+    // disabled
     // 禁用
     //========================================
-    &.disable,
+    &.disabled,
     &[disabled]{
         pointer-events:none;
-        opacity:.75;
+        opacity:.7;
         cursor:not-allowed;
     }
 
@@ -53,8 +53,8 @@
 	// 单按钮下拉菜单
 	//========================================
 	.dropdown-menu{ 
-	    display:none; position:absolute; left:-1px; width:100%; min-width:100px; margin-top:6px; background:#fff; box-shadow:0 3px 5px rgba(0,0,0,.2); border-radius:3px; border:1px solid #d7d7d7; line-height:30px;
-	    a{ display:block; color:#333;} 
+	    display:none; position:absolute; top:100%; left:-1px; right:-1px; min-width:100px; background:#fff; box-shadow:0 3px 5px rgba(0,0,0,.2); border-radius:3px; border:1px solid #d7d7d7; line-height:30px;
+	    a{ display:block; padding:3px 0; color:#333; border-bottom:1px solid #efefef;} 
         &.right{
             left:auto; right:0;
         }

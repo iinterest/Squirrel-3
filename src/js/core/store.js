@@ -73,8 +73,8 @@ SQ.store = {
             }
 
             document.cookie = key + '=' + encodeURIComponent(value) + ((expires === null) ? '' : ('; expires=' + expdate.toGMTString())) +
-             ((path === null) ? '' : ('; path=' + path)) + ((domain === null) ? '' : ('; domain=' + domain)) +
-             ((secure === true) ? '; secure' : '');
+            ((path === null) ? '' : ('; path=' + path)) + ((domain === null) ? '' : ('; domain=' + domain)) +
+            ((secure === true) ? '; secure' : '');
         },
         del: function (key) {
             'use strict';
@@ -103,7 +103,7 @@ SQ.store = {
             var localData;
             var time;
             var dataStore;
-            
+
             if (!key || !me.hasLoaclStorage) {
                 return;
             }
