@@ -1,0 +1,10 @@
+/*theme example*/
+.sq-bar{ background:#38c483; color:#fff; z-index:101;}
+.sq-bar a{ color:#fff;}
+
+/*.sq-list .list-item,*/
+/*.sq-list .list-item{ border-top-color:#e5e5e5; border-bottom-color:#e5e5e5;}*/
+.sq-list.text .sq-icon{ color:#999;}
+
+.sq-list .icon{ width:60px; height:60px;}
+

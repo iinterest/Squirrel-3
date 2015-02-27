@@ -1,0 +1,34 @@
+//
+// Column Grid
+// 分栏
+// ---------------------------------------------------------------------------
+
+.make-col-grid(@point: sm, @counter: @grid-columns, @i: 1) when (@i =< @counter) {
+    .@{ns}col-@{point}-@{i} > li,
+    .@{ns}col-@{point}-@{i} > a{
+        width: (100% / @i);
+        &:nth-of-type(n) {
+            clear: none;
+        }
+        &:nth-of-type(@{i}n+1) {
+            clear: both;
+        }
+    }
+    .make-col-grid(@point, @counter, (@i + 1));
+}
+
+
+[class*="@{ns}col-"] {
+    display:block; padding:0; margin:0; .clearfix();
+    &> li,
+    &> a{ display:block; float:left; height:auto;}
+}
+
+
+@media @mobile-screen {
+    .make-col-grid(mb);
+}
+
+@media @table-screen {
+    .make-col-grid(tb);
+}

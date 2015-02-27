@@ -1,0 +1,127 @@
+//
+// Form
+// @desc: 表单元素
+// ---------------------------------------------------------------------------
+
+
+// Normalize
+// @desc: 标准化
+// --------------------------------------------
+label{ display:block; margin:@form-label-margin;}
+input[type="checkbox"],
+input[type="radio"]{ margin:@form-radio-checkbox-margin; line-height:normal;}
+input[type="search"]{ box-sizing:border-box;}   // 修复 * 无法匹配 search 的问题
+input[type="file"]{ display: block;}
+
+/*select{ box-shadow:none; outline:none;}
+select[multiple],
+select[size] { height: auto;}*/
+
+
+// Custom
+// @desc: 定制控件
+// --------------------------------------------
+.@{ns}form{
+    input[type="text"],
+    input[type="file"],
+    input[type="search"],
+    input[type="password"],
+    input[type="number"],
+    input[type="email"],
+    input[type="tel"],
+    textarea,
+    select{
+        width:100%; height:@form-input-height; padding:@form-input-padding; border:1px solid @form-input-border-color; margin:@form-input-margin; border-radius:@form-input-border-radius; outline:none; line-height:1;
+        &::-webkit-input-placeholder{ color:@form-input-placeholder;}
+    }
+    textarea{ height:auto;}
+
+    .form-item{ margin:@form-item-margin; clear:both; user-select:none;}
+    .help-block{ display:block; margin-bottom:10px; color:#999; font-size:1.2rem; clear:both;}
+    .radio,
+    .checkbox{
+        // padding-left 为 21 px 是为了修复 radio 显示不全的问题。
+        min-width:20px; margin-bottom:1.5rem; padding:0 20px 0 21px; 
+        input[type="radio"],
+        input[type="checkbox"],
+        .sq-checkbox,
+        .sq-radio{ margin-left:-20px;}
+        &.inline{ display:inline-block; float:left;}
+    }
+
+    
+    // inline form
+    // @desc: 行内表单布局
+    // --------------------------------------------
+    &.inline{
+        display:flex; align-items:center; justify-content:space-between; overflow:hidden;
+        select,
+        input{ margin-bottom:0;}
+        label{ margin:0 .5rem; padding-right:0; line-height:1;}
+        input[type="submit"],
+        input[type="button"]{
+            width:100%;
+        }
+        .form-item{
+            display:block; flex:1; padding-right:4px; margin-bottom:0;
+            &:last-of-type{ padding-right:0;}
+        }
+    }
+
+    // 水平表单布局
+    &.horizontal{
+        .form-item{ 
+            //.display-box; .box-orient(horizontal); .box-align(center);
+            display:flex; align-items:center; justify-content:space-between;
+            &.align-top{ 
+                //.box-align(start);
+                justify-content:flex-start;
+                label:first-of-type{ padding-top:4px;}
+            }
+        }
+
+        label{ min-width:3em;}
+
+        input[type="text"],
+        input[type="search"],
+        input[type="password"],
+        input[type="number"],
+        input[type="email"],
+        input[type="tel"],
+        textarea,
+        select{
+            display:block; width:100%; flex:1; margin-right:.5rem;
+            &+input{ margin-left:.5rem;}
+            &:last-of-type{ margin-right:0;}
+        }
+
+        .wd-4,
+        .wd-6,
+        .wd-8{ width:9em; text-align:right;}
+        .wd-4{ width:5em;}
+        .wd-6{ width:7em;}
+    }
+}
+
+
+// Form
+// @desc: 优化表单
+// --------------------------------------------
+.@{ns}checkbox,
+.@{ns}radio{
+    display:inline-block; position:relative; width:21px; height:21px; margin-right:.7rem; text-align:center; vertical-align:middle; overflow:hidden;
+    & > span{ .overlay(); background:#fff; border:2px solid #ccc; border-radius:3px; text-indent:-999em;}
+    input[type=checkbox],
+    input[type=radio]{
+        visibility: hidden;
+    }
+    input[type=checkbox]:checked + span {
+        background:rgba(76,176,80,.9); border-color:#4CAF50; color:#fff; text-indent:0;
+    }
+    input[type=radio]:checked + span{
+        background:rgba(76,176,80,.6); border-color:#4CAF50; color:#fff; text-indent:0;
+    }
+}
+.@{ns}radio{
+    & > span{ border-radius:@border-radius-circle;}
+}

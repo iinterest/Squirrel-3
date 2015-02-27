@@ -1,0 +1,34 @@
+.mb--1{ margin-bottom:-1px !important;}
+
+/*common*/
+.example{ padding:0 10px 40px;}
+.example-title{ position:relative; margin:2em 0 .5em; padding:.5em; background:rgba(255, 255, 255, .8); border-bottom:1px solid #38c483; font-size:18px; color:#38c483; z-index:1; clear:both;}
+.example-title:first-of-type{ margin-top:.5em;}
+.example-row{ padding:5px;}
+.example hr{ margin:20px 0; border:none; border-bottom:1px dashed #eee;}
+.footer{ height:20px; margin-top:50px; background:#eee; text-align:center; font-size:12px; line-height:20px;}
+.example-space{ height:700px;}
+.go-top-btn{ display:none; padding:10px; border-radius:999em; background:#38c483; color:#fff;}
+/*animate*/
+.example .animate-box{ padding:10px; height:150px;}
+.example #animate-demo{ position:fixed; top:70px; left:50%; width:240px; height:130px; margin-left:-120px; background:rgba(0, 0, 0, .6); line-height:130px; text-align:center; border-radius:4px; color:#fff; z-index:10;}
+.example .animate-effect h3{ font-size:16px;}
+.example .animate-effect .sq-btn{ margin-bottom:5px;}
+/*bar*/
+.example .sq-bar{ background:#eee; color:#333;}
+.example .sq-bar a{ color:#333;}
+.example .sq-bar .active{ color:#fff;}
+/*glyphicon*/
+.example .fontawesome-icon-list > div{ margin:10px 0; font-size:12px;}
+/*grid*/
+.example-grid > .row > div{ background:#eee; border:1px solid #38c483;}
+
+
+.sq-slider{ height:150px; background:#eee; overflow:hidden;}
+.sq-slider li{ height:150px;}
+.bx-wrapper{}
+.bx-wrapper .bx-pager{}
+.bx-wrapper .bx-pager-item{}
+.bx-wrapper .bx-pager-link{}
+.bx-wrapper .bx-pager-link.active{ background:#38c483;}
+.bx-wrapper .bx-controls-direction{}

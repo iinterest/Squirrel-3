@@ -1,0 +1,209 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="static/css/squirrel-doc.css?t=%UPDATE%" />
+    <link type="text/css" rel="stylesheet" href="static/css/phone.css?t=%UPDATE%" />
+    <link type="text/css" rel="stylesheet" href="static/css/font-awesome.min.css?t=%UPDATE%" />
+    <script type="text/javascript" src="libs/jquery/jquery-2.1.0.min.js?t=%UPDATE%"></script>
+    <script type="text/javascript" src="static/js/squirrel-doc.js?t=%UPDATE%"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=3" />
+    <title>Squirrel 前端开发框架</title>
+</head>
+<body>
+<!--[if lt IE 9]>
+<style type="text/css">.wrapper{display:none;}</style>
+<div class="old-broswer">您的浏览器版本已过时，推荐使用最新的<a href="https://www.google.com/intl/zh-CN/chrome/browser/" target="_blank" class="broswer-suggest">Chrom 浏览器</a>以获得最佳浏览体验！</div>
+<![endif]-->
+<div class="wrapper">
+    <header id="fw-header">
+        <nav class="top-nav">
+            <h1 class="logo"><a href="index.html">Squirrel</a></h1>
+            <ul>
+                <li class="active"><a href="index.html">首页</a></li>
+                <li><a href="docs/latest/documentation.html">文档</a></li>
+                <li><a href="dpl/dpl.html">模式库</a></li>
+                <li class="construct">主题</li>
+                <li class="construct">定制</li>
+                <li class="construct">开发指南</li>
+            </ul>
+            <a class="fw-download-btn red" href="https://github.com/iinterest/Squirrel-3/releases" target="_blank">下载 Squirrel</a>
+            <div class="warning">请使用<a href="http://zh.wikipedia.org/wiki/WebKit" target="_blank" class="broswer-suggest">Webkit 内核浏览器</a>以获得最佳浏览体验！</div>
+        </nav>
+    </header>
+    <div class="banner">
+        <div class="introduce">
+            <div class="logo-large ai-fadeIn"></div>
+            <h1 class="ai-fadeIn">Squirrel 3<sup>Beta</sup></h1>
+            <p class="intro ai-fadeIn">移动前端开发框架，提供简单、快速的 Web 开发体验。</p>
+            <ul class="version ai-slideIn">
+                <li>最新版本：%VERSION%</li>
+                <li>更新时间：%UPDATE%</li>
+                <li><a href="changelog.html" target="_top">更新说明</a></li>
+            </ul>
+        </div>
+        <div class="teaser-bg ai-slideIn"></div>
+        <div class="banner-bg"></div>
+    </div>
+    <section class="fw-box features">
+        <header>
+            <h1>框架特性</h1>
+            <p>Squirrel 框架包含许多实用特性，帮助你快速构建移动 Web 应用。</p>
+        </header>
+        <div class="bd">
+            <ul class="features-list">
+                <li>
+                    <div class="icon component"></div>
+                    <div class="introduc">
+                        <h3>组件丰富</h3>
+                        <p>Squirrel 框架提供丰富的样式及交互组件，能帮助您轻松构建 Web 应用。</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon os"></div>
+                    <div class="introduc">
+                        <h3>多系统支持</h3>
+                        <p>默认支持 Android、iOS 操作系统，也可方便的扩展支持 WP8、Firefox OS 等系统。</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon responsive"></div>
+                    <div class="introduc">
+                        <h3>响应式设计</h3>
+                        <p>能适应各种屏幕尺寸、分辨率的设备，并针对触摸操作体验进行了优化。</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon extend"></div>
+                    <div class="introduc">
+                        <h3>扩展简便</h3>
+                        <p>采用 LESS 技术、CMD 规范、jQuery 插件开发模式，无论扩展还是移植都方便。</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon customizer"></div>
+                    <div class="introduc">
+                        <h3>定制灵活</h3>
+                        <p>提供定制工具，可以根据实际需要灵活的定制框架。</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon opensource"></div>
+                    <div class="introduc">
+                        <h3>开源协议</h3>
+                        <p>Squirrel 框架遵循 MIT 协议，无论公司还是个人，都可以免费、自由使用。</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section class="fw-box index-demo">
+        <header>
+            <h1>演示</h1>
+            <p>借助 Squirrel，您可以非常方便的构建移动 Web 应用，下面是由 Squirrel 框架构建演示案例。</p>
+        </header>
+        <div class="bd">
+            <section id="iphone5s" class="silver zoom-out">
+                <div class="wrap">
+                    <div class="device">
+                        <div class="inner"></div>
+                        <div class="sleep"></div>
+                        <div class="volume"></div>
+                        <div class="camera"></div>
+                        <div class="top-bar"></div>
+                        <div class="sensor"></div>
+                        <div class="speaker"></div>
+                        <iframe src="demo/index.html" frameborder="0" class="screen demo-scroll"></iframe>
+                        <div class="bottom-bar"></div>
+                        <div class="home"></div>
+                    </div>
+                </div>
+            </section>
+            <div class="qr-code demo">
+                <img src="static/images/demo-QR-code.png" alt="二维码"/>
+                <p>使用手机浏览体验</p>
+            </div>
+        </div>
+    </section>
+    <section class="fw-box partner clearfix">
+        <header>
+            <h1>合作伙伴</h1>
+            <p>Squirrel 为以团队下提供了技术支持。</p>
+            <ul class="list">
+                <li class="uc"><img src="static/images/ucweb.png" /></li>
+                <li class="nokia"><img src="static/images/nokia.png" /></li>
+            </ul>
+        </header>
+    </section>
+    <section class="fw-box join-us clearfix">
+        <header>
+            <h1>贡献者</h1>
+            <p>感谢所有为 Squirrel 贡献力量的朋友们，因为你们她才会不断成长。这里也欢迎更多的朋友加入 Squirrel 开源项目！</p>
+        </header>
+
+        <ul class="contributor-list">
+            <li>
+                <h4>iinterest</h4>
+                <img src="static/images/avatar/hs.png" alt="iinterest"/>
+                <p class="role">Developer</p>
+                <p class="social-contact">
+                    <a href="http://weibo.com/iinterest" target="_blank"><i class="fa fa-weibo"></i></a>
+                    <a href="http://twitter.com/iinterest" target="_blank"><i class="fa fa-twitter"></i></a>
+                    <a href="http://facebook.com/iinterest" target="_blank"><i class="fa fa-facebook-square"></i></a>
+                </p>
+            </li>
+            <li>
+                <h4>薛小小</h4>
+                <img src="static/images/avatar/xj.png" alt="xuexiaoxiao"/>
+                <p class="role">Designer</p>
+                <p class="social-contact">
+                    <!--<a href="#;" target="_blank"><i class="fa fa-weibo"></i></a>-->
+                    <!--<a href="#;" target="_blank"><i class="fa fa-dribbble"></i></a>-->
+                </p>
+            </li>
+        </ul>
+
+        <div class="bd">
+            <ul class="join-content">
+                <li>
+                    <h3><i class="fa fa-puzzle-piece"></i> 插件</h3>
+                    <p>欢迎您为 Squirrel 贡献高实用性的功能插件，以方便其他使用者。开始之前请先阅读<a href="#">插件开发流程</a>。</p>
+                </li>
+                <li>
+                    <h3><i class="fa fa-magic"></i> 主题</h3>
+                    <p>如果您制作了一款基于 Squirrel 的主题并且符合主题的开发规范，我们非常欢迎您将它提交至<a href="#">主题库</a>。</p>
+                </li>
+                <li>
+                    <h3><i class="fa fa-coffee"></i> 模式库</h3>
+                    <p>模式库（DPL）组件与业务结合紧密，具备高质量且完整的交互体验，如果您为您的项目开发了类似的组件，欢迎提交至<a href="#">设计模式库</a>。</p>
+                </li>
+                <li>
+                    <h3><i class="fa fa-user"></i> 用户体验</h3>
+                    <p>希望您能将任何体验相关的意见或建议，甚至新的功能需求提交至 <a href="https://github.com/iinterest/Squirrel/issues" target="_blank">github issues</a>「体验」。</p>
+                </li>
+                <li>
+                    <h3><i class="fa fa-bug"></i> 缺陷</h3>
+                    <p>如果使用中发现任何缺陷（BUG），请提交至 <a href="https://github.com/iinterest/Squirrel/issues" target="_blank">github issues</a>「BUG」，同时也请报告您的使用版本、环境，我们会尽快确认、修复。</p>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <footer id="footer">
+        <div class="bd">
+            <ul class="docs-social-buttons">
+                <li><iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=iinterest&amp;repo=squirrel-3&amp;type=watch&amp;count=true" width="100" height="20" title="Star on GitHub"></iframe></li>
+                <li><iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=iinterest&amp;repo=squirrel-3&amp;type=fork&amp;count=true" width="102" height="20" title="Fork on GitHub"></iframe></li>
+            </ul>
+            <div class="links">
+                <a href="https://github.com/iinterest/Squirrel-3">Github</a>
+                <a href="docs/latest/documentation.html">Docs</a>
+                <a href="">Examples</a>
+                <a href="mailto:iinterest.bell@gmail.com">Contact us</a>
+            </div>
+            <p class="copyright">2014 &copy; Squirrel Frameword by iinterest. Licensed under <a href="#">MIT</a> license.</p>
+            <script type="text/javascript" src="http://js.tongji.linezing.com/3514151/tongji.js"></script><noscript><a href="http://www.linezing.com"><img src="http://img.tongji.linezing.com/3514151/tongji.gif"/></a></noscript>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

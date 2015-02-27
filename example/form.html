@@ -1,0 +1,237 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link type="text/css" rel="stylesheet" href="../dist/css/squirrel.min.css" />
+    <link type="text/css" rel="stylesheet" href="css/example.css" />
+    <link type="text/css" rel="stylesheet" href="css/example-theme.css" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=3" />
+    <title>Squirrel Example Form</title>
+</head>
+<body>
+<article class="wrapper">
+    <header class="sq-bar nav">
+        <a class="sq-btn sq-icon icon-chevron-left x2 J_goBack" href="index.html"></a>
+        <h1 class="title">Form</h1>
+        <aside class="sq-dropdown J_menu">
+            <div class="sq-btn sq-icon icon-bars x2"></div>
+            <ul class="dropdown-content align-right">
+                <li><a href="#m1"></a></li>
+                <li><a href="#m2"></a></li>
+                <li><a href="#m3"></a></li>
+            </ul>
+        </aside>
+    </header>
+    <div class="example">
+        <h2 class="example-title" id="m1">基础表单</h2>
+        <form action="#sq-form-submit">
+            <div class="sq-form sq-p10">
+                <div class="form-item">
+                    <label for="userId">用户名：</label>
+                    <input type="text" placeholder="邮箱/手机号" id="userId" />
+                    <p class="help-block">推荐使用手机号作为用户名。</p>
+                </div>
+                <div class="form-item">
+                    <label for="password">密码：</label>
+                    <input type="password" id="password" />
+                    <label>
+                        <input type="checkbox" value="option1" checked="checked">记住密码
+                    </label>
+                </div>
+                <div class="form-item">
+                    <input type="submit" class="sq-btn block mt-blue sq-mt30" value="登录"/>
+                </div>
+            </div>
+        </form>
+    
+    
+    
+    
+        <h2 class="example-title" id="m2">表单控件</h2>
+        <form action="#sq-form-submit">
+            <div class="sq-form sq-p10">
+                <div class="form-item">
+                    <label>原生：</label>
+                    <label class="checkbox inline">
+                        <input type="checkbox" value="option1" checked="checked">多选
+                    </label>
+                    <label class="checkbox inline">
+                        <input type="checkbox" value="option2">多选
+                    </label>
+                    <label class="checkbox inline">
+                        <input type="checkbox" value="option3">多选
+                    </label>
+                </div>
+                <div class="form-item">
+                    <label class="radio inline">
+                        <input type="radio" name="optionsRadios-1" checked="checked" />美观
+                    </label>
+                    <label class="radio inline">
+                        <input type="radio" name="optionsRadios-1" />好用
+                    </label>
+                    <label class="radio inline">
+                        <input type="radio" name="optionsRadios-1" />更新快
+                    </label>
+                </div>
+                <div class="form-item">
+                    <label>优化控件：</label>
+                    <label class="checkbox inline">
+                        <div class="sq-checkbox">
+                            <input type="checkbox" value="option1" checked="checked">
+                            <span><i class="sq-icon icon-check"></i></span>
+                        </div>多选
+                    </label>
+                    <label class="checkbox inline">
+                        <div class="sq-checkbox">
+                            <input type="checkbox" value="option2">
+                            <span><i class="sq-icon icon-check"></i></span>
+                        </div>多选
+                    </label>
+                    <label class="checkbox inline">
+                        <div class="sq-checkbox">
+                            <input type="checkbox" value="option3">
+                            <span><i class="sq-icon icon-check"></i></span>
+                        </div>多选
+                    </label>
+                </div>
+                <div class="form-item">
+                    <label class="radio inline">
+                        <div class="sq-radio">
+                            <input type="radio" name="optionsRadios-2" checked="checked">
+                            <span></span>
+                        </div>美观
+                    </label>
+                    <label class="radio inline">
+                        <div class="sq-radio">
+                            <input type="radio" name="optionsRadios-2">
+                            <span></span>
+                        </div>好用
+                    </label>
+                    <label class="radio inline">
+                        <div class="sq-radio">
+                            <input type="radio" name="optionsRadios-2">
+                            <span></span>
+                        </div>更新快
+                    </label>
+                </div>
+                <div class="form-item">
+                    <label>类型：</label>
+                    <label class="radio">
+                        <input type="radio" name="optionsRadios" checked="checked" />
+                        打开速度慢，比较卡
+                    </label>
+                </div>
+                <div class="form-item">
+                    <label class="radio">
+                        <input type="radio" name="optionsRadios" />
+                        推荐的内容不喜欢，找不到想要的应用
+                    </label>
+                </div>
+                <div class="form-item">
+                    <label class="radio">
+                        <input type="radio" name="optionsRadios" />
+                        无法使用，经常崩溃
+                    </label>
+                </div>
+                <div class="form-item">
+                    <label>其他建议：</label>
+                    <textarea rows="5"></textarea>
+                </div>
+                <div class="form-item">
+                    <div class="sq-btn block mt-blue">提交</div>
+                </div>
+            </div>
+        </form>
+        
+        
+        
+        
+        <h2 class="example-title" id="m3">行内表单</h2>
+        <form action="#sq-form-submit">
+            <div class="sq-form inline">
+                <div class="form-item">
+                    <select>
+                        <option value="1">店铺</option>
+                        <option value="2">宝贝</option>
+                    </select>
+                </div>
+                <div class="form-item">
+                    <input type="search" placeholder="请输入关键词" />
+                </div>
+                <div class="form-item">
+                    <input type="submit" class="sq-btn mt-blue" value="搜索"/>
+                </div>
+            </div>
+        </form>
+        <hr/>
+        <form action="#sq-form-submit">
+            <div class="sq-form inline">
+                <div class="form-item">
+                    <label class="checkbox">
+                        <input type="checkbox" value="option1">选择
+                    </label>
+                </div>
+                <div class="form-item">
+                    <input type="text" placeholder="" />
+                </div>
+                <div class="form-item">
+                    <input type="submit" class="sq-btn mt-blue" value="GO"/>
+                </div>
+            </div>
+        </form>
+        
+        
+        
+        
+        <h2 class="example-title" id="m4">水平表单</h2>
+        <form action="#sq-form-submit">
+            <div class="sq-form horizontal">
+                <div class="form-item">
+                    <label class="wd-4">国家：</label>
+                    <select>
+                        <option value="1">美国</option>
+                        <option value="2">加拿大</option>
+                    </select>
+                </div>
+                <div class="form-item">
+                    <label class="wd-4">地址：</label>
+                    <input type="text" />
+                </div>
+                <div class="form-item">
+                    <label class="wd-4">联系方式：</label>
+                    <input type="number" /> - 
+                    <input type="tel" />
+                </div>
+                <div class="form-item">
+                    <div class="help-block">-固定电话请加区号</div>
+                </div>
+                <div class="form-item">
+                    <label class="wd-4">邮箱：</label>
+                    <input type="email" />
+                </div>
+                
+                <div class="form-item align-top">
+                    <label class="wd-4">签名：</label>
+                    <textarea></textarea>
+                </div>
+                <div class="form-item">
+                    <label class="wd-4"></label>
+                    <label class="checkbox">
+                        <input type="checkbox" value="option1">记住密码
+                    </label>
+                </div>
+                <div class="form-item">
+                    <label class="wd-4"></label>
+                    <input type="submit" class="sq-btn mt-blue" value="登录"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</article>
+<a href="#" class="go-top-btn J_fixedGoTop">Top</a>
+<script type="text/javascript" src="../dist/js/jquery.min.js"></script>
+<script type="text/javascript" src="../dist/js/squirrel.min.js"></script>
+<script type="text/javascript" src="js/example.js"></script>
+</body>
+</html>

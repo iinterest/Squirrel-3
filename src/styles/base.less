@@ -1,0 +1,42 @@
+//
+// Base
+// @desc: 定制化样式
+// ---------------------------------------------------------------------------
+
+*,
+*:before,
+*:after{ box-sizing:border-box; margin:0; padding:0;}
+
+html{ font-size:62.5%;}
+
+body{
+    //-webkit-font-smoothing:antialiased;
+    //** 暂时屏蔽
+    //-webkit-tap-highlight-color:transparent;
+    -webkit-touch-callout:none;
+
+    font-family:@font-family;
+    font-size:@default-font-size;
+    color:@default-font-color;
+    word-wrap:break-word;
+    break-word:break-all;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5{ font-weight:400;}
+
+ul,
+ol,
+menu{ list-style:none;}
+
+input,
+textarea,
+select{ -webkit-font-smoothing:antialiased;}
+
+a{ color:@default-font-color; text-decoration:none;}
+b,
+i,
+em{ font-weight:normal; font-style:normal;}

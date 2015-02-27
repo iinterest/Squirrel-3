@@ -1,0 +1,23 @@
+//
+// Tab
+// @desc:   下拉菜单，tab.js 配套样式
+// @author:	squirrel
+// ---------------------------------------------------------------------------
+.@{ns}nav-tabs{
+    height:39px; border-bottom:1px solid #d7d7d7;
+    & > li{
+        min-width:40px; height:40px; padding:0 10px; border-bottom:3px solid transparent; line-height:40px; text-align:center; cursor:pointer;
+        &.active{ border-bottom-color:#d7d7d7;}
+    }
+}
+.@{ns}tab-content{
+    display:none; border:1px solid transparent; min-height:100px;
+    &.active{ display:block;}
+}
+.@{ns}tabs-loading-tip{
+    padding:30px 0; text-align:center;
+    .reload{
+        &>p{ margin-bottom:.8em;}
+    }
+}
+

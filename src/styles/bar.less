@@ -1,0 +1,113 @@
+//
+// Bar
+// @desc:   栏，用于告知用户其所在位置的情境信息，以及帮助用户浏览或执行操作的控件，
+//          包含导航栏、工具栏、选项栏等。
+// ---------------------------------------------------------------------------
+
+.@{ns}bar{
+    height:@bar-normal-height; padding:@bar-toolbar-padding;
+    .flex{ display:flex;}
+    .@{ns}btn{ display:block; z-index:1;} // 兼容：Andorid 4.1 无法实现 flexbox 相关属性
+
+    
+    // Tool bar
+    // @desc: 工具栏，能实现在不同信息层级结构之间的导航
+    // --------------------------------------------
+    &.toolbar{
+        // flexbox
+        // http://css-tricks.com/snippets/css/a-guide-to-flexbox/
+        position:relative; display:flex; align-items:center; justify-content:space-between; z-index:@bar-toolbar-index;
+        
+        // 对齐方式
+        &.align-start,
+         .align-start{ justify-content:flex-start;}
+        &.align-end,
+         .align-end{ justify-content:flex-end;}
+    }
+
+    
+    // Navigation bar
+    // @desc: 导航栏，能实现在不同信息层级结构之间的导航
+    // @extend: .sq-bar.toolbar
+    // --------------------------------------------
+    &.nav:extend(.toolbar all){
+        // 标题栏
+        & > .title{ flex:1; height:@bar-normal-height; margin:@bar-nav-extend-margin; font-size:@bar-title-font-size; line-height:@bar-normal-height; text-align:center; overflow:hidden;}
+        // 扩展区域
+        & > .extend{
+            display:flex; align-items:center; justify-content:space-between; flex:1; height:@bar-normal-height; margin:@bar-nav-extend-margin;
+            .@{ns}btn-group{ width:100%;}
+        }
+    }
+
+    
+    // Pagination bar
+    // @desc: 分页栏
+    // @extend: .sq-bar.toolbar
+    // --------------------------------------------
+    &.pagination:extend(.toolbar all){
+        // 翻页
+        select{ min-height:@bar-normal-height - 10; line-height:1;}
+        & > .pagination-select{ .overlay(0,80px,0,80px); font-size:@bar-pagination-font-size; text-align:center; line-height:@bar-normal-height;}
+        .disabled{ pointer-events:none; opacity:.4; cursor:not-allowed;}
+    }
+
+    
+    // Tabs
+    // @desc: 选项栏
+    // --------------------------------------------
+    &.nav-tabs{
+        font-size:@bar-tab-font-size;
+        
+        & > a{ display:flex; align-items:center; justify-content:space-between; position:relative; height:@bar-normal-height; text-align:center;}
+        // 嵌套一层 span 是为了达到垂直居中的效果
+        span{ display:block; flex:1;}
+
+        // 带图标样式
+        &.icons{
+            & > a{ font-size:1.2rem;}
+            .@{ns}icon{ display:block;}
+            .@{ns}badge{ left:60%; right:auto;}
+        }
+
+        .@{ns}badge{
+            position:absolute; top:-2px; right:10%; padding:4px; min-width:20px; border-radius:@border-radius-circle; line-height:1; z-index:1;
+        }
+    }
+
+    
+    // Search
+    // @desc: 搜索栏
+    // @extend: .sq-bar.toolbar
+    // --------------------------------------------
+    &.search:extend(.toolbar all){
+        padding:@bar-search-padding;
+        
+        [type="text"],
+        [type="search"],
+        [type="submit"],
+        [type="button"]{ border:none; outline:none;}
+        
+        [type="text"],
+        [type="search"]{ 
+            display:block; flex:1; height:@bar-search-height; line-height:@bar-search-height;
+            & + .@{ns}btn{ margin-left:@bar-search-btn-space;}
+        }
+
+        form{ display:flex; width:100%;}
+
+        .label{
+            position:relative; flex:1; background:@bar-search-label-bg;
+            &.icon-search{
+                line-height:@bar-search-height;
+                &::before{ position:relative; top:1px; padding:0 8px; content:@bar-search-icon;}
+            }
+        }
+        .@{ns}btn{ max-height:@bar-search-height + 2; overflow:hidden;}
+        
+        /*.clear{
+            display:none; position:absolute; top:0; right:0; width:30px; height:28px; cursor:pointer;
+            &::after{ content:"×"; position:absolute; top:5px; left:6px; width:18px; height:18px; background:#ccc; border-radius:@border-radius-circle; text-align:center; line-height:16px; color:#fff;}
+        }*/ 
+    }
+}

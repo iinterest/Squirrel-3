@@ -1,0 +1,17 @@
+//
+// Modal
+// @desc:   弹出窗口，modal.js 配套样式
+// @author:	squirrel
+// ---------------------------------------------------------------------------
+.@{ns}modal{
+    background:@modal-bg; border-radius:@modal-radius;
+    
+    //.content{}
+    
+    // 按钮
+    .close-btn{ position:absolute; top:0; right:0; width:30px; height:30px; background:#d7d7d7; border-radius:3px; text-align:center; line-height:30px; cursor:pointer; z-index:3;}
+    .ok-btn,
+    .cancel-btn{ position:absolute; width:50%; padding:@modal-btn-padding; background:#efefef; border-top:1px solid @modal-border-color; text-align:center; cursor:pointer;}
+    .ok-btn{ left:0; bottom:0; border-radius:0 0 0 @modal-radius;}
+    .cancel-btn{ right:0; bottom:0; border-left:1px solid @modal-border-color; border-radius:0 0 @modal-radius 0;}
+}

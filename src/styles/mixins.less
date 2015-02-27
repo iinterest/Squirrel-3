@@ -1,0 +1,55 @@
+//
+// Mixin
+// @desc: LESS 混合模块
+// ---------------------------------------------------------------------------
+
+// 清除浮动
+.clearfix() {
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+// 折行字体隐藏
+.text-hide() {
+    display:block;
+    max-height:1.4em;
+    line-height:1.4em;
+    overflow:hidden;
+}
+
+// 折行字体显示省略号
+.text-hide-ellipsis() {
+    display:block;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
+}
+
+// 元素平铺
+.overlay (@top: 0, @right: 0, @bottom: 0, @left: 0){
+    position:absolute;
+    top: @top;
+    right: @right;
+    bottom: @bottom;
+    left: @left;
+}
+
+// 三角箭头
+.sq-arr-up (@size, @color){ 
+    width:0; height:0; border:@size solid transparent; border-bottom-color:@color;
+}
+.sq-arr-right (@size, @color){ 
+    width:0; height:0; border:@size solid transparent; border-right-color:@color;
+}
+.sq-arr-down (@size, @color){ 
+    width:0; height:0; border:@size solid transparent; border-down-color:@color;
+}
+.sq-arr-left (@size, @color){ 
+    width:0; height:0; border:@size solid transparent; border-left-color:@color;
+}

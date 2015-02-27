@@ -1,0 +1,26 @@
+//
+// Slider
+// @desc:   滑动图片，slider.js 配套样式
+// @author:	squirrel
+// ---------------------------------------------------------------------------
+.@{ns}slider{
+    display:block;
+    li{}
+    img{ display:block; margin:0 auto;}
+}
+
+.bx-wrapper{
+    position:relative;
+    
+    .bx-controls{}
+    .bx-pager{ position:absolute; right:10px; bottom:10px; text-align:right;}
+    .bx-pager-item{ display:inline-block; padding:0 3px;}
+    .bx-pager-link{ 
+        display:inline-block; width:8px; height:8px; background:rgba(0,0,0,.6); border-radius:999rem; font-size:0; overflow:hidden;
+        &.active{ background:#38c483;}
+    }
+
+    .bx-controls-direction{ display:none; }
+    .bx-prev{}
+    .bx-next{}
+}

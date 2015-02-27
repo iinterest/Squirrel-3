@@ -1,0 +1,42 @@
+//** sq-screenshot
+//** Screenshot
+
+.@{ns}screenshot{
+    .screenshot-horizontal{
+        margin-top:20px; max-height:400px; overflow:hidden;
+        // 默认为全景模式
+        ul{ list-style:none; margin:0; padding:0; overflow:hidden;}
+        li{ float:left; width:320px; margin:0 10px 0 0; padding:0; background:#e5e5e5; text-align:center; cursor:pointer;
+            img{ display:block; width:100%;}
+            &.active{ color:#fff; background:#e5e5e5;}
+        }
+        // 肖像模式
+        .portrait-view{
+            li{ width:200px;}
+        }
+        .landscape-view{}
+    }
+
+    /* Scrollbar */
+    .screenshot-scrollbar{
+        margin: 10px 0 0 0;
+        height: 5px;
+        background: #e5e5e5;
+        line-height: 0;
+
+        .handle {
+            width: 100px;
+            height: 100%;
+            background: #38c483;
+            cursor: pointer;
+
+            .mousearea {
+                position: absolute;
+                top: -9px;
+                left: 0;
+                width: 100%;
+                height: 20px;
+            }
+        }
+    }
+}

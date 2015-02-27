@@ -1,0 +1,92 @@
+//
+// List
+// @desc: 列表
+// ---------------------------------------------------------------------------
+
+.@{ns}list{
+
+    .group-hd,
+    .list-item{
+        display:block; position:relative; padding:@list-padding; border-top:1px solid transparent; border-bottom:1px solid transparent; font-size:@list-font-size; .clearfix();
+        line-height:@list-line-height;   // 保证中英文文本水平对齐
+        & + .group-hd,
+        & + .list-item{ margin-top:-1px;}
+        &.divider{ border-bottom-color:@list-multi-border-color;}     //等屏宽分隔线 Full-bleed dividers
+    }
+    &.divider{
+        & > .list-item{ border-color:@list-multi-border-color;}
+    }
+    .icon,
+    .thumb{
+        display:block; position:relative;
+        img{ display:block; width:100%;}
+        .sq-badge{ position:absolute; top:@list-badge-pos-top; left:@list-badge-pos-left;}
+    }
+    //.icon{ width:@list-icon-width; height:@list-icon-height;}
+    .title{ display:block; margin-bottom:@list-inside-space;}
+    .overlay{ .overlay(); text-indent:-999em; z-index:@list-overlay-zindex; cursor:pointer;}
+    .align-middle{ display:flex; align-items:center;}
+
+
+    // Text
+    // @desc: 文字列表，通常只包含文字、徽章或少量控件
+    // --------------------------------------------
+    &.text{
+        .list-item{ 
+            padding:0;
+            & > a{ display:block; padding:@list-padding;}
+        }
+        .title{ font-size:@content-font-size;}
+        .data{ display:inline-block; float:right; width:80px; margin-left:1rem;}
+        .sq-badge{ margin:-2px 0; margin-left:1rem;}    // 修正 sq-badge 过高将 list-item 撑开的问题
+        //.sq-icon:not(.sq-fr){ display:inline-block; width:48px; margin:-3px 0 -3px -15px; text-align:center;}
+        .sq-icon{ 
+            display:inline-block; margin-right:12px;
+            &.sq-fr{ margin-right:0;}
+        }
+    }
+
+
+    // Media
+    // @desc: 媒体列表，布局复杂、控件丰富的列表
+    // --------------------------------------------
+    &.media{
+        .list-item{ display:flex;}
+        .desc{
+            flex:1; margin:0 @list-padding;
+            .title{ font-size:@title-font-size;}
+            .digest{ margin-bottom:@list-inside-space; font-size:@content-font-size;}
+            :last-child{ margin-bottom:0;}
+        }
+        // 消除多余边距
+        :first-child{ margin-left:0;}
+        :last-child{ margin-right:0;}
+        // 扩展内容，通常放置按钮、Icon
+        .extend{
+            position:relative; z-index:@list-overlay-zindex + 1;  // 高于 .overlay
+            .sq-btn{ 
+                float:left;
+                & + .sq-btn{ 
+                    margin-left:@list-inside-space;
+                    &.block{ margin-left:0; margin-top:@list-inside-space;}
+                }
+            }
+        }
+        // 一行多列显示优化
+        &[class*="@{ns}col-"]{
+            border-bottom:1px solid @list-multi-border-color; border-left:1px solid @list-multi-border-color;
+            .list-item{ 
+                margin:0 0 0 -1px; border-bottom:none; border-left:1px solid @list-multi-border-color; border-right:1px solid @list-multi-border-color;
+            }
+        }
+    }
+
+
+    // Tile
+    // @desc:平布列表
+    // --------------------------------------------
+    &.tile{
+        .list-item{ float:left; margin:0; padding:@list-tile-padding; text-align:center; border:none;}
+        .icon{ margin:0 auto @list-inside-space;}
+    }
+}

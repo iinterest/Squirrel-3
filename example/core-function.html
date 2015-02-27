@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link type="text/css" rel="stylesheet" href="../dist/css/squirrel.min.css" />
+    <link type="text/css" rel="stylesheet" href="css/example.css" />
+    <link type="text/css" rel="stylesheet" href="css/example-theme.css" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=3" />
+    <title>Squirrel Example CoreFun</title>
+</head>
+<body>
+<article class="wrapper">
+    <header class="sq-bar nav">
+        <a class="sq-btn sq-icon icon-chevron-left x2 J_goBack" href="index.html"></a>
+        <h1 class="title">Core Function</h1>
+        <div class="sq-btn sq-icon icon-bars x2 J_menu">
+            <ul class="dropdown-menu right">
+                <li><a href="#m1">Throttle</a></li>
+            </ul>
+        </div>
+    </header>
+    <div class="example">
+        <div class="sq-form">
+            <div class="form-item">
+                <label for="throttle">Throttle：</label>
+                <input type="text" placeholder="" id="throttle" value="" />
+            </div>
+            <div class="form-item">
+                <label for="debounce">Debounce：</label>
+                <input type="text" placeholder="" id="debounce" value="" />
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../dist/js/jquery.min.js"></script>
+<script type="text/javascript" src="../dist/js/squirrel.min.js"></script>
+<script type="text/javascript" src="js/example.js"></script>
+<script>
+    $('#throttle').on('keydown', SQ.throttle(function () {
+        console.log('throttle: ' + $(this).val());
+    }, 100));
+
+    $('#debounce').on('keydown', SQ.debounce(function () {
+        console.log('debounce: ' + $(this).val());
+    }, 100, true));
+</script>
+</article>
+</html>

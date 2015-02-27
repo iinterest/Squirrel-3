@@ -1,0 +1,23 @@
+//
+// Loadmore
+// @desc:   下拉菜单，loadmore.js 配套样式
+// @author:	squirrel
+// ---------------------------------------------------------------------------
+.@{ns}loadmore-state{
+    position:relative; padding:@loadmore-padding; line-height:@loadmore-lin-height; color:@default-font-color; text-align:center; cursor:pointer; overflow:hidden;
+    .state-icon{
+        &::before{ font-family:@icon-font-family;}
+    }
+    .state-txt{ padding:0 8px;}
+    &.click{
+        & > .state-icon::before{ content:'\f103';}
+    }
+    &.loading{
+        & > .state-icon{ position:relative; top:-1px; animation:icon-spin 2s infinite linear;}
+        & > .state-icon::before{ content:'\f110';}
+    }
+    //&.error{}
+    &.no-more{
+        & > .state-icon::before{ content:'';}
+    }
+}

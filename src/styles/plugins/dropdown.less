@@ -1,0 +1,19 @@
+//
+// Dropdown
+// @desc:   下拉菜单，dropdown.js 配套样式
+// @author:	squirrel
+// ---------------------------------------------------------------------------
+.@{ns}dropdown{
+	position:relative; display:inline-block; vertical-align:middle;
+
+	.dropdown-content{ 
+	    display:none; position:absolute; top:100%; left:0; min-width:@dropdown-min-width; margin-top:-1px; background:@dropdown-content-bg; box-shadow:@shardow-normal; border-radius:@dropdown-content-radius; border:1px solid @dropdown-border-color; z-index:@dropdown-index;
+	    & > li{
+			padding:@dropdown-content-padding; border-bottom:1px solid @dropdown-border-color;
+			&:hover{ background:@dropdown-hover;}
+			&:last-of-type{ border-bottom:none;}
+		}
+		a{ display:block; white-space:nowrap; line-height:@default-line-height;}
+        &.align-right{ left:auto; right:0;}
+	}
+}

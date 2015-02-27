@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link type="text/css" rel="stylesheet" href="../dist/css/squirrel.min.css" />
+    <link type="text/css" rel="stylesheet" href="css/example.css" />
+    <link type="text/css" rel="stylesheet" href="css/example-theme.css" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=3" />
+    <title>Squirrel Dropdown</title>
+</head>
+<body>
+<article class="wrapper">
+    <header class="sq-bar nav">
+        <a class="sq-btn sq-icon icon-chevron-left x2 J_goBack" href="index.html"></a>
+        <h1 class="title">Dropdown</h1>
+        <aside class="sq-dropdown J_menu">
+            <div class="sq-btn sq-icon icon-bars x2"></div>
+            <ul class="dropdown-content align-right">
+                <li><a href="#m1"></a></li>
+                <li><a href="#m2"></a></li>
+                <li><a href="#m3"></a></li>
+            </ul>
+        </aside>
+    </header>
+    <section class="example">
+        <h2 class="example-title">Example</h2>
+        
+        <div class="sq-dropdown J_Dropdown">
+            <button class="sq-btn mt-white">下拉菜单1 <span class="sq-icon icon-caret-down"></span></button>
+            <ul class="dropdown-content">
+                <li><a href="#menu1">menu content 1</a></li>
+                <li><a href="#menu2">menu 2</a></li>
+                <li><a href="#menu3">menu 3</a></li>
+            </ul>
+        </div>
+
+        <div class="sq-dropdown J_Dropdown">
+            <button class="sq-btn mt-white">下拉菜单2 <span class="sq-icon icon-caret-down"></span></button>
+            <ul class="dropdown-content">
+                <li><a href="#menu1">menu 1</a></li>
+                <li><a href="#menu2">menu 2</a></li>
+                <li><a href="#menu3">menu 3</a></li>
+            </ul>
+        </div>
+        
+        <hr/>
+        
+        <div class="sq-dropdown J_Dropdown">
+            <button class="sq-btn mt-white">下拉菜单3 <span class="sq-icon icon-caret-down"></span></button>
+            <ul class="dropdown-content">
+                <li><a href="#menu1">menu 1</a></li>
+                <li><a href="#menu2">menu 2</a></li>
+                <li><a href="#menu3">menu 3</a></li>
+            </ul>
+        </div>
+    </section>
+</article>
+<a href="#" class="go-top-btn J_fixedGoTop">Top</a>
+<script type="text/javascript" src="../dist/js/jquery.min.js"></script>
+<script type="text/javascript" src="../dist/js/squirrel.min.js"></script>
+<script type="text/javascript" src="js/example.js"></script>
+<script type="text/javascript">
+    $('.J_Dropdown').dropdown({
+        ANIMATE: '.fadeIn quick'
+    });
+</script>
+</body>
+</html>

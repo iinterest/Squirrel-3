@@ -2,17 +2,16 @@
 
 ## 一、简介
 
-Squirrle 是一款移动 Web 前端开发框架，提供简单、快速的 Web 开发体验。
+Squirrle 是一款轻量级的移动 Web 前端开发框架，提供简单、快速的 Web 开发体验。
 
 ## 二、特性
 
-* 基于 HTML5，应用了 HTML5 的多种特性，如 CSS3、离线应用、本地存储等。
-* 多操作系统支持，支持 Android、iOS 系统，可扩展支持 Windows Phone、Firefox OS 等系统。
-* 专为手持移动设备打造，能适应不同屏幕尺寸，针对不同尺寸屏幕做了排版优化。
-* 提供定制工具，可以根据实际需要灵活的定制内容，按需最小化加载组件及插件。
-* 遵循 CMD 规范，借助 Sea.js 可以按需最小化加载组件及插件。
-* 基于 LESS 开发，能够方便的创建结构良好、高扩展性、高可维护性的代码。
-* 框架遵循 MIT 协议，无论公司还是个人，都可以免费自由使用。
+* 专为移动终端设计，支持 Android、iOS、WP 操作系统。
+* 适应各种屏幕尺寸、分辨率的移动终端，针对触摸操作体验进行了优化。
+* 遵循 MIT 协议，无论公司还是个人，都可以免费、自由使用。
+* 提供丰富的样式及交互组件，能帮助您轻松构建 Web 应用。
+* 采用 LESS 技术、CMD 规范、jQuery 插件开发模式，扩展方便。
+* 提供定制工具，可以根据实际需要灵活的定制框架。
 
 ## 三、使用指南
 
@@ -20,63 +19,40 @@ Squirrle 是一款移动 Web 前端开发框架，提供简单、快速的 Web �
 
 Squirrel 支持两种安装方式：
 
-1. 直接下载 Squirrle 3 代码包  
-	代码包分为『开发版』和『压缩版』；『开发版』包含完整的项目结构与源码；而『压缩版』则是更适合用于实际生产的代码，下面是『压缩版』目录结构：
+1. 直接下载 Squirrle 3 [代码包](https://github.com/iinterest/Squirrel-3/releases)
+2. 或者使用 npm 安装：
 
-		Squirrel/
-  			├── css/
-  			│   ├── squirrel.css
-  			│   ├── squirrel.min.css
-  			├── js/
-  			│   ├── squirrel.js
-  			│   ├── squirrel.min.js
-  			├── fonts/
-    		│   ├── sq-fontello.ttf
-    		│   ├── sq-fontello.woff
-    		└── index.html
-
-2. 使用 NPM 安装 Squirrle 3 工程套件  
-	Squirrle 3 工程套件是一套完整移动 Web 开发方案，它集成了 Squirrel 框架代码并提供自动化构建工具，按照约定的目录进行开发，需要自行配置，套件目录结构：
-
-
-		Squirrel-pt/
-  			├── dist/
-  			│   ├── css/
-  			│   │	├── squirrel.min.css
-  			│   │	├── project-name.min.css
-  			│   ├── js/
-  			│   │	├── squirrel.min.js
-  			│   │	├── project-name.min.js
-			│   ├── images/	
-			│   ├── fonts/
-			│   │	├── sq-fontello.ttf
-  			│   │	├── sq-fontello.woff
-  			├── src/  (源码)
-  			│   ├── sq-less/ (框架源码)
-  			│   ├── sq-js/   (框架源码)
-  			│   ├── less/    (项目源码)
-  			│   ├── js/      (项目源码)
-  			├── libs/ (依赖库)
-  			│   ├── zepto.min.js
-  			├── .jshintrc
-  			├── Gruntfile.js
-  			├── package.json
-    		└── index.html
-
-	
-	NPM 安装命令：
-	
 		npm install squirrel-pt
-	
-	进入 squirrel-pt 目录，下载完成后需要对 package.json 进行配置。
+
+安装完成或压缩下载的安装包之后，可看到以下目录结构：
+
+		squirrel/
+			|
+			├── css/
+			│ ├── squirrel.min.css
+			│ └── app.css
+			├── fonts/
+			│ ├── fontawesome-webfont.ttf
+			│ └── fontawesome-webfont.woff
+			├── images/
+			├── js/
+			│ ├── jquery.min.js
+			│ ├── jquery.min.map
+			│ ├── squirrel.min.js
+			│ └── app.js
+			├── maps/
+			│ ├── squirrel.min.css.map
+			│ └── squirrel.min.js.map
+			└── index.html
 
 ### 2、使用
 
-Squirrel 集成了许多常用的组件及插件，只需要简单的几步就可以快速的使用集成的组件及插件构建一个应用：
+Squirrel 安装包内包含编译并压缩好的 squirrel.min.css、squirrel.min.js 文件，以及最新的 jQuery 库和 Awesome 的图标字体，同时还提供 Javascript 和 CSS 的源码映射表（.map 文件）；除此之外还提供简单的模板样式文件（Boilerplate）您可以：
 
-1. 打开并编辑安装目录中 index.html 文件；
-2. 在框架文档中拷贝所需组件代码片段或者插件的实例化方法；
-3. 加入自定义样式和 Javascript 脚本。
+* 以index.html为样板编写 HTML；
+* 在app.css中编写 CSS；
+* 在app.js中编写 JavaScript；
+* 将图片资源放在images目录下。
 
 ## 三、贡献力量
 

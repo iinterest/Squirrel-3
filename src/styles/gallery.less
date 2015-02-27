@@ -1,0 +1,24 @@
+//
+// Gallery
+// @desc: 画廊
+// ---------------------------------------------------------------------------
+
+.@{ns}gallery{
+    width:100%; overflow:hidden;
+    ul{ margin:-@gallery-space;}
+    a{ display:block; position:relative;}
+    img{ display:block; width:100%;}
+
+    .gallery-item{ position:relative; padding:@gallery-space;}
+    .title{ font-size:@gallery-title-font-size;}
+    .desc{ font-size:@gallery-title-font-desc;}
+    
+    
+    // overlay
+    // @desc: 浮层标题
+    // --------------------------------------------
+    &.overlay{
+        .title{ position:absolute; right:0; bottom:0; left:0; margin:0; padding:@gallery-space; background:@gallery-overlay-title-bg; color:@gallery-overlay-title-color;}
+        .desc{ display:none;}
+    }
+}

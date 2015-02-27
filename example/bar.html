@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link type="text/css" rel="stylesheet" href="../dist/css/squirrel.min.css" />
+    <link type="text/css" rel="stylesheet" href="css/example.css" />
+    <link type="text/css" rel="stylesheet" href="css/example-theme.css" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=3" />
+    <title>Squirrel Example Bars</title>
+</head>
+<body>
+<article class="wrapper">
+    <header class="sq-bar nav">
+        <a class="sq-btn sq-icon icon-chevron-left x2 J_goBack" href="index.html"></a>
+        <h1 class="title">Bar</h1>
+        <aside class="sq-dropdown J_menu">
+            <div class="sq-btn sq-icon icon-bars x2"></div>
+            <ul class="dropdown-content align-right">
+                <li><a href="#m1">导航栏</a></li>
+                <li><a href="#m2">工具栏</a></li>
+                <li><a href="#m3">分页栏</a></li>
+                <li><a href="#m4">选项栏</a></li>
+                <li><a href="#m5">搜索栏</a></li>
+            </ul>
+        </aside>
+    </header>
+    <div class="example">
+        
+        <h3 class="example-title" id="m2">工具栏</h3>
+        
+        <header class="sq-bar toolbar">
+            <a class="sq-btn" href="#"><i class="sq-icon icon-angle-left"></i>Unread(12)</a>
+            <a class="sq-btn" href="#"><i class="sq-icon icon-search"></i></a>
+            <!--<div class="flex">
+                <a class="sq-btn" href="#"><i class="sq-icon icon-star x2"></i></a>
+                <a class="sq-btn" href="#"><i class="sq-icon icon-search x2"></i></a>
+            </div>-->
+        </header>
+        <hr/>
+        <header class="sq-bar toolbar align-end">
+            <a class="sq-btn" href="#"><i class="sq-icon icon-thumbs-up"></i></a>
+            <a class="sq-btn" href="#"><i class="sq-icon icon-thumbs-down"></i></a>
+            <a class="sq-btn" href="#"><i class="sq-icon icon-star"></i></a>
+            <a class="sq-btn" href="#"><i class="sq-icon icon-search"></i></a>
+        </header>
+
+
+        <h3 class="example-title" id="m1">导航栏</h3>
+        <header class="sq-bar nav">
+            <a class="sq-btn" href="#Menu"><i class="sq-icon icon-home x2"></i></a>
+            <h1 class="title">Ringtone</h1>
+            <a class="sq-btn" href="#Dropmenu"><i class="sq-icon icon-bars x2"></i></a>
+        </header>
+        <hr/>
+        <header class="sq-bar nav">
+            <a class="sq-btn" href="#c"><i class="sq-icon icon-angle-left left"></i>类别</a>
+            <div class="extend">
+                <nav class="sq-btn-group">
+                    <a href="#" class="sq-btn mt-black active">付费排行</a>
+                    <a href="#" class="sq-btn mt-white">免费排行</a>
+                </nav>
+            </div>
+            <a class="sq-btn" href="#m">清单</a>
+        </header>
+        
+        
+        <h3 class="example-title" id="m3">分页栏</h3>
+        <nav class="sq-bar pagination">
+            <a class="sq-btn disabled" href="#pre"><i class="sq-icon icon-chevron-left"></i>Previous</a>
+            <div class="pagination-select">
+                <select>
+                    <option value="1">1/26</option>
+                    <option value="2">2/26</option>
+                </select>
+            </div>
+            <a class="sq-btn right-icon" href="#next">Next<i class="sq-icon icon-chevron-right"></i></a>
+        </nav>
+        
+        
+        <h3 class="example-title" id="m4">选项栏</h3>
+        <nav class="sq-bar nav-tabs sq-col-mb-4">
+            <a href="#home"><span>Home</span></a>
+            <a href="#topic"><span>Topic</span><b class="sq-badge red">9</b></a>
+            <a href="#rank"><span>Categories</span></a>
+            <a href="#rank"><span>Rank</span></a>
+        </nav>
+        <hr/>
+        <nav class="sq-bar nav-tabs icons sq-col-mb-4">
+            <a href="#home"><span><i class="sq-icon icon-home x3"></i>Home</span></a>
+            <a href="#topic"><span><i class="sq-icon icon-star x3"></i>Topic <b class="sq-badge red">9</b></span></a>
+            <a href="#rank"><span><i class="sq-icon icon-th x3"></i>Categories</span></a>
+            <a href="#rank"><span><i class="sq-icon icon-rocket x3"></i>Rank</span></a>
+        </nav>
+        <h3 class="example-title" id="m5">搜索栏</h3>
+        <header class="sq-bar search">
+            <form action="#">
+                <input type="search" placeholder="请输入搜索内容" />
+                <input type="submit" class="sq-btn mt-green" value="Search" />
+            </form>
+        </header>
+        <hr/>
+        <header class="sq-bar search">
+            <form action="#">
+                <input type="search" placeholder="请输入搜索内容" />
+                <button class="sq-btn mt-green" type="submit"><i class="sq-icon icon-search"></i></button>
+            </form>
+        </header>
+        <hr/>
+        <header class="sq-bar search">
+            <form action="#" class="label sq-icon icon-search">
+                <input type="search" placeholder="请输入搜索内容" />
+            </form>
+        </header>
+    </div>
+</article>
+<a href="#" class="go-top-btn J_fixedGoTop">Top</a>
+<script type="text/javascript" src="../dist/js/jquery.min.js"></script>
+<script type="text/javascript" src="../dist/js/squirrel.min.js"></script>
+<script type="text/javascript" src="js/example.js"></script>
+</body>
+</html>

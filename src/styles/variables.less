@@ -1,0 +1,206 @@
+//
+// Global variables
+// 全局变量
+// ---------------------------------------------------------------------------
+
+
+// ===========================================================================
+//   Common
+// ===========================================================================
+
+
+// 基本设置 Base Setting
+// --------------------------------------------
+@ns: ~"sq-";
+//** 圆角 Radius
+@border-radius-circle:      999rem;
+@border-radius-base:        3px;
+//** 颜色 color
+@black:                     #333333;
+@white:                     #ffffff;
+//** 其他 Other
+@shardow-normal:            0 1px 6px rgba(0,0,0,.12);
+
+
+// 文字设置 Font
+// --------------------------------------------
+@font-family: "Segoe UI", Helvetica, "Lucida Grande", Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans","wenquanyi micro hei","Hiragino Sans GB", "Hiragino Sans GB W3", Arial, sans-serif;
+@default-font-color:        @black;
+@default-font-size:         1.6rem;             // 16px
+@default-line-height:       1.428571429;        // @see bootstrap
+@head-font-size:            1.8rem;             // 主导航文字
+@title-font-size:           1.6rem;             // 标题文字
+@content-font-size:         1.4rem;             // 内容文字
+@form-base-font-size:       1.4rem;             // 表单文字
+@description-font-size:     1.2rem;             // 描述文字
+@badge-font-size:           1.2rem;             // 徽标文字
+
+
+// 媒体查询 Media queries
+// --------------------------------------------
+@screen:                    ~"only screen";
+@landscape:                 ~"(orientation: landscape)";
+@portrait:                  ~"(orientation: portrait)";
+//** Mobile size
+@mobile-max-size:           640px;              // 0 - 640px
+@mobile-landscape-size:     ~"@{landscape}";
+@mobile-portrait-size:      ~"@{portrait}";
+//** Table size
+@table-min-size:            768px;              // 768 - ∞
+@table-landscape-size:      ~"@{landscape}";
+@table-portrait-size:       ~"@{portrait}";
+//** Mobile screen
+@mobile-screen:             ~"@{screen}";
+@mobile-screen-landscape:   ~"@{screen} and (orientation: landscape)";
+@mobile-screen-portrait:    ~"@{screen} and (orientation: portrait)";
+//** Table screen
+@table-screen:              ~"@{screen} and (min-width: @{table-min-size})";
+@table-screen-landscape:    ~"@{screen} and (min-width: @{table-min-size}) and (@{table-landscape-size})";
+@table-screen-portrait:     ~"@{screen} and (min-width: @{table-min-size}) and (@{table-portrait-size})";
+
+
+// ===========================================================================
+//   CSS
+// ===========================================================================
+
+
+// 按钮 Button
+// --------------------------------------------
+@btn-border-radius:         @border-radius-base;
+//** normal                   (sq-btn height = 9*2 + 16 + 2 = 36px)
+@btn-padding-normal:        9px 1rem;
+//** large
+@btn-padding-large:         12px 1rem;
+@btn-font-size-large:       1.8rem;
+//** small
+@btn-padding-small:         6px 1rem;
+@btn-font-size-small:       1.4rem;
+//** mini
+@btn-padding-mini:          4px 1rem;
+@btn-font-size-mini:        1.2rem;
+@btn-disabled-opacity:      .7;
+
+
+// 表单 Form
+// --------------------------------------------
+@form-label-margin:         0 0 5px 0;
+@form-radio-checkbox-margin:4px .7rem 0 0;
+//** input
+@form-input-height:         36px;
+@form-input-margin:         0 0 5px 0;
+@form-input-padding:        4px 6px;
+@form-input-border-color:   #ccc;
+@form-input-border-radius:  @border-radius-base;
+@form-input-placeholder:    #999;
+@form-item-margin:          0 0 1.5rem 0;
+
+
+// 栅格系统 Grid system
+// --------------------------------------------
+@grid-columns:              12;
+@gutter:                    1.5rem;             // 15px
+@grid-gutter-width:         3rem;               // 30px
+
+
+// ===========================================================================
+//   Components
+// ===========================================================================
+
+
+// 徽章 Badge
+// --------------------------------------------
+@badge-border-radius:       10px;
+@badge-padding:             3px 7px;
+@badge-black:               #444444;
+@badge-blue:                #009bd8;
+@badge-green:               #6eb82c;
+@badge-grey:                #a9a7a7;
+@badge-red:                 #e34541;
+@badge-orange:              #faa800;
+
+
+// 栏条 Bar
+// --------------------------------------------
+@bar-normal-height:         49px;
+@bar-toolbar-padding:       0 4px;
+@bar-toolbar-index:         100;
+@bar-nav-extend-margin:     0 .5rem;
+@bar-title-font-size:       @head-font-size;
+@bar-pagination-font-size:  @content-font-size;
+@bar-tab-font-size:         @content-font-size;
+@bar-search-padding:        0 8px;
+@bar-search-label-bg:       @white;
+@bar-search-height:         32px;
+@bar-search-icon:           ~"\f002";
+@bar-search-btn-space:      4px;
+
+
+// 列表 List
+// --------------------------------------------
+@list-font-size:            @content-font-size;
+//@list-icon-width:           60px;
+//@list-icon-height:          60px;
+@list-padding:              12px;       // 不能使用 top right bottom left 格式
+@list-line-height:          1.4;
+@list-badge-pos-top:        -5px;
+@list-badge-pos-left:       -5px;
+@list-overlay-zindex:       11;
+@list-inside-space:         .5rem;
+@list-multi-border-color:   #e5e5e5;
+@list-tile-padding:         10px 5px;
+
+
+// 画廊 Gallery
+// --------------------------------------------
+@gallery-space:             3px;
+@gallery-title-font-size:   1.4rem;
+@gallery-title-font-desc:   1.4rem;
+@gallery-overlay-title-bg:  rgba(0,0,0,.6);
+@gallery-overlay-title-color:@white;
+@gallery-item-min-height:   100px;
+
+
+// 字体图标 Icon
+// --------------------------------------------
+@icon-font-family:          "FontAwesome";
+@icon-font-path:            "../fonts/";
+@icon-font-name:            "fontawesome-webfont";
+@icon-x2-size:              2rem;
+@icon-x3-size:              2.7rem;
+@icon-x4-size:              4rem;
+@icon-x5-size:              5rem;
+
+
+// =============================================================================
+//   Plugins
+// =============================================================================
+
+
+// Dropdown
+// --------------------------------------------
+@dropdown-content-bg:       @white;
+@dropdown-content-radius:   @border-radius-base;
+@dropdown-border-color:     #e5e5e5;
+@dropdown-hover:            #efefef;
+@dropdown-index:            100;
+@dropdown-content-padding:  7px 10px;
+@dropdown-min-width:        100px;
+
+
+// Loadmore
+// --------------------------------------------
+@loadmore-lin-height:       @default-line-height;
+@loadmore-padding:          8px;
+
+
+// Panel
+// --------------------------------------------
+@panel-bg:                  #333;
+
+
+// Modal
+// --------------------------------------------
+@modal-bg:                  @white;
+@modal-radius:              @border-radius-base;    // 不能使用 top right bottom left 格式
+@modal-border-color:        #d7d7d7;
+@modal-btn-padding:         8px;

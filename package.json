@@ -1,27 +1,28 @@
 {
-    "name": "squirrel",
-    "version": "0.9.10",
-    "description": "移动前端开发框架，提供简单、快速的 Web 开发体验。",
-    "homepage": "http://hisquirrel.com",
-    "author": "iinterest",
-    "license": {
-        "type": "MIT",
-        "url": "https://github.com/iinterest/Squirrel-3/blob/master/LICENSE.md"
-    },
-    "devDependencies": {
-        "grunt": "~0.4.2",
-        "grunt-autoprefixer": "~0.5.0",
-        "grunt-contrib-clean": "~0.5.0",
-        "grunt-contrib-copy": "~0.5.0",
-        "grunt-contrib-concat": "~0.3.0",
-        "grunt-contrib-cssmin": "~0.7.0",
-        "grunt-contrib-less": "~0.10.0",
-        "grunt-contrib-uglify": "~0.4.0",
-        "grunt-contrib-watch": "~0.5.3",
-        "grunt-cmd-concat": "~0.2.7",
-        "grunt-cmd-transport": "~0.4.1",
-        "grunt-jsdoc": "~0.4.2",
-        "grunt-open": "~0.2.2",
-        "grunt-sed": "~0.1.1"
-    }
+  "name": "squirrel",
+  "version": "0.10.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "devDependencies": {
+    "del": "^0.1.3",
+    "gulp-autoprefixer": "^1.0.1",
+    "gulp-cache": "^0.2.4",
+    "gulp-concat": "^2.4.1",
+    "gulp-footer": "^1.0.5",
+    "gulp-header": "^1.2.2",
+    "gulp-if": "^1.2.5",
+    "gulp-imagemin": "^1.2.1",
+    "gulp-jshint": "^1.8.5",
+    "gulp-less": "^1.3.6",
+    "gulp-livereload": "^2.1.1",
+    "gulp-minify-css": "^0.3.11",
+    "gulp-notify": "^2.0.1",
+    "gulp-plumber": "^0.6.6",
+    "gulp-rename": "^1.2.0",
+    "gulp-replace": "^0.5.0",
+    "gulp-sourcemaps": "^1.2.4",
+    "gulp-uglify": "^1.0.1"
+  },
+  "author": "iinterest.bell@gmail.com",
+  "license": "ISC"
 }

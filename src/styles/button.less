@@ -1,0 +1,82 @@
+//
+// Button
+// @desc: 通用按钮，包括单体按钮、组合按钮。
+// ---------------------------------------------------------------------------
+
+.@{ns}btn{
+    display:inline-block; position:relative; border-radius:@btn-border-radius; border:1px solid transparent; text-align:center; white-space:nowrap; line-height:1; cursor:pointer; outline:none; user-select:none;
+
+
+    // Size
+    // @desc: 按钮尺寸
+    // --------------------------------------------
+    padding:@btn-padding-normal;
+	&.large{ padding:@btn-padding-large; font-size:@btn-font-size-large;}
+	&.small{ padding:@btn-padding-small; font-size:@btn-font-size-small;}
+    &.mini{ padding:@btn-padding-mini; font-size:@btn-font-size-mini;}
+    &.block{ display:block; width:100%; clear:both;}
+
+    
+    // disabled
+    // @desc: 禁用样式
+    // --------------------------------------------
+    &.disabled,
+    &[disabled]{
+        pointer-events:none; cursor:not-allowed;
+        opacity:@btn-disabled-opacity;
+    }
+    
+    // color
+    //
+    &.mt-white{
+        background:#f7f7f7; color:#333; border-color:#ddd;
+        & > a{ color:#333;}
+    }
+    &.mt-grey{
+        background:#e1e1e1; border-color:#e1e1e1; color:#333;
+        & > a{ color:#333;}
+    }
+    &.mt-black{
+        background:#444; border-color:#444; color:#fff;
+        & > a{ color:#fff;}
+    }
+    &.mt-blue{
+        background:#4285f4; border-color:#4285f4; color:#fff;
+        & > a{ color:#fff;}
+        &:hover{ background:#3367d6;}
+    }
+    &.mt-green{ background:#6eb82c; border-color:#6eb82c; color:#fff;
+        & > a{ color:#fff;}
+    }
+    &.mt-orange{ background:#faa800; border-color:#faa800; color:#fff;
+        & > a{ color:#fff;}
+    }
+    &.mt-red{ background:#e34541; border-color:#e34541; color:#fff;
+        & > a{ color:#fff;}
+    }
+}
+
+
+// Button Group
+// @desc: 组合按钮
+// --------------------------------------------
+.sq-btn-group{
+    display:flex; flex-direction:row;
+    .active{
+        z-index:1;  // 保证激活项目在最上层显示
+    }
+	& > .sq-btn{
+	    display:block; flex:1; margin-left:-1px; border-radius:0; .text-hide-ellipsis();
+        &:first-child{ margin-left:0; border-radius:@btn-border-radius 0 0 @btn-border-radius;}
+        &:last-child{ border-radius:0 @btn-border-radius @btn-border-radius 0;}
+	}
+    // 垂直布局
+	&.vertical{
+        flex-direction:column;
+        & > .sq-btn{
+            margin:-1px 0 0 0;
+            &:first-child{ margin-top:0; border-radius:@btn-border-radius @btn-border-radius 0 0;}
+            &:last-child{ border-radius:0 0 @btn-border-radius @btn-border-radius;}
+        }
+	}
+}

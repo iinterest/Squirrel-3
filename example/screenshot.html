@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link type="text/css" rel="stylesheet" href="../dist/css/squirrel.min.css" />
+    <link type="text/css" rel="stylesheet" href="css/example.css" />
+    <link type="text/css" rel="stylesheet" href="css/example-theme.css" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=3" />
+    <title>Squirrel Screenshot</title>
+    <style type="text/css">
+        .sq-screenshot{
+            position:relative;
+            width:100%;
+            height:310px;
+            overflow:hidden;
+        }
+        .scroller{
+            position:absolute;
+            z-index:1;
+            -webkit-tap-highlight-color:rgba(0, 0, 0, 0);
+            width:1000px;
+            height:200px;
+            -webkit-transform:translateZ(0);
+            -moz-transform:translateZ(0);
+            -ms-transform:translateZ(0);
+            -o-transform:translateZ(0);
+            transform:translateZ(0);
+            -webkit-touch-callout:none;
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+        }
+        .scroller li{
+            display:block;
+            float:left;
+            width:200px;
+        }
+        .scroller li img{ display:block; width:100%;}
+    </style>
+</head>
+<body>
+<article class="wrapper">
+    <header class="sq-bar nav">
+        <a class="sq-btn sq-icon icon-chevron-left x2 J_goBack" href="index.html"></a>
+        <h1 class="title">Screenshot</h1>
+        <aside class="sq-dropdown J_menu">
+            <div class="sq-btn sq-icon icon-bars x2"></div>
+            <ul class="dropdown-content align-right">
+                <li><a href="#m1"></a></li>
+                <li><a href="#m2"></a></li>
+                <li><a href="#m3"></a></li>
+            </ul>
+        </aside>
+    </header>
+    <section class="example">
+        <h2 class="example-title">Screenshot</h2>
+        <div class="scrollbar">
+            <div class="handle">
+                <div class="mousearea"></div>
+            </div>
+        </div>
+
+        <div class="sq-screenshot" id="sq-screenshot">
+            <div class="scroller">
+                <ul>
+                    <li>
+                        <img alt="1" src="http://image.game.uc.cn/2014/11/5/10025077.jpg">
+                    </li>
+                    <li>
+                        <img alt="2" src="http://image.game.uc.cn/2014/11/5/10025076.jpg">
+                    </li>
+                    <li>
+                        <img alt="3" src="http://image.game.uc.cn/2014/11/5/10025074.jpg">
+                    </li>
+                    <li>
+                        <img alt="4" src="http://image.game.uc.cn/2014/11/5/10025073.jpg">
+                    </li>
+                    <li>
+                        <img alt="5" src="http://image.game.uc.cn/2014/11/5/10025072.jpg">
+                    </li>
+                </ul>
+            </div>
+            <!--<div class="scroller">
+                <ul>
+                    <li>Cell 1</li>
+                    <li>Cell 2</li>
+                    <li>Cell 3</li>
+                    <li>Cell 4</li>
+                    <li>Cell 5</li>
+                </ul>
+            </div>-->
+        </div>
+    </section>
+</article>
+<script type="text/javascript" src="../dist/js/jquery.min.js"></script>
+<script type="text/javascript" src="../dist/js/squirrel.min.js"></script>
+<script type="text/javascript" src="js/example.js"></script>
+<script type="text/javascript">
+    var myScroll = new IScroll('#sq-screenshot', {
+        scrollX: true, 
+        scrollY: false, 
+        mouseWheel: true,
+        scrollbars: true
+    });
+</script>
+</body>
+</html>

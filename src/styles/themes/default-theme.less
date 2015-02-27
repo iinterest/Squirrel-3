@@ -1,0 +1,105 @@
+//
+// Material UI
+// ---------------------------------------------------------------------------
+
+@ns:                    ~"sq-";
+@space-normal:          16px;
+
+
+@white:                 #fff;
+@font-grey:             #757575;
+@base-blue:             #3f51b5;
+@border-color-grey:     #e0e0e0;
+
+
+@shadow-normal:         0 2px 5px rgba(0,0,0,0.26);
+@shadow-depth-2:        0 1px 6px rgba(0, 0, 0, 0.36);
+
+hr{ display:block; height:1px; background:@border-color-grey; margin:8px 0; border:none; clear:both;}
+
+.@{ns}bar{
+    height:56px; padding:0; font-size:20px; background:@base-blue; color:@white; line-height:56px;
+    // 超过 768px: height:64px; font-size:24px;
+    
+    box-shadow:@shadow-normal;
+    
+    &.nav{
+        & > .title{ text-align:left; font-size:20px; margin:0; padding:0 16px;}
+        & > .extend{}
+        .sq-btn{
+            width:48px; height:48px; padding:0; margin:4px; color:@white; line-height:48px;
+        }
+    }
+}
+
+.@{ns}list{
+    .group-hd{ font-size:1.6rem; color:@font-grey;}
+    .list-item{ 
+        padding:(@space-normal - 1) @space-normal;
+        &:after{ content:''; display:block; position:absolute; left:72px; right:0; bottom:-1px; height:1px; border-bottom:1px solid transparent;}
+        &.divider{ border-color:@border-color-grey;}     //等屏宽分隔线 Full-bleed dividers
+        &.divider-inset:after{ border-color:@border-color-grey;}
+        & > .icon:last-child{ width:auto;}
+    }
+    &.divider{
+        & > .list-item{ border-color:@border-color-grey;}
+    }
+    &.divider-inset{ 
+        & > .list-item:after{ border-color:@border-color-grey;}
+    }
+    &.single-line{
+        & > .list-item{ padding:7px @space-normal;}
+    }
+
+    // 保证文字以 75px 对齐
+    .sq-icon{ width:56px;}
+    .icon{
+        width:56px; height:auto;
+        img{ width:40px; border-radius:999rem;}
+    }
+    
+    &.text{
+        .list-item{
+            & > a{ padding:(@space-normal - 2) @space-normal (@space-normal - 3);}
+        }
+        .sq-icon{ 
+            width:56px; margin:0; text-align:left;
+            &.sq-fr{ width:auto;}
+        }
+    }
+    
+    &.media{
+        .title{ line-height:1;}
+        .desc{ margin-left:0; line-height:1;}
+        .digest{ color:@font-grey;}
+        .extend{
+            .sq-icon{ width:auto;}
+        }
+    }
+}
+
+.@{ns}btn{
+    padding:9px 8px;    // height:36px;
+    &.flat{}
+    &.raised{ border-radius:2px; box-shadow:@shadow-depth-2;}
+    &.float-action{}
+}
+
+.@{ns}card{
+    margin:@space-normal / 2; box-shadow:@shadow-depth-2; border-radius:2px;
+    & > .hd{ margin:0;}
+    & > .bd{
+        padding:@space-normal;
+        img{ width:100%;}
+    }
+    & > .hd + .bd{ padding-top:0;}
+    & > .action{ 
+        padding:@space-normal / 2; border-top:1px solid @border-color-grey;
+    }
+    
+    .card-title{ margin-bottom:@space-normal - 2;}
+    
+    .gallery-item{ 
+        margin:0; padding:0;
+    }
+}
